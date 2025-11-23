@@ -42,3 +42,9 @@ Follow this format for every release:
 ### Security
 - ...
 -->
+
+## [1.0.0-phase2] - 2025-02-11
+### Added
+- Base repository layer for MySQL, MongoDB, and Redis adapters.
+- Extended `RepositoryException` utilities for adapter and driver validation.
+- Initial `README.full.md` plus phase documentation for base layer rollout.

@@ -73,6 +73,7 @@ This package is built around:
 - Filtering, pagination & runtime policies
 - Exception taxonomy
 - Testing and fake adapters compatibility
+- Base repositories for MySQL (PDO/DBAL), MongoDB (Database/Collection), and Redis (phpredis/Predis) with unified driver accessors
 
 (All documented inside `docs/dev/`.)
 
@@ -99,6 +100,12 @@ Upcoming additions include:
 - Composer
 - maatify/data-adapters
 - maatify/common
+
+---
+
+## 📝 Full Documentation
+
+👉 **[`README.full.md`](docs/README.full.md)**
 
 ---
 
