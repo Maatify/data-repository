@@ -10,10 +10,6 @@ use MongoDB\Database;
 
 abstract class BaseMongoRepository extends BaseRepository
 {
-    public function __construct(AdapterInterface $adapter)
-    {
-        parent::__construct($adapter);
-    }
 
     protected function getDatabase(): Database
     {

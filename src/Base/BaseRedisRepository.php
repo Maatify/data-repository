@@ -10,10 +10,6 @@ use Redis;
 
 abstract class BaseRedisRepository extends BaseRepository
 {
-    public function __construct(AdapterInterface $adapter)
-    {
-        parent::__construct($adapter);
-    }
 
     protected function getRedis(): Redis
     {

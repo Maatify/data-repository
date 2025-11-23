@@ -10,10 +10,6 @@ use PDO;
 
 abstract class BaseMySQLRepository extends BaseRepository
 {
-    public function __construct(AdapterInterface $adapter)
-    {
-        parent::__construct($adapter);
-    }
 
     protected function getPdoConnection(): PDO
     {
