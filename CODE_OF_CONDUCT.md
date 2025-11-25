@@ -1,5 +1,8 @@
 # Contributor Code of Conduct
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 This project and all contributors are expected to uphold high standards of professionalism, respect, and collaboration.  
 The following code of conduct is adapted from the **Contributor Covenant v2.1**, widely used across the open-source community.
 
@@ -95,5 +98,5 @@ For more information: https://www.contributor-covenant.org/
 ---
 
 <p align="center">
-  <sub>Maintained with ❤️ by <a href="https://www.maatify.dev">Maatify.dev</a></sub>
+  <sub>Built with ❤️ by <a href="https://www.maatify.dev">Maatify.dev</a> — Unified Ecosystem for Modern PHP Libraries</sub>
 </p>

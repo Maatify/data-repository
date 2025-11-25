@@ -1,5 +1,8 @@
 # Contributing to maatify/data-repository
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 Thank you for considering contributing to **maatify/data-repository**!  
 This project follows strict architectural and coding standards to ensure long-term stability across the entire Maatify ecosystem.
 
@@ -11,11 +14,11 @@ Please read the following guidelines before submitting issues, proposals, or pul
 
 You can contribute by:
 
-- Reporting bugs  
-- Proposing new features  
-- Improving documentation  
-- Submitting pull requests (bug fixes, improvements, refactoring)  
-- Writing or improving test coverage  
+- Reporting bugs
+- Proposing new features
+- Improving documentation
+- Submitting pull requests (bug fixes, improvements, refactoring)
+- Writing or improving test coverage
 
 ---
 
@@ -186,5 +189,5 @@ Your contributions help make the Maatify ecosystem stronger and more reliable.
 We appreciate your time, effort, and passion for clean architecture.
 
 <p align="center">
-  <sub>Built with ❤️ by <a href="https://www.maatify.dev">Maatify.dev</a></sub>
+  <sub>Built with ❤️ by <a href="https://www.maatify.dev">Maatify.dev</a> — Unified Ecosystem for Modern PHP Libraries</sub>
 </p>

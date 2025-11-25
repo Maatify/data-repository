@@ -2,32 +2,35 @@
 
 declare(strict_types=1);
 
+/**
+ * @copyright   ©2025 Maatify.dev
+ * @Library     maatify/data-repository
+ * @Project     maatify:data-repository
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since       2025-11-25 01:05:00
+ * @see         https://www.maatify.dev Maatify.dev
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
+ */
+
 namespace Maatify\DataRepository\Base;
 
-use Maatify\Common\Contracts\Adapter\AdapterInterface;
-use Predis\Client as PredisClient;
+use Maatify\DataRepository\Exceptions\RepositoryException;
 use Redis;
 
 abstract class BaseRedisRepository extends BaseRepository
 {
-
-    protected function getRedis(): Redis
+    protected function validateAdapter(): void
     {
-        $driver = $this->assertDriverAvailable(
-            $this->adapter->getDriver(),
-            'Redis'
-        );
+        /** @var mixed $driver */
+        $driver = $this->adapter->getDriver();
 
-        return $this->assertDriverInstance($driver, Redis::class);
-    }
+        $isRedis = $driver instanceof Redis;
+        $isPredis = (is_object($driver) && str_contains(get_class($driver), 'Predis\Client'));
+        $isFake = str_contains(get_class($this->adapter), 'FakeRedisAdapter');
 
-    protected function getPredis(): PredisClient
-    {
-        $driver = $this->assertDriverAvailable(
-            $this->adapter->getDriver(),
-            'Predis'
-        );
-
-        return $this->assertDriverInstance($driver, PredisClient::class);
+        if (! $isRedis && ! $isPredis && ! $isFake) {
+            throw RepositoryException::driverNotSupported(get_class($this->adapter));
+        }
     }
 }

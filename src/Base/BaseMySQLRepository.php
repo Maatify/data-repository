@@ -2,32 +2,43 @@
 
 declare(strict_types=1);
 
+/**
+ * @copyright   ©2025 Maatify.dev
+ * @Liberary    maatify/data-repository
+ * @Project     maatify:data-repository
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since       2025-11-25 01:07
+ * @see         https://www.maatify.dev Maatify.dev
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
+ */
+
 namespace Maatify\DataRepository\Base;
 
-use Doctrine\DBAL\Connection;
-use Maatify\Common\Contracts\Adapter\AdapterInterface;
+use Maatify\DataRepository\Exceptions\RepositoryException;
 use PDO;
 
+/**
+ * Base Repository for MySQL interactions.
+ * Supports both PDO and Doctrine DBAL drivers via normalization.
+ */
 abstract class BaseMySQLRepository extends BaseRepository
 {
-
-    protected function getPdoConnection(): PDO
+    protected function validateAdapter(): void
     {
-        $driver = $this->assertDriverAvailable(
-            $this->adapter->getDriver(),
-            'PDO'
-        );
+        /** @var mixed $driver */
+        $driver = $this->adapter->getDriver();
 
-        return $this->assertDriverInstance($driver, PDO::class);
-    }
+        $isPdo = $driver instanceof PDO;
+        // removed is_object check to prevent redundancy warnings, assuming mixed driver
+        $isDbal = $driver instanceof \Doctrine\DBAL\Connection
+                  || (is_object($driver) && str_contains(get_class($driver), 'Doctrine\DBAL\Connection'));
 
-    protected function getDbalConnection(): Connection
-    {
-        $driver = $this->assertDriverAvailable(
-            $this->adapter->getDriver(),
-            'Doctrine DBAL'
-        );
+        $isFake = str_contains(get_class($this->adapter), 'FakeMySQLAdapter')
+                  || str_contains(get_class($this->adapter), 'FakeDBALAdapter');
 
-        return $this->assertDriverInstance($driver, Connection::class);
+        if (! $isPdo && ! $isDbal && ! $isFake) {
+            throw RepositoryException::driverNotSupported(get_class($this->adapter));
+        }
     }
 }

@@ -1,0 +1,215 @@
+<?php
+
+/**
+ * @copyright   ©2025 Maatify.dev
+ * @Liberary    maatify/data-repository
+ * @Project     maatify:data-repository
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since       2025-11-25 03:03
+ * @see         https://www.maatify.dev Maatify.com
+ * @link        https://github.com/Maatify/data-repository  view project on GitHub
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
+ */
+
+declare(strict_types=1);
+
+namespace Maatify\DataRepository\Generic;
+
+use Maatify\DataRepository\Base\BaseMongoRepository;
+use Maatify\DataRepository\Exceptions\RepositoryException;
+use MongoDB\Collection;
+use MongoDB\BSON\ObjectId;
+
+abstract class GenericMongoRepository extends BaseMongoRepository
+{
+    protected string $collectionName = '';
+
+    /**
+     * @return array<string, mixed>|null
+     * @throws RepositoryException
+     */
+    public function find(int|string $id): ?array
+    {
+        $filter = $this->buildIdFilter($id);
+        /** @var array<string, mixed>|object|null $result */
+        $result = $this->getCollectionObj()->findOne($filter);
+
+        return $this->toArray($result);
+    }
+
+    /**
+     * @param   array<string, mixed>        $filters
+     * @param   array<string, string>|null  $orderBy
+     *
+     * @return array<int, array<string, mixed>>
+     * @throws RepositoryException
+     */
+    public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
+    {
+        $options = [];
+        if ($orderBy) {
+            $options['sort'] = $orderBy;
+        }
+        if ($limit !== null) {
+            $options['limit'] = $limit;
+        }
+        if ($offset !== null) {
+            $options['skip'] = $offset;
+        }
+
+        $cursor = $this->getCollectionObj()->find($filters, $options);
+
+        return $this->cursorToArray($cursor);
+    }
+
+    /**
+     * @param   array<string, mixed>  $filters
+     *
+     * @return array<string, mixed>|null
+     * @throws RepositoryException
+     */
+    public function findOneBy(array $filters): ?array
+    {
+        /** @var array<string, mixed>|object|null $result */
+        $result = $this->getCollectionObj()->findOne($filters);
+
+        return $this->toArray($result);
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     * @throws RepositoryException
+     */
+    public function findAll(): array
+    {
+        return $this->findBy([]);
+    }
+
+    /**
+     * @param   array<string, mixed>  $filters
+     *
+     * @throws RepositoryException
+     */
+    public function count(array $filters = []): int
+    {
+        return $this->getCollectionObj()->countDocuments($filters);
+    }
+
+    /**
+     * @throws RepositoryException
+     */
+    public function insert(array $data): int|string
+    {
+        $result = $this->getCollectionObj()->insertOne($data);
+        $id = $result->getInsertedId();
+
+        // Safely cast mixed return to int|string for PHPStan
+        if ($id instanceof ObjectId) {
+            return (string)$id;
+        }
+
+        if (is_int($id) || is_string($id)) {
+            return $id;
+        }
+
+        // Fallback or Throw
+        return '';
+    }
+
+    /**
+     * @throws RepositoryException
+     */
+    public function update(int|string $id, array $data): bool
+    {
+        $filter = $this->buildIdFilter($id);
+        $result = $this->getCollectionObj()->updateOne($filter, ['$set' => $data]);
+
+        return $result->getMatchedCount() > 0;
+    }
+
+    /**
+     * @throws RepositoryException
+     */
+    public function delete(int|string $id): bool
+    {
+        $filter = $this->buildIdFilter($id);
+        $result = $this->getCollectionObj()->deleteOne($filter);
+
+        return $result->getDeletedCount() > 0;
+    }
+
+    /**
+     * @throws RepositoryException
+     */
+    private function getCollectionObj(): Collection
+    {
+        if (empty($this->collectionName)) {
+            if (empty($this->tableName)) {
+                throw new RepositoryException('Collection name not defined for GenericMongoRepository.');
+            }
+            $this->collectionName = $this->tableName;
+        }
+
+        /** @var mixed $collection */
+        $collection = $this->getCollection($this->collectionName);
+
+        if (! $collection instanceof Collection) {
+            throw new RepositoryException('Failed to retrieve MongoDB Collection.');
+        }
+
+        return $collection;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildIdFilter(int|string $id): array
+    {
+        if (is_string($id) && strlen($id) === 24 && ctype_xdigit($id)) {
+            return ['_id' => new ObjectId($id)];
+        }
+
+        return ['_id' => $id];
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function toArray(mixed $document): ?array
+    {
+        if ($document === null) {
+            return null;
+        }
+
+        if (is_object($document) && method_exists($document, 'getArrayCopy')) {
+            /** @var array<string, mixed> $array */
+            $array = $document->getArrayCopy();
+
+            return $array;
+        }
+
+        /** @var array<string, mixed> $array */
+        $array = (array)$document;
+
+        return $array;
+    }
+
+    /**
+     * @param   iterable<mixed>  $cursor
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function cursorToArray(iterable $cursor): array
+    {
+        $results = [];
+        foreach ($cursor as $document) {
+            /** @var array<string, mixed>|null $arr */
+            $arr = $this->toArray($document);
+            if ($arr !== null) {
+                $results[] = $arr;
+            }
+        }
+
+        return $results;
+    }
+}

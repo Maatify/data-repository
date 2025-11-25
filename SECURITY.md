@@ -1,5 +1,8 @@
 # Security Policy
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 Thank you for taking the time to review the security of **maatify/data-repository**.  
 We take security very seriously and appreciate any responsible disclosures that help improve the safety and reliability of the Maatify ecosystem.
 
@@ -81,5 +84,5 @@ For vulnerabilities in other Maatify libraries, please refer to their respective
 Your efforts help keep the Maatify ecosystem secure and reliable for everyone.
 
 <p align="center">
-  <sub>Built with ❤️ by <a href="https://www.maatify.dev">Maatify.dev</a></sub>
+  <sub>Built with ❤️ by <a href="https://www.maatify.dev">Maatify.dev</a> — Unified Ecosystem for Modern PHP Libraries</sub>
 </p>

@@ -2,32 +2,36 @@
 
 declare(strict_types=1);
 
+/**
+ * @copyright   ©2025 Maatify.dev
+ * @Library     maatify/data-repository
+ * @Project     maatify:data-repository
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since       2025-11-24 16:49:00
+ * @see         https://www.maatify.dev
+ * @link        https://github.com/Maatify/data-repository
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
+ */
+
 namespace Maatify\DataRepository\Exceptions;
 
-use RuntimeException;
+use Exception;
+use Throwable;
 
-class RepositoryException extends RuntimeException
+class RepositoryException extends Exception
 {
-    public static function forInvalidAdapter(string $expected, object $actual): self
+    public function __construct(string $message = '', int $code = 0, ?Throwable $previous = null)
     {
-        $actualClass = $actual::class;
-        $message = sprintf('Invalid adapter provided. Expected instance of %s, got %s.', $expected, $actualClass);
-
-        return new self($message);
+        parent::__construct($message, $code, $previous);
     }
 
-    public static function forMissingDriver(string $driverDescription): self
+    public static function driverNotSupported(string $driver): self
     {
-        $message = sprintf('Missing %s driver. Ensure the adapter exposes the requested driver.', $driverDescription);
-
-        return new self($message);
+        return new self("Driver '{$driver}' is not supported by this repository.");
     }
 
-    public static function forInvalidDriver(string $expected, object $actual): self
+    public static function connectionFailed(string $reason): self
     {
-        $actualClass = $actual::class;
-        $message = sprintf('Invalid driver instance. Expected %s, got %s.', $expected, $actualClass);
-
-        return new self($message);
+        return new self("Repository connection failed: {$reason}");
     }
 }

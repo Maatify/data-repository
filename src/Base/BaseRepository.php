@@ -2,77 +2,75 @@
 
 declare(strict_types=1);
 
+/**
+ * @copyright   ©2025 Maatify.dev
+ * @Library     maatify/data-repository
+ * @Project     maatify:data-repository
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since       2025-11-25 01:05:00
+ * @see         https://www.maatify.dev Maatify.dev
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
+ */
+
 namespace Maatify\DataRepository\Base;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
+use Maatify\Common\Contracts\Repository\RepositoryInterface;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Logging\RepositoryLogger;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-abstract class BaseRepository
+abstract class BaseRepository implements RepositoryInterface
 {
-    public function __construct(protected AdapterInterface $adapter)
+    protected AdapterInterface $adapter;
+    protected LoggerInterface $logger;
+    protected string $tableName = '';
+
+    public function __construct(AdapterInterface $adapter, ?LoggerInterface $logger = null)
     {
+        $this->setAdapter($adapter);
+        // Wrap logger to ensure consistent context source or use NullLogger if none provided
+        $this->logger = $logger ? new RepositoryLogger($logger) : new NullLogger();
     }
 
-    public function getAdapter(): AdapterInterface
+    public function setAdapter(AdapterInterface $adapter): static
     {
-        return $this->adapter;
-    }
+        $this->adapter = $adapter;
+        $this->validateAdapter();
 
-    /**
-     * @template T of object
-     * @param callable(AdapterInterface):(?T) $driverFetcher
-     * @param class-string<T> $expectedClass
-     * @return T
-     */
-    protected function resolveDriver(
-        callable $driverFetcher,
-        string $description,
-        string $expectedClass
-    ): object {
-        $driver = $driverFetcher($this->adapter);
-
-        $driver = $this->assertDriverAvailable($driver, $description);
-
-        /** @var T $validatedDriver */
-        $validatedDriver = $this->assertDriverInstance($driver, $expectedClass);
-
-        return $validatedDriver;
+        return $this;
     }
 
     /**
-     * @template T of object
-     * @param T|null $driver
-     * @return T
+     * Override in child classes to enforce specific adapter types (e.g., MySQL vs Mongo).
+     *
+     * @throws RepositoryException
      */
-    protected function assertDriverAvailable(object|null $driver, string $description): object
+    protected function validateAdapter(): void
     {
-        if ($driver === null) {
-            throw RepositoryException::forMissingDriver($description);
-        }
-
-        return $driver;
+        // Base implementation permits any valid AdapterInterface.
+        // Child classes should check $this->adapter->getType().
     }
 
-    protected function assertAdapterInstance(AdapterInterface $adapter, string $expectedClass): void
+    public function getTableName(): string
     {
-        if (!$adapter instanceof $expectedClass) {
-            throw RepositoryException::forInvalidAdapter($expectedClass, $adapter);
-        }
+        return $this->tableName;
+    }
+
+    protected function setTableName(string $tableName): void
+    {
+        $this->tableName = $tableName;
     }
 
     /**
-     * @template T of object
-     * @param object $driver
-     * @param class-string<T> $expectedClass
-     * @return T
+     * Expose the raw driver for internal repository logic ONLY.
+     *
+     * @return mixed
      */
-    protected function assertDriverInstance(object $driver, string $expectedClass): object
+    protected function getDriver(): mixed
     {
-        if (!$driver instanceof $expectedClass) {
-            throw RepositoryException::forInvalidDriver($expectedClass, $driver);
-        }
-
-        /** @var T $driver */
-        return $driver;
+        return $this->adapter->getDriver();
     }
 }

@@ -1,25 +1,60 @@
 {
   "name": "maatify/data-repository",
-  "description": "Unified Repository Abstraction Layer over MySQL, MongoDB, and Redis using maatify/data-adapters and maatify/common.",
+  "description": "Unified repository abstraction layer normalizing MySQL, MongoDB, and Redis real drivers and fake drivers.",
   "type": "library",
   "license": "MIT",
+  "keywords": [
+    "maatify",
+    "data-repository",
+    "repository",
+    "repository-pattern",
+    "adapter",
+    "mysql",
+    "mysql-dbal",
+    "mongodb",
+    "mongo",
+    "redis",
+    "pdo",
+    "phpredis",
+    "predis",
+    "doctrine-dbal",
+    "data-layer",
+    "abstraction",
+    "clean-architecture",
+    "design-patterns"
+  ],
   "authors": [
     {
       "name": "Mohamed Abdulalim",
       "email": "mohamed@maatify.dev",
+      "homepage": "https://www.maatify.dev",
       "role": "Backend Lead & Technical Architect"
+    },
+    {
+      "name": "Maatify.dev",
+      "homepage": "https://github.com/Maatify",
+      "role": "Organization"
     }
   ],
-  "require": {
-    "php": ">=8.4",
-    "maatify/data-adapters": "^1.0",
-    "maatify/common": "^1.0",
-    "maatify/psr-logger": "^1.0"
-  },
   "autoload": {
     "psr-4": {
       "Maatify\\DataRepository\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Maatify\\DataRepository\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "require": {
+    "php": ">=8.2",
+    "maatify/common": "^1.0",
+    "maatify/data-adapters": "^1.0",
+    "maatify/bootstrap": "^1.0",
+    "maatify/psr-logger": "^1.0"
   },
   "suggest": {
     "ext-redis": "High-performance RedisAdapter.",
@@ -29,14 +64,9 @@
     "predis/predis": "Fallback when ext-redis is unavailable.",
     "doctrine/dbal": "Optional advanced SQL driver for MySQLDbalAdapter."
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Maatify\\DataRepository\\Tests\\": "tests/"
-    }
-  },
   "require-dev": {
     "phpunit/phpunit": "^11.0",
-    "phpstan/phpstan": "^1.10",
+    "phpstan/phpstan": "^2.0",
     "friendsofphp/php-cs-fixer": "^3.60",
     "mongodb/mongodb": "^2.0",
     "predis/predis": "^2.3",
@@ -46,6 +76,9 @@
   "scripts": {
     "analyse": "phpstan analyse src tests --level=max",
     "test": "phpunit --configuration phpunit.xml.dist",
+    "test:smoke": "phpunit --configuration phpunit.xml.dist --testsuite Smoke",
+    "test:base": "phpunit --configuration phpunit.xml.dist --testsuite Base",
+    "test:generic": "phpunit --configuration phpunit.xml.dist --testsuite Generic",
     "format": "php-cs-fixer fix"
   },
   "minimum-stability": "stable",

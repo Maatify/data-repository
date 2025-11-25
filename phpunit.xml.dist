@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
-        bootstrap="tests/bootstrap.php"
-        colors="true"
-        cacheDirectory=".phpunit.cache"
->
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" colors="true" executionOrder="depends,defects" beStrictAboutTestsThatDoNotTestAnything="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache">
     <testsuites>
-        <testsuite name="Maatify Data Repository Test Suite">
-            <directory suffix="Test.php">tests</directory>
+        <!-- Phase-specific suites for targeted coverage runs -->
+        <testsuite name="Smoke">
+            <directory suffix="Test.php">tests/Smoke</directory>
+        </testsuite>
+
+        <testsuite name="Base">
+            <directory suffix="Test.php">tests/Base</directory>
+        </testsuite>
+
+        <testsuite name="Generic">
+            <directory suffix="Test.php">tests/Generic</directory>
         </testsuite>
     </testsuites>
-
+    <php>
+        <env name="APP_ENV" value="testing"/>
+    </php>
     <source>
         <include>
             <directory suffix=".php">src</directory>
         </include>
     </source>
-
-    <php>
-        <env name="APP_ENV" value="testing" />
-    </php>
-
 </phpunit>

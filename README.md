@@ -2,26 +2,34 @@
 
 ---
 
-[![Version](https://img.shields.io/packagist/v/maatify/data-repository?label=Version&color=4C1)](https://packagist.org/packages/maatify/data-repository)
-[![PHP](https://img.shields.io/packagist/php-v/maatify/data-repository?label=PHP&color=777BB3)](https://packagist.org/packages/maatify/data-repository)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.4-blue)](https://www.php.net/)
+## 🚀 Maatify Data Repository — Badges
 
-[![Build](https://github.com/Maatify/data-repository/actions/workflows/test.yml/badge.svg?label=Build&color=brightgreen)](https://github.com/Maatify/data-repository/actions/workflows/test.yml)
+<!-- 1) Package Info -->
+[![Version](https://img.shields.io/packagist/v/maatify/data-repository?label=Version&color=4C1&style=flat-square)](https://packagist.org/packages/maatify/data-repository)
+[![PHP](https://img.shields.io/packagist/php-v/maatify/data-repository?label=PHP&color=777BB3&style=flat-square)](https://packagist.org/packages/maatify/data-repository)
+[![License](https://img.shields.io/github/license/Maatify/data-repository?label=License&color=blueviolet&style=flat-square)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Stable-success?style=flat-square)](CHANGELOG.md)
 
-[![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/data-repository?label=Monthly%20Downloads&color=00A8E8)](https://packagist.org/packages/maatify/data-repository)
-[![Total Downloads](https://img.shields.io/packagist/dt/maatify/data-repository?label=Total%20Downloads&color=2AA9E0)](https://packagist.org/packages/maatify/data-repository)
+<!-- 2) CI / QA -->
+[![Build](https://github.com/Maatify/data-repository/actions/workflows/test.yml/badge.svg?label=Build&color=brightgreen&style=flat-square)](https://github.com/Maatify/data-repository/actions/workflows/test.yml)
+[![PHPStan](https://img.shields.io/badge/PHPStan-Level%206-4E8CAE?style=flat-square)](https://phpstan.org/)
+[![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/data-repository/main?color=brightgreen&style=flat-square)](https://www.codefactor.io/repository/github/Maatify/data-repository)
+[![Coverage](https://img.shields.io/badge/Coverage-92%25-9C27B0?style=flat-square)](#)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Maatify/data-repository/badges/coverage.json&style=flat-square)]()
 
-[![Stars](https://img.shields.io/github/stars/Maatify/data-repository?label=Stars&color=FFD43B&cacheSeconds=3600)](https://github.com/Maatify/data-repository/stargazers)
-[![License](https://img.shields.io/github/license/Maatify/data-repository?label=License&color=blueviolet)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Stable-success?style=flat-square)]()
-[![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/data-repository/main?color=brightgreen)](https://www.codefactor.io/repository/github/Maatify/data-repository)
 
-[![PHPStan](https://img.shields.io/badge/PHPStan-Level%206-4E8CAE)](https://phpstan.org/)
-[![Coverage](https://img.shields.io/badge/Coverage-92%25-9C27B0)](#)
+<!-- 3) Popularity -->
+[![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/data-repository?label=Monthly%20Downloads&color=00A8E8&style=flat-square)](https://packagist.org/packages/maatify/data-repository)
+[![Total Downloads](https://img.shields.io/packagist/dt/maatify/data-repository?label=Total%20Downloads&color=2AA9E0&style=flat-square)](https://packagist.org/packages/maatify/data-repository)
+[![Stars](https://img.shields.io/github/stars/Maatify/data-repository?label=Stars&color=FFD43B&cacheSeconds=3600&style=flat-square)](https://github.com/Maatify/data-repository/stargazers)
 
-[![Changelog](https://img.shields.io/badge/Changelog-View-blue)](CHANGELOG.md)
-[![Security](https://img.shields.io/badge/Security-Policy-important)](SECURITY.md)
-
+<!-- 4) Documentation -->
+<!-- 4) Documentation -->
+[![Changelog](https://img.shields.io/badge/Changelog-View-blue?style=flat-square)](CHANGELOG.md)
+[![Security](https://img.shields.io/badge/Security-Policy-important?style=flat-square)](SECURITY.md)
+[![Full Docs](https://img.shields.io/badge/Docs-Full%20Guide-0A66C2?style=flat-square)](docs/README.full.md)
+[![Contributing](https://img.shields.io/badge/Contributing-Guide-0A9396?style=flat-square)](CONTRIBUTING.md)
+[![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-Community-EE9B00?style=flat-square)](CODE_OF_CONDUCT.md)
 ---
 
 # Maatify Data Repository
@@ -67,6 +75,8 @@ User-facing docs (installation, usage examples, API reference) will be added und
 This package is built around:
 
 - RepositoryInterface — unified CRUD contracts
+- Base repositories that normalize adapters for MySQL (PDO/DBAL), MongoDB, and Redis/Predis
+- Generic repositories for MySQL, MongoDB, and Redis that provide CRUD utilities over validated drivers
 - Driver normalization layer
 - Repository Resolver
 - DTO rules & hydration

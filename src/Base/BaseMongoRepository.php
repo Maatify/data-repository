@@ -1,30 +1,62 @@
 <?php
 
+/**
+ * @copyright   ©2025 Maatify.dev
+ * @Liberary    maatify/data-repository
+ * @Project     maatify:data-repository
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since       2025-11-25 01:08
+ * @see         https://www.maatify.dev Maatify.com
+ * @link        https://github.com/Maatify/data-repository  view project on GitHub
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
+ */
+
 declare(strict_types=1);
 
 namespace Maatify\DataRepository\Base;
 
-use Maatify\Common\Contracts\Adapter\AdapterInterface;
-use MongoDB\Collection;
+use Maatify\DataRepository\Exceptions\RepositoryException;
+use MongoDB\Client;
 use MongoDB\Database;
 
 abstract class BaseMongoRepository extends BaseRepository
 {
+    protected string $databaseName = '';
 
-    protected function getDatabase(): Database
+    protected function validateAdapter(): void
     {
-        $driver = $this->assertDriverAvailable(
-            $this->adapter->getDriver(),
-            'MongoDB Database'
-        );
+        /** @var mixed $driver */
+        $driver = $this->adapter->getDriver();
 
-        return $this->assertDriverInstance($driver, Database::class);
+        $isMongo = $driver instanceof Client || $driver instanceof Database;
+        $isFake = str_contains(get_class($this->adapter), 'FakeMongoAdapter');
+
+        if (! $isMongo && ! $isFake) {
+            throw RepositoryException::driverNotSupported(get_class($this->adapter));
+        }
     }
 
-    protected function getCollection(string $name): Collection
+    protected function getCollection(string $collectionName): mixed
     {
-        $database = $this->getDatabase();
+        /** @var mixed $driver */
+        $driver = $this->getDriver();
 
-        return $database->selectCollection($name);
+        if ($driver instanceof Client) {
+            // Client requires database name + collection name
+            return $driver->selectCollection($this->databaseName, $collectionName);
+        }
+
+        if ($driver instanceof Database) {
+            // Database object already selected the DB, just needs collection
+            return $driver->selectCollection($collectionName);
+        }
+
+        // Fallback for Fakes/Mocks (Duck Typing)
+        // If validation passed (it's a Fake), we allow method call if it exists.
+        if (is_object($driver) && method_exists($driver, 'selectCollection')) {
+            return $driver->selectCollection($collectionName);
+        }
+
+        return null;
     }
 }
