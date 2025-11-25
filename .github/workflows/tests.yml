@@ -1,4 +1,4 @@
-name: Run Repository Tests
+name: Repository Tests
 
 on:
   push:
