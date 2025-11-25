@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" colors="true" executionOrder="depends,defects" beStrictAboutTestsThatDoNotTestAnything="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         executionOrder="depends,defects"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
+         cacheDirectory=".phpunit.cache">
+
     <testsuites>
-        <!-- Phase-specific suites for targeted coverage runs -->
         <testsuite name="Smoke">
             <directory suffix="Test.php">tests/Smoke</directory>
         </testsuite>
-
         <testsuite name="Base">
             <directory suffix="Test.php">tests/Base</directory>
         </testsuite>
-
         <testsuite name="Generic">
             <directory suffix="Test.php">tests/Generic</directory>
         </testsuite>
     </testsuites>
+
     <php>
         <env name="APP_ENV" value="testing"/>
     </php>
-    <coverage>
-        <report>
-            <clover outputFile="coverage.xml"/>
-            <html outputDirectory="coverage"/>
-            <text outputFile="coverage.txt"/>
-        </report>
-    </coverage>
+
     <source>
         <include>
             <directory suffix=".php">src</directory>
         </include>
     </source>
+
 </phpunit>

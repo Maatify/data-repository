@@ -80,10 +80,11 @@
   },
   "scripts": {
     "analyse": "phpstan analyse src tests --level=max",
-    "test": "phpunit --configuration phpunit.xml.dist",
-    "test:smoke": "phpunit --configuration phpunit.xml.dist --testsuite Smoke",
-    "test:base": "phpunit --configuration phpunit.xml.dist --testsuite Base",
-    "test:generic": "phpunit --configuration phpunit.xml.dist --testsuite Generic",
+    "test": "phpunit --configuration phpunit.no-coverage.xml.dist",
+    "test:smoke": "phpunit --configuration phpunit.no-coverage.xml.dist --testsuite Smoke",
+    "test:base": "phpunit --configuration phpunit.no-coverage.xml.dist --testsuite Base",
+    "test:generic": "phpunit --configuration phpunit.no-coverage.xml.dist --testsuite Generic",
+    "test:coverage": "XDEBUG_MODE=coverage phpunit --configuration phpunit.xml.dist --coverage-text --coverage-html coverage",
     "format": "php-cs-fixer fix"
   },
   "minimum-stability": "stable",
