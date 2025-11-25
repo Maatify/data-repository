@@ -314,6 +314,8 @@ jobs:
           else
             PHPSTAN_SUMMARY="🧹 <b>PHPStan:</b> ${PHPSTAN_ERR} errors"
           fi
+          
+          COVERAGE_SUMMARY="📊 <b>Coverage:</b> ${{ steps.coverage.outputs.coverage }}%"
 
           PROJECT="${GITHUB_REPOSITORY}"
           BRANCH="$GITHUB_REF_NAME"
@@ -325,6 +327,8 @@ jobs:
           ${COLOR} ${STATUS}
 
           ${PHPSTAN_SUMMARY}
+          
+          ${COVERAGE_SUMMARY}
 
           📦 <b>Project:</b> ${PROJECT}
           🧱 <b>Branch:</b> ${BRANCH}
