@@ -175,21 +175,18 @@ jobs:
       # ---------------------------------------------
       # 9) Run PHPUnit
       # ---------------------------------------------
-      - name: 🧪 Run PHPUnit (No Coverage)
-        id: tests
-        run: vendor/bin/phpunit --configuration phpunit.no-coverage.xml.dist | tee phpunit.log
-        continue-on-error: true
-
       - name: Install bc
         run: sudo apt-get install -y bc
 
-      - name: 📊 Generate Coverage Report (PCOV)
+      - name: 🧪 Run PHPUnit with Coverage
+        id: tests
         run: |
           php -d pcov.enabled=1 -d pcov.directory=src \
             vendor/bin/phpunit \
             --configuration phpunit.xml.dist \
             --coverage-clover coverage.xml \
-            --coverage-html coverage
+            --coverage-html coverage \
+            | tee phpunit.log
 
       - name: Extract Coverage %
         id: coverage
