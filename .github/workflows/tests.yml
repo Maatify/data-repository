@@ -230,6 +230,12 @@ jobs:
           $percent = $statements > 0 ? (int)round(($covered/$statements)*100) : 0;
           echo "coverage={$percent}\n";
           ' | tee coverage.out
+          
+          COV=$(grep -oE "coverage=[0-9]+" coverage.out | cut -d= -f2 | tail -n1)
+          if [ -z "$COV" ]; then COV=0; fi
+      
+          echo "Coverage: $COV%"
+          echo "coverage=$COV" >> $GITHUB_OUTPUT
 
       - name: Generate Coverage Badge JSON
         run: |
@@ -319,7 +325,7 @@ jobs:
 
           STATUS="✅ Tests passed successfully!"
           COLOR="🟢"
-          HEADER="Maatify CI Report ${GITHUB_REPOSITORY})"
+          HEADER="Maatify CI Report (${GITHUB_REPOSITORY})"
 
           if grep -q "FAILURES!" phpunit.log || [ "${{ job.status }}" != "success" ]; then
             STATUS="❌ Test or PHPStan failure!"
