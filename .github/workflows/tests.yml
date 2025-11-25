@@ -217,17 +217,24 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          # Fetch badges branch if exists
-          git fetch origin badges:badges || true
+          # Fetch all remote branches
+          git fetch origin
 
-          # Checkout badges branch (create if missing)
-          git checkout badges
+          # Check if 'badges' branch exists on remote
+          if git ls-remote --exit-code origin badges; then
+            echo "Badges branch exists. Checking out..."
+            git checkout badges
+          else
+            echo "Badges branch does NOT exist. Creating it..."
+            git checkout --orphan badges
+            git rm -rf .
+          fi
 
           cp coverage-badge.json coverage.json
           git add coverage.json
 
           git commit -m "Update coverage badge to ${{ steps.coverage.outputs.coverage }}%" || echo "No changes"
-          git push origin badges
+          git push origin badges --force
 
       # ---------------------------------------------
       # 🔥 10) Summary (always)
