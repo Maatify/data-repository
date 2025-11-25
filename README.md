@@ -11,7 +11,7 @@
 [![Status](https://img.shields.io/badge/Status-Stable-success?style=flat-square)](CHANGELOG.md)
 
 <!-- 2) CI / QA -->
-[![Build](https://github.com/Maatify/data-repository/actions/workflows/test.yml/badge.svg?label=Build&color=brightgreen&style=flat-square)](https://github.com/Maatify/data-repository/actions/workflows/test.yml)
+[![Tests](https://github.com/Maatify/data-repository/actions/workflows/test.yml/badge.svg?style=flat-square)](https://github.com/Maatify/data-repository/actions/workflows/test.yml)
 [![PHPStan](https://img.shields.io/badge/PHPStan-Level%206-4E8CAE?style=flat-square)](https://phpstan.org/)
 [![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/data-repository/main?color=brightgreen&style=flat-square)](https://www.codefactor.io/repository/github/Maatify/data-repository)
 [![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Maatify/data-repository/badges/coverage.json&style=flat-square)]()
