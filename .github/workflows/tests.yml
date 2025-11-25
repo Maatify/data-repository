@@ -175,11 +175,14 @@ jobs:
       # ---------------------------------------------
       # 9) Run PHPUnit
       # ---------------------------------------------
-      - name: Show PHPUnit version
-        run: vendor/bin/phpunit --version
-
       - name: Install bc
         run: sudo apt-get install -y bc
+
+      - name: Show paths (debug)
+        run: |
+          pwd
+          ls -la
+          ls -la src || true
 
       - name: 🧪 Run PHPUnit with Coverage
         id: tests
@@ -193,7 +196,7 @@ jobs:
             --coverage-html coverage \
             | tee phpunit.log
 
-      - name: Extract Coverage %
+      - name: Extract Coverage % (Clover)
         id: coverage
         run: |
           if [ ! -f coverage.xml ]; then
@@ -202,17 +205,31 @@ jobs:
             exit 0
           fi
 
-          COV=$(grep -oPm1 "(?<=line-rate=\")\d+\.\d+" coverage.xml || true)
-
-          if [ -z "$COV" ]; then
-            echo "No coverage value found. Setting coverage to 0"
-            echo "coverage=0" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-
-          PERCENT=$(printf "%.0f" "$(echo "$COV * 100" | bc)")
-          echo "Coverage: $PERCENT%"
-          echo "coverage=$PERCENT" >> $GITHUB_OUTPUT
+          php -r '
+          $file="coverage.xml";
+          $xml=@simplexml_load_file($file);
+          if(!$xml){ echo "coverage=0\n"; exit(0); }
+        
+          // try project metrics
+          $m = $xml->project->metrics ?? null;
+        
+          // fallback: sum package/class metrics if needed
+          if(!$m){
+          $statements=0; $covered=0;
+          foreach($xml->xpath("//metrics") ?: [] as $mx){
+              $statements += (int)$mx["statements"];
+              $covered    += (int)$mx["coveredstatements"];
+          }
+          $percent = $statements > 0 ? (int)round(($covered/$statements)*100) : 0;
+          echo "coverage={$percent}\n";
+          exit(0);
+          }
+        
+          $statements=(int)$m["statements"];
+          $covered=(int)$m["coveredstatements"];
+          $percent = $statements > 0 ? (int)round(($covered/$statements)*100) : 0;
+          echo "coverage={$percent}\n";
+          ' | tee coverage.out
 
       - name: Generate Coverage Badge JSON
         run: |
