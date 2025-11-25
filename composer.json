@@ -1,6 +1,11 @@
 {
   "name": "maatify/data-repository",
   "description": "Unified repository abstraction layer normalizing MySQL, MongoDB, and Redis real drivers and fake drivers.",
+  "support": {
+    "issues": "https://github.com/Maatify/data-repository/issues",
+    "source": "https://github.com/Maatify/data-repository",
+    "docs": "https://github.com/Maatify/data-repository/tree/main/docs"
+  },
   "type": "library",
   "license": "MIT",
   "keywords": [

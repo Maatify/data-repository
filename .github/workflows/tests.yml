@@ -185,7 +185,20 @@ jobs:
       - name: Extract Coverage %
         id: coverage
         run: |
-          COV=$(grep -oPm1 "(?<=line-rate=\")\d+\.\d+" coverage.xml)
+          if [ ! -f coverage.xml ]; then
+            echo "Coverage file not found! Setting coverage to 0"
+            echo "coverage=0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          COV=$(grep -oPm1 "(?<=line-rate=\")\d+\.\d+" coverage.xml || true)
+
+          if [ -z "$COV" ]; then
+            echo "No coverage value found. Setting coverage to 0"
+            echo "coverage=0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
           PERCENT=$(printf "%.0f" "$(echo "$COV * 100" | bc)")
           echo "Coverage: $PERCENT%"
           echo "coverage=$PERCENT" >> $GITHUB_OUTPUT
