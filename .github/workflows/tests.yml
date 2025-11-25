@@ -181,7 +181,7 @@ jobs:
       - name: 🧪 Run PHPUnit with Coverage
         id: tests
         run: |
-          php -d pcov.enabled=1 -d pcov.directory=src \
+          php -d pcov.enabled=1 -d pcov.directory=$(pwd) \
             vendor/bin/phpunit \
             --configuration phpunit.xml.dist \
             --coverage-clover coverage.xml \
