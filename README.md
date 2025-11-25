@@ -14,7 +14,6 @@
 [![Build](https://github.com/Maatify/data-repository/actions/workflows/test.yml/badge.svg?label=Build&color=brightgreen&style=flat-square)](https://github.com/Maatify/data-repository/actions/workflows/test.yml)
 [![PHPStan](https://img.shields.io/badge/PHPStan-Level%206-4E8CAE?style=flat-square)](https://phpstan.org/)
 [![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/data-repository/main?color=brightgreen&style=flat-square)](https://www.codefactor.io/repository/github/Maatify/data-repository)
-[![Coverage](https://img.shields.io/badge/Coverage-92%25-9C27B0?style=flat-square)](#)
 [![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Maatify/data-repository/badges/coverage.json&style=flat-square)]()
 
 
