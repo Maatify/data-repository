@@ -239,23 +239,31 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          # Fetch all remote branches
           git fetch origin
 
-          # Check if 'badges' branch exists on remote
           if git ls-remote --exit-code origin badges; then
             echo "Badges branch exists. Checking out..."
             git checkout badges
           else
             echo "Badges branch does NOT exist. Creating it..."
             git checkout --orphan badges
-            git rm -rf .
           fi
 
-          cp coverage-badge.json coverage.json
-          git add coverage.json
+          # Make the branch deterministic (avoid leftover files causing weirdness)
+          git reset --hard
+          git clean -fdx
 
-          git commit -m "Update coverage badge to ${{ steps.coverage.outputs.coverage }}%" || echo "No changes"
+          # Overwrite badge file and force-add in case of .gitignore
+          cp coverage-badge.json coverage.json
+          git add -f coverage.json
+
+          # Commit only if there is an actual staged change
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Update coverage badge to ${{ steps.coverage.outputs.coverage }}%"
+          fi
+
           git push origin badges --force
 
       # ---------------------------------------------
