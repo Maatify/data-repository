@@ -95,6 +95,22 @@ jobs:
           tools: composer, phpstan
 
       # ---------------------------------------------
+      # 2.5) Composer cache + GitHub token (avoid 429)
+      # ---------------------------------------------
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.composer/cache
+            ~/.cache/composer
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Configure Composer GitHub token
+        run: composer config -g github-oauth.github.com "${{ github.token }}"
+
+
+      # ---------------------------------------------
       # 3) Install Dependencies
       # ---------------------------------------------
       - name: Install dependencies
