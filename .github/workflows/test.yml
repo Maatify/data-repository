@@ -195,6 +195,12 @@ jobs:
 
           echo "PHPStan completed. Errors: $ERRORS"
 
+      - name: Show PHPStan output
+        if: always()
+        run: |
+          echo "---- PHPStan log ----"
+          cat phpstan.log
+
       # ---------------------------------------------
       # 9) Run PHPUnit
       # ---------------------------------------------
