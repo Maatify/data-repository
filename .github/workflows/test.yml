@@ -240,6 +240,12 @@ jobs:
           echo "Coverage: ${COV}%"
           echo "coverage=${COV}" >> $GITHUB_OUTPUT
 
+      - name: Stash CI artifacts (before switching branches)
+        if: github.event_name == 'push'
+        run: |
+          cp coverage-badge.json /tmp/coverage-badge.json
+          cp phpunit.log /tmp/phpunit.log || true
+
       - name: Generate Coverage Badge JSON
         run: |
           echo "{
@@ -270,7 +276,7 @@ jobs:
           git clean -fdx
 
           # Overwrite badge file and force-add in case of .gitignore
-          cp coverage-badge.json coverage.json
+          cp /tmp/coverage-badge.json coverage.json
           git add -f coverage.json
 
           # Commit only if there is an actual staged change
@@ -297,10 +303,10 @@ jobs:
           echo "📁 Mongo: $MONGO_HOST" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          tail -n 20 phpunit.log >> $GITHUB_STEP_SUMMARY
+          tail -n 20 /tmp/phpunit.log >> $GITHUB_STEP_SUMMARY || tail -n 20 phpunit.log >> $GITHUB_STEP_SUMMARY || echo "(phpunit.log missing)" >> $GITHUB_STEP_SUMMARY
 
           echo "" >> $GITHUB_STEP_SUMMARY
-          if grep -q "FAILURES!" phpunit.log; then
+          if grep -q "FAILURES!" /tmp/phpunit.log 2>/dev/null || grep -q "FAILURES!" phpunit.log 2>/dev/null; then
             echo "❌ Some tests failed." >> $GITHUB_STEP_SUMMARY
           else
             echo "✅ All tests passed successfully." >> $GITHUB_STEP_SUMMARY
