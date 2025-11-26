@@ -92,7 +92,7 @@ jobs:
           php-version: "8.4"
           coverage: pcov
           extensions: mbstring, intl, pdo, pdo_mysql, redis, mongodb
-          tools: composer, phpstan
+          tools: composer
 
       # ---------------------------------------------
       # 2.5) Composer cache + GitHub token (avoid 429)
@@ -174,11 +174,18 @@ jobs:
       # ---------------------------------------------
       # 8) Run PHPStan (non-blocking)
       # ---------------------------------------------
+      - name: Debug PHPStan version and command
+        run: |
+          which phpstan || true
+          php -v
+          composer show phpstan/phpstan | cat
+          composer run-script analyse -- --version || true
+
       - name: Run PHPStan
         id: phpstan
         run: |
           set +e
-          composer analyse > phpstan.log
+          vendor/bin/phpstan analyse src tests --level=max > phpstan.log
           EXIT_CODE=$?
           ERRORS=$(grep -Eo "Found [0-9]+ errors" phpstan.log | grep -Eo "[0-9]+")
           if [ -z "$ERRORS" ]; then ERRORS=0; fi
