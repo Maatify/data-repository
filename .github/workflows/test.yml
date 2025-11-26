@@ -240,12 +240,6 @@ jobs:
           echo "Coverage: ${COV}%"
           echo "coverage=${COV}" >> $GITHUB_OUTPUT
 
-      - name: Stash CI artifacts (before switching branches)
-        if: github.event_name == 'push'
-        run: |
-          cp coverage-badge.json /tmp/coverage-badge.json
-          cp phpunit.log /tmp/phpunit.log || true
-
       - name: Generate Coverage Badge JSON
         run: |
           echo "{
@@ -254,6 +248,12 @@ jobs:
             \"message\": \"${{ steps.coverage.outputs.coverage }}%\",
             \"color\": \"9C27B0\"
           }" > coverage-badge.json
+
+      - name: Stash CI artifacts (before switching branches)
+        if: github.event_name == 'push'
+        run: |
+          cp coverage-badge.json /tmp/coverage-badge.json
+          cp phpunit.log /tmp/phpunit.log || true
 
       - name: Upload Coverage Badge to badges branch
         if: github.event_name == 'push'
