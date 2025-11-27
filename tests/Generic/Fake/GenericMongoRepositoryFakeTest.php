@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Generic\Fake;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
+use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\GenericMongoRepository;
 use MongoDB\Client;
 use MongoDB\Collection;
@@ -26,10 +27,17 @@ use PHPUnit\Framework\TestCase;
 
 class GenericMongoRepositoryFakeTest extends TestCase
 {
-    /** @var GenericMongoRepository */
+    /**
+     * @var GenericMongoRepository&object
+     * @phpstan-var GenericMongoRepository&object
+     */
     private GenericMongoRepository $repo;
     /** @var MockObject&Collection */
     private Collection|MockObject $collectionMock;
+    /** @var MockObject&Database */
+    private Database|MockObject $databaseMock;
+    /** @var MockObject&Client */
+    private Client|MockObject $clientMock;
 
     protected function setUp(): void
     {
@@ -46,10 +54,12 @@ class GenericMongoRepositoryFakeTest extends TestCase
         /** @var MockObject&Database $databaseMock */
         $databaseMock = $this->createMock(Database::class);
         $databaseMock->method('selectCollection')->willReturn($this->collectionMock);
+        $this->databaseMock = $databaseMock;
 
         // 3. Mock a MongoDB Client (not used directly by repository but required by AdapterInterface types)
         /** @var MockObject&Client $clientMock */
         $clientMock = $this->createMock(Client::class);
+        $this->clientMock = $clientMock;
 
         // 4. Use Concrete Stub for Adapter
         $adapter = new GenericFakeMongoAdapterStub($databaseMock, $clientMock);
@@ -57,6 +67,11 @@ class GenericMongoRepositoryFakeTest extends TestCase
         // 3. Instantiate Repository
         $this->repo = new class ($adapter) extends GenericMongoRepository {
             protected string $collectionName = 'users';
+
+            public function exposeMongoOps(): \Maatify\DataRepository\Generic\Support\MongoOps
+            {
+                return $this->getMongoOps();
+            }
         };
     }
 
@@ -112,6 +127,135 @@ class GenericMongoRepositoryFakeTest extends TestCase
         $deleteResult->method('getDeletedCount')->willReturn(1);
         $this->collectionMock->method('deleteOne')->willReturn($deleteResult);
         $this->assertTrue($this->repo->delete('abc1'));
+    }
+
+    public function testCountWithFilters(): void
+    {
+        $this->collectionMock
+            ->expects($this->once())
+            ->method('countDocuments')
+            ->with(['role' => 'admin'])
+            ->willReturn(2);
+
+        $this->assertEquals(2, $this->repo->count(['role' => 'admin']));
+    }
+
+    public function testFindAllDelegatesToFindBy(): void
+    {
+        $cursor = new FakeMongoCursor([(object)['name' => 'One'], (object)['name' => 'Two']]);
+        $this->collectionMock->method('find')->willReturn($cursor);
+
+        $results = $this->repo->findAll();
+
+        $this->assertCount(2, $results);
+        $this->assertSame('One', $results[0]['name']);
+    }
+
+    public function testHexStringIdIsConvertedToObjectId(): void
+    {
+        $hexId = '507f1f77bcf86cd799439011';
+
+        $updateResult = $this->createMock(\MongoDB\UpdateResult::class);
+        $updateResult->method('getMatchedCount')->willReturn(1);
+
+        $this->collectionMock
+            ->expects($this->once())
+            ->method('updateOne')
+            ->with(
+                $this->callback(function (array $filter) use ($hexId): bool {
+                    if (! isset($filter['_id'])) {
+                        return false;
+                    }
+
+                    $id = $filter['_id'];
+
+                    if ($id instanceof \MongoDB\BSON\ObjectId) {
+                        return $id->__toString() === $hexId;
+                    }
+
+                    return false;
+                }),
+                ['$set' => ['name' => 'Hex']]
+            )
+            ->willReturn($updateResult);
+
+        $this->assertTrue($this->repo->update($hexId, ['name' => 'Hex']));
+    }
+
+    public function testCollectionNameFallsBackToTableName(): void
+    {
+        $adapter = new GenericFakeMongoAdapterStub($this->databaseMock, $this->clientMock);
+
+        $repo = new class ($adapter) extends GenericMongoRepository {
+            protected string $collectionName = '';
+            protected string $tableName = 'fallback';
+
+            public function resolvedCollection(): string
+            {
+                $this->findAll();
+
+                return $this->collectionName;
+            }
+        };
+
+        $this->collectionMock->method('find')->willReturn(new FakeMongoCursor([]));
+
+        $this->assertSame('fallback', $repo->resolvedCollection());
+    }
+
+    public function testGetCollectionThrowsWhenNameMissing(): void
+    {
+        $adapter = new GenericFakeMongoAdapterStub($this->databaseMock, $this->clientMock);
+
+        $repo = new class ($adapter) extends GenericMongoRepository {
+            protected string $collectionName = '';
+            protected string $tableName = '';
+        };
+
+        $this->expectException(RepositoryException::class);
+        $repo->findAll();
+    }
+
+    public function testFindOneByReturnsNullWhenNoResult(): void
+    {
+        $this->collectionMock->method('findOne')->willReturn(null);
+
+        $this->assertNull($this->repo->findOneBy(['id' => 5]));
+    }
+
+    public function testMongoOpsIsMemoized(): void
+    {
+        $cursor = new FakeMongoCursor([]);
+        $this->collectionMock->method('find')->willReturn($cursor);
+
+        /** @phpstan-ignore-next-line anonymous subclass exposes exposeMongoOps() only in this test */
+        $first = $this->repo->exposeMongoOps();
+        /** @phpstan-ignore-next-line anonymous subclass exposes exposeMongoOps() only in this test */
+        $second = $this->repo->exposeMongoOps();
+
+        $this->assertSame($first, $second);
+        /** @phpstan-ignore-next-line phpstan cannot see that $first is MongoOps from anonymous subclass */
+        $this->assertSame($this->collectionMock, $first->getCollection());
+    }
+
+    public function testFindCastsDocumentsViaArrayCopy(): void
+    {
+        $document = new class () {
+            /**
+             * @return array<string, mixed>
+             */
+            public function getArrayCopy(): array
+            {
+                return ['name' => 'ArrayCopy'];
+            }
+        };
+
+        $this->collectionMock->method('findOne')->willReturn($document);
+
+        $result = $this->repo->find('abc1');
+
+        $this->assertNotNull($result);
+        $this->assertSame('ArrayCopy', $result['name']);
     }
 }
 

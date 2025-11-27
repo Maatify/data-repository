@@ -54,6 +54,54 @@ class BaseMongoRepositoryTest extends TestCase
 
         new MongoRepositoryStub($adapter);
     }
+
+    public function testGetCollectionSupportsMongoClient(): void
+    {
+        $collection = $this->getMockBuilder(\MongoDB\Collection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $client = $this->getMockBuilder(\MongoDB\Client::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['selectCollection'])
+            ->getMock();
+        $client->expects($this->once())
+            ->method('selectCollection')
+            ->with('testing', 'client_collection')
+            ->willReturn($collection);
+
+        $adapter = new MongoClientAdapterStub($client);
+
+        $repository = new MongoRepositoryStub($adapter);
+
+        $result = $repository->fetchCollection('client_collection');
+
+        $this->assertSame($collection, $result);
+    }
+
+    public function testGetCollectionReturnsNullForUnrecognizedDriver(): void
+    {
+        $adapter = new class () extends FakeMongoAdapter {
+            public function __construct()
+            {
+            }
+
+            /**
+             * @return \Doctrine\DBAL\Connection|\MongoDB\Database|PDO|\Predis\Client|\Redis|object
+             */
+            public function getDriver(): object
+            {
+                // Return a PDO driver which is allowed by AdapterInterface but
+                // intentionally unsupported by BaseMongoRepository, causing
+                // getCollection() to fall back to null.
+                return new PDO('sqlite::memory:');
+            }
+        };
+
+        $repository = new MongoRepositoryStub($adapter);
+
+        $this->assertNull($repository->fetchCollection('missing'));
+    }
 }
 
 class MongoRepositoryStub extends BaseMongoRepository
@@ -144,7 +192,7 @@ class FakeMongoAdapter implements AdapterInterface
     ) {
     }
 
-    public function getDriver(): MongoDatabase
+    public function getDriver(): mixed
     {
         return $this->db;
     }
@@ -183,6 +231,56 @@ class MongoDriverStub
     public function selectCollection(string $collectionName): string
     {
         return $collectionName;
+    }
+}
+
+class MongoClientAdapterStub implements AdapterInterface
+{
+    public function __construct(private MongoClient $client)
+    {
+    }
+
+    /**
+     * @return MongoClient|MongoDatabase|PDO|\Doctrine\DBAL\Connection|\Predis\Client|\Redis
+     */
+    public function getDriver(): MongoClient|MongoDatabase|PDO|\Doctrine\DBAL\Connection|\Predis\Client|\Redis
+    {
+        // Return the client itself; BaseMongoRepository will treat this as
+        // MongoDB\Client and call selectCollection() accordingly.
+        return $this->client;
+    }
+
+    public function getType(): string
+    {
+        return 'mongo-client';
+    }
+
+    public function connect(): void
+    {
+    }
+
+    public function isConnected(): bool
+    {
+        return true;
+    }
+
+    public function disconnect(): void
+    {
+    }
+
+    public function getConnection(): MongoClient
+    {
+        return $this->client;
+    }
+
+    public function debugConfig(): object
+    {
+        return (object) ['driver' => 'client'];
+    }
+
+    public function healthCheck(): bool
+    {
+        return true;
     }
 }
 

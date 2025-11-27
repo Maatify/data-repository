@@ -94,7 +94,7 @@ class CoverageProbeTest extends TestCase
         // 🔥 This actually executes real code inside src/*
         $name = $repo->getTableName();
 
-        // ضبط لتأكيد إن السطر اتنفّذ
+        // make sure the table name is correct
         $this->assertSame('test_table', $name);
     }
 }

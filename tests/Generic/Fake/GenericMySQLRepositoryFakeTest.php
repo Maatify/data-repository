@@ -21,6 +21,10 @@ use PHPUnit\Framework\TestCase;
 
 class GenericMySQLRepositoryFakeTest extends TestCase
 {
+    /**
+     * @var GenericMySQLRepository&object
+     * @phpstan-var GenericMySQLRepository&object
+     */
     private GenericMySQLRepository $repo;
 
     protected function setUp(): void
@@ -40,6 +44,11 @@ class GenericMySQLRepositoryFakeTest extends TestCase
         // 3. Instantiate Repo
         $this->repo = new class ($adapter) extends GenericMySQLRepository {
             protected string $tableName = 'users';
+
+            public function exposeMysqlOps(): \Maatify\DataRepository\Generic\Support\MysqlOps
+            {
+                return $this->getMysqlOps();
+            }
         };
 
         // 4. Seed Data using SQL directly (bypassing Repo to verify Repo reads correctly)
@@ -96,5 +105,45 @@ class GenericMySQLRepositoryFakeTest extends TestCase
         $deleted = $this->repo->delete(1);
         $this->assertTrue($deleted);
         $this->assertNull($this->repo->find(1));
+    }
+
+    public function testFindOneByAndFindAll(): void
+    {
+        $first = $this->repo->findOneBy(['role' => 'user']);
+        $this->assertNotNull($first);
+        $this->assertSame('Jane', $first['name']);
+
+        $all = $this->repo->findAll();
+        $this->assertCount(2, $all);
+    }
+
+    public function testCountAndUpdateEmptyPayload(): void
+    {
+        $this->assertSame(2, $this->repo->count());
+        $this->assertSame(1, $this->repo->count(['role' => 'admin']));
+
+        $this->assertFalse($this->repo->update(5, []));
+    }
+
+    public function testFindBySkipsInvalidColumns(): void
+    {
+        $results = $this->repo->findBy(['role' => 'admin', 'invalid column' => 'x']);
+
+        $this->assertCount(1, $results);
+        $this->assertSame('John', $results[0]['name']);
+    }
+
+    public function testMysqlOpsIsMemoized(): void
+    {
+        /** @phpstan-ignore-next-line anonymous subclass exposes exposeMysqlOps() only in this test */
+        $first = $this->repo->exposeMysqlOps();
+        /** @phpstan-ignore-next-line anonymous subclass exposes exposeMysqlOps() only in this test */
+        $second = $this->repo->exposeMysqlOps();
+
+        $this->assertSame($first, $second);
+        /** @phpstan-ignore-next-line phpstan cannot see that $first is MysqlOps from anonymous subclass */
+        $this->assertInstanceOf(\PDO::class, $first->getDriver());
+        /** @phpstan-ignore-next-line phpstan cannot see that both ops instances expose getDriver() */
+        $this->assertSame($first->getDriver(), $second->getDriver());
     }
 }

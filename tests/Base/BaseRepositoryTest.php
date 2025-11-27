@@ -211,6 +211,94 @@ class BaseRepositoryTest extends TestCase
             $logger->records[0]['context']
         );
     }
+
+    public function testTableNameAndDriverAccessors(): void
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $adapter = new RecordingAdapter($pdo);
+
+        $repository = new class ($adapter) extends BaseRepository {
+            public function rename(string $new): void
+            {
+                $this->setTableName($new);
+            }
+
+            public function driver(): mixed
+            {
+                return $this->getDriver();
+            }
+
+            public function find(int|string $id): ?array
+            {
+                return null;
+            }
+
+            /**
+             * @param   array<string, mixed>        $filters
+             * @param   array<string, string>|null  $orderBy
+             *
+             * @return array<int, array<string, mixed>>
+             */
+            public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
+            {
+                return [];
+            }
+
+            /**
+             * @param   array<string, mixed>  $filters
+             *
+             * @phpstan-ignore-next-line return type narrowed only for testing stub
+             */
+            public function findOneBy(array $filters): ?array
+            {
+                return null;
+            }
+
+            /**
+             * @return array<int, array<string, mixed>>
+             */
+            public function findAll(): array
+            {
+                return [];
+            }
+
+            /**
+             * @param   array<string, mixed>  $filters
+             */
+            public function count(array $filters = []): int
+            {
+                return 0;
+            }
+
+            /**
+             * @param   array<string, mixed>  $data
+             *
+             * @phpstan-ignore-next-line return type narrowed only for testing stub
+             */
+            public function insert(array $data): int|string
+            {
+                return 1;
+            }
+
+            /**
+             * @param   array<string, mixed>  $data
+             */
+            public function update(int|string $id, array $data): bool
+            {
+                return true;
+            }
+
+            public function delete(int|string $id): bool
+            {
+                return true;
+            }
+        };
+
+        $repository->rename('custom_table');
+
+        $this->assertSame('custom_table', $repository->getTableName());
+        $this->assertSame($pdo, $repository->driver());
+    }
 }
 
 class RecordingAdapter implements AdapterInterface

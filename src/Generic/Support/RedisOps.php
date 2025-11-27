@@ -137,20 +137,79 @@ final class RedisOps
         if ($this->driver instanceof Redis) {
             /** @var array<int, mixed> $keys */
             $keys = $this->driver->keys($pattern);
-            return array_values(array_filter($keys, 'is_string'));
+
+            $result = array_values(array_filter($keys, 'is_string'));
+            /** @var list<string> $result */
+
+            return $result;
         }
 
         if ($this->driver instanceof PredisClient) {
             /** @phpstan-ignore-next-line dynamic Redis command on Predis client */
             $keys = $this->driver->keys($pattern);
             /** @var array<int, mixed> $keys */
-            return array_values(array_filter($keys, 'is_string'));
+
+            $result = array_values(array_filter($keys, 'is_string'));
+            /** @var list<string> $result */
+
+            return $result;
         }
 
-        // FakeRedis
-        /** @phpstan-ignore-next-line dynamic Redis-like keys() on fake driver */
-        $keys = $this->driver->keys($pattern);
-        /** @var array<int, mixed> $keys */
-        return array_values(array_filter($keys, 'is_string'));
+        // Generic object / FakeRedis-style drivers
+        // Prefer a native `keys()` implementation when available.
+        if (method_exists($this->driver, 'keys')) {
+            $keys = $this->driver->keys($pattern);
+            /** @var array<int, mixed> $keys */
+
+            $result = array_values(array_filter($keys, 'is_string'));
+            /** @var list<string> $result */
+
+            return $result;
+        }
+
+        // As a last resort (for fakes that expose an internal `$store` without
+        // a dedicated `keys()` API, e.g. FakeRedisAdapter), attempt to
+        // introspect the public/protected/private `store` property via
+        // reflection. This keeps the repository adapter-agnostic while still
+        // enabling efficient key scans in tests.
+        try {
+            $ref = new \ReflectionObject($this->driver);
+            if (! $ref->hasProperty('store')) {
+                return [];
+            }
+
+            $prop = $ref->getProperty('store');
+            $prop->setAccessible(true);
+            /** @var mixed $rawStore */
+            $rawStore = $prop->getValue($this->driver);
+
+            if (! is_array($rawStore)) {
+                return [];
+            }
+
+            $allKeys = array_keys($rawStore);
+
+            // Only support simple "prefix*" patterns for fakes, which is what
+            // GenericRedisRepository uses (keyPrefix + '*').
+            $prefix = $pattern;
+            $pos = strpos($pattern, '*');
+            if ($pos !== false) {
+                $prefix = substr($pattern, 0, $pos);
+            }
+
+            $filtered = array_filter(
+                $allKeys,
+                static fn ($key): bool => is_string($key) && str_starts_with($key, $prefix)
+            );
+
+            $result = array_values($filtered);
+            /** @var list<string> $result */
+
+            return $result;
+        } catch (\ReflectionException) {
+            // If reflection fails for any reason, fall back to an empty set to
+            // avoid fatal errors while keeping behavior deterministic.
+            return [];
+        }
     }
 }
