@@ -24,4 +24,13 @@ class RepositoryExceptionTest extends TestCase
         $this->assertSame('Repository connection failed: Timeout', $exception->getMessage());
         $this->assertSame(0, $exception->getCode());
     }
+
+    public function testConstructorDirectInstantiation(): void
+    {
+        $exception = new RepositoryException('Direct error', 123);
+
+        $this->assertSame('Direct error', $exception->getMessage());
+        $this->assertSame(123, $exception->getCode());
+        $this->assertInstanceOf(RepositoryException::class, $exception);
+    }
 }
