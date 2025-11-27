@@ -42,7 +42,7 @@ abstract class BaseMongoRepository extends BaseRepository
         $driver = $this->getDriver();
 
         if ($driver instanceof Client) {
-            // Client requires database name + collection name
+            // Client requires database name and collection name
             return $driver->selectCollection($this->databaseName, $collectionName);
         }
 
