@@ -47,7 +47,7 @@ abstract class BaseMongoRepository extends BaseRepository
         }
 
         if ($driver instanceof Database) {
-            // Database object already selected the DB, just needs collection
+            // Database object already selected the DB, just needs a collection
             return $driver->selectCollection($collectionName);
         }
 

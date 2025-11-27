@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Generic\Support;
 
 use Predis\Client as PredisClient;
+use Predis\Response\Status;
 use Redis;
 
 /**
@@ -49,6 +50,8 @@ final class RedisOps
      *
      * Normalize various driver return types to `string|null`.
      *
+     * @param   string  $key
+     *
      * @return string|null
      */
     public function get(string $key): ?string
@@ -57,29 +60,27 @@ final class RedisOps
         if ($this->driver instanceof Redis) {
             /** @var string|false $value */
             $value = $this->driver->get($key);
-
             return $value === false ? null : $value;
         }
 
         // Predis → string|mixed
         if ($this->driver instanceof PredisClient) {
-            /** @phpstan-ignore-next-line dynamic Redis command on Predis client */
             $value = $this->driver->get($key);
             return is_string($value) ? $value : null;
         }
 
         // FakeRedis → internal implementation, returns mixed
-        /** @phpstan-ignore-next-line dynamic Redis-like get() on fake driver */
-        $value = $this->driver->get($key);
+        if (method_exists($this->driver, 'get')) {
+            $value = $this->driver->get($key);
 
-        if (is_string($value)) {
-            return $value;
-        }
+            if (is_string($value)) {
+                return $value;
+            }
 
-        if (is_array($value)) {
-            $json = json_encode($value);
-
-            return $json === false ? null : $json;
+            if (is_array($value)) {
+                $json = json_encode($value);
+                return $json === false ? null : $json;
+            }
         }
 
         return null;
@@ -95,14 +96,19 @@ final class RedisOps
         }
 
         if ($this->driver instanceof PredisClient) {
-            /** @phpstan-ignore-next-line dynamic Redis command on Predis client */
-            $res = $this->driver->set($key, $value);
-            return $res === true || $res === 'OK';
+            /** @var Status|string|null $response */
+            $response = $this->driver->set($key, $value);
+            return $response instanceof Status
+                ? $response->getPayload() === 'OK'
+                : $response === 'OK';
         }
 
         // FakeRedis
-        /** @phpstan-ignore-next-line dynamic Redis-like set() on fake driver */
-        return (bool)$this->driver->set($key, $value);
+        if (method_exists($this->driver, 'set')) {
+            return (bool) $this->driver->set($key, $value);
+        }
+
+        return false;
     }
 
     /**
@@ -111,19 +117,23 @@ final class RedisOps
     public function del(string $key): int
     {
         if ($this->driver instanceof Redis) {
-            return (int)$this->driver->del($key);
+            // في Redis الحقيقي، del() دايماً بترجع int
+            return $this->driver->del($key);
         }
 
         if ($this->driver instanceof PredisClient) {
-            /** @phpstan-ignore-next-line dynamic Redis command on Predis client */
-            $res = $this->driver->del([$key]);
-            return is_int($res) ? $res : 0;
+            /** @var int $result */
+            $result = $this->driver->del([$key]);
+            return $result;
         }
 
         // FakeRedis
-        /** @phpstan-ignore-next-line dynamic Redis-like del() on fake driver */
-        $res = $this->driver->del($key);
-        return is_int($res) ? $res : 0;
+        if (method_exists($this->driver, 'del')) {
+            $result = $this->driver->del($key);
+            return is_int($result) ? $result : 0;
+        }
+
+        return 0;
     }
 
     /**
@@ -145,9 +155,8 @@ final class RedisOps
         }
 
         if ($this->driver instanceof PredisClient) {
-            /** @phpstan-ignore-next-line dynamic Redis command on Predis client */
-            $keys = $this->driver->keys($pattern);
             /** @var array<int, mixed> $keys */
+            $keys = $this->driver->keys($pattern);
 
             $result = array_values(array_filter($keys, 'is_string'));
             /** @var list<string> $result */
@@ -158,8 +167,8 @@ final class RedisOps
         // Generic object / FakeRedis-style drivers
         // Prefer a native `keys()` implementation when available.
         if (method_exists($this->driver, 'keys')) {
-            $keys = $this->driver->keys($pattern);
             /** @var array<int, mixed> $keys */
+            $keys = $this->driver->keys($pattern);
 
             $result = array_values(array_filter($keys, 'is_string'));
             /** @var list<string> $result */
