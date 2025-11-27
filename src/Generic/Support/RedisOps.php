@@ -26,7 +26,7 @@ use Redis;
  *
  * Ensures a consistent KV interface for repository operations.
  */
-final class RedisOps
+class RedisOps
 {
     /**
      * @var Redis|PredisClient|object

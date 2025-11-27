@@ -16,9 +16,12 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Helpers;
 
 use Maatify\DataRepository\Base\BaseRedisRepository;
+use Maatify\DataRepository\Generic\GenericRedisRepository;
+use Maatify\DataRepository\Generic\Support\RedisOps;
 
-class RedisRepositoryStub extends BaseRedisRepository
+class RedisRepositoryStub extends GenericRedisRepository
 {
+    protected string $keyPrefix = 'test:';
     public function find(int|string $id): ?array
     {
         return null;
@@ -82,5 +85,20 @@ class RedisRepositoryStub extends BaseRedisRepository
     public function delete(int|string $id): bool
     {
         return true;
+    }
+
+    public function getOps(): RedisOps
+    {
+        // force initialize the ops (lazy load)
+        $this->getRedisOps();
+
+        $ref = new \ReflectionClass(GenericRedisRepository::class);
+        $prop = $ref->getProperty('redisOps');
+        $prop->setAccessible(true);
+
+        /** @var RedisOps $ops */
+        $ops = $prop->getValue($this);
+
+        return $ops;
     }
 }
