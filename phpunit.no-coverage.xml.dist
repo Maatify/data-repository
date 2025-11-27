@@ -17,6 +17,12 @@
         <testsuite name="Generic">
             <directory suffix="Test.php">tests/Generic</directory>
         </testsuite>
+
+        <testsuite name="Support">
+            <directory suffix="Test.php">tests/Exceptions</directory>
+            <directory suffix="Test.php">tests/Logging</directory>
+            <directory suffix="Test.php">tests/Resolver</directory>
+        </testsuite>
     </testsuites>
 
     <php>
