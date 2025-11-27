@@ -102,6 +102,39 @@ class BaseMongoRepositoryTest extends TestCase
 
         $this->assertNull($repository->fetchCollection('missing'));
     }
+
+    public function testGetCollectionSupportsDuckTypingFakeDriver(): void
+    {
+        // Fake driver with selectCollection() but not MongoDatabase/MongoClient
+        $fakeDriver = new class () {
+            public function selectCollection(string $collectionName): string
+            {
+                return 'duck-' . $collectionName;
+            }
+        };
+
+        // Adapter stub that pretends to be FakeMongoAdapter
+        $adapter = new class ($fakeDriver) extends FakeMongoAdapter {
+            public function __construct(private object $driver)
+            {
+            }
+
+            /**
+             * @return \MongoDB\Database|\MongoDB\Client|object
+             */
+            public function getDriver(): mixed
+            {
+                return $this->driver;
+            }
+        };
+
+        $repository = new MongoRepositoryStub($adapter);
+
+        $result = $repository->fetchCollection('logs');
+
+        $this->assertSame('duck-logs', $result);
+    }
+
 }
 
 class MongoRepositoryStub extends BaseMongoRepository

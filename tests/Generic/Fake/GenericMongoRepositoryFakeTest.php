@@ -100,6 +100,39 @@ class GenericMongoRepositoryFakeTest extends TestCase
         $this->assertNotEmpty($id);
     }
 
+    public function testInsertReturnsIntIdWhenDriverReturnsInt(): void
+    {
+        $insertResult = $this->createMock(\MongoDB\InsertOneResult::class);
+        $insertResult->method('getInsertedId')->willReturn(123);
+
+        $this->collectionMock->method('insertOne')->willReturn($insertResult);
+
+        $id = $this->repo->insert(['name' => 'Int ID']);
+        $this->assertSame(123, $id);
+    }
+
+    public function testInsertReturnsStringIdWhenDriverReturnsString(): void
+    {
+        $insertResult = $this->createMock(\MongoDB\InsertOneResult::class);
+        $insertResult->method('getInsertedId')->willReturn('custom-id');
+
+        $this->collectionMock->method('insertOne')->willReturn($insertResult);
+
+        $id = $this->repo->insert(['name' => 'String ID']);
+        $this->assertSame('custom-id', $id);
+    }
+
+    public function testInsertReturnsEmptyStringWhenInsertedIdUnsupported(): void
+    {
+        $insertResult = $this->createMock(\MongoDB\InsertOneResult::class);
+        $insertResult->method('getInsertedId')->willReturn(new \stdClass());
+
+        $this->collectionMock->method('insertOne')->willReturn($insertResult);
+
+        $id = $this->repo->insert(['name' => 'Bad ID']);
+        $this->assertSame('', $id);
+    }
+
     public function testFindBy(): void
     {
         // Use FakeMongoCursor to satisfy return type hint of Collection::find
@@ -149,6 +182,21 @@ class GenericMongoRepositoryFakeTest extends TestCase
 
         $this->assertCount(2, $results);
         $this->assertSame('One', $results[0]['name']);
+    }
+
+    public function testCursorToArraySkipsNullDocuments(): void
+    {
+        $cursor = new FakeMongoCursor([
+            null,
+            (object) ['name' => 'Valid'],
+        ]);
+
+        $this->collectionMock->method('find')->willReturn($cursor);
+
+        $results = $this->repo->findBy([]);
+
+        $this->assertCount(1, $results);
+        $this->assertSame('Valid', $results[0]['name']);
     }
 
     public function testHexStringIdIsConvertedToObjectId(): void
@@ -257,6 +305,14 @@ class GenericMongoRepositoryFakeTest extends TestCase
         $this->assertNotNull($result);
         $this->assertSame('ArrayCopy', $result['name']);
     }
+
+    public function testFindReturnsNullWhenDocumentMissing(): void
+    {
+        $this->collectionMock->method('findOne')->willReturn(null);
+
+        $this->assertNull($this->repo->find('missing-id'));
+    }
+
 }
 
 // --- Helper Classes ---
@@ -322,13 +378,13 @@ class GenericFakeMongoAdapterStub implements AdapterInterface
 class FakeMongoCursor implements CursorInterface
 {
     /**
-     * @var array<int, array<string, mixed>|object>
+     * @var array<int, array<string, mixed>|object|null>
      */
     private array $data;
     private int $position = 0;
 
     /**
-     * @param array<int, array<string, mixed>|object> $data
+     * @param   array<int, array<string, mixed>|object|null>  $data
      */
     public function __construct(array $data)
     {
@@ -357,7 +413,7 @@ class FakeMongoCursor implements CursorInterface
 
     public function valid(): bool
     {
-        return isset($this->data[$this->position]);
+        return $this->position < count($this->data);
     }
 
     public function rewind(): void
@@ -379,7 +435,13 @@ class FakeMongoCursor implements CursorInterface
      */
     public function toArray(): array
     {
-        return $this->data;
+        // Ensure return type is: array<int, array<string,mixed>|object>
+        return array_values(
+            array_filter(
+                $this->data,
+                static fn ($item) => $item !== null
+            )
+        );
     }
 
     public function getId(): \MongoDB\BSON\Int64

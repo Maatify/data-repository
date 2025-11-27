@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Tests\Helpers;
 
-use Maatify\DataRepository\Base\BaseRedisRepository;
 use Maatify\DataRepository\Generic\GenericRedisRepository;
 use Maatify\DataRepository\Generic\Support\RedisOps;
 

@@ -215,7 +215,6 @@ class RedisOpsTest extends TestCase
         $this->assertSame($payload, $stored);
     }
 
-
     public function testRedisRepositoryStubWithFakeAdapter(): void
     {
         $adapter = new FakeRedisAdapter();

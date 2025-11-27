@@ -291,7 +291,6 @@ class GenericRedisRepositoryFakeTest extends TestCase
         $this->assertNull($ops->get('x'));
     }
 
-
     public function testRedisOpsPredisGetReturnsNullForNonString(): void
     {
         $driver = new class ([]) extends PredisClient {
@@ -305,7 +304,6 @@ class GenericRedisRepositoryFakeTest extends TestCase
 
         $this->assertNull($ops->get('k'));
     }
-
 
     public function testRedisOpsKeysFiltersNonStringValues(): void
     {
