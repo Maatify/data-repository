@@ -23,7 +23,6 @@
 [![Stars](https://img.shields.io/github/stars/Maatify/data-repository?label=Stars&color=FFD43B&cacheSeconds=3600&style=flat-square)](https://github.com/Maatify/data-repository/stargazers)
 
 <!-- 4) Documentation -->
-<!-- 4) Documentation -->
 [![Changelog](https://img.shields.io/badge/Changelog-View-blue?style=flat-square)](CHANGELOG.md)
 [![Security](https://img.shields.io/badge/Security-Policy-important?style=flat-square)](SECURITY.md)
 [![Full Docs](https://img.shields.io/badge/Docs-Full%20Guide-0A66C2?style=flat-square)](docs/README.full.md)

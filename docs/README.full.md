@@ -216,10 +216,14 @@ src/
 │   ├── BaseMongoRepository.php
 │   └── BaseRedisRepository.php
 │
-├── Generic/          # Phase 3 — CRUD, Pagination, Filtering (IN PROGRESS)
+├── Generic/          # Phase 3 — Generic CRUD Repositories + Support Ops
 │   ├── GenericMongoRepository.php
 │   ├── GenericMySQLRepository.php
-│   └── GenericRedisRepository.php
+│   ├── GenericRedisRepository.php
+│   └── Support/
+│       ├── MysqlOps.php
+│       ├── MongoOps.php
+│       └── RedisOps.php
 │
 └── Hydration/        # Phase 4 — DTO Mapping & Object Hydration
 

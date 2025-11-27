@@ -17,12 +17,15 @@ namespace Maatify\DataRepository\Generic;
 
 use Maatify\DataRepository\Base\BaseMongoRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Generic\Support\MongoOps;
 use MongoDB\Collection;
 use MongoDB\BSON\ObjectId;
 
 abstract class GenericMongoRepository extends BaseMongoRepository
 {
     protected string $collectionName = '';
+
+    private ?MongoOps $mongoOps = null;
 
     /**
      * @return array<string, mixed>|null
@@ -158,6 +161,18 @@ abstract class GenericMongoRepository extends BaseMongoRepository
         }
 
         return $collection;
+    }
+
+    /**
+     * Lazily create a MongoOps helper wired to the current MongoDB collection.
+     */
+    protected function getMongoOps(): MongoOps
+    {
+        if ($this->mongoOps === null) {
+            $this->mongoOps = new MongoOps($this->getCollectionObj());
+        }
+
+        return $this->mongoOps;
     }
 
     /**

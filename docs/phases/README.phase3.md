@@ -9,23 +9,35 @@
 **Version:** 1.0.0 (Dev)
 
 ## Summary
-Implemented concrete "Generic" repositories for MySQL, MongoDB, and Redis. These classes provide out-of-the-box CRUD operations (Create, Read, Update, Delete) so developers don't need to write SQL or Mongo queries for standard operations.
+Implemented concrete "Generic" repositories for MySQL, MongoDB, and Redis **plus lightweight Support Ops wrappers** around the low-level drivers. These classes provide out-of-the-box CRUD operations (Create, Read, Update, Delete) so developers don't need to write SQL or Mongo queries for standard operations, while keeping driver-specific behavior encapsulated.
 
-Generic repositories are built **on top of the Base layer** and expose a small, consistent API:
+Generic repositories are built **on top of the Base layer** and expose a small, consistent API at a high level:
 
 - `find(int|string $id): ?array`
-- `findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array`
-- `findOneBy(array $filters): ?array`
+- `findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array` *(MySQL & MongoDB only)*
+- `findOneBy(array $filters): ?array` *(MySQL & MongoDB only)*
 - `findAll(): array`
 - `count(array $filters = []): int`
 - `insert(array $data): int|string`
 - `update(int|string $id, array $data): bool`
 - `delete(int|string $id): bool`
 
+Low-level interactions with PDO, MongoDB, and Redis/Predis are normalized through dedicated **Ops helpers**:
+
+- `MysqlOps` for PDO / DBAL-native connections
+- `MongoOps` for MongoDB collections
+- `RedisOps` for Redis / Predis / FakeRedis drivers
+
 ## Deliverables
-- **MySQL**: `GenericMySQLRepository` (supports `find`, `findBy`, `findOneBy`, `findAll`, `count`, `insert`, `update`, `delete` using PDO/DBAL under the hood).
-- **MongoDB**: `GenericMongoRepository` (supports standard BSON queries and ObjectId handling for `find`, `findBy`, `findOneBy`, `findAll`, `count`, `insert`, `update`, `delete`).
-- **Redis**: `GenericRedisRepository` (Key-Value JSON storage implementation with `find`, `insert`, `update`, `delete`, `findAll`, `count`; filtering-style operations are intentionally restricted, see notes below).
+- **MySQL**:
+    - `GenericMySQLRepository` (supports `find`, `findBy`, `findOneBy`, `findAll`, `count`, `insert`, `update`, `delete` using PDO/DBAL under the hood).
+    - `MysqlOps` (thin helper around the PDO/DBAL-native driver, exposed via `getMysqlOps()` for advanced extensions).
+- **MongoDB**:
+    - `GenericMongoRepository` (supports standard BSON queries and ObjectId handling for `find`, `findBy`, `findOneBy`, `findAll`, `count`, `insert`, `update`, `delete`).
+    - `MongoOps` (thin helper around `MongoDB\Collection`, exposed via `getMongoOps()` for internal utilities and advanced consumers).
+- **Redis**:
+    - `GenericRedisRepository` (Key-Value JSON storage implementation with `find`, `insert`, `update`, `delete`, `findAll`, `count`; filtering-style operations are intentionally restricted, see notes below).
+    - `RedisOps` (normalization layer that unifies Redis, Predis, and FakeRedis behavior for `get`, `set`, `del`, and `keys`, used internally by `GenericRedisRepository`).
 
 ## Usage
 

@@ -55,7 +55,7 @@
     "sort-packages": true
   },
   "require": {
-    "php": ">=8.2",
+    "php": ">=8.4",
     "maatify/common": "^1.0",
     "maatify/data-adapters": "^1.0",
     "maatify/bootstrap": "^1.0",

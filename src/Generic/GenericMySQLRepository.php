@@ -17,11 +17,14 @@ namespace Maatify\DataRepository\Generic;
 
 use Maatify\DataRepository\Base\BaseMySQLRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Generic\Support\MysqlOps;
 use PDO;
 
 abstract class GenericMySQLRepository extends BaseMySQLRepository
 {
     protected string $primaryKey = 'id';
+
+    private ?MysqlOps $mysqlOps = null;
 
     /**
      * @return array<string, mixed>|null
@@ -202,6 +205,18 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
         }
 
         throw new RepositoryException('GenericMySQLRepository requires a PDO driver or compatible wrapper.');
+    }
+
+    /**
+     * Lazily create a MysqlOps helper wired to the current PDO driver.
+     */
+    protected function getMysqlOps(): MysqlOps
+    {
+        if ($this->mysqlOps === null) {
+            $this->mysqlOps = new MysqlOps($this->getPdo());
+        }
+
+        return $this->mysqlOps;
     }
 
     /**

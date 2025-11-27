@@ -17,13 +17,15 @@ namespace Maatify\DataRepository\Generic;
 
 use Maatify\DataRepository\Base\BaseRedisRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Generic\Support\RedisOps;
 use Predis\Client as PredisClient;
-use Predis\Response\Status as PredisStatus;
 use Redis;
 
 abstract class GenericRedisRepository extends BaseRedisRepository
 {
     protected string $keyPrefix = '';
+
+    private ?RedisOps $redisOps = null;
 
     /**
      * @return array<string, mixed>|null
@@ -32,11 +34,9 @@ abstract class GenericRedisRepository extends BaseRedisRepository
     {
         $key = $this->getKey($id);
 
-        // Redis/Predis get() returns string|false|null
-        /** @var string|false|null $data */
-        $data = $this->getRedis()->get($key);
+        $data = $this->getRedisOps()->get($key);
 
-        if ($data === false || $data === null) {
+        if ($data === null) {
             return null;
         }
 
@@ -63,7 +63,12 @@ abstract class GenericRedisRepository extends BaseRedisRepository
         }
         $key = $this->getKey($id);
 
-        $this->getRedis()->set($key, json_encode($data));
+        $payload = json_encode($data);
+        if ($payload === false) {
+            throw new RepositoryException('Failed to JSON-encode data for Redis insert.');
+        }
+
+        $this->getRedisOps()->set($key, $payload);
 
         return $id;
     }
@@ -78,24 +83,17 @@ abstract class GenericRedisRepository extends BaseRedisRepository
         $merged = array_merge($existing, $data);
         $merged['id'] = $id;
 
-        /** @var bool|PredisStatus $response */
-        $response = $this->getRedis()->set($this->getKey($id), json_encode($merged));
-
-        // Normalize Predis status object
-        if ($response === true) {
-            return true;
+        $payload = json_encode($merged);
+        if ($payload === false) {
+            throw new RepositoryException('Failed to JSON-encode data for Redis update.');
         }
 
-        if ($response instanceof PredisStatus) {
-            return $response->getPayload() === 'OK';
-        }
-
-        return false;
+        return $this->getRedisOps()->set($this->getKey($id), $payload);
     }
 
     public function delete(int|string $id): bool
     {
-        return (bool)$this->getRedis()->del($this->getKey($id));
+        return $this->getRedisOps()->del($this->getKey($id)) > 0;
     }
 
     /**
@@ -127,14 +125,13 @@ abstract class GenericRedisRepository extends BaseRedisRepository
     public function findAll(): array
     {
         /** @var array<int, string> $keys */
-        $keys = $this->getRedis()->keys($this->keyPrefix . '*');
+        $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
 
         /** @var array<int, array<string, mixed>> $results */
         $results = [];
         foreach ($keys as $key) {
-            /** @var string|false|null $data */
-            $data = $this->getRedis()->get($key);
-            if ($data === false || $data === null) {
+            $data = $this->getRedisOps()->get($key);
+            if ($data === null) {
                 continue;
             }
 
@@ -161,7 +158,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             throw new RepositoryException('Filtering count is not supported in Redis.');
         }
         /** @var array<int, string> $keys */
-        $keys = $this->getRedis()->keys($this->keyPrefix . '*');
+        $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
 
         return count($keys);
     }
@@ -182,5 +179,17 @@ abstract class GenericRedisRepository extends BaseRedisRepository
         $driver = $this->getDriver();
 
         return $driver;
+    }
+
+    /**
+     * Lazily create a RedisOps helper wired to the current Redis driver.
+     */
+    protected function getRedisOps(): RedisOps
+    {
+        if ($this->redisOps === null) {
+            $this->redisOps = new RedisOps($this->getRedis());
+        }
+
+        return $this->redisOps;
     }
 }
