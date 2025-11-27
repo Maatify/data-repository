@@ -50,6 +50,9 @@ abstract class GenericRedisRepository extends BaseRedisRepository
         return $decoded;
     }
 
+    /**
+     * @throws RepositoryException
+     */
     public function insert(array $data): int|string
     {
         if (! isset($data['id'])) {
