@@ -2,7 +2,7 @@
 
 /**
  * @copyright   ©2025 Maatify.dev
- * @Liberary    maatify/data-repository
+ * @Library    maatify/data-repository
  * @Project     maatify:data-repository
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since       2025-11-25 02:58
@@ -17,6 +17,7 @@ namespace Maatify\DataRepository\Generic;
 
 use Maatify\DataRepository\Base\BaseMySQLRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Generic\Support\FilterUtils;
 use Maatify\DataRepository\Generic\Support\MysqlOps;
 use PDO;
 
@@ -224,24 +225,8 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
      *
      * @return array{0: string, 1: array<string, mixed>}
      */
-    private function buildWhereClause(array $filters): array
+    protected function buildWhereClause(array $filters): array
     {
-        if (empty($filters)) {
-            return ['', []];
-        }
-
-        $clauses = [];
-        $params = [];
-
-        foreach ($filters as $col => $val) {
-            if (preg_match('/^[a-zA-Z0-9_]+$/', $col)) {
-                $clauses[] = "`{$col}` = :w_{$col}";
-                $params["w_{$col}"] = $val;
-            }
-        }
-
-        $sql = empty($clauses) ? '' : ' WHERE ' . implode(' AND ', $clauses);
-
-        return [$sql, $params];
+        return FilterUtils::buildSqlWhere($filters);
     }
 }

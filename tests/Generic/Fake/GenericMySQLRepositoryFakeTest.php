@@ -18,6 +18,7 @@ namespace Maatify\DataRepository\Tests\Generic\Fake;
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use PHPUnit\Framework\TestCase;
+use InvalidArgumentException;
 
 class GenericMySQLRepositoryFakeTest extends TestCase
 {
@@ -125,12 +126,10 @@ class GenericMySQLRepositoryFakeTest extends TestCase
         $this->assertFalse($this->repo->update(5, []));
     }
 
-    public function testFindBySkipsInvalidColumns(): void
+    public function testFindByThrowsOnInvalidColumns(): void
     {
-        $results = $this->repo->findBy(['role' => 'admin', 'invalid column' => 'x']);
-
-        $this->assertCount(1, $results);
-        $this->assertSame('John', $results[0]['name']);
+        $this->expectException(InvalidArgumentException::class);
+        $this->repo->findBy(['role' => 'admin', 'invalid column' => 'x']);
     }
 
     public function testMysqlOpsIsMemoized(): void
