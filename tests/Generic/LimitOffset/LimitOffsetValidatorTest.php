@@ -29,20 +29,20 @@ class LimitOffsetValidatorTest extends TestCase
         LimitOffsetValidator::validate(5, null);
         LimitOffsetValidator::validate(LimitOffsetValidator::MAX_LIMIT, LimitOffsetValidator::MAX_OFFSET);
 
-        $this->assertTrue(true);
+        $this->addToAssertionCount(1);
     }
 
     public function testInvalidLimitZero(): void
     {
         $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage("Invalid limit value: 0. Limit must be >= 1.");
+        $this->expectExceptionMessage('Invalid limit value: 0. Limit must be >= 1.');
         LimitOffsetValidator::validate(0, null);
     }
 
     public function testInvalidLimitNegative(): void
     {
         $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage("Invalid limit value: -1. Limit must be >= 1.");
+        $this->expectExceptionMessage('Invalid limit value: -1. Limit must be >= 1.');
         LimitOffsetValidator::validate(-1, null);
     }
 
@@ -50,14 +50,14 @@ class LimitOffsetValidatorTest extends TestCase
     {
         $max = LimitOffsetValidator::MAX_LIMIT;
         $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage("Limit " . ($max + 1) . " exceeds the maximum allowed ({$max}).");
+        $this->expectExceptionMessage('Limit ' . ($max + 1) . " exceeds the maximum allowed ({$max}).");
         LimitOffsetValidator::validate($max + 1, null);
     }
 
     public function testInvalidOffsetNegative(): void
     {
         $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage("Offset must be >= 0. Given: -1");
+        $this->expectExceptionMessage('Offset must be >= 0. Given: -1');
         LimitOffsetValidator::validate(null, -1);
     }
 

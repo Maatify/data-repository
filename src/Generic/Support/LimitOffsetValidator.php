@@ -19,8 +19,8 @@ use Maatify\DataRepository\Exceptions\RepositoryException;
 
 class LimitOffsetValidator
 {
-    public const MAX_LIMIT  = 10000;
-    public const MAX_OFFSET = 100000;
+    public const int MAX_LIMIT  = 10000;
+    public const int MAX_OFFSET = 100000;
 
     /**
      * @throws RepositoryException
