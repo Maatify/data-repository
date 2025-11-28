@@ -7,7 +7,7 @@
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since       2025-11-25 05:00
  * @see         https://www.maatify.dev Maatify.com
- * @link        https://github.com/Maatify/data-repository  view project on GitHub
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
  * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
  */
 
@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Generic\Fake\Ordering;
 
 use DateTime;
+use InvalidArgumentException;
 use Maatify\DataRepository\Generic\Support\OrderUtils;
 use PHPUnit\Framework\TestCase;
 
@@ -34,7 +35,7 @@ class OrderingFakeTest extends TestCase
 
     public function testNormalizeThrows(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid order direction: 'Invalid'. Must be 'ASC' or 'DESC'.");
         OrderUtils::normalize(['age' => 'Invalid'], true);
     }

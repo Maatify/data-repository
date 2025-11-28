@@ -255,40 +255,73 @@ final class OrderUtils
      */
     public static function compareValues(mixed $a, mixed $b): int
     {
-        if ($a === null && $b === null) {
+        if ($cmp = self::compareNulls($a, $b)) {
+            return $cmp;
+        }
+
+        if ($cmp = self::compareNumbers($a, $b)) {
+            return $cmp;
+        }
+
+        if ($cmp = self::compareBooleans($a, $b)) {
+            return $cmp;
+        }
+
+        if ($cmp = self::compareDates($a, $b)) {
+            return $cmp;
+        }
+
+        if (! self::isComparableScalar($a) || ! self::isComparableScalar($b)) {
             return 0;
-        }
-
-        if ($a === null) {
-            return -1;
-        }
-
-        if ($b === null) {
-            return 1;
         }
 
         if (is_numeric($a) && is_numeric($b)) {
-            return $a <=> $b;
+            return ((float) $a) <=> ((float) $b);
         }
 
-        if (is_bool($a) && is_bool($b)) {
-            return ($a ? 1 : 0) <=> ($b ? 1 : 0);
+        if (is_string($a) && is_string($b)) {
+            return strcmp($a, $b);
         }
 
-        if ($a instanceof \DateTimeInterface && $b instanceof \DateTimeInterface) {
-            return $a <=> $b;
-        }
+        return 0;
+    }
 
-        if (! is_string($a) && ! is_numeric($a)) {
-            // Cannot reliably cast object/array to string for comparison without more context
+    private static function compareNulls(mixed $a, mixed $b): int
+    {
+        if ($a === null && $b === null) {
             return 0;
         }
-
-        if (! is_string($b) && ! is_numeric($b)) {
-            return 0;
+        if ($a === null) {
+            return -1;
         }
+        if ($b === null) {
+            return 1;
+        }
+        return 0;
+    }
 
-        return strcmp((string) $a, (string) $b);
+    private static function compareNumbers(mixed $a, mixed $b): int
+    {
+        return (is_numeric($a) && is_numeric($b)) ? ($a <=> $b) : 0;
+    }
+
+    private static function compareBooleans(mixed $a, mixed $b): int
+    {
+        return (is_bool($a) && is_bool($b))
+            ? (($a ? 1 : 0) <=> ($b ? 1 : 0))
+            : 0;
+    }
+
+    private static function compareDates(mixed $a, mixed $b): int
+    {
+        return ($a instanceof \DateTimeInterface && $b instanceof \DateTimeInterface)
+            ? ($a <=> $b)
+            : 0;
+    }
+
+    private static function isComparableScalar(mixed $value): bool
+    {
+        return is_string($value) || is_numeric($value);
     }
 
     /**
