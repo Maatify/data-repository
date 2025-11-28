@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @copyright   ©2025 Maatify.dev
- * @Liberary    maatify/data-repository
+ * @Library    maatify/data-repository
  * @Project     maatify:data-repository
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since       2025-11-25 01:07

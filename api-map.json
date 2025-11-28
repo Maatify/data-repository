@@ -1,0 +1,517 @@
+{
+  "version": "1.0.0",
+  "classes": {
+    "Maatify\\DataRepository\\Generic\\Support\\FilterUtils": {
+      "type": "class",
+      "methods": {
+        "buildSqlWhere": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "buildMongoFilter": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false }
+          ]
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Generic\\Support\\MysqlOps": {
+      "type": "final class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "driver", "type": "object", "optional": false }
+          ]
+        },
+        "getDriver": {
+          "visibility": "public",
+          "return_type": "PDO|object",
+          "arguments": []
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Generic\\Support\\MongoOps": {
+      "type": "final class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "collection", "type": "object", "optional": false }
+          ]
+        },
+        "getCollection": {
+          "visibility": "public",
+          "return_type": "MongoDB\\Collection|object",
+          "arguments": []
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Generic\\Support\\RedisOps": {
+      "type": "final class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "driver", "type": "object", "optional": false }
+          ]
+        },
+        "get": {
+          "visibility": "public",
+          "return_type": "string|null",
+          "arguments": [
+            { "name": "key", "type": "string", "optional": false }
+          ]
+        },
+        "set": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": [
+            { "name": "key", "type": "string", "optional": false },
+            { "name": "value", "type": "string", "optional": false }
+          ]
+        },
+        "del": {
+          "visibility": "public",
+          "return_type": "int",
+          "arguments": [
+            { "name": "key", "type": "string", "optional": false }
+          ]
+        },
+        "keys": {
+          "visibility": "public",
+          "return_type": "array<int, string>",
+          "arguments": [
+            { "name": "pattern", "type": "string", "optional": false }
+          ]
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Base\\BaseMongoRepository": {
+      "type": "abstract class",
+      "extends": "Maatify\\DataRepository\\Base\\BaseRepository",
+      "methods": {
+        "getCollection": {
+          "visibility": "protected",
+          "return_type": "mixed",
+          "arguments": [
+            { "name": "collectionName", "type": "string", "optional": false }
+          ]
+        },
+        "validateAdapter": {
+          "visibility": "protected",
+          "return_type": "void",
+          "arguments": []
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Base\\BaseMySQLRepository": {
+      "type": "abstract class",
+      "extends": "Maatify\\DataRepository\\Base\\BaseRepository",
+      "methods": {
+        "validateAdapter": {
+          "visibility": "protected",
+          "return_type": "void",
+          "arguments": []
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Base\\BaseRedisRepository": {
+      "type": "abstract class",
+      "extends": "Maatify\\DataRepository\\Base\\BaseRepository",
+      "methods": {
+        "validateAdapter": {
+          "visibility": "protected",
+          "return_type": "void",
+          "arguments": []
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Base\\BaseRepository": {
+      "type": "abstract class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "adapter", "type": "Maatify\\Common\\Contracts\\Adapter\\AdapterInterface", "optional": false },
+            { "name": "logger", "type": "?Psr\\Log\\LoggerInterface", "optional": true }
+          ]
+        },
+        "setAdapter": {
+          "visibility": "public",
+          "return_type": "static",
+          "arguments": [
+            { "name": "adapter", "type": "Maatify\\Common\\Contracts\\Adapter\\AdapterInterface", "optional": false }
+          ]
+        },
+        "getTableName": {
+          "visibility": "public",
+          "return_type": "string",
+          "arguments": []
+        },
+        "setTableName": {
+          "visibility": "protected",
+          "return_type": "void",
+          "arguments": [
+            { "name": "tableName", "type": "string", "optional": false }
+          ]
+        },
+        "getDriver": {
+          "visibility": "protected",
+          "return_type": "mixed",
+          "arguments": []
+        },
+        "validateAdapter": {
+          "visibility": "protected",
+          "return_type": "void",
+          "arguments": []
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Exceptions\\RepositoryException": {
+      "type": "class",
+      "methods": {
+        "connectionFailed": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "self",
+          "arguments": [
+            { "name": "reason", "type": "string", "optional": false }
+          ]
+        },
+        "driverNotSupported": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "self",
+          "arguments": [
+            { "name": "driver", "type": "string", "optional": false }
+          ]
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Generic\\GenericMongoRepository": {
+      "type": "abstract class",
+      "extends": "Maatify\\DataRepository\\Base\\BaseMongoRepository",
+      "methods": {
+        "find": {
+          "visibility": "public",
+          "return_type": "?array",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false }
+          ]
+        },
+        "findBy": {
+          "visibility": "public",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false },
+            { "name": "orderBy", "type": "array<string, string>|null", "optional": true },
+            { "name": "limit", "type": "int|null", "optional": true },
+            { "name": "offset", "type": "int|null", "optional": true }
+          ]
+        },
+        "findOneBy": {
+          "visibility": "public",
+          "return_type": "?array",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "findAll": {
+          "visibility": "public",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": []
+        },
+        "count": {
+          "visibility": "public",
+          "return_type": "int",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "insert": {
+          "visibility": "public",
+          "return_type": "int|string",
+          "arguments": [
+            { "name": "data", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "update": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false },
+            { "name": "data", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "delete": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false }
+          ]
+        },
+        "getMongoOps": {
+          "visibility": "protected",
+          "return_type": "Maatify\\DataRepository\\Generic\\Support\\MongoOps",
+          "arguments": []
+        },
+        "getCollectionObj": {
+          "visibility": "protected",
+          "return_type": "MongoDB\\Collection",
+          "arguments": []
+        },
+        "buildIdFilter": {
+          "visibility": "protected",
+          "return_type": "array<string, mixed>",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false }
+          ]
+        },
+        "toArray": {
+          "visibility": "protected",
+          "return_type": "?array",
+          "arguments": [
+            { "name": "document", "type": "mixed", "optional": false }
+          ]
+        },
+        "cursorToArray": {
+          "visibility": "protected",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "cursor", "type": "iterable", "optional": false }
+          ]
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Generic\\GenericMySQLRepository": {
+      "type": "abstract class",
+      "extends": "Maatify\\DataRepository\\Base\\BaseMySQLRepository",
+      "methods": {
+        "find": {
+          "visibility": "public",
+          "return_type": "?array",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false }
+          ]
+        },
+        "findBy": {
+          "visibility": "public",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false },
+            { "name": "orderBy", "type": "array<string, string>|null", "optional": true },
+            { "name": "limit", "type": "int|null", "optional": true },
+            { "name": "offset", "type": "int|null", "optional": true }
+          ]
+        },
+        "findOneBy": {
+          "visibility": "public",
+          "return_type": "?array",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "findAll": {
+          "visibility": "public",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": []
+        },
+        "count": {
+          "visibility": "public",
+          "return_type": "int",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": true }
+          ]
+        },
+        "insert": {
+          "visibility": "public",
+          "return_type": "int|string",
+          "arguments": [
+            { "name": "data", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "update": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false },
+            { "name": "data", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "delete": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false }
+          ]
+        },
+        "getMysqlOps": {
+          "visibility": "protected",
+          "return_type": "Maatify\\DataRepository\\Generic\\Support\\MysqlOps",
+          "arguments": []
+        },
+        "getPdo": {
+          "visibility": "protected",
+          "return_type": "PDO",
+          "arguments": []
+        },
+        "buildWhereClause": {
+          "visibility": "protected",
+          "return_type": "array",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false }
+          ]
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Generic\\GenericRedisRepository": {
+      "type": "abstract class",
+      "extends": "Maatify\\DataRepository\\Base\\BaseRedisRepository",
+      "methods": {
+        "find": {
+          "visibility": "public",
+          "return_type": "?array",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false }
+          ]
+        },
+        "insert": {
+          "visibility": "public",
+          "return_type": "int|string",
+          "arguments": [
+            { "name": "data", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "update": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false },
+            { "name": "data", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "delete": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false }
+          ]
+        },
+        "findBy": {
+          "visibility": "public",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false },
+            { "name": "orderBy", "type": "array<string, string>|null", "optional": true },
+            { "name": "limit", "type": "int|null", "optional": true },
+            { "name": "offset", "type": "int|null", "optional": true }
+          ]
+        },
+        "findOneBy": {
+          "visibility": "public",
+          "return_type": "?array",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "findAll": {
+          "visibility": "public",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": []
+        },
+        "count": {
+          "visibility": "public",
+          "return_type": "int",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": true }
+          ]
+        },
+        "getRedisOps": {
+          "visibility": "protected",
+          "return_type": "Maatify\\DataRepository\\Generic\\Support\\RedisOps",
+          "arguments": []
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Logging\\RepositoryLogger": {
+      "type": "class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "wrappedLogger", "type": "Psr\\Log\\LoggerInterface", "optional": false }
+          ]
+        },
+        "log": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "level", "type": "mixed", "optional": false },
+            { "name": "message", "type": "string|Stringable", "optional": false },
+            { "name": "context", "type": "array", "optional": true }
+          ]
+        }
+      }
+    },
+
+    "Maatify\\DataRepository\\Resolver\\RepositoryResolver": {
+      "type": "class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "logger", "type": "?Psr\\Log\\LoggerInterface", "optional": true }
+          ]
+        },
+        "getAdapter": {
+          "visibility": "public",
+          "return_type": "Maatify\\Common\\Contracts\\Adapter\\AdapterInterface",
+          "arguments": [
+            { "name": "name", "type": "string", "optional": false }
+          ]
+        },
+        "hasAdapter": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": [
+            { "name": "name", "type": "string", "optional": false }
+          ]
+        },
+        "registerAdapter": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "name", "type": "string", "optional": false },
+            { "name": "adapter", "type": "Maatify\\Common\\Contracts\\Adapter\\AdapterInterface", "optional": false }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,432 @@
+{
+  "roadmap_version": "1.0.0",
+  "project": "maatify/data-repository",
+
+  "note": "Core repository runtime for the entire Maatify ecosystem. Repository must remain adapter-agnostic and behave identically across FakeAdapters and RealAdapters. This roadmap reflects 20 ultra-modular phases optimized for clean executor execution and maximum flexibility.",
+
+  "phases": [
+
+    {
+      "id": "phase1",
+      "title": "Bootstrap, Exceptions, Resolver",
+      "version": "1.0.0",
+      "status": "completed",
+      "summary": "Project foundation, exceptions, resolver skeleton, directory structure, CI base.",
+      "tasks": [
+        "Initialize composer.json",
+        "Setup namespace Maatify\\\\DataRepository",
+        "Add RepositoryException",
+        "Add RepositoryResolver",
+        "Add bootstrap integration using EnvHelper",
+        "Add logging entrypoints",
+        "Setup PHPUnit + phpstan",
+        "Initial README + CHANGELOG"
+      ],
+      "outputs": [
+        "composer.json",
+        "src/Exceptions/RepositoryException.php",
+        "src/Resolver/RepositoryResolver.php",
+        "README.md",
+        "CHANGELOG.md"
+      ],
+      "tests": [
+        "tests/Smoke/FakeSmokeTest.php",
+        "tests/Smoke/RealSmokeTest.php"
+      ]
+    },
+
+    {
+      "id": "phase2",
+      "title": "Base Repository Layer (MySQL, Redis, Mongo)",
+      "version": "1.0.0",
+      "status": "completed",
+      "summary": "BaseRepository + BaseMySQL + BaseRedis + BaseMongo unifying driver access, adapter validation, and logging.",
+      "tasks": [
+        "Implement BaseRepository",
+        "Add BaseMySQLRepository",
+        "Add BaseRedisRepository",
+        "Add BaseMongoRepository",
+        "Normalize driver extraction",
+        "AdapterInterface validation",
+        "Logging hooks"
+      ],
+      "outputs": [
+        "src/Base/BaseRepository.php",
+        "src/Base/BaseMySQLRepository.php",
+        "src/Base/BaseRedisRepository.php",
+        "src/Base/BaseMongoRepository.php",
+        "README.phase2.md"
+      ],
+      "tests": [
+        "tests/Base/Fake/*",
+        "tests/Base/Real/*"
+      ]
+    },
+
+    {
+      "id": "phase3",
+      "title": "CRUD Layer — Basic CRUD (MySQL / Redis / Mongo)",
+      "version": "1.0.1",
+      "status": "completed",
+      "summary": "Implement basic CRUD for three adapters with minimal filtering and result validation.",
+      "tasks": [
+        "Implement find, findOne, findAll",
+        "Implement insert, update, delete",
+        "Add minimal filters (=)",
+        "Normalize primitive return formats",
+        "Add basic tests for fake + real drivers"
+      ],
+      "outputs": [
+        "src/Generic/GenericMySQLRepository.php",
+        "src/Generic/GenericMongoRepository.php",
+        "src/Generic/GenericRedisRepository.php",
+        "README.phase3.md"
+      ],
+      "tests": [
+        "tests/Generic/Fake/*Basic*",
+        "tests/Generic/Real/*Basic*"
+      ]
+    },
+
+    {
+      "id": "phase4",
+      "title": "Advanced Filtering",
+      "version": "1.0.1",
+      "status": "completed",
+      "summary": "Add advanced filters: AND/OR, IN, LIKE, ranges, nested conditions.",
+      "tasks": [
+        "Implement IN / NOT IN / LIKE",
+        "Implement range filters (> < >= <=)",
+        "Add nested filters",
+        "Shared filtering utilities",
+        "Driver normalization (PDO/Redis/Mongo)"
+      ],
+      "outputs": [
+        "src/Generic/Support/FilterUtils.php",
+        "README.phase4.md"
+      ],
+      "tests": [
+        "tests/Generic/Fake/Filters/*",
+        "tests/Generic/Real/Filters/*"
+      ]
+    },
+
+    {
+      "id": "phase5",
+      "title": "Ordering & Sorting",
+      "version": "1.0.1",
+      "status": "pending",
+      "summary": "Add unified sorting (orderBy) across all adapters.",
+      "tasks": [
+        "Support multi-column orderBy",
+        "Normalize ASC/DESC",
+        "Add safe order validation"
+      ],
+      "outputs": [
+        "src/Generic/Support/OrderUtils.php",
+        "README.phase5.md"
+      ],
+      "tests": [
+        "tests/Generic/Fake/Ordering/*",
+        "tests/Generic/Real/Ordering/*"
+      ]
+    },
+
+    {
+      "id": "phase6",
+      "title": "Limits & Offsets",
+      "version": "1.0.1",
+      "status": "pending",
+      "summary": "Add limit + offset support, adapter-normalized.",
+      "tasks": [
+        "Implement limit/offset",
+        "Adapter-safe bounds validation"
+      ],
+      "outputs": [
+        "README.phase6.md"
+      ],
+      "tests": [
+        "tests/Generic/*LimitOffset*"
+      ]
+    },
+
+    {
+      "id": "phase7",
+      "title": "Result Normalization Layer",
+      "version": "1.0.1",
+      "status": "pending",
+      "summary": "Unify all repository outputs before hydration.",
+      "tasks": [
+        "Create NormalizedResult structure",
+        "Normalize associative keys",
+        "Normalize ID types",
+        "Ensure identical fake/real output behavior"
+      ],
+      "outputs": [
+        "src/Generic/Support/ResultNormalizer.php",
+        "README.phase7.md"
+      ],
+      "tests": [
+        "tests/Generic/*Normalization*"
+      ]
+    },
+
+    {
+      "id": "phase8",
+      "title": "CRUD Edge Cases",
+      "version": "1.0.1",
+      "status": "pending",
+      "summary": "Handle NULLs, missing fields, partial updates, invalid types.",
+      "tasks": [
+        "Test null values",
+        "Test partial update behavior",
+        "Test invalid types",
+        "Standardize error messages"
+      ],
+      "outputs": [
+        "README.phase8.md"
+      ],
+      "tests": [
+        "tests/Generic/*EdgeCases*"
+      ]
+    },
+
+    {
+      "id": "phase9",
+      "title": "Generic Ops Integration (MysqlOps / RedisOps / MongoOps)",
+      "version": "1.0.2",
+      "status": "pending",
+      "summary": "Deep integration of low-level ops wrappers and removal of duplication.",
+      "tasks": [
+        "Integrate MysqlOps",
+        "Integrate RedisOps",
+        "Integrate MongoOps",
+        "Add driver-level fallback tests"
+      ],
+      "outputs": [
+        "src/Generic/Support/MysqlOps.php",
+        "src/Generic/Support/MongoOps.php",
+        "src/Generic/Support/RedisOps.php",
+        "README.phase9.md"
+      ],
+      "tests": [
+        "tests/Generic/*Ops*"
+      ]
+    },
+
+    {
+      "id": "phase10",
+      "title": "Pagination Hooks (Preparation Only)",
+      "version": "1.0.2",
+      "status": "pending",
+      "summary": "Prepare pagination pipelines without executing hydration yet.",
+      "tasks": [
+        "Add PaginationEntry",
+        "Add pagination context",
+        "Prepare meta info (count)"
+      ],
+      "outputs": [
+        "README.phase10.md"
+      ],
+      "tests": []
+    },
+
+    {
+      "id": "phase11",
+      "title": "HydratorInterface + Pipeline Contract",
+      "version": "1.0.2",
+      "status": "pending",
+      "summary": "Define hydration contracts and metadata.",
+      "tasks": [
+        "Define HydratorInterface",
+        "Add HydrationContext object",
+        "Define pipeline stages"
+      ],
+      "outputs": [
+        "src/Hydration/HydratorInterface.php",
+        "src/Hydration/HydrationContext.php",
+        "README.phase11.md"
+      ],
+      "tests": [
+        "tests/Hydration/*Interface*"
+      ]
+    },
+
+    {
+      "id": "phase12",
+      "title": "BaseHydrator + Pipeline Execution",
+      "version": "1.0.2",
+      "status": "pending",
+      "summary": "Implement base hydrator and processing pipeline.",
+      "tasks": [
+        "Add BaseHydrator",
+        "Implement pipeline executor",
+        "Add hydration hooks"
+      ],
+      "outputs": [
+        "src/Hydration/BaseHydrator.php",
+        "README.phase12.md"
+      ],
+      "tests": [
+        "tests/Hydration/*Base*"
+      ]
+    },
+
+    {
+      "id": "phase13",
+      "title": "AutoCasting System",
+      "version": "1.0.3",
+      "status": "pending",
+      "summary": "Add automatic scalar casting + datetime + JSON casting.",
+      "tasks": [
+        "Implement int/bool/float casting",
+        "Implement datetime casting",
+        "Implement JSON field casting",
+        "Integrate into BaseHydrator"
+      ],
+      "outputs": [
+        "src/Hydration/AutoCaster.php",
+        "README.phase13.md"
+      ],
+      "tests": [
+        "tests/Hydration/*Casting*"
+      ]
+    },
+
+    {
+      "id": "phase14",
+      "title": "DTO Mapping + Hydration Profiles",
+      "version": "1.0.3",
+      "status": "pending",
+      "summary": "Add DTO mapping, profiles, and transformers.",
+      "tasks": [
+        "Add MappingProfile",
+        "Add transformers",
+        "Integrate DTO hydration in Generic repositories"
+      ],
+      "outputs": [
+        "src/Hydration/MappingProfile.php",
+        "README.phase14.md"
+      ],
+      "tests": [
+        "tests/Hydration/*DTO*"
+      ]
+    },
+
+    {
+      "id": "phase15",
+      "title": "Pagination Core (Hydration-Aware)",
+      "version": "1.0.4",
+      "status": "pending",
+      "summary": "Full paginate() + paginateBy() returning PaginationDTO + PaginationResultDTO.",
+      "tasks": [
+        "Implement paginate()",
+        "Implement paginateBy()",
+        "Calculate total_pages, remaining"
+      ],
+      "outputs": [
+        "README.phase15.md"
+      ],
+      "tests": [
+        "tests/Pagination/Fake/*",
+        "tests/Pagination/Real/*"
+      ]
+    },
+
+    {
+      "id": "phase16",
+      "title": "Adapter-Specific Pagination Optimization",
+      "version": "1.0.4",
+      "status": "pending",
+      "summary": "Optimize pagination for PDO, Mongo, Redis.",
+      "tasks": [
+        "MySQL LIMIT-OFFSET",
+        "Mongo skip/limit",
+        "Redis SCAN-like pagination",
+        "Fake + real behavioral matching"
+      ],
+      "outputs": [
+        "README.phase16.md"
+      ],
+      "tests": [
+        "tests/Pagination/*Optimization*"
+      ]
+    },
+
+    {
+      "id": "phase17",
+      "title": "Paginated Hydrated Results",
+      "version": "1.0.4",
+      "status": "pending",
+      "summary": "Combine hydration pipeline + pagination metadata seamlessly.",
+      "tasks": [
+        "Integrate hydration into pagination output",
+        "Add HydratedPaginationCollection"
+      ],
+      "outputs": [
+        "README.phase17.md"
+      ],
+      "tests": [
+        "tests/Pagination/*Hydrated*"
+      ]
+    },
+
+    {
+      "id": "phase18",
+      "title": "Integration With data-fakes + data-integrations",
+      "version": "1.0.5",
+      "status": "pending",
+      "summary": "Ensure fake + real adapters match identically; full integration tests.",
+      "tasks": [
+        "Fake-vs-Real matrix suite",
+        "IntegrationValidator tests"
+      ],
+      "outputs": [
+        "README.phase18.md"
+      ],
+      "tests": [
+        "tests/Integration/*"
+      ]
+    },
+
+    {
+      "id": "phase19",
+      "title": "Documentation & Examples",
+      "version": "1.0.5",
+      "status": "pending",
+      "summary": "Generate complete README.full.md and usage examples.",
+      "tasks": [
+        "Finalize docs",
+        "Add usage examples",
+        "Add API map"
+      ],
+      "outputs": [
+        "README.full.md",
+        "examples/*",
+        "README.phase19.md"
+      ],
+      "tests": []
+    },
+
+    {
+      "id": "phase20",
+      "title": "Final Release v1.0.0",
+      "version": "1.0.5",
+      "status": "pending",
+      "summary": "Final polish → tag release → publish to Packagist.",
+      "tasks": [
+        "Generate release notes",
+        "Finalize CHANGELOG",
+        "Tag version v1.0.0",
+        "Publish"
+      ],
+      "outputs": [
+        "release-notes.md",
+        "CHANGELOG.md",
+        "README.phase20.md"
+      ],
+      "tests": []
+    }
+
+  ]
+}

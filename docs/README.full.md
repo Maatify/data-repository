@@ -216,16 +216,17 @@ src/
 │   ├── BaseMongoRepository.php
 │   └── BaseRedisRepository.php
 │
-├── Generic/          # Phase 3 — Generic CRUD Repositories + Support Ops
+├── Generic/          # Phase 3 — Generic CRUD Repositories
 │   ├── GenericMongoRepository.php
 │   ├── GenericMySQLRepository.php
 │   ├── GenericRedisRepository.php
 │   └── Support/
+│       ├── FilterUtils.php  # Phase 4 — Advanced Filtering
 │       ├── MysqlOps.php
 │       ├── MongoOps.php
 │       └── RedisOps.php
 │
-└── Hydration/        # Phase 4 — DTO Mapping & Object Hydration
+└── Hydration/        # Phase 11 — DTO Mapping & Object Hydration
 
 ```
 
@@ -233,15 +234,15 @@ src/
 
 ## 📅 Roadmap & Phase Status
 
-> The executor/roadmap engine drives this library in phases. The table below reflects the **current repository state**, not the long‑term roadmap promises.
+> The executor/roadmap engine drives this library in phases. The table below reflects the **current repository state**.
 
 | Phase | Module                                      | Status         | Notes                       |
 |-------|---------------------------------------------|----------------|-----------------------------|
 | 1     | Bootstrap + Resolver + Exceptions           | ✅ Completed    | Project foundation ready    |
 | 2     | Base Repositories (MySQL / Redis / Mongo)   | ✅ Completed    | Drivers unified             |
-| 3     | CRUD Layer + Basic Filtering                | 🚧 In Progress | Implementing CRUD + filters |
-| 4     | Hydration Layer (DTO Mapping, Transformers) | ⏳ Pending      | Starts after CRUD           |
-| 5     | Release Polish (CI, tests, cleanup, docs)   | ⏳ Pending      | For stable v1.0.0           |
+| 3     | CRUD Layer + Basic Filtering                | ✅ Completed    | Implementing CRUD + filters |
+| 4     | Advanced Filtering (IN, LIKE, Ranges)       | ✅ Completed    | SQL & Mongo                 |
+| 5     | Ordering & Sorting                          | ⏳ Pending      | Next Phase                  |
 
 ---
 
@@ -256,10 +257,8 @@ src/
 - **Phase 3 — Generic Repository Implementations**  
   [`phases/README.phase3.md`](phases/README.phase3.md)
 
-- **Phase 4 — Add typed hydration for repositories with DTO hydration capability**  
+- **Phase 4 — Advanced Filtering**
   [`phases/README.phase4.md`](phases/README.phase4.md)
-
-- **Phase 5 — Finalize documentation and publish a stable version.**  
 
 ---
 

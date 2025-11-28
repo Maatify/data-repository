@@ -2,7 +2,7 @@
 
 /**
  * @copyright   ©2025 Maatify.dev
- * @Liberary    maatify/data-repository
+ * @Library    maatify/data-repository
  * @Project     maatify:data-repository
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since       2025-11-25 03:03
@@ -17,6 +17,7 @@ namespace Maatify\DataRepository\Generic;
 
 use Maatify\DataRepository\Base\BaseMongoRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Generic\Support\FilterUtils;
 use Maatify\DataRepository\Generic\Support\MongoOps;
 use MongoDB\Collection;
 use MongoDB\BSON\ObjectId;
@@ -49,6 +50,8 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
+        $normalizedFilters = FilterUtils::buildMongoFilter($filters);
+
         $options = [];
         if ($orderBy) {
             $options['sort'] = $orderBy;
@@ -60,7 +63,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $options['skip'] = $offset;
         }
 
-        $cursor = $this->getCollectionObj()->find($filters, $options);
+        $cursor = $this->getCollectionObj()->find($normalizedFilters, $options);
 
         return $this->cursorToArray($cursor);
     }
@@ -73,8 +76,10 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function findOneBy(array $filters): ?array
     {
+        $normalizedFilters = FilterUtils::buildMongoFilter($filters);
+
         /** @var array<string, mixed>|object|null $result */
-        $result = $this->getCollectionObj()->findOne($filters);
+        $result = $this->getCollectionObj()->findOne($normalizedFilters);
 
         return $this->toArray($result);
     }
@@ -95,7 +100,9 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function count(array $filters = []): int
     {
-        return $this->getCollectionObj()->countDocuments($filters);
+        $normalizedFilters = FilterUtils::buildMongoFilter($filters);
+
+        return $this->getCollectionObj()->countDocuments($normalizedFilters);
     }
 
     /**
