@@ -1,6 +1,38 @@
 {
   "version": "1.0.0",
   "classes": {
+    "Maatify\\DataRepository\\Generic\\Support\\LimitOffsetValidator": {
+      "type": "class",
+      "methods": {
+        "validate": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "void",
+          "arguments": [
+            { "name": "limit", "type": "int|null", "optional": true },
+            { "name": "offset", "type": "int|null", "optional": true }
+          ]
+        },
+        "normalize": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "limit", "type": "int|null", "optional": true },
+            { "name": "offset", "type": "int|null", "optional": true }
+          ]
+        },
+        "validateAndNormalize": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "limit", "type": "int|null", "optional": true },
+            { "name": "offset", "type": "int|null", "optional": true }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Generic\\Support\\FilterUtils": {
       "type": "class",
       "methods": {

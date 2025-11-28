@@ -2,10 +2,13 @@
 
 /**
  * @copyright   ©2025 Maatify.dev
- * @Liberary    maatify/data-repository
+ * @Library     maatify/data-repository
  * @Project     maatify:data-repository
- * @author      Mohamed Abdulalim (megyptm)
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since       2025-11-28 23:15
+ * @see         https://www.maatify.dev Maatify.dev
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
  */
 
 declare(strict_types=1);
@@ -104,7 +107,4 @@ class LimitOffsetValidator
 
         return self::normalize($limit, $offset);
     }
-
-
-
 }

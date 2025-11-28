@@ -51,6 +51,7 @@ Perfect for production AND deterministic testing.
 * **Advanced Features**
     * Unified Filtering (`IN`, `LIKE`, Ranges)
     * Unified Sorting (`ASC`/`DESC`, multi-column)
+    * **Limits & Offsets** (Strict Validation)
     * JSON column querying (MySQL)
 * **Zero native driver exposure**
   Everything uses `AdapterInterface`.
@@ -227,6 +228,7 @@ src/
 │   └── Support/
 │       ├── FilterUtils.php  # Phase 4 — Advanced Filtering
 │       ├── OrderUtils.php   # Phase 5 — Ordering & Sorting
+│       ├── LimitOffsetValidator.php # Phase 6 — Limits & Offsets
 │       ├── MysqlOps.php
 │       ├── MongoOps.php
 │       └── RedisOps.php
@@ -248,6 +250,7 @@ src/
 | 3     | CRUD Layer + Basic Filtering                | ✅ Completed    | Implementing CRUD + filters |
 | 4     | Advanced Filtering (IN, LIKE, Ranges)       | ✅ Completed    | SQL & Mongo                 |
 | 5     | Ordering & Sorting                          | ✅ Completed    | SQL, Mongo, Array Sorting   |
+| 6     | Limits & Offsets                            | ✅ Completed    | Unified Validation          |
 
 ---
 
@@ -267,6 +270,9 @@ src/
 
 - **Phase 5 — Ordering & Sorting**
   [`phases/README.phase5.md`](phases/README.phase5.md)
+
+- **Phase 6 — Limits & Offsets**
+  [`phases/README.phase6.md`](phases/README.phase6.md)
 
 ---
 
