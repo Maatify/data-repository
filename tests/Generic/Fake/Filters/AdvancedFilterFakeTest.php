@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\Generic\Fake\Filters;
+declare(strict_types=1);
+
+namespace Maatify\DataRepository\Tests\Generic\Fake\Filters;
 
 use InvalidArgumentException;
 use Maatify\DataRepository\Generic\Support\FilterUtils;
@@ -22,7 +24,7 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['status' => 'active'];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`status` = :p0", $sql);
+        $this->assertStringContainsString('`status` = :p0', $sql);
         $this->assertEquals(['p0' => 'active'], $params);
     }
 
@@ -31,7 +33,7 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['deleted_at' => null];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`deleted_at` IS NULL", $sql);
+        $this->assertStringContainsString('`deleted_at` IS NULL', $sql);
         $this->assertEmpty($params);
     }
 
@@ -61,7 +63,7 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['status' => ['IN' => ['active', 'pending']]];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`status` IN (:p0_IN_0, :p0_IN_1)", $sql);
+        $this->assertStringContainsString('`status` IN (:p0_IN_0, :p0_IN_1)', $sql);
         $this->assertEquals('active', $params['p0_IN_0']);
         $this->assertEquals('pending', $params['p0_IN_1']);
     }
@@ -71,7 +73,7 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['status' => ['IN' => []]];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("1=0", $sql); // False condition
+        $this->assertStringContainsString('1=0', $sql); // False condition
     }
 
     public function testBuildSqlWhere_NotInOperator_Empty(): void
@@ -79,7 +81,7 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['status' => ['NOT IN' => []]];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("1=1", $sql); // True condition
+        $this->assertStringContainsString('1=1', $sql); // True condition
     }
 
     public function testBuildSqlWhere_InOperator_InvalidType(): void
@@ -93,7 +95,7 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['age' => ['BETWEEN' => [18, 65]]];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`age` BETWEEN :p0_BETWEEN_1 AND :p0_BETWEEN_2", $sql);
+        $this->assertStringContainsString('`age` BETWEEN :p0_BETWEEN_1 AND :p0_BETWEEN_2', $sql);
         $this->assertEquals(18, $params['p0_BETWEEN_1']);
         $this->assertEquals(65, $params['p0_BETWEEN_2']);
     }
@@ -109,7 +111,7 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['name' => ['LIKE' => '%John%']];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`name` LIKE :p0_LIKE", $sql);
+        $this->assertStringContainsString('`name` LIKE :p0_LIKE', $sql);
         $this->assertEquals('%John%', $params['p0_LIKE']);
     }
 
@@ -118,7 +120,7 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['deleted_at' => ['IS NULL' => true]]; // Value ignored
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`deleted_at` IS NULL", $sql);
+        $this->assertStringContainsString('`deleted_at` IS NULL', $sql);
     }
 
     public function testBuildSqlWhere_IsNotNullOperator(): void
@@ -126,7 +128,7 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['deleted_at' => ['IS NOT NULL' => true]];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`deleted_at` IS NOT NULL", $sql);
+        $this->assertStringContainsString('`deleted_at` IS NOT NULL', $sql);
     }
 
     // --- Mongo Filter Builder Tests ---

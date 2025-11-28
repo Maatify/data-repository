@@ -40,11 +40,11 @@ class GenericMongoRepositoryBuildIdFilterTest extends TestCase
         $client = $this->createMock(\MongoDB\Client::class);
 
         $adapter = new class ($db, $client) implements AdapterInterface {
-
             public function __construct(
                 private \MongoDB\Database $db,
                 private \MongoDB\Client $client
-            ) {}
+            ) {
+            }
 
             /** @return \MongoDB\Database */
             public function getDriver(): mixed
@@ -58,19 +58,34 @@ class GenericMongoRepositoryBuildIdFilterTest extends TestCase
                 return $this->client;
             }
 
-            public function getType(): string { return 'mongo'; }
-            public function connect(): void {}
-            public function isConnected(): bool { return true; }
-            public function disconnect(): void {}
-            public function debugConfig(): object { return (object) []; }
-            public function healthCheck(): bool { return true; }
+            public function getType(): string
+            {
+                return 'mongo';
+            }
+            public function connect(): void
+            {
+            }
+            public function isConnected(): bool
+            {
+                return true;
+            }
+            public function disconnect(): void
+            {
+            }
+            public function debugConfig(): object
+            {
+                return (object) [];
+            }
+            public function healthCheck(): bool
+            {
+                return true;
+            }
         };
 
-        $this->repo = new class($adapter) extends GenericMongoRepository {
+        $this->repo = new class ($adapter) extends GenericMongoRepository {
             protected string $collectionName = 'dummy';
         };
     }
-
 
     /**
      * @return array<string, mixed>
