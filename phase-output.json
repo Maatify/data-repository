@@ -204,5 +204,46 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase5",
+    "timestamp": "2025-11-25T05:10:00+02:00",
+    "status": "completed",
+    "summary": "Ordering & Sorting (OrderUtils, Generic Implementations) implemented.",
+    "changes": {
+      "added": [
+        "src/Generic/Support/OrderUtils.php",
+        "tests/Generic/Fake/Ordering/OrderingFakeTest.php",
+        "tests/Generic/Real/Ordering/OrderingRealTest.php",
+        "docs/phases/README.phase5.md",
+        "examples/phase5/ordering_example.php"
+      ],
+      "updated": [
+        "src/Generic/GenericMySQLRepository.php",
+        "src/Generic/GenericMongoRepository.php",
+        "src/Generic/GenericRedisRepository.php",
+        "phase-output.json",
+        "api-map.json"
+      ]
+    },
+    "tests": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0,
+      "coverage": "Unknown",
+      "notes": "Tests created but execution skipped due to missing environment (PHP/Composer)."
+    },
+    "git_patch": "phase5.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Generic\\Support\\OrderUtils": {
+        "type": "class",
+        "methods": {
+          "normalize": { "return": "array", "visibility": "public", "static": true },
+          "buildSqlOrderBy": { "return": "string", "visibility": "public", "static": true },
+          "buildMongoSort": { "return": "array", "visibility": "public", "static": true },
+          "sortArray": { "return": "array", "visibility": "public", "static": true }
+        }
+      }
+    }
   }
 ]

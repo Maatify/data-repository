@@ -115,7 +115,7 @@
       "id": "phase5",
       "title": "Ordering & Sorting",
       "version": "1.0.1",
-      "status": "pending",
+      "status": "completed",
       "summary": "Add unified sorting (orderBy) across all adapters.",
       "tasks": [
         "Support multi-column orderBy",

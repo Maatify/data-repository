@@ -48,6 +48,10 @@ Perfect for production AND deterministic testing.
     * `maatify/data-fakes` for deterministic CI testing
     * `maatify/psr-logger` for logging
     * `maatify/bootstrap` for environment config
+* **Advanced Features**
+    * Unified Filtering (`IN`, `LIKE`, Ranges)
+    * Unified Sorting (`ASC`/`DESC`, multi-column)
+    * JSON column querying (MySQL)
 * **Zero native driver exposure**
   Everything uses `AdapterInterface`.
 
@@ -222,6 +226,7 @@ src/
 │   ├── GenericRedisRepository.php
 │   └── Support/
 │       ├── FilterUtils.php  # Phase 4 — Advanced Filtering
+│       ├── OrderUtils.php   # Phase 5 — Ordering & Sorting
 │       ├── MysqlOps.php
 │       ├── MongoOps.php
 │       └── RedisOps.php
@@ -242,7 +247,7 @@ src/
 | 2     | Base Repositories (MySQL / Redis / Mongo)   | ✅ Completed    | Drivers unified             |
 | 3     | CRUD Layer + Basic Filtering                | ✅ Completed    | Implementing CRUD + filters |
 | 4     | Advanced Filtering (IN, LIKE, Ranges)       | ✅ Completed    | SQL & Mongo                 |
-| 5     | Ordering & Sorting                          | ⏳ Pending      | Next Phase                  |
+| 5     | Ordering & Sorting                          | ✅ Completed    | SQL, Mongo, Array Sorting   |
 
 ---
 
@@ -259,6 +264,9 @@ src/
 
 - **Phase 4 — Advanced Filtering**
   [`phases/README.phase4.md`](phases/README.phase4.md)
+
+- **Phase 5 — Ordering & Sorting**
+  [`phases/README.phase5.md`](phases/README.phase5.md)
 
 ---
 

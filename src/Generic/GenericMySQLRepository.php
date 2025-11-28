@@ -19,6 +19,7 @@ use Maatify\DataRepository\Base\BaseMySQLRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\FilterUtils;
 use Maatify\DataRepository\Generic\Support\MysqlOps;
+use Maatify\DataRepository\Generic\Support\OrderUtils;
 use PDO;
 
 abstract class GenericMySQLRepository extends BaseMySQLRepository
@@ -57,15 +58,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
         $sql = "SELECT * FROM `{$this->tableName}` {$where}";
 
         if (! empty($orderBy)) {
-            $sorts = [];
-            foreach ($orderBy as $col => $dir) {
-                if (preg_match('/^[a-zA-Z0-9_]+$/', $col) && in_array(strtoupper($dir), ['ASC', 'DESC'], true)) {
-                    $sorts[] = "`{$col}` {$dir}";
-                }
-            }
-            if (! empty($sorts)) {
-                $sql .= ' ORDER BY ' . implode(', ', $sorts);
-            }
+            $sql .= ' ' . OrderUtils::buildSqlOrderBy($orderBy);
         }
 
         if ($limit !== null) {
