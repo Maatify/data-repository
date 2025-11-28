@@ -195,4 +195,90 @@ class OrderingFakeTest extends TestCase
 
         $this->assertSame($expected, OrderUtils::merge($o1, $o2));
     }
+
+    public function testCompareNulls(): void
+    {
+        $this->assertSame(0, OrderUtils::compareValues(null, null));
+        $this->assertSame(-1, OrderUtils::compareValues(null, 5));
+        $this->assertSame(1, OrderUtils::compareValues(10, null));
+    }
+
+    public function testCompareNumbers(): void
+    {
+        $this->assertSame(-1, OrderUtils::compareValues(1, 2));
+        $this->assertSame(1, OrderUtils::compareValues(5, 3));
+        $this->assertSame(0, OrderUtils::compareValues(10, 10));
+
+        // Non-numeric — should fall back to 0
+        $this->assertSame(0, OrderUtils::compareValues('a', 10));
+        $this->assertSame(0, OrderUtils::compareValues(10, 'a'));
+    }
+
+    public function testCompareBooleans(): void
+    {
+        $this->assertSame(-1, OrderUtils::compareValues(false, true));
+        $this->assertSame(1, OrderUtils::compareValues(true, false));
+        $this->assertSame(0, OrderUtils::compareValues(true, true));
+
+        // Non-bool fallback
+        $this->assertSame(0, OrderUtils::compareValues(true, 1));
+    }
+
+    public function testCompareDates(): void
+    {
+        $d1 = new DateTime('2024-01-01');
+        $d2 = new DateTime('2024-02-01');
+
+        $this->assertSame(-1, OrderUtils::compareValues($d1, $d2));
+        $this->assertSame(1, OrderUtils::compareValues($d2, $d1));
+        $this->assertSame(0, OrderUtils::compareValues($d1, $d1));
+
+        // Non-date fallback
+        $this->assertSame(0, OrderUtils::compareValues($d1, '2024-01-01'));
+    }
+
+    public function testIsComparableScalar(): void
+    {
+        $ref = new \ReflectionMethod(OrderUtils::class, 'isComparableScalar');
+        $ref->setAccessible(true);
+
+        $this->assertTrue($ref->invoke(null, 'abc'));
+        $this->assertTrue($ref->invoke(null, 123));
+        $this->assertTrue($ref->invoke(null, 12.5));
+
+        $this->assertFalse($ref->invoke(null, null));
+        $this->assertFalse($ref->invoke(null, []));
+        $this->assertFalse($ref->invoke(null, new \stdClass()));
+    }
+
+    public function testCompareValuesFull(): void
+    {
+        // Nulls
+        $this->assertSame(-1, OrderUtils::compareValues(null, 1));
+
+        // Numbers
+        $this->assertSame(-1, OrderUtils::compareValues(1, 2));
+
+        // Booleans
+        $this->assertSame(-1, OrderUtils::compareValues(false, true));
+
+        // Strings
+        $this->assertSame(-1, OrderUtils::compareValues('a', 'b'));
+        $this->assertSame(0, OrderUtils::compareValues('abc', 'abc'));
+
+        // Incomparable
+        $this->assertSame(0, OrderUtils::compareValues(['a'], ['b']));
+    }
+
+    public function testIsValidDirectionEdgeCases(): void
+    {
+        $this->assertFalse(OrderUtils::isValidDirection(''));
+        $this->assertFalse(OrderUtils::isValidDirection('asc '));
+        $this->assertFalse(OrderUtils::isValidDirection(' ASC '));
+
+        // Lowercase mixed
+        $this->assertTrue(OrderUtils::isValidDirection('aSc'));
+    }
+
+
 }
