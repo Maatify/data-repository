@@ -131,16 +131,12 @@ final class OrderUtils
             )
         );
 
-        //        $safeJsonPath = addslashes($jsonPath);
-        //
-        //        return "JSON_UNQUOTE(JSON_EXTRACT({$quoted}, '{$safeJsonPath}')) {$safeDir}";
-
         $safeJsonPath = addslashes($jsonPath);
         if ($safeJsonPath === '') {
             return '';
         }
 
-        // Ensure JSON path begins with '$'
+        // Ensure the JSON path begins with '$'
         if ($safeJsonPath[0] !== '$') {
             // Example cases:
             // user.level     → $.user.level
@@ -222,7 +218,7 @@ final class OrderUtils
     }
 
     /**
-     * Parses order-from-string: "name:ASC,age:DESC".
+     * Parses order-from-string: "name:ASC, age:DESC".
      *
      * @param string $orderString
      * @param non-empty-string $pairSeparator

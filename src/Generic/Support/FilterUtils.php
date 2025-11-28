@@ -19,13 +19,13 @@ use InvalidArgumentException;
 final class FilterUtils
 {
     /** @var array<int,string> */
-    private const ALLOWED_OPERATORS = [
+    private const array ALLOWED_OPERATORS = [
         '>', '<', '>=', '<=', '!=', '<>', 'LIKE',
         'IN', 'NOT IN', 'BETWEEN', 'IS NULL', 'IS NOT NULL',
     ];
 
     /** @var array<string,string> */
-    private const SQL_TO_MONGO = [
+    private const array SQL_TO_MONGO = [
         '>'      => '$gt',
         '<'      => '$lt',
         '>='     => '$gte',
@@ -38,14 +38,14 @@ final class FilterUtils
     ];
 
     /** @var array<int,string> */
-    private const SQL_RESERVED = [
+    private const array SQL_RESERVED = [
         'SELECT','INSERT','UPDATE','DELETE','DROP',
         'CREATE','ALTER','TABLE','FROM',
         'WHERE','JOIN','UNION','OR','AND','NOT',
     ];
 
     /** @var array<int,string> */
-    private const MONGO_RESERVED = [
+    private const array MONGO_RESERVED = [
         '$where', '$group', '$match',
     ];
 

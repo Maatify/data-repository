@@ -18,16 +18,16 @@ use Maatify\Bootstrap\Core\EnvironmentLoader;
 /**
  * 🧩 **Environment Bootstrapping Script**
  *
- * 🎯 **Purpose:**
+ * 🎯 **Purpose: **
  * Provides a minimal executable test script to validate environment
  * loading functionality via {@see EnvironmentLoader}.
  *
- * 🧠 **Behavior:**
+ * 🧠 **Behavior: **
  * - Loads environment variables from the `.env` file located at the project root.
  * - Ensures that configuration values are correctly parsed and stored in `$_ENV`.
  * - Prints the currently active application environment (APP_ENV).
  *
- * ✅ **Usage:**
+ * ✅ **Usage: **
  * ```bash
  * php tests/bootstrap.php
  * ```

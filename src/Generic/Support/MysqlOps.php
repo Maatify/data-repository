@@ -23,7 +23,7 @@ use PDO;
  * Small normalization wrapper for low–level MySQL drivers.
  *
  * Today it mainly wraps a PDO instance (or a PDO‑compatible fake),
- * but it is kept generic so it can be extended later if needed.
+ * but it is kept generic, so it can be extended later if needed.
  */
 final class MysqlOps
 {

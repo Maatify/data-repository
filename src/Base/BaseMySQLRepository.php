@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Base;
 
+use Doctrine\DBAL\Connection;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use PDO;
 
@@ -30,8 +31,8 @@ abstract class BaseMySQLRepository extends BaseRepository
         $driver = $this->adapter->getDriver();
 
         $isPdo = $driver instanceof PDO;
-        // removed is_object check to prevent redundancy warnings, assuming mixed driver
-        $isDbal = $driver instanceof \Doctrine\DBAL\Connection
+        // removed is_object check to prevent redundancy warnings, assuming a mixed driver
+        $isDbal = $driver instanceof Connection
                   || (is_object($driver) && str_contains(get_class($driver), 'Doctrine\DBAL\Connection'));
 
         $isFake = str_contains(get_class($this->adapter), 'FakeMySQLAdapter')

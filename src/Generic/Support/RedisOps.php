@@ -179,7 +179,7 @@ class RedisOps
         // As a last resort (for fakes that expose an internal `$store` without
         // a dedicated `keys()` API, e.g. FakeRedisAdapter), attempt to
         // introspect the public/protected/private `store` property via
-        // reflection. This keeps the repository adapter-agnostic while still
+        // reflection. This keeps the repository-adapter-agnostic while still
         // enabling efficient key scans in tests.
         try {
             $ref = new \ReflectionObject($this->driver);

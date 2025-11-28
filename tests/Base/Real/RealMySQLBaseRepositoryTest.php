@@ -7,7 +7,7 @@
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since       2025-11-25 01:38
  * @see         https://www.maatify.dev Maatify.com
- * @link        https://github.com/Maatify/data-repository  view project on GitHub
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
  * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
  */
 
@@ -27,6 +27,9 @@ class RealMySQLBaseRepositoryTest extends TestCase
 {
     use RealAdapterTrait;
 
+    /**
+     * @throws \Exception
+     */
     public function testAcceptsRealPdoAdapter(): void
     {
         if (!class_exists(MySQLAdapter::class)) {
@@ -100,6 +103,9 @@ class RealMySQLBaseRepositoryTest extends TestCase
         $this->assertInstanceOf(BaseMySQLRepository::class, $repo);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testAcceptsRealDbalAdapter(): void
     {
         if (!class_exists(MySQLDbalAdapter::class) || !class_exists(\Doctrine\DBAL\Connection::class)) {

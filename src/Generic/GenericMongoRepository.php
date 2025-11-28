@@ -7,7 +7,7 @@
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since       2025-11-25 03:03
  * @see         https://www.maatify.dev Maatify.com
- * @link        https://github.com/Maatify/data-repository  view project on GitHub
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
  * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
  */
 
@@ -176,6 +176,8 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
     /**
      * Lazily create a MongoOps helper wired to the current MongoDB collection.
+     *
+     * @throws RepositoryException
      */
     protected function getMongoOps(): MongoOps
     {

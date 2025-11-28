@@ -35,6 +35,9 @@ abstract class BaseRepository implements RepositoryInterface
         $this->logger = $logger ? new RepositoryLogger($logger) : new NullLogger();
     }
 
+    /**
+     * @throws RepositoryException
+     */
     public function setAdapter(AdapterInterface $adapter): static
     {
         $this->adapter = $adapter;
@@ -44,7 +47,7 @@ abstract class BaseRepository implements RepositoryInterface
     }
 
     /**
-     * Override in child classes to enforce specific adapter types (e.g., MySQL vs Mongo).
+     * Override in child classes to enforce specific adapter types (e.g., MySQL vs. Mongo).
      *
      * @throws RepositoryException
      */

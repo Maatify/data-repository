@@ -24,6 +24,9 @@ use Psr\Log\LoggerTrait;
 
 class RepositoryResolverTest extends TestCase
 {
+    /**
+     * @throws RepositoryException
+     */
     public function testRegisterAndRetrieveAdapter(): void
     {
         $adapter = new DummyAdapter();

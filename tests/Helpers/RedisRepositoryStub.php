@@ -88,7 +88,7 @@ class RedisRepositoryStub extends GenericRedisRepository
 
     public function getOps(): RedisOps
     {
-        // force initialize the ops (lazy load)
+        // force initializes the ops (lazy load)
         $this->getRedisOps();
 
         $ref = new \ReflectionClass(GenericRedisRepository::class);

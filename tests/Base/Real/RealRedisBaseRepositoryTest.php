@@ -7,7 +7,7 @@
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since       2025-11-25 01:39
  * @see         https://www.maatify.dev Maatify.com
- * @link        https://github.com/Maatify/data-repository  view project on GitHub
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
  * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
  */
 
@@ -27,6 +27,9 @@ class RealRedisBaseRepositoryTest extends TestCase
 {
     use RealAdapterTrait;
 
+    /**
+     * @throws \Exception
+     */
     public function testAcceptsPhpRedisAdapter(): void
     {
         if (!class_exists(RedisAdapter::class) || !extension_loaded('redis')) {
@@ -100,6 +103,9 @@ class RealRedisBaseRepositoryTest extends TestCase
         $this->assertInstanceOf(BaseRedisRepository::class, $repo);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testAcceptsPredisAdapter(): void
     {
         if (!class_exists(PredisAdapter::class) || !class_exists(\Predis\Client::class)) {

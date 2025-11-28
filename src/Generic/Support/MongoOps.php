@@ -41,7 +41,7 @@ final class MongoOps
     }
 
     /**
-     * Expose raw collection for advanced usages.
+     * Expose a raw collection for advanced usages.
      *
      * @return Collection|object
      */
