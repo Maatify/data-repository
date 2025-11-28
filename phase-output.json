@@ -159,21 +159,24 @@
       "added": [
         "src/Generic/Support/FilterUtils.php",
         "tests/Generic/Fake/Filters/AdvancedFilterFakeTest.php",
+        "examples/phase4/advanced_filtering_example.php",
         "README.phase4.md"
       ],
       "updated": [
         "src/Generic/GenericMySQLRepository.php",
         "src/Generic/GenericMongoRepository.php",
+        "tests/Generic/Fake/GenericMySQLRepositoryFakeTest.php",
         "api-map.json",
-        "roadmap.json"
+        "roadmap.json",
+        "docs/README.full.md"
       ]
     },
     "tests": {
-      "total": 4,
-      "passed": 4,
+      "total": 5,
+      "passed": 5,
       "failed": 0,
       "coverage": "100% (Filter Utils)",
-      "notes": "Verified SQL generation and Mongo normalization logic."
+      "notes": "Verified SQL generation, Mongo normalization logic, and repository integration exceptions."
     },
     "git_patch": "phase4.patch",
     "reflection": {
@@ -182,6 +185,22 @@
         "methods": {
           "buildSqlWhere": { "return": "array", "visibility": "public", "static": true },
           "buildMongoFilter": { "return": "array", "visibility": "public", "static": true }
+        }
+      },
+      "Maatify\\DataRepository\\Generic\\GenericMySQLRepository": {
+        "type": "abstract class",
+        "extends": "Maatify\\DataRepository\\Base\\BaseMySQLRepository",
+        "methods": {
+          "buildWhereClause": { "return": "array", "visibility": "protected" }
+        }
+      },
+      "Maatify\\DataRepository\\Generic\\GenericMongoRepository": {
+        "type": "abstract class",
+        "extends": "Maatify\\DataRepository\\Base\\BaseMongoRepository",
+        "methods": {
+          "findBy": { "return": "array", "visibility": "public" },
+          "findOneBy": { "return": "?array", "visibility": "public" },
+          "count": { "return": "int", "visibility": "public" }
         }
       }
     }

@@ -11,6 +11,23 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+## [1.0.1] — 2025-11-25
+
+### 🚀 Added
+- **Advanced Filtering (Phase 4)**
+    - Implemented `FilterUtils` for centralized filter parsing across SQL and NoSQL drivers.
+    - Added support for SQL/Mongo operators: `IN`, `NOT IN`, `LIKE`, `BETWEEN`, `IS NULL`, `IS NOT NULL`.
+    - Added support for range operators: `>`, `<`, `>=`, `<=`, `!=`.
+    - Added comprehensive tests ensuring 100% coverage of filtering logic.
+    - Added usage examples in `examples/phase4/`.
+
+### 🔧 Changed
+- **Strict Validation**
+    - `GenericMySQLRepository::findBy` now strictly validates column names and throws `InvalidArgumentException` for invalid or reserved columns (previously ignored).
+    - `GenericMongoRepository` now normalizes filters via `FilterUtils`.
+
+---
+
 ## [1.0.0] — 2025-11-25
 
 ### 🚀 Added
