@@ -245,5 +245,41 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase6",
+    "timestamp": "2025-11-25T05:55:00+02:00",
+    "status": "completed",
+    "summary": "Limits & Offsets (LimitOffsetValidator, Generic Integration) implemented.",
+    "changes": {
+      "added": [
+        "src/Generic/Support/LimitOffsetValidator.php",
+        "tests/Generic/LimitOffset/LimitOffsetValidatorTest.php",
+        "tests/Generic/LimitOffset/GenericMySQLRepositoryLimitTest.php",
+        "tests/Generic/LimitOffset/GenericMongoRepositoryLimitTest.php",
+        "docs/phases/README.phase6.md"
+      ],
+      "updated": [
+        "src/Generic/GenericMySQLRepository.php",
+        "src/Generic/GenericMongoRepository.php",
+        "phase-output.json"
+      ]
+    },
+    "tests": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0,
+      "coverage": "Unknown",
+      "notes": "Tests created but execution skipped due to missing environment (PHP/Composer)."
+    },
+    "git_patch": "phase6.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Generic\\Support\\LimitOffsetValidator": {
+        "type": "class",
+        "methods": {
+          "validate": { "return": "void", "visibility": "public", "static": true }
+        }
+      }
+    }
   }
 ]

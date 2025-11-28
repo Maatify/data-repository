@@ -18,6 +18,7 @@ namespace Maatify\DataRepository\Generic;
 use Maatify\DataRepository\Base\BaseMySQLRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\FilterUtils;
+use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use Maatify\DataRepository\Generic\Support\MysqlOps;
 use Maatify\DataRepository\Generic\Support\OrderUtils;
 use PDO;
@@ -53,6 +54,8 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
      */
     public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
+        LimitOffsetValidator::validate($limit, $offset);
+
         [$where, $params] = $this->buildWhereClause($filters);
 
         $sql = "SELECT * FROM `{$this->tableName}` {$where}";
