@@ -21,7 +21,8 @@ use Maatify\DataRepository\Exceptions\RepositoryException;
 // Note: This example assumes a bootstrap environment with connected adapters.
 
 // 1. MySQL Example
-class UserRepository extends GenericMySQLRepository {
+class UserRepository extends GenericMySQLRepository
+{
     protected string $tableName = 'users';
 }
 
@@ -29,7 +30,7 @@ try {
     /** @var UserRepository $mysqlRepo */
     $mysqlRepo = new UserRepository($mysqlAdapter); // $mysqlAdapter injected from app
 
-    // Find top 10 users
+    // Find the top 10 users
     $users = $mysqlRepo->findBy(
         filters: ['status' => 'active'],
         orderBy: ['created_at' => 'DESC'],
@@ -45,14 +46,15 @@ try {
         offset: 10
     );
 
-    echo "Fetched " . count($users) . " users.\n";
+    echo 'Fetched ' . count($users) . " users.\n";
 
 } catch (RepositoryException $e) {
-    echo "MySQL Error: " . $e->getMessage();
+    echo 'MySQL Error: ' . $e->getMessage();
 }
 
 // 2. Mongo Example
-class LogRepository extends GenericMongoRepository {
+class LogRepository extends GenericMongoRepository
+{
     protected string $collectionName = 'logs';
 }
 
@@ -60,7 +62,7 @@ try {
     /** @var LogRepository $mongoRepo */
     $mongoRepo = new LogRepository($mongoAdapter);
 
-    // Skip first 100 logs, take 50
+    // Skip the first 100 logs, take 50
     $logs = $mongoRepo->findBy(
         filters: ['level' => 'error'],
         orderBy: ['timestamp' => 'DESC'],
@@ -68,17 +70,17 @@ try {
         offset: 100
     );
 
-    echo "Fetched " . count($logs) . " logs.\n";
+    echo 'Fetched ' . count($logs) . " logs.\n";
 
 } catch (RepositoryException $e) {
-    echo "Mongo Error: " . $e->getMessage();
+    echo 'Mongo Error: ' . $e->getMessage();
 }
 
 // 3. Validation Example
 try {
-    // This will throw exception
+    // This will throw an exception
     $mysqlRepo->findBy([], null, -5);
 } catch (RepositoryException $e) {
-    echo "Validation Caught: " . $e->getMessage() . "\n";
+    echo 'Validation Caught: ' . $e->getMessage() . "\n";
     // Output: Validation Caught: Invalid limit value: -5. Limit must be >= 1.
 }

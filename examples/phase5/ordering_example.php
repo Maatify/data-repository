@@ -23,18 +23,15 @@ $normalized = OrderUtils::normalize($orderBy);
 print_r($normalized);
 // Output: Array ( [name] => ASC [age] => DESC [invalid_col] => ASC )
 
-
 // 2. SQL Order By Generation
 $sqlOrder = OrderUtils::buildSqlOrderBy(['users.name' => 'asc', 'created_at' => 'desc']);
-echo "SQL: " . $sqlOrder . "\n";
+echo 'SQL: ' . $sqlOrder . "\n";
 // Output: SQL: ORDER BY `users`.`name` ASC, `created_at` DESC
-
 
 // 3. Mongo Sort Generation
 $mongoSort = OrderUtils::buildMongoSort(['score' => 'desc']);
 print_r($mongoSort);
 // Output: Array ( [score] => -1 )
-
 
 // 4. In-Memory Array Sorting
 $data = [
@@ -51,15 +48,13 @@ print_r($sortedByAge);
 $sortedByName = OrderUtils::sortArray($data, ['name' => 'desc']);
 print_r($sortedByName);
 
-
-// 5. String Parsing (e.g. from URL query param)
-$stringInput = "name:asc,age:desc";
+// 5. String Parsing (e.g., from URL query param)
+$stringInput = 'name:asc,age:desc';
 $parsed = OrderUtils::fromString($stringInput);
 print_r($parsed);
 // Output: Array ( [name] => ASC [age] => DESC )
 
-
 // 6. JSON Column (MySQL)
 $jsonOrder = OrderUtils::buildJsonOrderBy('meta', 'user.rank', 'desc');
-echo "JSON SQL: " . $jsonOrder . "\n";
+echo 'JSON SQL: ' . $jsonOrder . "\n";
 // Output: JSON SQL: JSON_UNQUOTE(JSON_EXTRACT(`meta`, 'user.rank')) DESC
