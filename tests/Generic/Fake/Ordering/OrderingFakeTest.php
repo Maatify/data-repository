@@ -172,7 +172,7 @@ class OrderingFakeTest extends TestCase
 
     public function testFromString(): void
     {
-        $str = "name:asc,age:desc, created:asc";
+        $str = 'name:asc,age:desc, created:asc';
         $expected = ['name' => 'ASC', 'age' => 'DESC', 'created' => 'ASC'];
         $this->assertSame($expected, OrderUtils::fromString($str));
     }

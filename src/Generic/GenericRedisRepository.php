@@ -17,7 +17,6 @@ namespace Maatify\DataRepository\Generic;
 
 use Maatify\DataRepository\Base\BaseRedisRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
-use Maatify\DataRepository\Generic\Support\OrderUtils;
 use Maatify\DataRepository\Generic\Support\RedisOps;
 use Predis\Client as PredisClient;
 use Redis;

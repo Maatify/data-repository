@@ -141,11 +141,6 @@ class MongoRepositoryStub extends BaseMongoRepository
 {
     protected string $databaseName = 'testing';
 
-    public function __construct(AdapterInterface $adapter)
-    {
-        parent::__construct($adapter);
-    }
-
     public function find(int|string $id): ?array
     {
         return null;

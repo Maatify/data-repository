@@ -253,11 +253,6 @@ class GenericRedisRepositoryFakeTest extends TestCase
 
         // create a proxy that forces ReflectionException
         $ops = new class ($driver) extends RedisOps {
-            public function __construct($driver)
-            {
-                parent::__construct($driver);
-            }
-
             public function keys(string $pattern): array
             {
                 throw new \ReflectionException('forced');
