@@ -47,7 +47,7 @@ It is designed to:
 - Unify adapter behavior (MySQL, Redis, MongoDB, DBAL)
 - Provide a consistent repository abstraction
 - Enforce strict typing and predictable data structures
-- Support hydration, filtering, pagination, and validation rules
+- Support hydration, filtering (IN/LIKE/Range), sorting (ASC/DESC), pagination, and validation rules
 - Enable fakes and testing layers across all drivers
 
 ---

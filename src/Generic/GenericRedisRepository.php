@@ -17,6 +17,7 @@ namespace Maatify\DataRepository\Generic;
 
 use Maatify\DataRepository\Base\BaseRedisRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Generic\Support\OrderUtils;
 use Maatify\DataRepository\Generic\Support\RedisOps;
 use Predis\Client as PredisClient;
 use Redis;
@@ -146,6 +147,17 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             /** @var array<string, mixed> $decoded */
             $results[] = $decoded;
         }
+
+        // GenericRedis uses in-memory sort for findAll if needed, though usually findAll doesn't take args.
+        // However, findBy throws exception.
+        // If we wanted to support sorting here we would need to add params to findAll or implement findBy properly with in-memory filtering/sorting.
+        // For now, based on roadmap "Add unified sorting (orderBy) across all adapters",
+        // we should probably allow findBy to work in-memory if practical, OR leave it as is if Redis is strictly KV.
+        // But the task is "Generic CRUD Layer... completed" in Phase 3.
+        // Phase 5 task: "Support multi-column orderBy".
+        // Let's defer complex Redis changes unless explicitly requested to move from KV to collection-like behavior.
+        // But wait, the previous code for findAll returned results unsorted.
+        // The interface for findAll takes no arguments.
 
         return $results;
     }

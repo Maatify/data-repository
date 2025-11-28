@@ -22,7 +22,100 @@
         }
       }
     },
-
+    "Maatify\\DataRepository\\Generic\\Support\\OrderUtils": {
+      "type": "final class",
+      "methods": {
+        "normalize": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "orderBy", "type": "array<string, string>|null", "optional": true },
+            { "name": "throwOnInvalid", "type": "bool", "optional": true }
+          ]
+        },
+        "buildSqlOrderBy": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "string",
+          "arguments": [
+            { "name": "orderBy", "type": "array<string, string>|null", "optional": true },
+            { "name": "quoteChar", "type": "string", "optional": true }
+          ]
+        },
+        "buildJsonOrderBy": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "string",
+          "arguments": [
+            { "name": "jsonColumn", "type": "string", "optional": false },
+            { "name": "jsonPath", "type": "string", "optional": false },
+            { "name": "direction", "type": "string", "optional": false },
+            { "name": "quoteChar", "type": "string", "optional": true }
+          ]
+        },
+        "buildMongoSort": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "orderBy", "type": "array<string, string>|null", "optional": true }
+          ]
+        },
+        "sortArray": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "data", "type": "array", "optional": false },
+            { "name": "orderBy", "type": "array<string, string>|null", "optional": true }
+          ]
+        },
+        "isValidDirection": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "bool",
+          "arguments": [
+            { "name": "direction", "type": "string", "optional": false }
+          ]
+        },
+        "fromString": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "orderString", "type": "string", "optional": false },
+            { "name": "pairSeparator", "type": "string", "optional": true },
+            { "name": "keyValueSeparator", "type": "string", "optional": true }
+          ]
+        },
+        "compareValues": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "int",
+          "arguments": [
+            { "name": "a", "type": "mixed", "optional": false },
+            { "name": "b", "type": "mixed", "optional": false }
+          ]
+        },
+        "reverse": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "orderBy", "type": "array", "optional": false }
+          ]
+        },
+        "merge": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array",
+          "arguments": [
+            { "name": "orderBys", "type": "array<string, string>", "optional": false }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Generic\\Support\\MysqlOps": {
       "type": "final class",
       "methods": {

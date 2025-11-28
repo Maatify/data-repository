@@ -19,6 +19,7 @@ use Maatify\DataRepository\Base\BaseMongoRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\FilterUtils;
 use Maatify\DataRepository\Generic\Support\MongoOps;
+use Maatify\DataRepository\Generic\Support\OrderUtils;
 use MongoDB\Collection;
 use MongoDB\BSON\ObjectId;
 
@@ -54,7 +55,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
         $options = [];
         if ($orderBy) {
-            $options['sort'] = $orderBy;
+            $options['sort'] = OrderUtils::buildMongoSort($orderBy);
         }
         if ($limit !== null) {
             $options['limit'] = $limit;

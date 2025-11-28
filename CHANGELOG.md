@@ -14,6 +14,12 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 ## [1.0.1] — 2025-11-25
 
 ### 🚀 Added
+- **Ordering & Sorting (Phase 5)**
+    - Implemented `OrderUtils` for centralized sorting logic (SQL, Mongo, Array, JSON).
+    - Updated `GenericMySQLRepository` to support multi-column `orderBy`.
+    - Updated `GenericMongoRepository` to support normalized Mongo sorting.
+    - Added comprehensive tests and `examples/phase5/ordering_example.php`.
+
 - **Advanced Filtering (Phase 4)**
     - Implemented `FilterUtils` for centralized filter parsing across SQL and NoSQL drivers.
     - Added support for SQL/Mongo operators: `IN`, `NOT IN`, `LIKE`, `BETWEEN`, `IS NULL`, `IS NOT NULL`.
