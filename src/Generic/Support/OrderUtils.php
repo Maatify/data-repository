@@ -131,7 +131,24 @@ final class OrderUtils
             )
         );
 
+        //        $safeJsonPath = addslashes($jsonPath);
+        //
+        //        return "JSON_UNQUOTE(JSON_EXTRACT({$quoted}, '{$safeJsonPath}')) {$safeDir}";
+
         $safeJsonPath = addslashes($jsonPath);
+        if ($safeJsonPath === '') {
+            return '';
+        }
+
+        // Ensure JSON path begins with '$'
+        if ($safeJsonPath[0] !== '$') {
+            // Example cases:
+            // user.level     → $.user.level
+            // .user.level    → $.user.level
+            // $.user.level   → (valid)
+            $safeJsonPath = ltrim($safeJsonPath, '.');
+            $safeJsonPath = '$.' . $safeJsonPath;
+        }
 
         return "JSON_UNQUOTE(JSON_EXTRACT({$quoted}, '{$safeJsonPath}')) {$safeDir}";
     }

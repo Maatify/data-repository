@@ -54,7 +54,7 @@ class OrderingFakeTest extends TestCase
     public function testBuildJsonOrderBy(): void
     {
         $sql = OrderUtils::buildJsonOrderBy('meta', 'user.name', 'desc');
-        $expected = "JSON_UNQUOTE(JSON_EXTRACT(`meta`, 'user.name')) DESC";
+        $expected = "JSON_UNQUOTE(JSON_EXTRACT(`meta`, '$.user.name')) DESC";
         $this->assertSame($expected, $sql);
     }
 
