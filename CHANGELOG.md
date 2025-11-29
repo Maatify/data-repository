@@ -9,6 +9,12 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+### 🚀 Added
+- **Pagination Hooks (Phase 10)**
+    - Introduced `PaginationEntry` for encapsulating pagination request parameters (page, perPage).
+    - Introduced `PaginationContext` for maintaining pagination state across the pipeline.
+    - Integrated `Maatify\Common\Pagination\DTO\PaginationDTO` for standardized pagination metadata.
+
 ---
 
 ## [1.0.2] — 2025-11-27 (Phase 9 Update)

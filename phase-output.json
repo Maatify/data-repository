@@ -416,12 +416,14 @@
       "added": [
         "src/Pagination/PaginationEntry.php",
         "src/Pagination/PaginationContext.php",
-        "docs/phases/README.phase10.md"
+        "docs/phases/README.phase10.md",
+        "examples/phase10/pagination_preparation_example.php"
       ],
       "updated": [
         "roadmap.json",
         "api-map.json",
-        "CHANGELOG.md"
+        "CHANGELOG.md",
+        "docs/README.full.md"
       ]
     },
     "tests": {

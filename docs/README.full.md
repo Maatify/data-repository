@@ -54,6 +54,7 @@ Perfect for production AND deterministic testing.
     * **Limits & Offsets** (Strict Validation)
     * **Result Normalization** (Unified ID mapping, Type casting)
     * **Standardized Error Handling** (Phase 8): All repositories throw `RepositoryException`
+    * **Pagination** (Phase 10): Standardized `PaginationEntry` and `PaginationContext`
     * JSON column querying (MySQL)
 * **Zero native driver exposure**
   Everything uses `AdapterInterface`.
@@ -236,6 +237,10 @@ src/
 │       ├── MongoOps.php
 │       └── RedisOps.php
 │
+├── Pagination/       # Phase 10 — Pagination Hooks
+│   ├── PaginationEntry.php
+│   └── PaginationContext.php
+│
 └── Hydration/        # Phase 11 — DTO Mapping & Object Hydration
 
 ```
@@ -257,6 +262,7 @@ src/
 | 7     | Result Normalization                        | ✅ Completed    | ID Mapping, Type Casting    |
 | 8     | CRUD Edge Cases                             | ✅ Completed    | Standardized Exceptions     |
 | 9     | Generic Ops Integration                     | ✅ Completed    | MysqlOps, MongoOps, RedisOps|
+| 10    | Pagination Hooks (Preparation)              | ✅ Completed    | PaginationEntry, Context    |
 
 ---
 
@@ -288,6 +294,9 @@ src/
 
 - **Phase 9 — Generic Ops Integration**
   [`phases/README.phase9.md`](phases/README.phase9.md)
+
+- **Phase 10 — Pagination Hooks**
+  [`phases/README.phase10.md`](phases/README.phase10.md)
 
 ---
 
