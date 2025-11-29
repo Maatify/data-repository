@@ -1,6 +1,64 @@
 {
   "version": "1.0.0",
   "classes": {
+    "Maatify\\DataRepository\\Hydration\\HydratorInterface": {
+      "type": "interface",
+      "methods": {
+        "hydrate": {
+          "visibility": "public",
+          "return_type": "object",
+          "arguments": [
+            { "name": "data", "type": "array<string, mixed>", "optional": false },
+            { "name": "context", "type": "?Maatify\\DataRepository\\Hydration\\HydrationContext", "optional": true }
+          ]
+        },
+        "hydrateAll": {
+          "visibility": "public",
+          "return_type": "array<object>",
+          "arguments": [
+            { "name": "dataset", "type": "array<int, array<string, mixed>>", "optional": false },
+            { "name": "context", "type": "?Maatify\\DataRepository\\Hydration\\HydrationContext", "optional": true }
+          ]
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Hydration\\HydrationContext": {
+      "type": "class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": []
+        },
+        "getStages": {
+          "visibility": "public",
+          "return_type": "array<string>",
+          "arguments": []
+        },
+        "setStages": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "stages", "type": "array<string>", "optional": false }
+          ]
+        },
+        "addMeta": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "key", "type": "string", "optional": false },
+            { "name": "value", "type": "mixed", "optional": false }
+          ]
+        },
+        "getMeta": {
+          "visibility": "public",
+          "return_type": "mixed",
+          "arguments": [
+            { "name": "key", "type": "string", "optional": false }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Generic\\Support\\ResultNormalizer": {
       "type": "final class",
       "methods": {

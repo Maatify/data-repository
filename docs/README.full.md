@@ -54,6 +54,7 @@ Perfect for production AND deterministic testing.
     * **Limits & Offsets** (Strict Validation)
     * **Result Normalization** (Unified ID mapping, Type casting)
     * **Standardized Error Handling** (Phase 8): All repositories throw `RepositoryException`
+    * **Hydration Pipeline** (Phase 11): Contracts and Context for transforming results.
     * JSON column querying (MySQL)
 * **Zero native driver exposure**
   Everything uses `AdapterInterface`.
@@ -65,7 +66,7 @@ Perfect for production AND deterministic testing.
 - **Repositories** isolate domain logic from drivers
 - **Adapters** normalize real & fake database connections
 - **Resolvers** map DSN → driver instance
-- **Hydration** (Phase 4) converts arrays to DTOs
+- **Hydration** (Phase 11+) converts arrays to DTOs
 - **Symmetry Guarantee**: fake + real behave 100% the same
 
 ---
@@ -237,6 +238,8 @@ src/
 │       └── RedisOps.php
 │
 └── Hydration/        # Phase 11 — DTO Mapping & Object Hydration
+    ├── HydratorInterface.php
+    └── HydrationContext.php
 
 ```
 
@@ -257,6 +260,8 @@ src/
 | 7     | Result Normalization                        | ✅ Completed    | ID Mapping, Type Casting    |
 | 8     | CRUD Edge Cases                             | ✅ Completed    | Standardized Exceptions     |
 | 9     | Generic Ops Integration                     | ✅ Completed    | MysqlOps, MongoOps, RedisOps|
+| 10    | Pagination Preparation                      | ✅ Completed    | DTOs only                   |
+| 11    | Hydration Interfaces                        | ✅ Completed    | Contract + Context          |
 
 ---
 
@@ -288,6 +293,12 @@ src/
 
 - **Phase 9 — Generic Ops Integration**
   [`phases/README.phase9.md`](phases/README.phase9.md)
+
+- **Phase 10 — Pagination Preparation**
+  [`phases/README.phase10.md`](phases/README.phase10.md)
+
+- **Phase 11 — Hydrator Contracts**
+  [`phases/README.phase11.md`](phases/README.phase11.md)
 
 ---
 
