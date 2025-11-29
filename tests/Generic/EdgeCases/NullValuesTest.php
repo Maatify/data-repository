@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Generic\EdgeCases;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
-use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +38,7 @@ class NullValuesTest extends TestCase
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->method('getDriver')->willReturn($this->pdo);
 
-        $this->repository = new class($adapter) extends GenericMySQLRepository {
+        $this->repository = new class ($adapter) extends GenericMySQLRepository {
             protected string $tableName = 'test_table';
         };
     }

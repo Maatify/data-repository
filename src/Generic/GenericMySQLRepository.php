@@ -45,7 +45,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
             return $result === false ? null : $result;
         } catch (\PDOException $e) {
-            throw new RepositoryException("Find failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Find failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -83,7 +83,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (\PDOException $e) {
-            throw new RepositoryException("FindBy failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('FindBy failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -125,7 +125,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
             return (int)$stmt->fetchColumn();
         } catch (\PDOException $e) {
-            throw new RepositoryException("Count failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Count failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -152,7 +152,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
             return $lastId === false ? 0 : $lastId;
         } catch (\PDOException $e) {
-            throw new RepositoryException("Insert failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Insert failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -184,7 +184,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
             return $stmt->execute($data);
         } catch (\PDOException $e) {
-            throw new RepositoryException("Update failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Update failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -200,7 +200,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
             return $stmt->execute();
         } catch (\PDOException $e) {
-            throw new RepositoryException("Delete failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Delete failed: ' . $e->getMessage(), 0, $e);
         }
     }
 

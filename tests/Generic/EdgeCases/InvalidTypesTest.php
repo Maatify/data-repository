@@ -38,7 +38,7 @@ class InvalidTypesTest extends TestCase
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->method('getDriver')->willReturn($this->pdo);
 
-        $this->repository = new class($adapter) extends GenericMySQLRepository {
+        $this->repository = new class ($adapter) extends GenericMySQLRepository {
             protected string $tableName = 'test_table';
         };
     }

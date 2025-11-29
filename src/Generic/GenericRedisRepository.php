@@ -51,7 +51,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             /** @var array<string, mixed> $decoded */
             return $decoded;
         } catch (\Exception $e) {
-            throw new RepositoryException("Find failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Find failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -79,7 +79,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
         try {
             $this->getRedisOps()->set($key, $payload);
         } catch (\Exception $e) {
-            throw new RepositoryException("Insert failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Insert failed: ' . $e->getMessage(), 0, $e);
         }
 
         return $id;
@@ -106,7 +106,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
         try {
             return $this->getRedisOps()->set($this->getKey($id), $payload);
         } catch (\Exception $e) {
-            throw new RepositoryException("Update failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Update failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -118,7 +118,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
         try {
             return $this->getRedisOps()->del($this->getKey($id)) > 0;
         } catch (\Exception $e) {
-            throw new RepositoryException("Delete failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Delete failed: ' . $e->getMessage(), 0, $e);
         }
     }
 

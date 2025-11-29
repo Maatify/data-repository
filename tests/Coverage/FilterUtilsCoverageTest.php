@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-namespace Maatify\DataRepository\Tests\Generic\Coverage;
+namespace Maatify\DataRepository\Tests\Coverage;
 
 use Maatify\DataRepository\Generic\Support\FilterUtils;
 use PHPUnit\Framework\TestCase;
@@ -32,11 +32,11 @@ class FilterUtilsCoverageTest extends TestCase
 
         [$where, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`id` = :", $where);
-        $this->assertStringContainsString("`status` = :", $where);
-        $this->assertStringContainsString("`age` > :", $where);
-        $this->assertStringContainsString("`role` IN (:", $where);
-        $this->assertStringContainsString("`name` LIKE :", $where);
+        $this->assertStringContainsString('`id` = :', $where);
+        $this->assertStringContainsString('`status` = :', $where);
+        $this->assertStringContainsString('`age` > :', $where);
+        $this->assertStringContainsString('`role` IN (:', $where);
+        $this->assertStringContainsString('`name` LIKE :', $where);
         $this->assertCount(6, $params); // id, status, age, role1, role2, name
     }
 
@@ -45,7 +45,7 @@ class FilterUtilsCoverageTest extends TestCase
         $filters = ['deleted_at' => null];
         [$where, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`deleted_at` IS NULL", $where);
+        $this->assertStringContainsString('`deleted_at` IS NULL', $where);
         $this->assertEmpty($params);
     }
 
@@ -54,7 +54,7 @@ class FilterUtilsCoverageTest extends TestCase
         $filters = ['deleted_at' => ['IS NOT NULL' => true]];
         [$where, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString("`deleted_at` IS NOT NULL", $where);
+        $this->assertStringContainsString('`deleted_at` IS NOT NULL', $where);
         $this->assertEmpty($params);
     }
 

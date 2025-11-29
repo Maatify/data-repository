@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Tests\Generic\Coverage;
 
-use Maatify\Common\Contracts\Adapter\AdapterInterface;
+use Maatify\DataFakes\Adapters\Redis\FakeRedisAdapter;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\GenericRedisRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -24,17 +24,13 @@ use Predis\Client;
 
 class MissingCoverageTest extends TestCase
 {
-    /** @var Client&MockObject */
-    private $redisMock;
     private GenericRedisRepository $repo;
 
     protected function setUp(): void
     {
-        $this->redisMock = $this->createMock(Client::class);
-        $adapter = $this->createMock(AdapterInterface::class);
-        $adapter->method('getDriver')->willReturn($this->redisMock);
+        $adapter = new FakeRedisAdapter();
 
-        $this->repo = new class($adapter) extends GenericRedisRepository {
+        $this->repo = new class ($adapter) extends GenericRedisRepository {
             protected string $keyPrefix = 'test:';
         };
     }

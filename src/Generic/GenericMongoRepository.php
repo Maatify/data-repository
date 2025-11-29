@@ -43,7 +43,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
             return $this->toArray($result);
         } catch (\Exception $e) {
-            throw new RepositoryException("Find failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Find failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -76,7 +76,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
             return $this->cursorToArray($cursor);
         } catch (\Exception $e) {
-            throw new RepositoryException("FindBy failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('FindBy failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -96,7 +96,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
             return $this->toArray($result);
         } catch (\Exception $e) {
-            throw new RepositoryException("FindOneBy failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('FindOneBy failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -121,7 +121,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
             return $this->getCollectionObj()->countDocuments($normalizedFilters);
         } catch (\Exception $e) {
-            throw new RepositoryException("Count failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Count failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -144,12 +144,12 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             }
 
             // Fallback
-            throw new RepositoryException("Insert failed: received invalid ID type from driver.");
+            throw new RepositoryException('Insert failed: received invalid ID type from driver.');
         } catch (\Exception $e) {
             if ($e instanceof RepositoryException) {
                 throw $e;
             }
-            throw new RepositoryException("Insert failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Insert failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -164,7 +164,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
             return $result->getMatchedCount() > 0;
         } catch (\Exception $e) {
-            throw new RepositoryException("Update failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Update failed: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -179,7 +179,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
             return $result->getDeletedCount() > 0;
         } catch (\Exception $e) {
-            throw new RepositoryException("Delete failed: " . $e->getMessage(), 0, $e);
+            throw new RepositoryException('Delete failed: ' . $e->getMessage(), 0, $e);
         }
     }
 

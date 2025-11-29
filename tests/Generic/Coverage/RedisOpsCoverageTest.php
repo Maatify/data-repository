@@ -80,7 +80,7 @@ class FakePredisClientForOps extends Client
     public function del(array|string $keys): int
     {
         if ($keys !== $this->expectedDelKey) {
-            throw new \RuntimeException("Unexpected del keys: " . json_encode($keys));
+            throw new \RuntimeException('Unexpected del keys: ' . json_encode($keys));
         }
         return $this->delResult;
     }

@@ -38,7 +38,7 @@ class PartialUpdateTest extends TestCase
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->method('getDriver')->willReturn($this->pdo);
 
-        $this->repository = new class($adapter) extends GenericMySQLRepository {
+        $this->repository = new class ($adapter) extends GenericMySQLRepository {
             protected string $tableName = 'test_table';
         };
     }
@@ -52,7 +52,7 @@ class PartialUpdateTest extends TestCase
         // The query should only contain the updated field
         $this->pdo->expects($this->once())
             ->method('prepare')
-            ->with($this->stringContains("UPDATE `test_table` SET `name` = :name WHERE"))
+            ->with($this->stringContains('UPDATE `test_table` SET `name` = :name WHERE'))
             ->willReturn($this->stmt);
 
         $this->stmt->expects($this->once())

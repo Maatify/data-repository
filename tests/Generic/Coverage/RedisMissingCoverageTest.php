@@ -32,7 +32,7 @@ class RedisMissingCoverageTest extends TestCase
 
         $adapter = new FakeRedisAdapterSatisfying($this->redisMock);
 
-        $this->repo = new class($adapter) extends GenericRedisRepository {
+        $this->repo = new class ($adapter) extends GenericRedisRepository {
             protected string $keyPrefix = 'test:';
         };
     }
@@ -61,7 +61,9 @@ class RedisMissingCoverageTest extends TestCase
 
 class FakeRedisAdapterSatisfying implements AdapterInterface
 {
-    public function __construct(private object $driver) {}
+    public function __construct(private object $driver)
+    {
+    }
 
     /** @return mixed */
     public function getDriver(): mixed
@@ -74,11 +76,27 @@ class FakeRedisAdapterSatisfying implements AdapterInterface
         return 'redis';
     }
 
-    public function connect(): void {}
-    public function isConnected(): bool { return true; }
-    public function disconnect(): void {}
+    public function connect(): void
+    {
+    }
+    public function isConnected(): bool
+    {
+        return true;
+    }
+    public function disconnect(): void
+    {
+    }
     /** @return mixed */
-    public function getConnection(): mixed { return $this->driver; }
-    public function debugConfig(): object { return (object)[]; }
-    public function healthCheck(): bool { return true; }
+    public function getConnection(): mixed
+    {
+        return $this->driver;
+    }
+    public function debugConfig(): object
+    {
+        return (object)[];
+    }
+    public function healthCheck(): bool
+    {
+        return true;
+    }
 }

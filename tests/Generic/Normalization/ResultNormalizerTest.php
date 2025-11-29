@@ -138,7 +138,7 @@ class ResultNormalizerTest extends TestCase
 
     public function testStringableObjects(): void
     {
-        $obj = new class {
+        $obj = new class () {
             public function __toString()
             {
                 return 'string-representation';
@@ -182,10 +182,16 @@ class ResultNormalizerTest extends TestCase
         }
 
         // Return an anonymous class acting like ObjectId
-        return new class($hex) {
+        return new class ($hex) {
             private string $hex;
-            public function __construct(string $hex) { $this->hex = $hex; }
-            public function __toString() { return $this->hex; }
+            public function __construct(string $hex)
+            {
+                $this->hex = $hex;
+            }
+            public function __toString()
+            {
+                return $this->hex;
+            }
         };
     }
 }
