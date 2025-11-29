@@ -22,10 +22,18 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
     - Added fluent API for configuration (`ResultNormalizer::create()->recursive()->strictIdTypes()`).
 
 - **Limits & Offsets (Phase 6)**
-    - Implemented `LimitOffsetValidator` for unified validation (Limits 1-10000, Offsets 0-10000).
-    - Added `GenericMySQLRepository` integration (SQL `LIMIT`/`OFFSET`).
-    - Added `GenericMongoRepository` integration (Mongo `limit`/`skip`).
-    - Added `GenericRedisRepository` integration (throws `RepositoryException` as it is not supported yet).
+    - Implemented unified `limit` and `offset` support across all Generic repositories.
+    - Added `LimitOffsetValidator` providing strict, centralized validation 
+      **(Limit: 1–10,000, Offset: 0–100,000)**.
+    - `GenericMySQLRepository::findBy` (SQL `LIMIT` / `OFFSET`)
+    - `GenericMongoRepository::findBy` (MongoDB `limit` / `skip`)
+    - Added Redis behavior:
+      `GenericRedisRepository::findBy` now **throws `RepositoryException`** (unsupported for now).
+    - Added full test coverage for all validator paths and repository interactions.
+    - Included usage examples under `examples/phase6/`.
+
+---
+
 
 ### 🔧 Changed
 - **Validation**

@@ -136,7 +136,7 @@
       "id": "phase6",
       "title": "Limits & Offsets",
       "version": "1.0.1",
-      "status": "pending",
+      "status": "completed",
       "summary": "Add limit + offset support, adapter-normalized.",
       "tasks": [
         "Implement limit/offset",
@@ -154,7 +154,7 @@
       "id": "phase7",
       "title": "Result Normalization Layer",
       "version": "1.0.1",
-      "status": "pending",
+      "status": "completed",
       "summary": "Unify all repository outputs before hydration.",
       "tasks": [
         "Create NormalizedResult structure",
