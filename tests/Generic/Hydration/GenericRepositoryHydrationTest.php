@@ -54,10 +54,10 @@ class GenericRepositoryHydrationTest extends TestCase
         $adapter->connect();
 
         $this->pdo = $adapter->getDriver();
-        $this->pdo->exec("CREATE DATABASE IF NOT EXISTS maatify_dev");
-        $this->pdo->exec("USE maatify_dev");
-        $this->pdo->exec("CREATE TABLE IF NOT EXISTS test_users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))");
-        $this->pdo->exec("TRUNCATE TABLE test_users");
+        $this->pdo->exec('CREATE DATABASE IF NOT EXISTS maatify_dev');
+        $this->pdo->exec('USE maatify_dev');
+        $this->pdo->exec('CREATE TABLE IF NOT EXISTS test_users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))');
+        $this->pdo->exec('TRUNCATE TABLE test_users');
         $this->pdo->exec("INSERT INTO test_users (id, name) VALUES (1, 'User One')");
 
         $this->repo = new TestRepository($adapter);
@@ -94,7 +94,7 @@ class GenericRepositoryHydrationTest extends TestCase
     protected function tearDown(): void
     {
         if (isset($this->pdo)) {
-             $this->pdo->exec("DROP TABLE IF EXISTS test_users");
+            $this->pdo->exec('DROP TABLE IF EXISTS test_users');
         }
     }
 }

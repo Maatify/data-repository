@@ -53,6 +53,6 @@ trait RepositoryHydrationTrait
             return $this->hydrator->hydrateAll($data);
         }
 
-        return array_map(fn($row) => (object)$row, $data);
+        return array_map(fn ($row) => (object)$row, $data);
     }
 }
