@@ -1,6 +1,72 @@
 {
   "version": "1.0.0",
   "classes": {
+    "Maatify\\DataRepository\\Hydration\\BaseHydrator": {
+      "type": "abstract class",
+      "implements": [
+        "Maatify\\DataRepository\\Hydration\\HydratorInterface"
+      ],
+      "methods": {
+        "hydrate": {
+          "visibility": "public",
+          "return_type": "object",
+          "arguments": [
+            { "name": "data", "type": "array<string, mixed>", "optional": false },
+            { "name": "context", "type": "?Maatify\\DataRepository\\Hydration\\HydrationContext", "optional": true }
+          ]
+        },
+        "hydrateAll": {
+          "visibility": "public",
+          "return_type": "array<object>",
+          "arguments": [
+            { "name": "dataset", "type": "array<int, array<string, mixed>>", "optional": false },
+            { "name": "context", "type": "?Maatify\\DataRepository\\Hydration\\HydrationContext", "optional": true }
+          ]
+        },
+        "createInstance": {
+          "visibility": "protected",
+          "return_type": "object",
+          "abstract": true,
+          "arguments": []
+        },
+        "onPrepare": {
+          "visibility": "protected",
+          "return_type": "array<string, mixed>",
+          "arguments": [
+            { "name": "data", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "onCast": {
+          "visibility": "protected",
+          "return_type": "array<string, mixed>",
+          "arguments": [
+            { "name": "data", "type": "array<string, mixed>", "optional": false }
+          ]
+        },
+        "onMap": {
+          "visibility": "protected",
+          "return_type": "object",
+          "arguments": [
+            { "name": "data", "type": "array<string, mixed>", "optional": false },
+            { "name": "instance", "type": "object", "optional": false }
+          ]
+        },
+        "onValidate": {
+          "visibility": "protected",
+          "return_type": "void",
+          "arguments": [
+            { "name": "instance", "type": "object", "optional": false }
+          ]
+        },
+        "onComplete": {
+          "visibility": "protected",
+          "return_type": "void",
+          "arguments": [
+            { "name": "instance", "type": "object", "optional": false }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Hydration\\HydratorInterface": {
       "type": "interface",
       "methods": {
@@ -328,7 +394,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Generic\\Support\\MongoOps": {
       "type": "final class",
       "methods": {
@@ -367,7 +432,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Generic\\Support\\RedisOps": {
       "type": "final class",
       "methods": {
@@ -409,7 +473,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Base\\BaseMongoRepository": {
       "type": "abstract class",
       "extends": "Maatify\\DataRepository\\Base\\BaseRepository",
@@ -428,7 +491,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Base\\BaseMySQLRepository": {
       "type": "abstract class",
       "extends": "Maatify\\DataRepository\\Base\\BaseRepository",
@@ -440,7 +502,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Base\\BaseRedisRepository": {
       "type": "abstract class",
       "extends": "Maatify\\DataRepository\\Base\\BaseRepository",
@@ -452,7 +513,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Base\\BaseRepository": {
       "type": "abstract class",
       "methods": {
@@ -495,7 +555,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Exceptions\\RepositoryException": {
       "type": "class",
       "methods": {
@@ -517,7 +576,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Generic\\GenericMongoRepository": {
       "type": "abstract class",
       "extends": "Maatify\\DataRepository\\Base\\BaseMongoRepository",
@@ -613,7 +671,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Generic\\GenericMySQLRepository": {
       "type": "abstract class",
       "extends": "Maatify\\DataRepository\\Base\\BaseMySQLRepository",
@@ -695,7 +752,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Generic\\GenericRedisRepository": {
       "type": "abstract class",
       "extends": "Maatify\\DataRepository\\Base\\BaseRedisRepository",
@@ -765,7 +821,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Logging\\RepositoryLogger": {
       "type": "class",
       "methods": {
@@ -787,7 +842,6 @@
         }
       }
     },
-
     "Maatify\\DataRepository\\Resolver\\RepositoryResolver": {
       "type": "class",
       "methods": {

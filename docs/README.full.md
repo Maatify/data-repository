@@ -54,7 +54,7 @@ Perfect for production AND deterministic testing.
     * **Limits & Offsets** (Strict Validation)
     * **Result Normalization** (Unified ID mapping, Type casting)
     * **Standardized Error Handling** (Phase 8): All repositories throw `RepositoryException`
-    * **Hydration Pipeline** (Phase 11): Contracts and Context for transforming results.
+    * **Hydration Pipeline** (Phase 11+): Contracts, Context, and Base Implementations for transforming results.
     * JSON column querying (MySQL)
 * **Zero native driver exposure**
   Everything uses `AdapterInterface`.
@@ -239,7 +239,8 @@ src/
 │
 └── Hydration/        # Phase 11 — DTO Mapping & Object Hydration
     ├── HydratorInterface.php
-    └── HydrationContext.php
+    ├── HydrationContext.php
+    └── BaseHydrator.php # Phase 12
 
 ```
 
@@ -262,6 +263,7 @@ src/
 | 9     | Generic Ops Integration                     | ✅ Completed    | MysqlOps, MongoOps, RedisOps|
 | 10    | Pagination Preparation                      | ✅ Completed    | DTOs only                   |
 | 11    | Hydration Interfaces                        | ✅ Completed    | Contract + Context          |
+| 12    | BaseHydrator + Pipeline                     | ✅ Completed    | Base Implementation         |
 
 ---
 
@@ -299,6 +301,9 @@ src/
 
 - **Phase 11 — Hydrator Contracts**
   [`phases/README.phase11.md`](phases/README.phase11.md)
+
+- **Phase 12 — Base Hydrator Implementation**
+  [`phases/README.phase12.md`](phases/README.phase12.md)
 
 ---
 
