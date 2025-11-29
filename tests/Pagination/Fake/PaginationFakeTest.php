@@ -43,6 +43,9 @@ class PaginationFakeTest extends TestCase
                 $this->pdo = $pdo;
             }
 
+            /**
+             * @return \PDO
+             */
             public function getDriver(): mixed
             {
                 return $this->pdo;
@@ -66,6 +69,9 @@ class PaginationFakeTest extends TestCase
             {
             }
 
+            /**
+             * @return \PDO
+             */
             public function getConnection(): mixed
             {
                 return $this->pdo;
