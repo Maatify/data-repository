@@ -18,6 +18,7 @@ namespace Maatify\DataRepository\Base;
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\Common\Contracts\Repository\RepositoryInterface;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Hydration\HydratorInterface;
 use Maatify\DataRepository\Logging\RepositoryLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -27,6 +28,7 @@ abstract class BaseRepository implements RepositoryInterface
     protected AdapterInterface $adapter;
     protected LoggerInterface $logger;
     protected string $tableName = '';
+    protected ?HydratorInterface $hydrator = null;
 
     public function __construct(AdapterInterface $adapter, ?LoggerInterface $logger = null)
     {
@@ -75,5 +77,16 @@ abstract class BaseRepository implements RepositoryInterface
     protected function getDriver(): mixed
     {
         return $this->adapter->getDriver();
+    }
+
+    public function setHydrator(HydratorInterface $hydrator): static
+    {
+        $this->hydrator = $hydrator;
+        return $this;
+    }
+
+    public function getHydrator(): ?HydratorInterface
+    {
+        return $this->hydrator;
     }
 }

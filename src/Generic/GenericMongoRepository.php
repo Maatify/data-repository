@@ -21,11 +21,14 @@ use Maatify\DataRepository\Generic\Support\FilterUtils;
 use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use Maatify\DataRepository\Generic\Support\MongoOps;
 use Maatify\DataRepository\Generic\Support\OrderUtils;
+use Maatify\DataRepository\Generic\Support\RepositoryHydrationTrait;
 use MongoDB\Collection;
 use MongoDB\BSON\ObjectId;
 
 abstract class GenericMongoRepository extends BaseMongoRepository
 {
+    use RepositoryHydrationTrait;
+
     protected string $collectionName = '';
 
     private ?MongoOps $mongoOps = null;

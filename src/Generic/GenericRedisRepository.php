@@ -18,11 +18,14 @@ namespace Maatify\DataRepository\Generic;
 use Maatify\DataRepository\Base\BaseRedisRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\RedisOps;
+use Maatify\DataRepository\Generic\Support\RepositoryHydrationTrait;
 use Predis\Client as PredisClient;
 use Redis;
 
 abstract class GenericRedisRepository extends BaseRedisRepository
 {
+    use RepositoryHydrationTrait;
+
     protected string $keyPrefix = '';
 
     private ?RedisOps $redisOps = null;

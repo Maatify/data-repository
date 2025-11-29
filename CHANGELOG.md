@@ -9,6 +9,20 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.3] — 2025-11-27 (Phase 14 Update)
+
+### 🚀 Added
+- **DTO Mapping & Hydration Integration (Phase 14)**
+    - Added `MappingProfile` for defining field-to-property mapping rules, transformers, and default values.
+    - Added `TransformerInterface` and concrete implementations: `JsonTransformer`, `DateTimeTransformer`.
+    - Integrated `MappingProfile` into `BaseHydrator::onMap()` via `HydrationContext`.
+    - Added `setHydrator()` and `getHydrator()` to `BaseRepository`.
+    - Added `RepositoryHydrationTrait` providing `findObject()` and `findObjectsBy()` methods for hydrated results in Generic Repositories.
+    - Updated `GenericMySQLRepository`, `GenericMongoRepository`, and `GenericRedisRepository` to support hydration.
+    - Verified functionality with `DtoHydrationIntegrationTest` and `GenericRepositoryHydrationTest`.
+
+---
+
 ## [1.0.3] — 2025-11-27 (Phase 13 Update)
 
 ### 🚀 Added
@@ -62,6 +76,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
     - Standardized error handling: All Generic Repository methods now wrap driver operations in `try-catch` blocks and throw `RepositoryException` for consistency.
     - Verified handling of `NULL` values in MySQL/PDO operations.
     - Verified partial update logic: `update()` only modifies specified fields and returns `false` (no-op) for empty data arrays.
+    - Verified invalid types handling.
     - Added comprehensive tests for edge cases: `NullValuesTest`, `PartialUpdateTest`, `InvalidTypesTest`.
 
 ---

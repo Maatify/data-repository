@@ -43,7 +43,7 @@ abstract class BaseHydrator implements HydratorInterface
                     break;
                 case HydrationContext::STAGE_MAP:
                     $instance = $this->ensureInstance($instance);
-                    $instance = $this->onMap($data, $instance);
+                    $instance = $this->onMap($data, $instance, $context);
                     break;
                 case HydrationContext::STAGE_VALIDATE:
                     $instance = $this->ensureInstance($instance);
@@ -127,16 +127,47 @@ abstract class BaseHydrator implements HydratorInterface
      *
      * @param array<string, mixed> $data
      * @param object               $instance
+     * @param HydrationContext|null $context
      *
      * @return object
      */
-    protected function onMap(array $data, object $instance): object
+    protected function onMap(array $data, object $instance, ?HydrationContext $context = null): object
     {
-        foreach ($data as $key => $value) {
-            if (property_exists($instance, $key)) {
-                $instance->{$key} = $value;
+        $profile = $context?->getProfile();
+
+        if ($profile) {
+            $mapping = $profile->getMapping();
+            $defaults = $profile->getDefaults();
+
+            // Apply Defaults
+            foreach ($defaults as $destProp => $defaultVal) {
+                if (property_exists($instance, $destProp)) {
+                    $instance->{$destProp} = $defaultVal;
+                }
+            }
+
+            // Apply Mappings
+            foreach ($data as $sourceKey => $value) {
+                $destProp = $mapping[$sourceKey] ?? $sourceKey;
+                $transformer = $profile->getTransformer($sourceKey);
+
+                if ($transformer) {
+                    $value = $transformer->transform($value);
+                }
+
+                if (property_exists($instance, $destProp)) {
+                    $instance->{$destProp} = $value;
+                }
+            }
+        } else {
+            // Default behavior
+            foreach ($data as $key => $value) {
+                if (property_exists($instance, $key)) {
+                    $instance->{$key} = $value;
+                }
             }
         }
+
         return $instance;
     }
 

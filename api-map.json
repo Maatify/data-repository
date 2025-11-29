@@ -1,6 +1,66 @@
 {
   "version": "1.0.0",
   "classes": {
+    "Maatify\\DataRepository\\Hydration\\MappingProfile": {
+      "type": "class",
+      "methods": {
+        "addMap": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "sourceKey", "type": "string", "optional": false },
+            { "name": "destinationProperty", "type": "string", "optional": false }
+          ]
+        },
+        "addTransformer": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "sourceKey", "type": "string", "optional": false },
+            { "name": "transformer", "type": "Maatify\\DataRepository\\Hydration\\TransformerInterface", "optional": false }
+          ]
+        },
+        "addDefault": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "destinationProperty", "type": "string", "optional": false },
+            { "name": "value", "type": "mixed", "optional": false }
+          ]
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Hydration\\TransformerInterface": {
+      "type": "interface",
+      "methods": {
+        "transform": {
+          "visibility": "public",
+          "return_type": "mixed",
+          "arguments": [
+            { "name": "value", "type": "mixed", "optional": false }
+          ]
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Generic\\Support\\RepositoryHydrationTrait": {
+      "type": "trait",
+      "methods": {
+        "findObject": {
+          "visibility": "public",
+          "return_type": "?object",
+          "arguments": [
+            { "name": "id", "type": "int|string", "optional": false }
+          ]
+        },
+        "findObjectsBy": {
+          "visibility": "public",
+          "return_type": "array<object>",
+          "arguments": [
+            { "name": "filters", "type": "array<string, mixed>", "optional": false }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Hydration\\AutoCaster": {
       "type": "class",
       "methods": {
@@ -67,7 +127,8 @@
           "return_type": "object",
           "arguments": [
             { "name": "data", "type": "array<string, mixed>", "optional": false },
-            { "name": "instance", "type": "object", "optional": false }
+            { "name": "instance", "type": "object", "optional": false },
+            { "name": "context", "type": "?Maatify\\DataRepository\\Hydration\\HydrationContext", "optional": true }
           ]
         },
         "onValidate": {
@@ -506,6 +567,18 @@
         "validateAdapter": {
           "visibility": "protected",
           "return_type": "void",
+          "arguments": []
+        },
+        "setHydrator": {
+          "visibility": "public",
+          "return_type": "static",
+          "arguments": [
+            { "name": "hydrator", "type": "Maatify\\DataRepository\\Hydration\\HydratorInterface", "optional": false }
+          ]
+        },
+        "getHydrator": {
+          "visibility": "public",
+          "return_type": "?Maatify\\DataRepository\\Hydration\\HydratorInterface",
           "arguments": []
         }
       }
