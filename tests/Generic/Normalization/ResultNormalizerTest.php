@@ -37,6 +37,7 @@ class ResultNormalizerTest extends TestCase
         $row = ['id' => 123, 'name' => 'Test'];
         $normalized = ResultNormalizer::normalize($row);
 
+        $this->assertNotNull($normalized);
         $this->assertSame(123, $normalized['id']);
         $this->assertSame('Test', $normalized['name']);
     }
@@ -51,6 +52,7 @@ class ResultNormalizerTest extends TestCase
         $row = ['_id' => $objectId, 'name' => 'MongoDoc'];
         $normalized = ResultNormalizer::normalize($row);
 
+        $this->assertNotNull($normalized);
         $this->assertArrayHasKey('id', $normalized);
         $this->assertSame($mongoIdVal, $normalized['id']);
         $this->assertArrayNotHasKey('_id', $normalized); // Default: keepMongoId = false
@@ -60,6 +62,7 @@ class ResultNormalizerTest extends TestCase
             ->keepMongoId(true)
             ->normalizeRow($row);
 
+        $this->assertNotNull($normalizedKeep);
         $this->assertArrayHasKey('id', $normalizedKeep);
         $this->assertArrayHasKey('_id', $normalizedKeep);
         $this->assertSame($mongoIdVal, $normalizedKeep['id']);
@@ -75,6 +78,7 @@ class ResultNormalizerTest extends TestCase
         // normalizeWithConfig(row, keepMongoId=true)
         $normalized = ResultNormalizer::normalizeWithConfig($row, true);
 
+        $this->assertNotNull($normalized);
         $this->assertArrayHasKey('id', $normalized);
         $this->assertArrayHasKey('_id', $normalized);
     }
@@ -97,17 +101,29 @@ class ResultNormalizerTest extends TestCase
 
         // Recursive = false (default)
         $normDefault = ResultNormalizer::normalize($row);
-        // Should NOT convert nested objectId
-        $this->assertEquals($objectId, $normDefault['meta']['created_by']);
+        $this->assertNotNull($normDefault);
+
+        /** @var array<string, mixed> $meta */
+        $meta = $normDefault['meta'];
+        $this->assertEquals($objectId, $meta['created_by']);
 
         // Recursive = true
         $normRecursive = ResultNormalizer::create()
             ->recursive(true)
             ->normalizeRow($row);
 
-        $this->assertSame($mongoIdVal, $normRecursive['meta']['created_by']);
-        $this->assertSame($mongoIdVal, $normRecursive['meta']['details']['ref_id']);
-        $this->assertSame($mongoIdVal, $normRecursive['tags'][0]);
+        $this->assertNotNull($normRecursive);
+
+        /** @var array<string, mixed> $metaRecursive */
+        $metaRecursive = $normRecursive['meta'];
+        /** @var array<string, mixed> $details */
+        $details = $metaRecursive['details'];
+        /** @var array<int, mixed> $tags */
+        $tags = $normRecursive['tags'];
+
+        $this->assertSame($mongoIdVal, $metaRecursive['created_by']);
+        $this->assertSame($mongoIdVal, $details['ref_id']);
+        $this->assertSame($mongoIdVal, $tags[0]);
     }
 
     public function testStrictIdTypes(): void
@@ -116,12 +132,7 @@ class ResultNormalizerTest extends TestCase
         $validRow = ['id' => '507f1f77bcf86cd799439011', 'code' => 123];
         $this->assertSame($validRow, ResultNormalizer::normalize($validRow));
 
-        // Note: The current implementation of ResultNormalizer basically treats "strict" as "pass through unless invalid format AND explicitly an ID type".
-        // But since it doesn't know which fields are IDs, it checks "isIdValue".
-        // 'Bad' strings are just treated as strings.
-
         $badRow = ['name' => 'John Doe'];
-        // "John Doe" !looksLikeIdString -> skipped by isIdValue -> passed as string.
         $this->assertSame($badRow, ResultNormalizer::normalize($badRow));
     }
 
@@ -137,6 +148,7 @@ class ResultNormalizerTest extends TestCase
         $row = ['data' => $obj];
         $normalized = ResultNormalizer::normalize($row);
 
+        $this->assertNotNull($normalized);
         $this->assertSame('string-representation', $normalized['data']);
     }
 
