@@ -41,7 +41,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             /** @var array<string, mixed>|object|null $result */
             $result = $this->getCollectionObj()->findOne($filter);
 
-            return $this->toArray($result);
+            return $this->getMongoOps()->toArray($result);
         } catch (\Exception $e) {
             throw new RepositoryException('Find failed: ' . $e->getMessage(), 0, $e);
         }
@@ -74,7 +74,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
             $cursor = $this->getCollectionObj()->find($normalizedFilters, $options);
 
-            return $this->cursorToArray($cursor);
+            return $this->getMongoOps()->cursorToArray($cursor);
         } catch (\Exception $e) {
             throw new RepositoryException('FindBy failed: ' . $e->getMessage(), 0, $e);
         }
@@ -94,7 +94,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             /** @var array<string, mixed>|object|null $result */
             $result = $this->getCollectionObj()->findOne($normalizedFilters);
 
-            return $this->toArray($result);
+            return $this->getMongoOps()->toArray($result);
         } catch (\Exception $e) {
             throw new RepositoryException('FindOneBy failed: ' . $e->getMessage(), 0, $e);
         }
@@ -134,17 +134,13 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $result = $this->getCollectionObj()->insertOne($data);
             $id = $result->getInsertedId();
 
-            // Safely cast mixed return to int|string for PHPStan
-            if ($id instanceof ObjectId) {
-                return (string)$id;
+            $normalizedId = $this->getMongoOps()->normalizeInsertedId($id);
+
+            if ($normalizedId === '') {
+                throw new RepositoryException('Insert failed: received invalid ID type from driver.');
             }
 
-            if (is_int($id) || is_string($id)) {
-                return $id;
-            }
-
-            // Fallback
-            throw new RepositoryException('Insert failed: received invalid ID type from driver.');
+            return $normalizedId;
         } catch (\Exception $e) {
             if ($e instanceof RepositoryException) {
                 throw $e;
@@ -231,44 +227,4 @@ abstract class GenericMongoRepository extends BaseMongoRepository
         return ['_id' => $id];
     }
 
-    /**
-     * @return array<string, mixed>|null
-     */
-    private function toArray(mixed $document): ?array
-    {
-        if ($document === null) {
-            return null;
-        }
-
-        if (is_object($document) && method_exists($document, 'getArrayCopy')) {
-            /** @var array<string, mixed> $array */
-            $array = $document->getArrayCopy();
-
-            return $array;
-        }
-
-        /** @var array<string, mixed> $array */
-        $array = (array)$document;
-
-        return $array;
-    }
-
-    /**
-     * @param   iterable<mixed>  $cursor
-     *
-     * @return array<int, array<string, mixed>>
-     */
-    private function cursorToArray(iterable $cursor): array
-    {
-        $results = [];
-        foreach ($cursor as $document) {
-            /** @var array<string, mixed>|null $arr */
-            $arr = $this->toArray($document);
-            if ($arr !== null) {
-                $results[] = $arr;
-            }
-        }
-
-        return $results;
-    }
 }

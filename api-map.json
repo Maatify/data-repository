@@ -262,6 +262,11 @@
           "visibility": "public",
           "return_type": "PDO|object",
           "arguments": []
+        },
+        "lastInsertId": {
+          "visibility": "public",
+          "return_type": "int|string",
+          "arguments": []
         }
       }
     },
@@ -280,6 +285,27 @@
           "visibility": "public",
           "return_type": "MongoDB\\Collection|object",
           "arguments": []
+        },
+        "normalizeInsertedId": {
+          "visibility": "public",
+          "return_type": "int|string",
+          "arguments": [
+            { "name": "id", "type": "mixed", "optional": false }
+          ]
+        },
+        "toArray": {
+          "visibility": "public",
+          "return_type": "?array",
+          "arguments": [
+            { "name": "document", "type": "mixed", "optional": false }
+          ]
+        },
+        "cursorToArray": {
+          "visibility": "public",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "cursor", "type": "iterable", "optional": false }
+          ]
         }
       }
     },

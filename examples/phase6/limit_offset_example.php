@@ -26,61 +26,71 @@ class UserRepository extends GenericMySQLRepository
     protected string $tableName = 'users';
 }
 
-try {
-    /** @var UserRepository $mysqlRepo */
-    $mysqlRepo = new UserRepository($mysqlAdapter); // $mysqlAdapter injected from app
-
-    // Find the top 10 users
-    $users = $mysqlRepo->findBy(
-        filters: ['status' => 'active'],
-        orderBy: ['created_at' => 'DESC'],
-        limit: 10,
-        offset: 0
-    );
-
-    // Pagination (Page 2, 10 items per page)
-    $page2 = $mysqlRepo->findBy(
-        filters: [],
-        orderBy: ['id' => 'ASC'],
-        limit: 10,
-        offset: 10
-    );
-
-    echo 'Fetched ' . count($users) . " users.\n";
-
-} catch (RepositoryException $e) {
-    echo 'MySQL Error: ' . $e->getMessage();
-}
-
 // 2. Mongo Example
 class LogRepository extends GenericMongoRepository
 {
     protected string $collectionName = 'logs';
 }
 
-try {
-    /** @var LogRepository $mongoRepo */
-    $mongoRepo = new LogRepository($mongoAdapter);
+// --- Execution Section ---
 
-    // Skip the first 100 logs, take 50
-    $logs = $mongoRepo->findBy(
-        filters: ['level' => 'error'],
-        orderBy: ['timestamp' => 'DESC'],
-        limit: 50,
-        offset: 100
-    );
+if (! isset($mysqlAdapter)) {
+    echo "This example requires \$mysqlAdapter to be set. Skipping MySQL execution.\n";
+} else {
+    try {
+        /** @var UserRepository $mysqlRepo */
+        $mysqlRepo = new UserRepository($mysqlAdapter); // $mysqlAdapter injected from app
 
-    echo 'Fetched ' . count($logs) . " logs.\n";
+        // Find the top 10 users
+        $users = $mysqlRepo->findBy(
+            filters: ['status' => 'active'],
+            orderBy: ['created_at' => 'DESC'],
+            limit: 10,
+            offset: 0
+        );
 
-} catch (RepositoryException $e) {
-    echo 'Mongo Error: ' . $e->getMessage();
+        // Pagination (Page 2, 10 items per page)
+        $page2 = $mysqlRepo->findBy(
+            filters: [],
+            orderBy: ['id' => 'ASC'],
+            limit: 10,
+            offset: 10
+        );
+
+        echo 'Fetched ' . count($users) . " users.\n";
+
+        // 3. Validation Example
+        try {
+            // This will throw an exception
+            $mysqlRepo->findBy([], null, -5);
+        } catch (RepositoryException $e) {
+            echo 'Validation Caught: ' . $e->getMessage() . "\n";
+            // Output: Validation Caught: Invalid limit value: -5. Limit must be >= 1.
+        }
+
+    } catch (RepositoryException $e) {
+        echo 'MySQL Error: ' . $e->getMessage();
+    }
 }
 
-// 3. Validation Example
-try {
-    // This will throw an exception
-    $mysqlRepo->findBy([], null, -5);
-} catch (RepositoryException $e) {
-    echo 'Validation Caught: ' . $e->getMessage() . "\n";
-    // Output: Validation Caught: Invalid limit value: -5. Limit must be >= 1.
+if (! isset($mongoAdapter)) {
+    echo "This example requires \$mongoAdapter to be set. Skipping Mongo execution.\n";
+} else {
+    try {
+        /** @var LogRepository $mongoRepo */
+        $mongoRepo = new LogRepository($mongoAdapter);
+
+        // Skip the first 100 logs, take 50
+        $logs = $mongoRepo->findBy(
+            filters: ['level' => 'error'],
+            orderBy: ['timestamp' => 'DESC'],
+            limit: 50,
+            offset: 100
+        );
+
+        echo 'Fetched ' . count($logs) . " logs.\n";
+
+    } catch (RepositoryException $e) {
+        echo 'Mongo Error: ' . $e->getMessage();
+    }
 }

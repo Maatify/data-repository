@@ -148,9 +148,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             $pdo = $this->getPdo();
             $pdo->prepare($sql)->execute($data);
 
-            $lastId = $pdo->lastInsertId();
-
-            return $lastId === false ? 0 : $lastId;
+            return $this->getMysqlOps()->lastInsertId();
         } catch (\PDOException $e) {
             throw new RepositoryException('Insert failed: ' . $e->getMessage(), 0, $e);
         }
