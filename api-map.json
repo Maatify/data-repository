@@ -1,6 +1,73 @@
 {
   "version": "1.0.0",
   "classes": {
+    "Maatify\\DataRepository\\Pagination\\PaginationEntry": {
+      "type": "class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "page", "type": "int", "optional": true },
+            { "name": "perPage", "type": "int", "optional": true }
+          ]
+        },
+        "getPage": {
+          "visibility": "public",
+          "return_type": "int",
+          "arguments": []
+        },
+        "getPerPage": {
+          "visibility": "public",
+          "return_type": "int",
+          "arguments": []
+        },
+        "getOffset": {
+          "visibility": "public",
+          "return_type": "int",
+          "arguments": []
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Pagination\\PaginationContext": {
+      "type": "class",
+      "methods": {
+        "setEntry": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "entry", "type": "Maatify\\DataRepository\\Pagination\\PaginationEntry", "optional": false }
+          ]
+        },
+        "getEntry": {
+          "visibility": "public",
+          "return_type": "?Maatify\\DataRepository\\Pagination\\PaginationEntry",
+          "arguments": []
+        },
+        "setMeta": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "meta", "type": "Maatify\\Common\\Pagination\\DTO\\PaginationDTO", "optional": false }
+          ]
+        },
+        "getMeta": {
+          "visibility": "public",
+          "return_type": "?Maatify\\Common\\Pagination\\DTO\\PaginationDTO",
+          "arguments": []
+        },
+        "hasEntry": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": []
+        },
+        "hasMeta": {
+          "visibility": "public",
+          "return_type": "bool",
+          "arguments": []
+        }
+      }
+    },
     "Maatify\\DataRepository\\Generic\\Support\\ResultNormalizer": {
       "type": "final class",
       "methods": {

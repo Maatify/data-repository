@@ -406,5 +406,50 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase10",
+    "timestamp": "2025-11-27T11:10:00+02:00",
+    "status": "completed",
+    "summary": "Pagination Hooks (Preparation Only) implemented. Utilized maatify/common PaginationDTO and Helpers.",
+    "changes": {
+      "added": [
+        "src/Pagination/PaginationEntry.php",
+        "src/Pagination/PaginationContext.php",
+        "docs/phases/README.phase10.md"
+      ],
+      "updated": [
+        "roadmap.json",
+        "api-map.json",
+        "CHANGELOG.md"
+      ]
+    },
+    "tests": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0,
+      "coverage": "Unknown",
+      "notes": "Tests not applicable for this preparation phase (DTOs only)."
+    },
+    "git_patch": "phase10.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Pagination\\PaginationEntry": {
+        "type": "class",
+        "methods": {
+          "getPage": { "return": "int", "visibility": "public" },
+          "getPerPage": { "return": "int", "visibility": "public" },
+          "getOffset": { "return": "int", "visibility": "public" }
+        }
+      },
+      "Maatify\\DataRepository\\Pagination\\PaginationContext": {
+        "type": "class",
+        "methods": {
+          "setEntry": { "return": "void", "visibility": "public" },
+          "getEntry": { "return": "?PaginationEntry", "visibility": "public" },
+          "setMeta": { "return": "void", "visibility": "public" },
+          "getMeta": { "return": "?PaginationDTO", "visibility": "public" }
+        }
+      }
+    }
   }
 ]
