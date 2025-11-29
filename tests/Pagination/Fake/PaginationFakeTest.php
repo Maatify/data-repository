@@ -15,28 +15,64 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Tests\Pagination\Fake;
 
+use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
-use Maatify\DataRepository\Tests\Base\Fake\FakeMySQLBaseRepositoryTest;
 use Maatify\Common\Pagination\PaginationDTO;
 use PHPUnit\Framework\TestCase;
 
 class PaginationFakeTest extends TestCase
 {
-    private object $repository;
+    private GenericMySQLRepository $repository;
 
     protected function setUp(): void
     {
-        // Mock a concrete repository class for testing
-        $this->repository = new class(new \PDO('sqlite::memory:')) extends GenericMySQLRepository {
+        // Mock the AdapterInterface
+        $pdo = new \PDO('sqlite::memory:');
+        $pdo->exec("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY, name TEXT)");
+        // Seed data
+        for ($i = 1; $i <= 25; $i++) {
+            $pdo->exec("INSERT INTO test_table (id, name) VALUES ($i, 'Item $i')");
+        }
+
+        // Create an anonymous class implementing AdapterInterface
+        $adapter = new class($pdo) implements AdapterInterface {
+            private \PDO $pdo;
+
             public function __construct(\PDO $pdo)
             {
-                parent::__construct($pdo);
+                $this->pdo = $pdo;
+            }
+
+            public function getDriver(): mixed
+            {
+                return $this->pdo;
+            }
+
+            public function getType(): string
+            {
+                return 'mysql'; // Pretend to be MySQL for the repository
+            }
+
+            public function isConnected(): bool
+            {
+                return true;
+            }
+
+            public function connect(): void
+            {
+            }
+
+            public function disconnect(): void
+            {
+            }
+        };
+
+        // Create anonymous repository extending GenericMySQLRepository
+        $this->repository = new class($adapter) extends GenericMySQLRepository {
+            public function __construct(AdapterInterface $adapter)
+            {
+                parent::__construct($adapter);
                 $this->tableName = 'test_table';
-                $this->getDriver()->exec("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY, name TEXT)");
-                // Seed data
-                for ($i = 1; $i <= 25; $i++) {
-                    $this->getDriver()->exec("INSERT INTO test_table (id, name) VALUES ($i, 'Item $i')");
-                }
             }
         };
     }
@@ -59,6 +95,9 @@ class PaginationFakeTest extends TestCase
 
         $this->assertCount(10, $result->data);
         $this->assertEquals(2, $result->pagination->page);
+        // SQLite doesn't guarantee order without ORDER BY, but usually insertion order holds
+        // Item 11 should be at index 0 of page 2
+        // $result->data is array<int, array>
         $this->assertEquals('Item 11', $result->data[0]['name']);
     }
 
@@ -72,14 +111,15 @@ class PaginationFakeTest extends TestCase
 
     public function testPaginateByWithFilters(): void
     {
-        // Simulate a filter where name = 'Item 1' (only one record)
-        // Note: SQLite LIKE might be case insensitive or specific, using simple WHERE
-        // But GenericMySQLRepository uses FilterUtils which builds WHERE clauses.
-        // We'll rely on simple exact match for this fake test.
+        // Simple filter test
+        // SQLite support for named params matches MySQL
+        // FilterUtils generates `name = :name`
 
-        // Let's verify standard pagination flow first.
-        $result = $this->repository->paginateBy([], 1, 5);
-        $this->assertCount(5, $result->data);
-        $this->assertEquals(5, $result->pagination->pages);
+        $filters = ['name' => 'Item 1'];
+        $result = $this->repository->paginateBy($filters, 1, 5);
+
+        $this->assertCount(1, $result->data);
+        $this->assertEquals(1, $result->pagination->total);
+        $this->assertEquals('Item 1', $result->data[0]['name']);
     }
 }

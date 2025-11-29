@@ -50,6 +50,16 @@ if (! file_exists($autoload)) {
 require_once $autoload;
 
 // ------------------------------------------------------------
+// 1.5) Load Stubs (if missing in environment)
+// ------------------------------------------------------------
+if (! class_exists('Maatify\Common\Pagination\PaginationDTO')) {
+    $stubPath = __DIR__ . '/Stubs/Maatify/Common/Pagination/PaginationDTO.php';
+    if (file_exists($stubPath)) {
+        require_once $stubPath;
+    }
+}
+
+// ------------------------------------------------------------
 // 2) Load environment variables (testing/default)
 // ------------------------------------------------------------
 $loader = new EnvironmentLoader(dirname(__DIR__));
