@@ -2,13 +2,12 @@
 
 /**
  * @copyright   ©2025 Maatify.dev
- * @Liberary    maatify/data-repository
+ * @Library     maatify/data-repository
  * @Project     maatify:data-repository
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
- * @since       2025-11-29 16:09
- * @see         https://www.maatify.dev Maatify.dev
- * @link        https://github.com/Maatify/data-repository view project on GitHub
- * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
+ * @since       2025-11-27 10:00
+ * @see         https://www.maatify.dev
+ * @link        https://github.com/Maatify/data-repository
  */
 
 declare(strict_types=1);
@@ -16,11 +15,18 @@ declare(strict_types=1);
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
+use Maatify\DataRepository\Generic\GenericMongoRepository;
+use Maatify\DataRepository\Generic\GenericRedisRepository;
 use Maatify\DataRepository\Generic\Support\MysqlOps;
+use Maatify\DataRepository\Generic\Support\MongoOps;
+use Maatify\DataRepository\Generic\Support\RedisOps;
 
 // This example demonstrates how the internal Ops classes are exposed
 // (via protected methods) to help implement custom repository logic if needed.
 
+// -----------------------------------------------------------------------------
+// 1. MySQL Example
+// -----------------------------------------------------------------------------
 class ExtendedUserRepository extends GenericMySQLRepository
 {
     protected string $tableName = 'users';
@@ -38,7 +44,7 @@ class ExtendedUserRepository extends GenericMySQLRepository
         $pdo = $this->getOps()->getDriver();
 
         if ($pdo instanceof PDO) {
-            $stmt = $pdo->prepare('INSERT INTO users (name) VALUES (:name)');
+            $stmt = $pdo->prepare("INSERT INTO users (name) VALUES (:name)");
             $stmt->execute(['name' => $data['name']]);
 
             // Use Ops to normalize ID
@@ -49,18 +55,105 @@ class ExtendedUserRepository extends GenericMySQLRepository
     }
 }
 
-// Check for adapter (like in the phase6 example)
 if (! isset($mysqlAdapter)) {
-    echo "This example requires \$mysqlAdapter to be set. Skipping execution.\n";
-    echo "This script demonstrates how Generic Repositories leverage MysqlOps internally.\n";
+    echo "[MySQL] Skipping: \$mysqlAdapter not set.\n";
 } else {
     try {
-        /** @var ExtendedUserRepository $repo */
-        $repo = new ExtendedUserRepository($mysqlAdapter);
+        echo "[MySQL] Running Ops Demo...\n";
+        /** @var ExtendedUserRepository $mysqlRepo */
+        $mysqlRepo = new ExtendedUserRepository($mysqlAdapter);
 
-        $id = $repo->directInsert(['name' => 'Ops User']);
-        echo 'Inserted User ID via Ops: ' . $id . "\n";
+        $id = $mysqlRepo->directInsert(['name' => 'Ops User']);
+        echo " - Inserted User ID via Ops: " . $id . "\n";
+
     } catch (Exception $e) {
-        echo 'Error: ' . $e->getMessage() . "\n";
+        echo " - [MySQL] Error: " . $e->getMessage() . "\n";
+    }
+}
+
+echo "\n";
+
+// -----------------------------------------------------------------------------
+// 2. MongoDB Example
+// -----------------------------------------------------------------------------
+class ExtendedLogRepository extends GenericMongoRepository
+{
+    protected string $collectionName = 'app_logs';
+
+    public function getOps(): MongoOps
+    {
+        return $this->getMongoOps();
+    }
+
+    public function rawInsert(array $data): string
+    {
+        // Access raw collection
+        $collection = $this->getOps()->getCollection();
+
+        if (method_exists($collection, 'insertOne')) {
+            $result = $collection->insertOne($data);
+
+            // Use Ops to normalize the BSON ObjectId to string
+            return (string) $this->getOps()->normalizeInsertedId($result->getInsertedId());
+        }
+
+        return '';
+    }
+}
+
+if (! isset($mongoAdapter)) {
+    echo "[Mongo] Skipping: \$mongoAdapter not set.\n";
+} else {
+    try {
+        echo "[Mongo] Running Ops Demo...\n";
+        /** @var ExtendedLogRepository $mongoRepo */
+        $mongoRepo = new ExtendedLogRepository($mongoAdapter);
+
+        $id = $mongoRepo->rawInsert(['msg' => 'Test Log', 'ts' => time()]);
+        echo " - Inserted Log ID via Ops: " . $id . "\n";
+
+    } catch (Exception $e) {
+         echo " - [Mongo] Error: " . $e->getMessage() . "\n";
+    }
+}
+
+echo "\n";
+
+// -----------------------------------------------------------------------------
+// 3. Redis Example
+// -----------------------------------------------------------------------------
+class ExtendedCacheRepository extends GenericRedisRepository
+{
+    protected string $keyPrefix = 'cache:';
+
+    public function getOps(): RedisOps
+    {
+        return $this->getRedisOps();
+    }
+
+    public function scanKeys(): array
+    {
+        // Use Ops to scan keys (works on Real Redis, Predis, and Fakes)
+        return $this->getOps()->keys($this->keyPrefix . '*');
+    }
+}
+
+if (! isset($redisAdapter)) {
+    echo "[Redis] Skipping: \$redisAdapter not set.\n";
+} else {
+    try {
+        echo "[Redis] Running Ops Demo...\n";
+        /** @var ExtendedCacheRepository $redisRepo */
+        $redisRepo = new ExtendedCacheRepository($redisAdapter);
+
+        // Seed
+        $redisRepo->insert(['id' => 'config_1', 'val' => 'on']);
+
+        // Use exposed Ops method
+        $keys = $redisRepo->scanKeys();
+        echo " - Found " . count($keys) . " keys via Ops.\n";
+
+    } catch (Exception $e) {
+        echo " - [Redis] Error: " . $e->getMessage() . "\n";
     }
 }

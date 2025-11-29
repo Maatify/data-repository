@@ -256,6 +256,7 @@ src/
 | 6     | Limits & Offsets                            | ✅ Completed    | Unified Validation          |
 | 7     | Result Normalization                        | ✅ Completed    | ID Mapping, Type Casting    |
 | 8     | CRUD Edge Cases                             | ✅ Completed    | Standardized Exceptions     |
+| 9     | Generic Ops Integration                     | ✅ Completed    | MysqlOps, MongoOps, RedisOps|
 
 ---
 
@@ -284,6 +285,9 @@ src/
 
 - **Phase 8 — CRUD Edge Cases**
   [`phases/README.phase8.md`](phases/README.phase8.md)
+
+- **Phase 9 — Generic Ops Integration**
+  [`phases/README.phase9.md`](phases/README.phase9.md)
 
 ---
 

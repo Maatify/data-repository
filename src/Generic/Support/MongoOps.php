@@ -73,7 +73,7 @@ final class MongoOps
     }
 
     /**
-     * Convert MongoDB BSONDocument/array/object to a standard PHP array.
+     * Convert MongoDB BSONDocument/array/object to standard PHP array.
      *
      * @param mixed $document
      * @return array<string, mixed>|null

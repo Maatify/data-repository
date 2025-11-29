@@ -11,6 +11,20 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+## [1.0.2] — 2025-11-27 (Phase 9 Update)
+
+### 🚀 Added
+- **Generic Ops Integration (Phase 9)**
+    - Introduced `MysqlOps` normalization wrapper for PDO/DBAL driver quirks (e.g., `lastInsertId` type unification).
+    - Introduced `MongoOps` normalization wrapper for MongoDB Collection (BSON `ObjectId` casting, cursor iteration).
+    - Introduced `RedisOps` normalization wrapper for Redis/Predis/Fake unified KV operations.
+    - Centralized driver-level logic in `src/Generic/Support/` to reduce duplication in Generic Repositories.
+    - Updated `GenericMySQLRepository`, `GenericMongoRepository` to use new Ops classes.
+    - Added comprehensive unit tests for all Ops classes.
+    - Included `examples/phase9/ops_usage_example.php` demonstrating advanced Ops usage.
+
+---
+
 ## [1.0.1] — 2025-11-25 (Phase 8 Update)
 
 ### 🚀 Added

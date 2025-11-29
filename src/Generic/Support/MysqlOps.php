@@ -61,10 +61,10 @@ final class MysqlOps
             if ($id === false) {
                 return 0;
             }
-            // PDO usually returns string for IDs, but can be int if a driver handles it.
+            // PDO returns string for IDs usually, but can be int if driver handles it.
             // Check if numeric string
             if (is_numeric($id)) {
-                return $id + 0; // Cast to int or float (but ID is usually int)
+                return (int)$id;
             }
             return $id;
         }

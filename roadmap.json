@@ -195,7 +195,7 @@
       "id": "phase9",
       "title": "Generic Ops Integration (MysqlOps / RedisOps / MongoOps)",
       "version": "1.0.2",
-      "status": "pending",
+      "status": "completed",
       "summary": "Deep integration of low-level ops wrappers and removal of duplication.",
       "tasks": [
         "Integrate MysqlOps",
