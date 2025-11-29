@@ -297,8 +297,8 @@
       "id": "phase14",
       "title": "DTO Mapping + Hydration Profiles",
       "version": "1.0.3",
-      "status": "pending",
-      "summary": "Add DTO mapping, profiles, and transformers.",
+      "status": "completed",
+      "summary": "Add DTO mapping, profiles, transformers, and Generic Repository hydration integration.",
       "tasks": [
         "Add MappingProfile",
         "Add transformers",
@@ -306,10 +306,15 @@
       ],
       "outputs": [
         "src/Hydration/MappingProfile.php",
+        "src/Hydration/TransformerInterface.php",
+        "src/Hydration/Transformers/JsonTransformer.php",
+        "src/Hydration/Transformers/DateTimeTransformer.php",
+        "src/Generic/Support/RepositoryHydrationTrait.php",
         "README.phase14.md"
       ],
       "tests": [
-        "tests/Hydration/*DTO*"
+        "tests/Hydration/*DTO*",
+        "tests/Generic/Hydration/*"
       ]
     },
 

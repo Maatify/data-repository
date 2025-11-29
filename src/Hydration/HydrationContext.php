@@ -33,6 +33,8 @@ class HydrationContext
      */
     private array $meta = [];
 
+    private ?MappingProfile $profile = null;
+
     public function __construct()
     {
         $this->stages = [
@@ -71,5 +73,16 @@ class HydrationContext
     public function getMeta(string $key): mixed
     {
         return $this->meta[$key] ?? null;
+    }
+
+    public function setProfile(MappingProfile $profile): self
+    {
+        $this->profile = $profile;
+        return $this;
+    }
+
+    public function getProfile(): ?MappingProfile
+    {
+        return $this->profile;
     }
 }

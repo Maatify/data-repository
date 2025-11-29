@@ -23,6 +23,8 @@ use Redis;
 
 abstract class GenericRedisRepository extends BaseRedisRepository
 {
+    use RepositoryHydrationTrait;
+
     protected string $keyPrefix = '';
 
     private ?RedisOps $redisOps = null;

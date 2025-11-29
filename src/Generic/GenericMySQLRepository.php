@@ -21,10 +21,13 @@ use Maatify\DataRepository\Generic\Support\FilterUtils;
 use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use Maatify\DataRepository\Generic\Support\MysqlOps;
 use Maatify\DataRepository\Generic\Support\OrderUtils;
+use Maatify\DataRepository\Generic\Support\RepositoryHydrationTrait;
 use PDO;
 
 abstract class GenericMySQLRepository extends BaseMySQLRepository
 {
+    use RepositoryHydrationTrait;
+
     protected string $primaryKey = 'id';
 
     private ?MysqlOps $mysqlOps = null;
