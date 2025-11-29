@@ -117,7 +117,7 @@ class RedisOps
     public function del(string $key): int
     {
         if ($this->driver instanceof Redis) {
-            // في Redis الحقيقي، del() دايماً بترجع int
+            // Redis del() returns int
             return $this->driver->del($key);
         }
 
