@@ -1,150 +1,116 @@
-![Maatify.dev](https://www.maatify.dev/assets/img/img/maatify_logo_white.svg)
-
----
-
-## 🚀 Maatify Data Repository — Badges
-
-<!-- 1) Package Info -->
-[![Version](https://img.shields.io/packagist/v/maatify/data-repository?label=Version&color=4C1&style=flat-square)](https://packagist.org/packages/maatify/data-repository)
-[![PHP](https://img.shields.io/packagist/php-v/maatify/data-repository?label=PHP&color=777BB3&style=flat-square)](https://packagist.org/packages/maatify/data-repository)
-[![License](https://img.shields.io/github/license/Maatify/data-repository?label=License&color=blueviolet&style=flat-square)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Stable-success?style=flat-square)](CHANGELOG.md)
-
-<!-- 2) CI / QA -->
-[![Repository Tests](https://github.com/Maatify/data-repository/actions/workflows/test.yml/badge.svg?style=flat-square)](https://github.com/Maatify/data-repository/actions/workflows/test.yml)
-[![PHPStan](https://img.shields.io/badge/PHPStan-Level%206-4E8CAE?style=flat-square)](https://phpstan.org/)
-[![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/data-repository/main?color=brightgreen&style=flat-square)](https://www.codefactor.io/repository/github/Maatify/data-repository)
-[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Maatify/data-repository/badges/coverage.json&style=flat-square)]()
-
-
-<!-- 3) Popularity -->
-[![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/data-repository?label=Monthly%20Downloads&color=00A8E8&style=flat-square)](https://packagist.org/packages/maatify/data-repository)
-[![Total Downloads](https://img.shields.io/packagist/dt/maatify/data-repository?label=Total%20Downloads&color=2AA9E0&style=flat-square)](https://packagist.org/packages/maatify/data-repository)
-[![Stars](https://img.shields.io/github/stars/Maatify/data-repository?label=Stars&color=FFD43B&cacheSeconds=3600&style=flat-square)](https://github.com/Maatify/data-repository/stargazers)
-
-<!-- 4) Documentation -->
-[![Changelog](https://img.shields.io/badge/Changelog-View-blue?style=flat-square)](CHANGELOG.md)
-[![Security](https://img.shields.io/badge/Security-Policy-important?style=flat-square)](SECURITY.md)
-[![Full Docs](https://img.shields.io/badge/Docs-Full%20Guide-0A66C2?style=flat-square)](docs/README.full.md)
-[![Contributing](https://img.shields.io/badge/Contributing-Guide-0A9396?style=flat-square)](CONTRIBUTING.md)
-[![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-Community-EE9B00?style=flat-square)](CODE_OF_CONDUCT.md)
----
-
 # Maatify Data Repository
 
-A high-performance, multi-driver repository layer designed for the entire Maatify ecosystem.  
-This package provides a unified, abstracted, and fully testable data-access layer that works consistently across MySQL, MongoDB, Redis, and DBAL adapters.
+**Unified repository abstraction layer normalizing MySQL, MongoDB, and Redis real drivers and fake drivers.**
+
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.2-8892BF.svg?style=for-the-badge)](https://www.php.net/)
+
+> **Tip:** For detailed documentation, see [docs/README.full.md](docs/README.full.md).
 
 ---
 
-## 📌 Overview
+## 🚀 Overview
 
-`maatify/data-repository` defines the core architecture for building consistent repository classes,  
-normalizing driver behavior, and ensuring predictable data flows across all storage systems.
+This library separates **domain logic** from **database drivers**. It guarantees that your code behaves **exactly the same** whether you use:
 
-It is designed to:
+*   **Real Adapters** (`maatify/data-adapters`): Connect to real MySQL, Redis, or Mongo databases.
+*   **Fake Adapters** (`maatify/data-fakes`): Use in-memory arrays for fast, reliable unit tests.
 
-- Unify adapter behavior (MySQL, Redis, MongoDB, DBAL)
-- Provide a consistent repository abstraction
-- Enforce strict typing and predictable data structures
-- Support hydration, filtering (IN/LIKE/Range), sorting (ASC/DESC), pagination, and validation rules
-- Enable fakes and testing layers across all drivers
+### Supported Drivers
 
----
-
-## 📁 Documentation
-
-Developer documentation is located under:
-
-**`docs/dev/`**
-
-Full index:
-
-👉 [`docs/dev/0-master/MASTER_DOCUMENTATION.md`](docs/dev/0-master/MASTER_DOCUMENTATION.md)
-
-User-facing docs (installation, usage examples, API reference) will be added under:
-
-**`docs/user/`**
+| Type | Real Driver | Fake Driver |
+| :--- | :--- | :--- |
+| **MySQL** | `PDO` / `Doctrine DBAL` | In-Memory Array (SQL-like) |
+| **MongoDB** | `mongodb/mongodb` | In-Memory Collection (BSON-like) |
+| **Redis** | `redis` / `predis` | In-Memory Key-Value Store |
 
 ---
 
-## 🧩 Core Concepts
+## 📦 Installation
 
-This package is built around:
-
-- RepositoryInterface — unified CRUD contracts
-- Base repositories that normalize adapters for MySQL (PDO/DBAL), MongoDB, and Redis/Predis
-- Generic repositories for MySQL, MongoDB, and Redis that provide CRUD utilities over validated drivers
-- Driver normalization layer
-- Repository Resolver
-- DTO rules & hydration
-- Filtering, pagination & runtime policies
-- Exception taxonomy
-- Testing and fake adapters compatibility
-- Base repositories for MySQL (PDO/DBAL), MongoDB (Database/Collection), and Redis (phpredis/Predis) with unified driver accessors
-
-(All documented inside `docs/dev/`.)
+```bash
+composer require maatify/data-repository
+```
 
 ---
 
-## 🚀 Roadmap
+## ⚡ Quick Usage
 
-This README will expand automatically as project phases progress.
+### 1. Create a Repository
 
-Upcoming additions include:
+Extend the base class for your database type (`MySQL`, `Mongo`, or `Redis`):
 
-- Installation & configuration guide
-- Usage examples
-- Repository scaffolding guide
-- Driver-specific behaviors
-- Testing instructions
-- Advanced features (caching, decorators, observers)
+```php
+use Maatify\DataRepository\Base\BaseMySQLRepository;
 
----
+class UserRepository extends BaseMySQLRepository
+{
+    protected string $tableName = 'users';
+}
+```
 
-## 🛠 Requirements
+### 2. Use it (Production)
 
-- PHP 8.4+
-- Composer
-- maatify/data-adapters
-- maatify/common
+Inject a **Real Adapter** (via `maatify/data-adapters`):
 
----
+```php
+use Maatify\DataAdapters\Core\DatabaseResolver;
+use Maatify\DataAdapters\Core\EnvironmentConfig;
 
-## 📝 Full Documentation
+$config = new EnvironmentConfig(__DIR__);
+$resolver = new DatabaseResolver($config);
 
-👉 **[`README.full.md`](docs/README.full.md)**
+// Connect to Real MySQL
+$adapter = $resolver->resolve('mysql.main');
+$repo = new UserRepository($adapter);
 
----
+// Use Generic CRUD
+$users = $repo->findBy(['active' => 1], ['created_at' => 'DESC']);
+```
 
-## 🤝 Contributing
+### 3. Test it (CI / Unit Tests)
 
-Contribution guidelines and development workflow:
+Inject a **Fake Adapter** (via `maatify/data-fakes`):
 
-**`docs/dev/8-handbook/HANDBOOK.md`**
+```php
+use Maatify\DataFakes\Adapters\MySQL\FakeMySQLAdapter;
+use Maatify\DataFakes\Storage\FakeStorageLayer;
 
----
+$storage = new FakeStorageLayer();
+$adapter = new FakeMySQLAdapter($storage);
 
-## 🪪 License
+// Seed fake data
+$storage->seed('users', [
+    ['id' => 1, 'active' => 1, 'name' => 'Alice'],
+]);
 
-**[MIT License](LICENSE)**  
-© [Maatify.dev](https://www.maatify.dev) — Free to use, modify, and distribute with attribution.
-
----
-
-## 👤 Author
-
-Engineered by **Mohamed Abdulalim** ([@megyptm](https://github.com/megyptm))  
-Backend Lead & Technical Architect — https://www.maatify.dev
-
----
-
-## 🤝 Contributors
-
-Special thanks to the Maatify.dev engineering team and open-source contributors.
+$repo = new UserRepository($adapter);
+$users = $repo->findBy(['active' => 1]); // Returns Alice
+```
 
 ---
 
-<p align="center">
-  <sub>Built with ❤️ by <a href="https://www.maatify.dev">Maatify.dev</a> — Unified Ecosystem for Modern PHP Libraries</sub>
-</p>
+## 🧩 Key Features
+
+*   **Generic CRUD**: `find`, `findBy`, `findOneBy`, `insert`, `update`, `delete`, `count`, `paginate`.
+*   **Advanced Filtering**: `IN`, `LIKE`, ranges (`>`, `<`), `IS NULL`.
+*   **Sorting**: Multi-column `orderBy` normalized across drivers.
+*   **Pagination**: Standardized `paginate()` with `PaginationResultDTO`.
+*   **Hydration**: Transform arrays to DTOs via `HydratorInterface`.
+*   **Strict Validation**: Prevents invalid offsets, limits, or types.
+
+---
+
+## 📄 Documentation
+
+*   [**Full Documentation**](docs/README.full.md)
+*   [**Phase 1: Bootstrap**](docs/phases/README.phase1.md)
+*   [**Phase 3: Generic CRUD**](docs/phases/README.phase3.md)
+*   [**Phase 15: Pagination**](docs/phases/README.phase15.md)
+
+---
+
+## 📄 License
+
+MIT License © 2025 Maatify.dev

@@ -19,6 +19,8 @@ use Maatify\DataRepository\Base\BaseRedisRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\RedisOps;
 use Maatify\DataRepository\Generic\Support\RepositoryHydrationTrait;
+use Maatify\DataRepository\Pagination\PaginationResultDTO;
+use Maatify\Common\Pagination\PaginationDTO;
 use Predis\Client as PredisClient;
 use Redis;
 
@@ -221,5 +223,50 @@ abstract class GenericRedisRepository extends BaseRedisRepository
         }
 
         return $this->redisOps;
+    }
+
+    /**
+     * @param   int   $page
+     * @param   int   $perPage
+     * @param   array<string, string>|null $orderBy
+     *
+     * @return PaginationResultDTO
+     * @throws RepositoryException
+     */
+    public function paginate(int $page = 1, int $perPage = 10, ?array $orderBy = null): PaginationResultDTO
+    {
+        // Redis basic pagination support requires findAll + array_slice since we don't have secondary indexes here.
+        // This is inefficient but functional for small datasets, compliant with Phase 15 requirements.
+
+        if ($page < 1) {
+            $page = 1;
+        }
+        if ($perPage < 1) {
+            $perPage = 10;
+        }
+
+        $all = $this->findAll();
+        $total = count($all);
+        $offset = ($page - 1) * $perPage;
+
+        $data = array_slice($all, $offset, $perPage);
+
+        $pagination = new PaginationDTO($page, $total, $perPage);
+
+        return new PaginationResultDTO($data, $pagination);
+    }
+
+    /**
+     * @param   array<string, mixed>       $filters
+     * @param   int                        $page
+     * @param   int                        $perPage
+     * @param   array<string, string>|null $orderBy
+     *
+     * @return PaginationResultDTO
+     * @throws RepositoryException
+     */
+    public function paginateBy(array $filters, int $page = 1, int $perPage = 10, ?array $orderBy = null): PaginationResultDTO
+    {
+        throw new RepositoryException('paginateBy() with filters is not supported in GenericRedisRepository.');
     }
 }

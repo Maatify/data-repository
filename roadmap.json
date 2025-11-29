@@ -322,7 +322,7 @@
       "id": "phase15",
       "title": "Pagination Core (Hydration-Aware)",
       "version": "1.0.4",
-      "status": "pending",
+      "status": "completed",
       "summary": "Full paginate() + paginateBy() returning PaginationDTO + PaginationResultDTO.",
       "tasks": [
         "Implement paginate()",

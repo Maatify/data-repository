@@ -22,6 +22,8 @@ use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use Maatify\DataRepository\Generic\Support\MysqlOps;
 use Maatify\DataRepository\Generic\Support\OrderUtils;
 use Maatify\DataRepository\Generic\Support\RepositoryHydrationTrait;
+use Maatify\DataRepository\Pagination\PaginationResultDTO;
+use Maatify\Common\Pagination\PaginationDTO;
 use PDO;
 
 abstract class GenericMySQLRepository extends BaseMySQLRepository
@@ -249,5 +251,47 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
     protected function buildWhereClause(array $filters): array
     {
         return FilterUtils::buildSqlWhere($filters);
+    }
+
+    /**
+     * @param   int   $page
+     * @param   int   $perPage
+     * @param   array<string, string>|null $orderBy
+     *
+     * @return PaginationResultDTO
+     * @throws RepositoryException
+     */
+    public function paginate(int $page = 1, int $perPage = 10, ?array $orderBy = null): PaginationResultDTO
+    {
+        return $this->paginateBy([], $page, $perPage, $orderBy);
+    }
+
+    /**
+     * @param   array<string, mixed>       $filters
+     * @param   int                        $page
+     * @param   int                        $perPage
+     * @param   array<string, string>|null $orderBy
+     *
+     * @return PaginationResultDTO
+     * @throws RepositoryException
+     */
+    public function paginateBy(array $filters, int $page = 1, int $perPage = 10, ?array $orderBy = null): PaginationResultDTO
+    {
+        if ($page < 1) {
+            $page = 1;
+        }
+
+        if ($perPage < 1) {
+            $perPage = 10;
+        }
+
+        $total = $this->count($filters);
+        $offset = ($page - 1) * $perPage;
+
+        $data = $this->findBy($filters, $orderBy, $perPage, $offset);
+
+        $pagination = new PaginationDTO($page, $total, $perPage);
+
+        return new PaginationResultDTO($data, $pagination);
     }
 }

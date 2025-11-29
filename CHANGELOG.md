@@ -9,6 +9,19 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.4] — 2025-11-27 (Phase 15 Update)
+
+### 🚀 Added
+- **Pagination Core (Phase 15)**
+    - Implemented standardized `paginate(page, perPage)` and `paginateBy(filters, page, perPage)` methods in Generic Repositories.
+    - Added `PaginationResultDTO` wrapping data array and metadata.
+    - Restored/Verified `PaginationEntry` and `PaginationContext` for internal use.
+    - Integrated `maatify/common` `PaginationDTO` for unified pagination metadata across the system.
+    - Added `paginate()` support to `GenericMySQLRepository`, `GenericMongoRepository`, and `GenericRedisRepository`.
+    - Note: `GenericRedisRepository::paginateBy` throws exception as Redis lacks secondary index support for filtering.
+
+---
+
 ## [1.0.3] — 2025-11-27 (Phase 14 Update)
 
 ### 🚀 Added
@@ -176,6 +189,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+[1.0.4]: https://github.com/Maatify/data-repository/releases/tag/1.0.4
 [1.0.3]: https://github.com/Maatify/data-repository/releases/tag/1.0.3
 [1.0.2]: https://github.com/Maatify/data-repository/releases/tag/1.0.2
 [1.0.1]: https://github.com/Maatify/data-repository/releases/tag/1.0.1

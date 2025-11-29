@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @copyright   ©2025 Maatify.dev
+ * @Library    maatify/data-repository
+ * @Project     maatify:data-repository
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since       2025-11-27 11:10
+ * @see         https://www.maatify.dev Maatify.com
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
+ */
+
+declare(strict_types=1);
+
+namespace Maatify\DataRepository\Pagination;
+
+use Maatify\Common\Pagination\PaginationDTO;
+
+class PaginationContext
+{
+    private ?PaginationEntry $entry = null;
+    private ?PaginationDTO $meta = null;
+
+    public function setEntry(PaginationEntry $entry): void
+    {
+        $this->entry = $entry;
+    }
+
+    public function getEntry(): ?PaginationEntry
+    {
+        return $this->entry;
+    }
+
+    public function setMeta(PaginationDTO $meta): void
+    {
+        $this->meta = $meta;
+    }
+
+    public function getMeta(): ?PaginationDTO
+    {
+        return $this->meta;
+    }
+}

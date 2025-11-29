@@ -52,6 +52,7 @@ Perfect for production AND deterministic testing.
     * Unified Filtering (`IN`, `LIKE`, Ranges)
     * Unified Sorting (`ASC`/`DESC`, multi-column)
     * **Limits & Offsets** (Strict Validation)
+    * **Pagination** (Phase 15+): Standardized `paginate` and `paginateBy` returning `PaginationResultDTO`.
     * **Result Normalization** (Unified ID mapping, Type casting)
     * **Standardized Error Handling** (Phase 8): All repositories throw `RepositoryException`
     * **Hydration Pipeline** (Phase 11+): Contracts, Context, and Base Implementations for transforming results.
@@ -67,6 +68,7 @@ Perfect for production AND deterministic testing.
 - **Adapters** normalize real & fake database connections
 - **Resolvers** map DSN → driver instance
 - **Hydration** (Phase 11+) converts arrays to DTOs
+- **Pagination** (Phase 15+) standardized data paging
 - **Symmetry Guarantee**: fake + real behave 100% the same
 
 ---
@@ -237,10 +239,15 @@ src/
 │       ├── MongoOps.php
 │       └── RedisOps.php
 │
-└── Hydration/        # Phase 11 — DTO Mapping & Object Hydration
-    ├── HydratorInterface.php
-    ├── HydrationContext.php
-    └── BaseHydrator.php # Phase 12
+├── Hydration/        # Phase 11 — DTO Mapping & Object Hydration
+│   ├── HydratorInterface.php
+│   ├── HydrationContext.php
+│   └── BaseHydrator.php # Phase 12
+│
+└── Pagination/       # Phase 15 — Pagination DTOs
+    ├── PaginationEntry.php
+    ├── PaginationContext.php
+    └── PaginationResultDTO.php
 
 ```
 
@@ -264,6 +271,9 @@ src/
 | 10    | Pagination Preparation                      | ✅ Completed    | DTOs only                   |
 | 11    | Hydration Interfaces                        | ✅ Completed    | Contract + Context          |
 | 12    | BaseHydrator + Pipeline                     | ✅ Completed    | Base Implementation         |
+| 13    | AutoCasting System                          | ✅ Completed    | Strict Type Conversion      |
+| 14    | DTO Mapping & Profiles                      | ✅ Completed    | Transformers & Trait        |
+| 15    | Pagination Core                             | ✅ Completed    | Standardized paginate()     |
 
 ---
 
@@ -304,6 +314,15 @@ src/
 
 - **Phase 12 — Base Hydrator Implementation**
   [`phases/README.phase12.md`](phases/README.phase12.md)
+
+- **Phase 13 — AutoCasting System**
+  [`phases/README.phase13.md`](phases/README.phase13.md)
+
+- **Phase 14 — DTO Mapping & Profiles**
+  [`phases/README.phase14.md`](phases/README.phase14.md)
+
+- **Phase 15 — Pagination Core**
+  [`phases/README.phase15.md`](phases/README.phase15.md)
 
 ---
 
