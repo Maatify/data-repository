@@ -148,7 +148,7 @@ final class ResultNormalizer
                 return $this->normalizeRowsArray($value);
             }
 
-            // Assert row type before using normalizeRowArray()
+            // Assert a row type before using normalizeRowArray()
             $this->assertAssocRow($value);
 
             // Now safe to treat as associative row
