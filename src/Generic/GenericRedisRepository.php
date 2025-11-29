@@ -235,8 +235,8 @@ abstract class GenericRedisRepository extends BaseRedisRepository
      */
     public function paginate(int $page = 1, int $perPage = 10, ?array $orderBy = null): PaginationResultDTO
     {
-        // Redis basic pagination support requires findAll + array_slice since we don't have secondary indexes here.
-        // This is inefficient but functional for small datasets, compliant with Phase 15 requirements.
+        // Optimization: Fetch all keys first, then slice keys, then fetch only required values.
+        // This avoids fetching and decoding the entire dataset when we only need a subset.
 
         if ($page < 1) {
             $page = 1;
@@ -245,11 +245,24 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             $perPage = 10;
         }
 
-        $all = $this->findAll();
-        $total = count($all);
-        $offset = ($page - 1) * $perPage;
+        /** @var array<int, string> $keys */
+        $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
+        $total = count($keys);
 
-        $data = array_slice($all, $offset, $perPage);
+        $offset = ($page - 1) * $perPage;
+        $pagedKeys = array_slice($keys, $offset, $perPage);
+
+        $data = [];
+        foreach ($pagedKeys as $key) {
+            $content = $this->getRedisOps()->get($key);
+            if ($content !== null) {
+                $decoded = json_decode($content, true);
+                if (is_array($decoded)) {
+                    /** @var array<string, mixed> $decoded */
+                    $data[] = $decoded;
+                }
+            }
+        }
 
         $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
 

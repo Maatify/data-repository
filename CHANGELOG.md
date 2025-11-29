@@ -9,6 +9,17 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.4] — 2025-11-27 (Phase 16 Update)
+
+### 🚀 Added
+- **Pagination Optimization (Phase 16)**
+    - Optimized `GenericRedisRepository` pagination: Now fetches all keys (lighter) first, slices them, and only fetches values for the current page (lazy loading).
+    - Verified `GenericMySQLRepository` utilizes standard SQL `LIMIT` and `OFFSET` for efficient database-side paging.
+    - Verified `GenericMongoRepository` utilizes native MongoDB `limit` and `skip` cursor options.
+    - Added verification tests in `tests/Pagination/Optimization/`.
+
+---
+
 ## [1.0.4] — 2025-11-27 (Phase 15 Update)
 
 ### 🚀 Added

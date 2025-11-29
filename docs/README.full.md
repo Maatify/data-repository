@@ -274,6 +274,7 @@ src/
 | 13    | AutoCasting System                          | ✅ Completed    | Strict Type Conversion      |
 | 14    | DTO Mapping & Profiles                      | ✅ Completed    | Transformers & Trait        |
 | 15    | Pagination Core                             | ✅ Completed    | Standardized paginate()     |
+| 16    | Pagination Optimization                     | ✅ Completed    | Efficient Driver Paging     |
 
 ---
 
@@ -323,6 +324,9 @@ src/
 
 - **Phase 15 — Pagination Core**
   [`phases/README.phase15.md`](phases/README.phase15.md)
+
+- **Phase 16 — Pagination Optimization**
+  [`phases/README.phase16.md`](phases/README.phase16.md)
 
 ---
 
