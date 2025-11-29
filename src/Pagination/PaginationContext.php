@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Pagination;
 
-use Maatify\Common\Pagination\PaginationDTO;
+use Maatify\Common\Pagination\DTO\PaginationDTO;
 
 class PaginationContext
 {
