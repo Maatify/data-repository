@@ -280,5 +280,4 @@ class OrderingFakeTest extends TestCase
         $this->assertTrue(OrderUtils::isValidDirection('aSc'));
     }
 
-
 }
