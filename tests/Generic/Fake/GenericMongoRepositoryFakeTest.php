@@ -122,15 +122,16 @@ class GenericMongoRepositoryFakeTest extends TestCase
         $this->assertSame('custom-id', $id);
     }
 
-    public function testInsertReturnsEmptyStringWhenInsertedIdUnsupported(): void
+    public function testInsertThrowsExceptionWhenInsertedIdUnsupported(): void
     {
         $insertResult = $this->createMock(\MongoDB\InsertOneResult::class);
         $insertResult->method('getInsertedId')->willReturn(new \stdClass());
 
         $this->collectionMock->method('insertOne')->willReturn($insertResult);
 
-        $id = $this->repo->insert(['name' => 'Bad ID']);
-        $this->assertSame('', $id);
+        $this->expectException(RepositoryException::class);
+        $this->expectExceptionMessage('Insert failed: received invalid ID type from driver.');
+        $this->repo->insert(['name' => 'Bad ID']);
     }
 
     public function testFindBy(): void
