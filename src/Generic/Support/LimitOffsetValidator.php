@@ -56,7 +56,6 @@ class LimitOffsetValidator
         }
     }
 
-
     /**
      * @throws RepositoryException
      */
