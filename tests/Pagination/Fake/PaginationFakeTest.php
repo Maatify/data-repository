@@ -28,14 +28,14 @@ class PaginationFakeTest extends TestCase
     {
         // Mock the AdapterInterface
         $pdo = new \PDO('sqlite::memory:');
-        $pdo->exec("CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY, name TEXT)");
+        $pdo->exec('CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY, name TEXT)');
         // Seed data
         for ($i = 1; $i <= 25; $i++) {
             $pdo->exec("INSERT INTO test_table (id, name) VALUES ($i, 'Item $i')");
         }
 
         // Create an anonymous class implementing AdapterInterface
-        $adapter = new class($pdo) implements AdapterInterface {
+        $adapter = new class ($pdo) implements AdapterInterface {
             private \PDO $pdo;
 
             public function __construct(\PDO $pdo)
@@ -84,7 +84,7 @@ class PaginationFakeTest extends TestCase
         };
 
         // Create anonymous repository extending GenericMySQLRepository
-        $this->repository = new class($adapter) extends GenericMySQLRepository {
+        $this->repository = new class ($adapter) extends GenericMySQLRepository {
             public function __construct(AdapterInterface $adapter)
             {
                 parent::__construct($adapter);
