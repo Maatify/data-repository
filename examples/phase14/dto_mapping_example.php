@@ -66,6 +66,6 @@ $context->setProfile($profile);
 $user = $hydrator->hydrate($data, $context);
 
 // 6. Output
-echo "User: " . $user->name . "\n";
-echo "Registered: " . $user->registeredAt->format(DATE_ATOM) . "\n";
-echo "Status: " . $user->status . "\n";
+echo 'User: ' . $user->name . "\n";
+echo 'Registered: ' . $user->registeredAt->format(DATE_ATOM) . "\n";
+echo 'Status: ' . $user->status . "\n";
