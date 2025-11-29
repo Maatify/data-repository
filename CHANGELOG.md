@@ -9,6 +9,14 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.2] — 2025-11-27 (Phase 11 Update)
+
+### 🚀 Added
+- **Hydrator Interface (Phase 11)**
+    - Defined `HydratorInterface` with `hydrate()` and `hydrateAll()` methods.
+    - Introduced `HydrationContext` for managing hydration stages and metadata.
+    - Added unit tests for interface contracts and context behavior.
+
 ---
 
 ## [1.0.2] — 2025-11-27 (Phase 9 Update)
