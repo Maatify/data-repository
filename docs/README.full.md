@@ -53,6 +53,7 @@ Perfect for production AND deterministic testing.
     * Unified Sorting (`ASC`/`DESC`, multi-column)
     * **Limits & Offsets** (Strict Validation)
     * **Result Normalization** (Unified ID mapping, Type casting)
+    * **Standardized Error Handling** (Phase 8): All repositories throw `RepositoryException`
     * JSON column querying (MySQL)
 * **Zero native driver exposure**
   Everything uses `AdapterInterface`.
@@ -254,6 +255,7 @@ src/
 | 5     | Ordering & Sorting                          | ✅ Completed    | SQL, Mongo, Array Sorting   |
 | 6     | Limits & Offsets                            | ✅ Completed    | Unified Validation          |
 | 7     | Result Normalization                        | ✅ Completed    | ID Mapping, Type Casting    |
+| 8     | CRUD Edge Cases                             | ✅ Completed    | Standardized Exceptions     |
 
 ---
 
@@ -279,6 +281,9 @@ src/
 
 - **Phase 7 — Result Normalization**
   [`phases/README.phase7.md`](phases/README.phase7.md)
+
+- **Phase 8 — CRUD Edge Cases**
+  [`phases/README.phase8.md`](phases/README.phase8.md)
 
 ---
 
