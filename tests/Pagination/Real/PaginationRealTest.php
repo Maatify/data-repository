@@ -23,6 +23,6 @@ class PaginationRealTest extends TestCase
     {
         // Placeholder for real integration tests requiring running MySQL/Mongo/Redis services.
         // In this strict environment without docker, we verify the test structure exists.
-        $this->assertTrue(true);
+        $this->expectNotToPerformAssertions();
     }
 }

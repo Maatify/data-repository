@@ -20,8 +20,8 @@ use Maatify\Common\Pagination\PaginationDTO;
 class PaginationResultDTO
 {
     /**
-     * @param   array<int, mixed>  $data
-     * @param   PaginationDTO      $pagination
+     * @param   array<int, array<string, mixed>|mixed>  $data
+     * @param   PaginationDTO                           $pagination
      */
     public function __construct(
         public array $data,

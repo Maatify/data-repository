@@ -65,6 +65,16 @@ class PaginationFakeTest extends TestCase
             public function disconnect(): void
             {
             }
+
+            public function getConnection(): mixed
+            {
+                return $this->pdo;
+            }
+
+            public function healthCheck(): bool
+            {
+                return true;
+            }
         };
 
         // Create anonymous repository extending GenericMySQLRepository
@@ -95,10 +105,10 @@ class PaginationFakeTest extends TestCase
 
         $this->assertCount(10, $result->data);
         $this->assertEquals(2, $result->pagination->page);
-        // SQLite doesn't guarantee order without ORDER BY, but usually insertion order holds
-        // Item 11 should be at index 0 of page 2
-        // $result->data is array<int, array>
-        $this->assertEquals('Item 11', $result->data[0]['name']);
+
+        /** @var array<string, mixed> $firstItem */
+        $firstItem = $result->data[0];
+        $this->assertEquals('Item 11', $firstItem['name']);
     }
 
     public function testPaginateLastPage(): void
@@ -111,15 +121,14 @@ class PaginationFakeTest extends TestCase
 
     public function testPaginateByWithFilters(): void
     {
-        // Simple filter test
-        // SQLite support for named params matches MySQL
-        // FilterUtils generates `name = :name`
-
         $filters = ['name' => 'Item 1'];
         $result = $this->repository->paginateBy($filters, 1, 5);
 
         $this->assertCount(1, $result->data);
         $this->assertEquals(1, $result->pagination->total);
-        $this->assertEquals('Item 1', $result->data[0]['name']);
+
+        /** @var array<string, mixed> $firstItem */
+        $firstItem = $result->data[0];
+        $this->assertEquals('Item 1', $firstItem['name']);
     }
 }
