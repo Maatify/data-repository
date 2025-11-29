@@ -9,6 +9,17 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.3] — 2025-11-27 (Phase 13 Update)
+
+### 🚀 Added
+- **AutoCasting System (Phase 13)**
+    - Added `AutoCaster` utility for strict type conversion (int, float, bool, string, datetime, json).
+    - Integrated `AutoCaster` into `BaseHydrator::onCast()` pipeline stage.
+    - Added `getCastingDefinitions()` hook in `BaseHydrator` to allow declarative casting rules in concrete repositories.
+    - Verified strict typing behavior and JSON array normalization via unit tests.
+
+---
+
 ## [1.0.2] — 2025-11-27 (Phase 12 Update)
 
 ### 🚀 Added
@@ -150,6 +161,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+[1.0.3]: https://github.com/Maatify/data-repository/releases/tag/1.0.3
 [1.0.2]: https://github.com/Maatify/data-repository/releases/tag/1.0.2
 [1.0.1]: https://github.com/Maatify/data-repository/releases/tag/1.0.1
 [1.0.0]: https://github.com/Maatify/data-repository/releases/tag/1.0.0

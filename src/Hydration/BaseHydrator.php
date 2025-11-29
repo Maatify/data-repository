@@ -78,6 +78,18 @@ abstract class BaseHydrator implements HydratorInterface
     abstract protected function createInstance(): object;
 
     /**
+     * Define type casting rules for fields.
+     * Override this method to return an associative array of field => type.
+     * Supported types: 'int', 'float', 'bool', 'string', 'datetime', 'json'.
+     *
+     * @return array<string, string>
+     */
+    protected function getCastingDefinitions(): array
+    {
+        return [];
+    }
+
+    /**
      * Stage: Prepare
      * Clean or normalize raw data keys/values before casting.
      *
@@ -100,6 +112,10 @@ abstract class BaseHydrator implements HydratorInterface
      */
     protected function onCast(array $data): array
     {
+        $definitions = $this->getCastingDefinitions();
+        if (!empty($definitions)) {
+            return AutoCaster::cast($data, $definitions);
+        }
         return $data;
     }
 
