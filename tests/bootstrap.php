@@ -52,10 +52,17 @@ require_once $autoload;
 // ------------------------------------------------------------
 // 1.5) Load Stubs (if missing in environment)
 // ------------------------------------------------------------
-if (! class_exists('Maatify\Common\Pagination\PaginationDTO')) {
-    $stubPath = __DIR__ . '/Stubs/Maatify/Common/Pagination/PaginationDTO.php';
-    if (file_exists($stubPath)) {
-        require_once $stubPath;
+if (! class_exists('Maatify\Common\Pagination\DTO\PaginationDTO')) {
+    $stubs = [
+        __DIR__ . '/Stubs/Maatify/Common/Pagination/DTO/PaginationDTO.php',
+        __DIR__ . '/Stubs/Maatify/Common/Pagination/DTO/PaginationResultDTO.php',
+        __DIR__ . '/Stubs/Maatify/Common/Pagination/Helpers/PaginationHelper.php',
+    ];
+
+    foreach ($stubs as $stub) {
+        if (file_exists($stub)) {
+            require_once $stub;
+        }
     }
 }
 

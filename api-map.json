@@ -763,7 +763,7 @@
         },
         "paginate": {
           "visibility": "public",
-          "return_type": "Maatify\\DataRepository\\Pagination\\PaginationResultDTO",
+          "return_type": "Maatify\\Common\\Pagination\\DTO\\PaginationResultDTO",
           "arguments": [
             { "name": "page", "type": "int", "optional": true },
             { "name": "perPage", "type": "int", "optional": true },
@@ -772,7 +772,7 @@
         },
         "paginateBy": {
           "visibility": "public",
-          "return_type": "Maatify\\DataRepository\\Pagination\\PaginationResultDTO",
+          "return_type": "Maatify\\Common\\Pagination\\DTO\\PaginationResultDTO",
           "arguments": [
             { "name": "filters", "type": "array<string, mixed>", "optional": false },
             { "name": "page", "type": "int", "optional": true },
@@ -863,7 +863,7 @@
         },
         "paginate": {
           "visibility": "public",
-          "return_type": "Maatify\\DataRepository\\Pagination\\PaginationResultDTO",
+          "return_type": "Maatify\\Common\\Pagination\\DTO\\PaginationResultDTO",
           "arguments": [
             { "name": "page", "type": "int", "optional": true },
             { "name": "perPage", "type": "int", "optional": true },
@@ -872,7 +872,7 @@
         },
         "paginateBy": {
           "visibility": "public",
-          "return_type": "Maatify\\DataRepository\\Pagination\\PaginationResultDTO",
+          "return_type": "Maatify\\Common\\Pagination\\DTO\\PaginationResultDTO",
           "arguments": [
             { "name": "filters", "type": "array<string, mixed>", "optional": false },
             { "name": "page", "type": "int", "optional": true },
@@ -951,7 +951,7 @@
         },
         "paginate": {
           "visibility": "public",
-          "return_type": "Maatify\\DataRepository\\Pagination\\PaginationResultDTO",
+          "return_type": "Maatify\\Common\\Pagination\\DTO\\PaginationResultDTO",
           "arguments": [
             { "name": "page", "type": "int", "optional": true },
             { "name": "perPage", "type": "int", "optional": true },
@@ -960,7 +960,7 @@
         },
         "paginateBy": {
           "visibility": "public",
-          "return_type": "Maatify\\DataRepository\\Pagination\\PaginationResultDTO",
+          "return_type": "Maatify\\Common\\Pagination\\DTO\\PaginationResultDTO",
           "arguments": [
             { "name": "filters", "type": "array<string, mixed>", "optional": false },
             { "name": "page", "type": "int", "optional": true },
@@ -1072,26 +1072,13 @@
           "visibility": "public",
           "return_type": "void",
           "arguments": [
-            { "name": "meta", "type": "Maatify\\Common\\Pagination\\PaginationDTO", "optional": false }
+            { "name": "meta", "type": "Maatify\\Common\\Pagination\\DTO\\PaginationDTO", "optional": false }
           ]
         },
         "getMeta": {
           "visibility": "public",
-          "return_type": "?Maatify\\Common\\Pagination\\PaginationDTO",
+          "return_type": "?Maatify\\Common\\Pagination\\DTO\\PaginationDTO",
           "arguments": []
-        }
-      }
-    },
-    "Maatify\\DataRepository\\Pagination\\PaginationResultDTO": {
-      "type": "class",
-      "methods": {
-        "__construct": {
-          "visibility": "public",
-          "return_type": "void",
-          "arguments": [
-            { "name": "data", "type": "array<int, mixed>", "optional": false },
-            { "name": "pagination", "type": "Maatify\\Common\\Pagination\\PaginationDTO", "optional": false }
-          ]
         }
       }
     }

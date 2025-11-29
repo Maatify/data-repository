@@ -22,8 +22,8 @@ use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use Maatify\DataRepository\Generic\Support\MysqlOps;
 use Maatify\DataRepository\Generic\Support\OrderUtils;
 use Maatify\DataRepository\Generic\Support\RepositoryHydrationTrait;
-use Maatify\DataRepository\Pagination\PaginationResultDTO;
-use Maatify\Common\Pagination\PaginationDTO;
+use Maatify\Common\Pagination\DTO\PaginationResultDTO;
+use Maatify\Common\Pagination\Helpers\PaginationHelper;
 use PDO;
 
 abstract class GenericMySQLRepository extends BaseMySQLRepository
@@ -290,7 +290,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
         $data = $this->findBy($filters, $orderBy, $perPage, $offset);
 
-        $pagination = new PaginationDTO($page, $total, $perPage);
+        $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
 
         return new PaginationResultDTO($data, $pagination);
     }

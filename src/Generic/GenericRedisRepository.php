@@ -19,8 +19,8 @@ use Maatify\DataRepository\Base\BaseRedisRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\RedisOps;
 use Maatify\DataRepository\Generic\Support\RepositoryHydrationTrait;
-use Maatify\DataRepository\Pagination\PaginationResultDTO;
-use Maatify\Common\Pagination\PaginationDTO;
+use Maatify\Common\Pagination\DTO\PaginationResultDTO;
+use Maatify\Common\Pagination\Helpers\PaginationHelper;
 use Predis\Client as PredisClient;
 use Redis;
 
@@ -251,7 +251,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
 
         $data = array_slice($all, $offset, $perPage);
 
-        $pagination = new PaginationDTO($page, $total, $perPage);
+        $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
 
         return new PaginationResultDTO($data, $pagination);
     }

@@ -16,8 +16,8 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Pagination\Fake;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
+use Maatify\Common\Pagination\DTO\PaginationDTO;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
-use Maatify\Common\Pagination\PaginationDTO;
 use PHPUnit\Framework\TestCase;
 
 class PaginationFakeTest extends TestCase
@@ -100,9 +100,11 @@ class PaginationFakeTest extends TestCase
         $this->assertCount(10, $result->data);
         $this->assertInstanceOf(PaginationDTO::class, $result->pagination);
         $this->assertEquals(1, $result->pagination->page);
-        $this->assertEquals(10, $result->pagination->limit);
+        $this->assertEquals(10, $result->pagination->perPage);
         $this->assertEquals(25, $result->pagination->total);
-        $this->assertEquals(3, $result->pagination->pages); // 25 / 10 = 2.5 -> 3
+        $this->assertEquals(3, $result->pagination->totalPages); // 25 / 10 = 2.5 -> 3
+        $this->assertTrue($result->pagination->hasNext);
+        $this->assertFalse($result->pagination->hasPrev);
     }
 
     public function testPaginateSecondPage(): void
@@ -115,6 +117,9 @@ class PaginationFakeTest extends TestCase
         /** @var array<string, mixed> $firstItem */
         $firstItem = $result->data[0];
         $this->assertEquals('Item 11', $firstItem['name']);
+
+        $this->assertTrue($result->pagination->hasNext);
+        $this->assertTrue($result->pagination->hasPrev);
     }
 
     public function testPaginateLastPage(): void
@@ -123,6 +128,9 @@ class PaginationFakeTest extends TestCase
 
         $this->assertCount(5, $result->data); // 25 total, 20 shown, 5 remaining
         $this->assertEquals(3, $result->pagination->page);
+
+        $this->assertFalse($result->pagination->hasNext);
+        $this->assertTrue($result->pagination->hasPrev);
     }
 
     public function testPaginateByWithFilters(): void
