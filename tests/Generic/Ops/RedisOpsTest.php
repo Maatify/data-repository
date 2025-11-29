@@ -23,7 +23,7 @@ class RedisOpsTest extends TestCase
     public function testGetAndSetWithFakeDriver(): void
     {
         // Simulate a fake driver (array-based)
-        $driver = new class {
+        $driver = new class () {
             /** @var array<string, mixed> */
             public array $store = [];
 
@@ -63,7 +63,7 @@ class RedisOpsTest extends TestCase
 
     public function testKeysWithReflectionFallback(): void
     {
-        $driver = new class {
+        $driver = new class () {
             // Must be public/protected/private "store" property
             /** @var array<string, mixed> */
             protected array $store = [

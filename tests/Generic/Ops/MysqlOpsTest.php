@@ -41,7 +41,7 @@ class MysqlOpsTest extends TestCase
     {
         $pdo = $this->createMock(\PDO::class);
         // PDO typically returns string for numeric IDs
-        $pdo->method('lastInsertId')->willReturn("123");
+        $pdo->method('lastInsertId')->willReturn('123');
 
         $ops = new MysqlOps($pdo);
         $this->assertSame(123, $ops->lastInsertId());
@@ -50,8 +50,11 @@ class MysqlOpsTest extends TestCase
     public function testLastInsertIdReturnsInt(): void
     {
         // Simulate a driver that returns int
-        $mockDriver = new class {
-            public function lastInsertId(): int { return 456; }
+        $mockDriver = new class () {
+            public function lastInsertId(): int
+            {
+                return 456;
+            }
         };
 
         $ops = new MysqlOps($mockDriver);

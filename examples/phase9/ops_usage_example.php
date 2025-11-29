@@ -44,7 +44,7 @@ class ExtendedUserRepository extends GenericMySQLRepository
         $pdo = $this->getOps()->getDriver();
 
         if ($pdo instanceof PDO) {
-            $stmt = $pdo->prepare("INSERT INTO users (name) VALUES (:name)");
+            $stmt = $pdo->prepare('INSERT INTO users (name) VALUES (:name)');
             $stmt->execute(['name' => $data['name']]);
 
             // Use Ops to normalize ID
@@ -64,10 +64,10 @@ if (! isset($mysqlAdapter)) {
         $mysqlRepo = new ExtendedUserRepository($mysqlAdapter);
 
         $id = $mysqlRepo->directInsert(['name' => 'Ops User']);
-        echo " - Inserted User ID via Ops: " . $id . "\n";
+        echo ' - Inserted User ID via Ops: ' . $id . "\n";
 
     } catch (Exception $e) {
-        echo " - [MySQL] Error: " . $e->getMessage() . "\n";
+        echo ' - [MySQL] Error: ' . $e->getMessage() . "\n";
     }
 }
 
@@ -110,10 +110,10 @@ if (! isset($mongoAdapter)) {
         $mongoRepo = new ExtendedLogRepository($mongoAdapter);
 
         $id = $mongoRepo->rawInsert(['msg' => 'Test Log', 'ts' => time()]);
-        echo " - Inserted Log ID via Ops: " . $id . "\n";
+        echo ' - Inserted Log ID via Ops: ' . $id . "\n";
 
     } catch (Exception $e) {
-         echo " - [Mongo] Error: " . $e->getMessage() . "\n";
+        echo ' - [Mongo] Error: ' . $e->getMessage() . "\n";
     }
 }
 
@@ -151,9 +151,9 @@ if (! isset($redisAdapter)) {
 
         // Use exposed Ops method
         $keys = $redisRepo->scanKeys();
-        echo " - Found " . count($keys) . " keys via Ops.\n";
+        echo ' - Found ' . count($keys) . " keys via Ops.\n";
 
     } catch (Exception $e) {
-        echo " - [Redis] Error: " . $e->getMessage() . "\n";
+        echo ' - [Redis] Error: ' . $e->getMessage() . "\n";
     }
 }

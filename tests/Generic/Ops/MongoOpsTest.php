@@ -38,8 +38,11 @@ class MongoOpsTest extends TestCase
         $this->assertSame('abc', $ops->normalizeInsertedId('abc'));
 
         // Mock ObjectId
-        $oid = new class {
-            public function __toString() { return '507f1f77bcf86cd799439011'; }
+        $oid = new class () {
+            public function __toString()
+            {
+                return '507f1f77bcf86cd799439011';
+            }
         };
         // We can't mock strict ObjectId class check without extension, but we can check string conversion fallback or if logic allows objects.
         // The implementation checks `if ($id instanceof ObjectId)`. We cannot instantiate ObjectId without ext-mongodb usually.
@@ -66,9 +69,12 @@ class MongoOpsTest extends TestCase
         $this->assertSame(['b' => 2], $ops->toArray($obj));
 
         // Object with getArrayCopy
-        $copyObj = new class {
+        $copyObj = new class () {
             /** @return array<string, int> */
-            public function getArrayCopy(): array { return ['c' => 3]; }
+            public function getArrayCopy(): array
+            {
+                return ['c' => 3];
+            }
         };
         $this->assertSame(['c' => 3], $ops->toArray($copyObj));
     }
