@@ -21,9 +21,7 @@ use PDO;
  * 🔌 MysqlOps
  *
  * Small normalization wrapper for low–level MySQL drivers.
- *
- * Today it mainly wraps a PDO instance (or a PDO‑compatible fake),
- * but it is kept generic, so it can be extended later if needed.
+ * Provides unified methods for common operations like ID retrieval.
  */
 final class MysqlOps
 {
@@ -48,5 +46,41 @@ final class MysqlOps
     public function getDriver(): object
     {
         return $this->driver;
+    }
+
+    /**
+     * Normalize last insert ID retrieval.
+     * Handles different driver return types (string/false/int).
+     *
+     * @return int|string
+     */
+    public function lastInsertId(): int|string
+    {
+        if ($this->driver instanceof PDO) {
+            $id = $this->driver->lastInsertId();
+            if ($id === false) {
+                return 0;
+            }
+            // PDO usually returns string for IDs, but can be int if a driver handles it.
+            // Check if numeric string
+            if (is_numeric($id)) {
+                return $id + 0; // Cast to int or float (but ID is usually int)
+            }
+            return $id;
+        }
+
+        // For Fakes/Other drivers
+        if (method_exists($this->driver, 'lastInsertId')) {
+            /** @var mixed $id */
+            $id = $this->driver->lastInsertId();
+            if ($id === false) {
+                return 0;
+            }
+            if (is_int($id) || is_string($id)) {
+                return $id;
+            }
+        }
+
+        return 0;
     }
 }
