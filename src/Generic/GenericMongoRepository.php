@@ -36,11 +36,15 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function find(int|string $id): ?array
     {
-        $filter = $this->buildIdFilter($id);
-        /** @var array<string, mixed>|object|null $result */
-        $result = $this->getCollectionObj()->findOne($filter);
+        try {
+            $filter = $this->buildIdFilter($id);
+            /** @var array<string, mixed>|object|null $result */
+            $result = $this->getCollectionObj()->findOne($filter);
 
-        return $this->toArray($result);
+            return $this->toArray($result);
+        } catch (\Exception $e) {
+            throw new RepositoryException("Find failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -54,22 +58,26 @@ abstract class GenericMongoRepository extends BaseMongoRepository
     {
         LimitOffsetValidator::validate($limit, $offset);
 
-        $normalizedFilters = FilterUtils::buildMongoFilter($filters);
+        try {
+            $normalizedFilters = FilterUtils::buildMongoFilter($filters);
 
-        $options = [];
-        if ($orderBy) {
-            $options['sort'] = OrderUtils::buildMongoSort($orderBy);
-        }
-        if ($limit !== null) {
-            $options['limit'] = $limit;
-        }
-        if ($offset !== null) {
-            $options['skip'] = $offset;
-        }
+            $options = [];
+            if ($orderBy) {
+                $options['sort'] = OrderUtils::buildMongoSort($orderBy);
+            }
+            if ($limit !== null) {
+                $options['limit'] = $limit;
+            }
+            if ($offset !== null) {
+                $options['skip'] = $offset;
+            }
 
-        $cursor = $this->getCollectionObj()->find($normalizedFilters, $options);
+            $cursor = $this->getCollectionObj()->find($normalizedFilters, $options);
 
-        return $this->cursorToArray($cursor);
+            return $this->cursorToArray($cursor);
+        } catch (\Exception $e) {
+            throw new RepositoryException("FindBy failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -80,12 +88,16 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function findOneBy(array $filters): ?array
     {
-        $normalizedFilters = FilterUtils::buildMongoFilter($filters);
+        try {
+            $normalizedFilters = FilterUtils::buildMongoFilter($filters);
 
-        /** @var array<string, mixed>|object|null $result */
-        $result = $this->getCollectionObj()->findOne($normalizedFilters);
+            /** @var array<string, mixed>|object|null $result */
+            $result = $this->getCollectionObj()->findOne($normalizedFilters);
 
-        return $this->toArray($result);
+            return $this->toArray($result);
+        } catch (\Exception $e) {
+            throw new RepositoryException("FindOneBy failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -104,9 +116,13 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function count(array $filters = []): int
     {
-        $normalizedFilters = FilterUtils::buildMongoFilter($filters);
+        try {
+            $normalizedFilters = FilterUtils::buildMongoFilter($filters);
 
-        return $this->getCollectionObj()->countDocuments($normalizedFilters);
+            return $this->getCollectionObj()->countDocuments($normalizedFilters);
+        } catch (\Exception $e) {
+            throw new RepositoryException("Count failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -114,20 +130,27 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function insert(array $data): int|string
     {
-        $result = $this->getCollectionObj()->insertOne($data);
-        $id = $result->getInsertedId();
+        try {
+            $result = $this->getCollectionObj()->insertOne($data);
+            $id = $result->getInsertedId();
 
-        // Safely cast mixed return to int|string for PHPStan
-        if ($id instanceof ObjectId) {
-            return (string)$id;
+            // Safely cast mixed return to int|string for PHPStan
+            if ($id instanceof ObjectId) {
+                return (string)$id;
+            }
+
+            if (is_int($id) || is_string($id)) {
+                return $id;
+            }
+
+            // Fallback
+            throw new RepositoryException("Insert failed: received invalid ID type from driver.");
+        } catch (\Exception $e) {
+            if ($e instanceof RepositoryException) {
+                throw $e;
+            }
+            throw new RepositoryException("Insert failed: " . $e->getMessage(), 0, $e);
         }
-
-        if (is_int($id) || is_string($id)) {
-            return $id;
-        }
-
-        // Fallback or Throw
-        return '';
     }
 
     /**
@@ -135,10 +158,14 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function update(int|string $id, array $data): bool
     {
-        $filter = $this->buildIdFilter($id);
-        $result = $this->getCollectionObj()->updateOne($filter, ['$set' => $data]);
+        try {
+            $filter = $this->buildIdFilter($id);
+            $result = $this->getCollectionObj()->updateOne($filter, ['$set' => $data]);
 
-        return $result->getMatchedCount() > 0;
+            return $result->getMatchedCount() > 0;
+        } catch (\Exception $e) {
+            throw new RepositoryException("Update failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -146,10 +173,14 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function delete(int|string $id): bool
     {
-        $filter = $this->buildIdFilter($id);
-        $result = $this->getCollectionObj()->deleteOne($filter);
+        try {
+            $filter = $this->buildIdFilter($id);
+            $result = $this->getCollectionObj()->deleteOne($filter);
 
-        return $result->getDeletedCount() > 0;
+            return $result->getDeletedCount() > 0;
+        } catch (\Exception $e) {
+            throw new RepositoryException("Delete failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**

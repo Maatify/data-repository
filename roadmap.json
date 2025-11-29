@@ -175,7 +175,7 @@
       "id": "phase8",
       "title": "CRUD Edge Cases",
       "version": "1.0.1",
-      "status": "pending",
+      "status": "completed",
       "summary": "Handle NULLs, missing fields, partial updates, invalid types.",
       "tasks": [
         "Test null values",

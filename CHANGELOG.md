@@ -11,6 +11,17 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+## [1.0.1] — 2025-11-25 (Phase 8 Update)
+
+### 🚀 Added
+- **CRUD Edge Cases (Phase 8)**
+    - Standardized error handling: All Generic Repository methods now wrap driver operations in `try-catch` blocks and throw `RepositoryException` for consistency.
+    - Verified handling of `NULL` values in MySQL/PDO operations.
+    - Verified partial update logic: `update()` only modifies specified fields and returns `false` (no-op) for empty data arrays.
+    - Added comprehensive tests for edge cases: `NullValuesTest`, `PartialUpdateTest`, `InvalidTypesTest`.
+
+---
+
 ## [1.0.2] — 2025-11-25
 
 ### 🚀 Added
