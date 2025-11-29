@@ -1,4 +1,6 @@
 # Phase 7: Result Normalization Layer
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
 
 ## Summary
 The Result Normalization Layer ensures that data retrieved from different repository drivers (MySQL, MongoDB, Redis) conforms to a unified structure before being passed to the application or hydration layer. This phase introduces `ResultNormalizer` to handle key mapping and type casting with a robust, configurable API.

@@ -1,4 +1,6 @@
 # Phase 5: Ordering & Sorting
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
 
 ## Overview
 This phase introduces a unified way to handle sorting (`ORDER BY`) across all repositories. It ensures that sorting logic is consistent, safe, and normalized regardless of the underlying driver (MySQL, MongoDB, Redis/Array).
