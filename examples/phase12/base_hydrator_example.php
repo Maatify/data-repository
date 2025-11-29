@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Examples\Phase12;
 
-require __DIR__ . '/../../../vendor/autoload.php'; // specific to project structure
+require __DIR__ . '/../../vendor/autoload.php'; // specific to project structure
 
 use Maatify\DataRepository\Hydration\BaseHydrator;
 
@@ -71,9 +71,9 @@ $rawData = [
 
 $product = $hydrator->hydrate($rawData);
 
-echo "Product: " . $product->name . "\n";
-echo "Price: " . $product->price . "\n";
-echo "In Stock: " . ($product->in_stock ? 'Yes' : 'No') . "\n";
+echo 'Product: ' . $product->name . "\n";
+echo 'Price: ' . $product->price . "\n";
+echo 'In Stock: ' . ($product->in_stock ? 'Yes' : 'No') . "\n";
 
 /**
  * Output:

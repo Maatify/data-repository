@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/../../vendor/autoload.php'; // adjusting path for example
 
 use Maatify\DataRepository\Hydration\BaseHydrator;
@@ -9,7 +11,7 @@ class UserHydrator extends BaseHydrator
 {
     protected function createInstance(): object
     {
-        return new class {
+        return new class () {
             public int $id;
             public string $name;
             public bool $is_active;
@@ -41,7 +43,7 @@ $data = [
 $hydrator = new UserHydrator();
 $user = $hydrator->hydrate($data);
 
-echo "User ID: " . $user->id . " (Type: " . gettype($user->id) . ")\n";
-echo "Active: " . ($user->is_active ? 'Yes' : 'No') . " (Type: " . gettype($user->is_active) . ")\n";
-echo "Settings: " . print_r($user->settings, true) . "\n";
-echo "Created: " . $user->created_at->format(DATE_ATOM) . "\n";
+echo 'User ID: ' . $user->id . ' (Type: ' . gettype($user->id) . ")\n";
+echo 'Active: ' . ($user->is_active ? 'Yes' : 'No') . ' (Type: ' . gettype($user->is_active) . ")\n";
+echo 'Settings: ' . print_r($user->settings, true) . "\n";
+echo 'Created: ' . $user->created_at->format(DATE_ATOM) . "\n";
