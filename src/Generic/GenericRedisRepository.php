@@ -29,25 +29,30 @@ abstract class GenericRedisRepository extends BaseRedisRepository
 
     /**
      * @return array<string, mixed>|null
+     * @throws RepositoryException
      */
     public function find(int|string $id): ?array
     {
-        $key = $this->getKey($id);
+        try {
+            $key = $this->getKey($id);
 
-        $data = $this->getRedisOps()->get($key);
+            $data = $this->getRedisOps()->get($key);
 
-        if ($data === null) {
-            return null;
+            if ($data === null) {
+                return null;
+            }
+
+            $decoded = json_decode($data, true);
+
+            if (! is_array($decoded)) {
+                return null;
+            }
+
+            /** @var array<string, mixed> $decoded */
+            return $decoded;
+        } catch (\Exception $e) {
+            throw new RepositoryException("Find failed: " . $e->getMessage(), 0, $e);
         }
-
-        $decoded = json_decode($data, true);
-
-        if (! is_array($decoded)) {
-            return null;
-        }
-
-        /** @var array<string, mixed> $decoded */
-        return $decoded;
     }
 
     /**
@@ -71,11 +76,18 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             throw new RepositoryException('Failed to JSON-encode data for Redis insert.');
         }
 
-        $this->getRedisOps()->set($key, $payload);
+        try {
+            $this->getRedisOps()->set($key, $payload);
+        } catch (\Exception $e) {
+            throw new RepositoryException("Insert failed: " . $e->getMessage(), 0, $e);
+        }
 
         return $id;
     }
 
+    /**
+     * @throws RepositoryException
+     */
     public function update(int|string $id, array $data): bool
     {
         $existing = $this->find($id);
@@ -91,12 +103,23 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             throw new RepositoryException('Failed to JSON-encode data for Redis update.');
         }
 
-        return $this->getRedisOps()->set($this->getKey($id), $payload);
+        try {
+            return $this->getRedisOps()->set($this->getKey($id), $payload);
+        } catch (\Exception $e) {
+            throw new RepositoryException("Update failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
+    /**
+     * @throws RepositoryException
+     */
     public function delete(int|string $id): bool
     {
-        return $this->getRedisOps()->del($this->getKey($id)) > 0;
+        try {
+            return $this->getRedisOps()->del($this->getKey($id)) > 0;
+        } catch (\Exception $e) {
+            throw new RepositoryException("Delete failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
