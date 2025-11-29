@@ -18,9 +18,7 @@ namespace Maatify\DataRepository\Tests\Generic\Coverage;
 use Maatify\DataFakes\Adapters\Redis\FakeRedisAdapter;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\GenericRedisRepository;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Predis\Client;
 
 class MissingCoverageTest extends TestCase
 {
