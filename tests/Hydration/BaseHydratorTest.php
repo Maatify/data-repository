@@ -33,7 +33,7 @@ class BaseHydratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->hydrator = new class extends BaseHydrator {
+        $this->hydrator = new class () extends BaseHydrator {
             protected function createInstance(): object
             {
                 return new TestPerson();
