@@ -1,6 +1,106 @@
 {
   "version": "1.0.0",
   "classes": {
+    "Maatify\\DataRepository\\Generic\\Support\\ResultNormalizer": {
+      "type": "final class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "keepMongoId", "type": "bool", "optional": true },
+            { "name": "recursive", "type": "bool", "optional": true },
+            { "name": "strictIdTypes", "type": "bool", "optional": true }
+          ]
+        },
+        "normalize": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "?array",
+          "arguments": [
+            { "name": "row", "type": "?array<string, mixed>", "optional": false }
+          ]
+        },
+        "normalizeWithConfig": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "?array",
+          "arguments": [
+            { "name": "row", "type": "?array<string, mixed>", "optional": false },
+            { "name": "keepMongoId", "type": "bool", "optional": true },
+            { "name": "recursive", "type": "bool", "optional": true },
+            { "name": "strictIdTypes", "type": "bool", "optional": true }
+          ]
+        },
+        "normalizeAll": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "rows", "type": "array<int, array<string, mixed>>", "optional": false }
+          ]
+        },
+        "normalizeAllWithConfig": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "rows", "type": "array<int, array<string, mixed>>", "optional": false },
+            { "name": "keepMongoId", "type": "bool", "optional": true },
+            { "name": "recursive", "type": "bool", "optional": true },
+            { "name": "strictIdTypes", "type": "bool", "optional": true }
+          ]
+        },
+        "create": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "self",
+          "arguments": []
+        },
+        "normalizeRow": {
+          "visibility": "public",
+          "return_type": "?array",
+          "arguments": [
+            { "name": "row", "type": "?array<string, mixed>", "optional": false }
+          ]
+        },
+        "normalizeRows": {
+          "visibility": "public",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "rows", "type": "array<int, array<string, mixed>>", "optional": false }
+          ]
+        },
+        "normalizeBatch": {
+          "visibility": "public",
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "rows", "type": "array<int, array<string, mixed>>", "optional": false }
+          ]
+        },
+        "keepMongoId": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "keep", "type": "bool", "optional": true }
+          ]
+        },
+        "recursive": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "recursive", "type": "bool", "optional": true }
+          ]
+        },
+        "strictIdTypes": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "strict", "type": "bool", "optional": true }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Generic\\Support\\LimitOffsetValidator": {
       "type": "class",
       "methods": {
