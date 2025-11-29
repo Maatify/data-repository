@@ -501,5 +501,48 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase12",
+    "timestamp": "2025-11-27T12:30:00+02:00",
+    "status": "completed",
+    "summary": "BaseHydrator implementation and pipeline execution logic.",
+    "changes": {
+      "added": [
+        "src/Hydration/BaseHydrator.php",
+        "tests/Hydration/BaseHydratorTest.php",
+        "docs/phases/README.phase12.md",
+        "examples/phase12/base_hydrator_example.php"
+      ],
+      "updated": [
+        "api-map.json",
+        "phase-output.json",
+        "CHANGELOG.md"
+      ]
+    },
+    "tests": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "coverage": "Unknown",
+      "notes": "Verified pipeline execution, stage customization, and hooks."
+    },
+    "git_patch": "phase12.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Hydration\\BaseHydrator": {
+        "type": "abstract class",
+        "implements": ["Maatify\\DataRepository\\Hydration\\HydratorInterface"],
+        "methods": {
+          "hydrate": { "return": "object", "visibility": "public" },
+          "hydrateAll": { "return": "array", "visibility": "public" },
+          "createInstance": { "return": "object", "visibility": "protected", "abstract": true },
+          "onPrepare": { "return": "array", "visibility": "protected" },
+          "onCast": { "return": "array", "visibility": "protected" },
+          "onMap": { "return": "object", "visibility": "protected" },
+          "onValidate": { "return": "void", "visibility": "protected" },
+          "onComplete": { "return": "void", "visibility": "protected" }
+        }
+      }
+    }
   }
 ]

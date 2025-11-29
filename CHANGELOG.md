@@ -9,6 +9,17 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.2] — 2025-11-27 (Phase 12 Update)
+
+### 🚀 Added
+- **Base Hydrator (Phase 12)**
+    - Implemented `BaseHydrator` abstract class executing the hydration pipeline.
+    - Added overridable lifecycle hooks: `onPrepare`, `onCast`, `onMap`, `onValidate`, `onComplete`.
+    - Added `hydrate()` and `hydrateAll()` implementation.
+    - Verified pipeline execution order and context stage customization via unit tests.
+
+---
+
 ## [1.0.2] — 2025-11-27 (Phase 11 Update)
 
 ### 🚀 Added
