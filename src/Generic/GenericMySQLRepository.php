@@ -35,14 +35,18 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
      */
     public function find(int|string $id): ?array
     {
-        $stmt = $this->getPdo()->prepare("SELECT * FROM `{$this->tableName}` WHERE `{$this->primaryKey}` = :id LIMIT 1");
-        $stmt->bindValue(':id', $id);
-        $stmt->execute();
+        try {
+            $stmt = $this->getPdo()->prepare("SELECT * FROM `{$this->tableName}` WHERE `{$this->primaryKey}` = :id LIMIT 1");
+            $stmt->bindValue(':id', $id);
+            $stmt->execute();
 
-        /** @var array<string, mixed>|false $result */
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            /** @var array<string, mixed>|false $result */
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $result === false ? null : $result;
+            return $result === false ? null : $result;
+        } catch (\PDOException $e) {
+            throw new RepositoryException("Find failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -72,11 +76,15 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             $sql .= ' OFFSET ' . (int)$offset;
         }
 
-        $stmt = $this->getPdo()->prepare($sql);
-        $stmt->execute($params);
-        /** @var array<int, array<string, mixed>> $result */
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        try {
+            $stmt = $this->getPdo()->prepare($sql);
+            $stmt->execute($params);
+            /** @var array<int, array<string, mixed>> $result */
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) {
+            throw new RepositoryException("FindBy failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -108,13 +116,17 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
      */
     public function count(array $filters = []): int
     {
-        [$where, $params] = $this->buildWhereClause($filters);
-        $sql = "SELECT COUNT(*) FROM `{$this->tableName}` {$where}";
+        try {
+            [$where, $params] = $this->buildWhereClause($filters);
+            $sql = "SELECT COUNT(*) FROM `{$this->tableName}` {$where}";
 
-        $stmt = $this->getPdo()->prepare($sql);
-        $stmt->execute($params);
+            $stmt = $this->getPdo()->prepare($sql);
+            $stmt->execute($params);
 
-        return (int)$stmt->fetchColumn();
+            return (int)$stmt->fetchColumn();
+        } catch (\PDOException $e) {
+            throw new RepositoryException("Count failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -132,12 +144,16 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             implode(', ', $placeholders)
         );
 
-        $pdo = $this->getPdo();
-        $pdo->prepare($sql)->execute($data);
+        try {
+            $pdo = $this->getPdo();
+            $pdo->prepare($sql)->execute($data);
 
-        $lastId = $pdo->lastInsertId();
+            $lastId = $pdo->lastInsertId();
 
-        return $lastId === false ? 0 : $lastId;
+            return $lastId === false ? 0 : $lastId;
+        } catch (\PDOException $e) {
+            throw new RepositoryException("Insert failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -163,9 +179,13 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
         $data['primaryKey'] = $id;
 
-        $stmt = $this->getPdo()->prepare($sql);
+        try {
+            $stmt = $this->getPdo()->prepare($sql);
 
-        return $stmt->execute($data);
+            return $stmt->execute($data);
+        } catch (\PDOException $e) {
+            throw new RepositoryException("Update failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -173,11 +193,15 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
      */
     public function delete(int|string $id): bool
     {
-        $sql = "DELETE FROM `{$this->tableName}` WHERE `{$this->primaryKey}` = :id";
-        $stmt = $this->getPdo()->prepare($sql);
-        $stmt->bindValue(':id', $id);
+        try {
+            $sql = "DELETE FROM `{$this->tableName}` WHERE `{$this->primaryKey}` = :id";
+            $stmt = $this->getPdo()->prepare($sql);
+            $stmt->bindValue(':id', $id);
 
-        return $stmt->execute();
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            throw new RepositoryException("Delete failed: " . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
