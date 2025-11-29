@@ -11,6 +11,28 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+## [1.0.2] — 2025-11-25
+
+### 🚀 Added
+- **Result Normalization (Phase 7)**
+    - Implemented `ResultNormalizer` for consistent data structure across drivers.
+    - Added automatic `_id` to `id` mapping for MongoDB.
+    - Added `ObjectId` to string casting.
+    - Added recursive normalization for nested structures.
+    - Added fluent API for configuration (`ResultNormalizer::create()->recursive()->strictIdTypes()`).
+
+- **Limits & Offsets (Phase 6)**
+    - Implemented `LimitOffsetValidator` for unified validation (Limits 1-10000, Offsets 0-10000).
+    - Added `GenericMySQLRepository` integration (SQL `LIMIT`/`OFFSET`).
+    - Added `GenericMongoRepository` integration (Mongo `limit`/`skip`).
+    - Added `GenericRedisRepository` integration (throws `RepositoryException` as it is not supported yet).
+
+### 🔧 Changed
+- **Validation**
+    - Enforced strict validation for limit and offset parameters in all Generic repositories.
+
+---
+
 ## [1.0.1] — 2025-11-25
 
 ### 🚀 Added
@@ -76,4 +98,6 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+[1.0.2]: https://github.com/Maatify/data-repository/releases/tag/1.0.2
+[1.0.1]: https://github.com/Maatify/data-repository/releases/tag/1.0.1
 [1.0.0]: https://github.com/Maatify/data-repository/releases/tag/1.0.0
