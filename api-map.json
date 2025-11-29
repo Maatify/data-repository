@@ -1,6 +1,20 @@
 {
   "version": "1.0.0",
   "classes": {
+    "Maatify\\DataRepository\\Hydration\\AutoCaster": {
+      "type": "class",
+      "methods": {
+        "cast": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array<string, mixed>",
+          "arguments": [
+            { "name": "data", "type": "array<string, mixed>", "optional": false },
+            { "name": "definitions", "type": "array<string, string>", "optional": false }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Hydration\\BaseHydrator": {
       "type": "abstract class",
       "implements": [
@@ -27,6 +41,11 @@
           "visibility": "protected",
           "return_type": "object",
           "abstract": true,
+          "arguments": []
+        },
+        "getCastingDefinitions": {
+          "visibility": "protected",
+          "return_type": "array<string, string>",
           "arguments": []
         },
         "onPrepare": {

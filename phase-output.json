@@ -369,7 +369,8 @@
         "docs/README.full.md",
         "api-map.json",
         "phase-output.json"
-      ]
+      ],
+      "removed": []
     },
     "tests": {
       "total": 10,
@@ -541,6 +542,52 @@
           "onMap": { "return": "object", "visibility": "protected" },
           "onValidate": { "return": "void", "visibility": "protected" },
           "onComplete": { "return": "void", "visibility": "protected" }
+        }
+      }
+    }
+  },
+  {
+    "phase_id": "phase13",
+    "timestamp": "2025-11-27T13:30:00+02:00",
+    "status": "completed",
+    "summary": "AutoCasting System implemented.",
+    "changes": {
+      "added": [
+        "src/Hydration/AutoCaster.php",
+        "tests/Hydration/AutoCasterTest.php",
+        "tests/Hydration/BaseHydratorCastingTest.php",
+        "docs/phases/README.phase13.md",
+        "examples/phase13/auto_caster_example.php"
+      ],
+      "updated": [
+        "src/Hydration/BaseHydrator.php",
+        "api-map.json",
+        "phase-output.json",
+        "roadmap.json",
+        "CHANGELOG.md",
+        "docs/README.full.md"
+      ]
+    },
+    "tests": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "coverage": "Unknown",
+      "notes": "Verified strict casting behavior and BaseHydrator integration."
+    },
+    "git_patch": "phase13.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Hydration\\AutoCaster": {
+        "type": "class",
+        "methods": {
+          "cast": { "return": "array", "visibility": "public", "static": true }
+        }
+      },
+      "Maatify\\DataRepository\\Hydration\\BaseHydrator": {
+        "type": "abstract class",
+        "methods": {
+          "getCastingDefinitions": { "return": "array", "visibility": "protected" },
+          "onCast": { "return": "array", "visibility": "protected" }
         }
       }
     }

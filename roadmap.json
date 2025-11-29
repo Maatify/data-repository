@@ -276,7 +276,7 @@
       "id": "phase13",
       "title": "AutoCasting System",
       "version": "1.0.3",
-      "status": "pending",
+      "status": "completed",
       "summary": "Add automatic scalar casting + datetime + JSON casting.",
       "tasks": [
         "Implement int/bool/float casting",
