@@ -1,5 +1,8 @@
 # Phase 12: BaseHydrator + Pipeline Execution
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 ## Overview
 This phase implements the `BaseHydrator`, an abstract class that orchestrates the hydration pipeline defined in Phase 11. It provides a flexible, stage-based execution model (Prepare -> Cast -> Map -> Validate -> Complete) allowing developers to inject custom logic at any step of the transformation process.
 

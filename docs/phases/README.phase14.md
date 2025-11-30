@@ -1,4 +1,6 @@
 # Phase 14: DTO Mapping + Hydration Profiles
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
 
 ## Overview
 Phase 14 enhances the hydration system by introducing `MappingProfile` for defining mapping rules, transformers for value conversion, and integrating these capabilities into the Generic Repository layer.

@@ -1,4 +1,6 @@
-# Phase 18: Integration With data-fakes + data-integrations
+# Phase 18: Integration With data-fakes and data-integrations
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
 
 ## Overview
 This phase focuses on ensuring that the Generic Repositories behave identically whether they are backed by "Fake" adapters (in-memory arrays) or "Real" adapters (actual databases).

@@ -1,4 +1,7 @@
 # Phase 8: CRUD Edge Cases
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 
 ## Overview
 This phase focused on ensuring robustness in the Generic CRUD layer by addressing edge cases such as NULL values, partial updates, and invalid data types. It also involved standardizing error messages by ensuring all driver-level exceptions are caught and rethrown as `RepositoryException`.

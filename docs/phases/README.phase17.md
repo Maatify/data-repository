@@ -1,4 +1,6 @@
 # Phase 17: Paginated Hydrated Results
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
 
 ## Overview
 This phase integrates the Hydration System with the Pagination System. It enables `GenericRepositories` to return paginated results where the data items are fully hydrated objects (DTOs/Entities) instead of raw arrays, while preserving rich pagination metadata.

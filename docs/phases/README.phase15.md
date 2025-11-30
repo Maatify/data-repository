@@ -1,4 +1,6 @@
 # Phase 15: Pagination Core (Hydration-Aware)
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
 
 ## Overview
 This phase implements core pagination capabilities in the Generic Repository layer. It introduces standard `paginate()` and `paginateBy()` methods that return a standardized `PaginationResultDTO`, containing both the data array and a `PaginationDTO` metadata object (from `maatify/common`).

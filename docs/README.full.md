@@ -56,7 +56,7 @@ Perfect for production AND deterministic testing.
     * **Result Normalization** (Unified ID mapping, Type casting)
     * **Standardized Error Handling** (Phase 8): All repositories throw `RepositoryException`
     * **Hydration Pipeline** (Phase 11+): Contracts, Context, and Base Implementations for transforming results.
-    * **Paginated Hydrated Results** (Phase 17): Seamlessly hydrate paginated result sets into object collections.
+    * **Paginated Hydrated Results** (Phase 17): A seamlessly hydrate paginated result sets into object collections.
     * JSON column querying (MySQL)
 * **Zero native driver exposure**
   Everything uses `AdapterInterface`.
@@ -70,7 +70,7 @@ Perfect for production AND deterministic testing.
 - **Resolvers** map DSN → driver instance
 - **Hydration** (Phase 11+) converts arrays to DTOs
 - **Pagination** (Phase 15+) standardized data paging
-- **Symmetry Guarantee**: fake + real behave 100% the same
+- **Symmetry Guarantee**: fake and real behave 100% the same
 
 ---
 
@@ -259,25 +259,25 @@ src/
 
 > The executor/roadmap engine drives this library in phases. The table below reflects the **current repository state**.
 
-| Phase | Module                                      | Status         | Notes                       |
-|-------|---------------------------------------------|----------------|-----------------------------|
-| 1     | Bootstrap + Resolver + Exceptions           | ✅ Completed    | Project foundation ready    |
-| 2     | Base Repositories (MySQL / Redis / Mongo)   | ✅ Completed    | Drivers unified             |
-| 3     | CRUD Layer + Basic Filtering                | ✅ Completed    | Implementing CRUD + filters |
-| 4     | Advanced Filtering (IN, LIKE, Ranges)       | ✅ Completed    | SQL & Mongo                 |
-| 5     | Ordering & Sorting                          | ✅ Completed    | SQL, Mongo, Array Sorting   |
-| 6     | Limits & Offsets                            | ✅ Completed    | Unified Validation          |
-| 7     | Result Normalization                        | ✅ Completed    | ID Mapping, Type Casting    |
-| 8     | CRUD Edge Cases                             | ✅ Completed    | Standardized Exceptions     |
-| 9     | Generic Ops Integration                     | ✅ Completed    | MysqlOps, MongoOps, RedisOps|
-| 10    | Pagination Preparation                      | ✅ Completed    | DTOs only                   |
-| 11    | Hydration Interfaces                        | ✅ Completed    | Contract + Context          |
-| 12    | BaseHydrator + Pipeline                     | ✅ Completed    | Base Implementation         |
-| 13    | AutoCasting System                          | ✅ Completed    | Strict Type Conversion      |
-| 14    | DTO Mapping & Profiles                      | ✅ Completed    | Transformers & Trait        |
-| 15    | Pagination Core                             | ✅ Completed    | Standardized paginate()     |
-| 16    | Pagination Optimization                     | ✅ Completed    | Efficient Driver Paging     |
-| 17    | Paginated Hydrated Results                  | ✅ Completed    | Hydration + Pagination      |
+| Phase | Module                                    | Status      | Notes                        |
+|-------|-------------------------------------------|-------------|------------------------------|
+| 1     | Bootstrap + Resolver + Exceptions         | ✅ Completed | Project foundation ready     |
+| 2     | Base Repositories (MySQL / Redis / Mongo) | ✅ Completed | Drivers unified              |
+| 3     | CRUD Layer + Basic Filtering              | ✅ Completed | Implementing CRUD + filters  |
+| 4     | Advanced Filtering (IN, LIKE, Ranges)     | ✅ Completed | SQL & Mongo                  |
+| 5     | Ordering & Sorting                        | ✅ Completed | SQL, Mongo, Array Sorting    |
+| 6     | Limits & Offsets                          | ✅ Completed | Unified Validation           |
+| 7     | Result Normalization                      | ✅ Completed | ID Mapping, Type Casting     |
+| 8     | CRUD Edge Cases                           | ✅ Completed | Standardized Exceptions      |
+| 9     | Generic Ops Integration                   | ✅ Completed | MysqlOps, MongoOps, RedisOps |
+| 10    | Pagination Preparation                    | ✅ Completed | DTOs only                    |
+| 11    | Hydration Interfaces                      | ✅ Completed | Contract + Context           |
+| 12    | BaseHydrator + Pipeline                   | ✅ Completed | Base Implementation          |
+| 13    | AutoCasting System                        | ✅ Completed | Strict Type Conversion       |
+| 14    | DTO Mapping & Profiles                    | ✅ Completed | Transformers & Trait         |
+| 15    | Pagination Core                           | ✅ Completed | Standardized paginate()      |
+| 16    | Pagination Optimization                   | ✅ Completed | Efficient Driver Paging      |
+| 17    | Paginated Hydrated Results                | ✅ Completed | Hydration + Pagination       |
 
 ---
 

@@ -1,4 +1,7 @@
 # Phase 10: Pagination Hooks (Preparation Only)
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 
 ## Overview
 This phase sets up the foundational structures for pagination within the repository system. It introduces `PaginationEntry` for request handling and utilizes `Maatify\Common\Pagination\DTO\PaginationDTO` for metadata. `PaginationContext` is used to hold the pagination state throughout the execution pipeline.

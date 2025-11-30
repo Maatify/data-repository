@@ -19,7 +19,6 @@ use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Generic\GenericMongoRepository;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use PDO;
-use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
 
 class IntegrationMatrixExample
@@ -70,56 +69,140 @@ class IntegrationMatrixExample
     private function createFakeMySQLRepo(): object
     {
         // ... (Implementation similar to FakeVsRealMatrixTest) ...
-        // Simplification for example purposes:
-        return new class(new class implements AdapterInterface {
-            public function connect(): void {}
-            public function disconnect(): void {}
-            public function getConnection(): mixed { return null; } // @phpstan-ignore-line
-            public function getDriver(): mixed { return null; } // @phpstan-ignore-line
-            public function healthCheck(): bool { return true; }
-            public function isConnected(): bool { return true; }
-            public function go(): void {}
+        //  Simplification, for example, purposes:
+        return new class (new class () implements AdapterInterface {
+            public function connect(): void
+            {
+            }
+            public function disconnect(): void
+            {
+            }
+            public function getConnection(): mixed
+            {
+                return null;
+            } // @phpstan-ignore-line
+            public function getDriver(): mixed
+            {
+                return null;
+            } // @phpstan-ignore-line
+            public function healthCheck(): bool
+            {
+                return true;
+            }
+            public function isConnected(): bool
+            {
+                return true;
+            }
+            public function go(): void
+            {
+            }
         }, null) extends GenericMySQLRepository {
             private array $store = [];
             private int $idx = 0;
-            protected function getPdo(): PDO { throw new RuntimeException("Fake"); }
-            public function insert(array $data): int { $this->idx++; $data['id'] = $this->idx; $this->store[$this->idx] = $data; return $this->idx; }
-            public function find(int|string $id): ?array { return $this->store[$id] ?? null; }
-            public function update(int|string $id, array $data): bool {
-                if(!isset($this->store[$id])) return false;
+            protected function getPdo(): PDO
+            {
+                throw new RuntimeException('Fake');
+            }
+            public function insert(array $data): int
+            {
+                $this->idx++;
+                $data['id'] = $this->idx;
+                $this->store[$this->idx] = $data;
+                return $this->idx;
+            }
+            public function find(int|string $id): ?array
+            {
+                return $this->store[$id] ?? null;
+            }
+            public function update(int|string $id, array $data): bool
+            {
+                if (!isset($this->store[$id])) {
+                    return false;
+                }
                 $this->store[$id] = array_merge($this->store[$id], $data);
                 return true;
             }
-            public function delete(int|string $id): bool { unset($this->store[$id]); return true; }
-            public function validateAdapter(): void {}
-            protected function getDriver(): mixed { return null; }
+            public function delete(int|string $id): bool
+            {
+                unset($this->store[$id]);
+                return true;
+            }
+            public function validateAdapter(): void
+            {
+            }
+            protected function getDriver(): mixed
+            {
+                return null;
+            }
         };
     }
 
     private function createFakeMongoRepo(): object
     {
-        return new class(new class implements AdapterInterface {
-            public function connect(): void {}
-            public function disconnect(): void {}
-            public function getConnection(): mixed { return null; } // @phpstan-ignore-line
-            public function getDriver(): mixed { return null; } // @phpstan-ignore-line
-            public function healthCheck(): bool { return true; }
-            public function isConnected(): bool { return true; }
-            public function go(): void {}
+        return new class (new class () implements AdapterInterface {
+            public function connect(): void
+            {
+            }
+            public function disconnect(): void
+            {
+            }
+            public function getConnection(): mixed
+            {
+                return null;
+            } // @phpstan-ignore-line
+            public function getDriver(): mixed
+            {
+                return null;
+            } // @phpstan-ignore-line
+            public function healthCheck(): bool
+            {
+                return true;
+            }
+            public function isConnected(): bool
+            {
+                return true;
+            }
+            public function go(): void
+            {
+            }
         }, null) extends GenericMongoRepository {
             private array $store = [];
             private int $idx = 0;
-            public function insert(array $data): int { $this->idx++; $data['id'] = $this->idx; $this->store[$this->idx] = $data; return $this->idx; }
-            public function find(int|string $id): ?array { return $this->store[$id] ?? null; }
-            public function update(int|string $id, array $data): bool {
-                if(!isset($this->store[$id])) return false;
+            public function insert(array $data): int
+            {
+                $this->idx++;
+                $data['id'] = $this->idx;
+                $this->store[$this->idx] = $data;
+                return $this->idx;
+            }
+            public function find(int|string $id): ?array
+            {
+                return $this->store[$id] ?? null;
+            }
+            public function update(int|string $id, array $data): bool
+            {
+                if (!isset($this->store[$id])) {
+                    return false;
+                }
                 $this->store[$id] = array_merge($this->store[$id], $data);
                 return true;
             }
-            public function delete(int|string $id): bool { unset($this->store[$id]); return true; }
-            public function validateAdapter(): void {}
-            protected function getCollectionObj(): \MongoDB\Collection { throw new \Exception("Mock"); }
-            protected function getDriver(): mixed { return null; }
+            public function delete(int|string $id): bool
+            {
+                unset($this->store[$id]);
+                return true;
+            }
+            public function validateAdapter(): void
+            {
+            }
+            protected function getCollectionObj(): \MongoDB\Collection
+            {
+                throw new \Exception('Mock');
+            }
+            protected function getDriver(): mixed
+            {
+                return null;
+            }
         };
     }
 }

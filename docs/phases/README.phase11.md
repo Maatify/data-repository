@@ -1,4 +1,7 @@
 # Phase 11: HydratorInterface + Pipeline Contract
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 
 ## Summary
 This phase introduces the contract for the hydration layer, which transforms raw data (arrays) into domain objects. It defines the `HydratorInterface` and the `HydrationContext`, establishing the foundation for a configurable, multi-stage pipeline.
