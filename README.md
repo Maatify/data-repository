@@ -2,9 +2,30 @@
 
 **Unified repository abstraction layer normalizing MySQL, MongoDB, and Redis real drivers and fake drivers.**
 
-[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.2-8892BF.svg?style=for-the-badge)](https://www.php.net/)
+![Maatify.dev](https://www.maatify.dev/assets/img/img/maatify_logo_white.svg)
+
+---
+
+[![Version](https://img.shields.io/packagist/v/maatify/data-repository?label=Version&color=4C1)](https://packagist.org/packages/maatify/data-repository)
+[![PHP](https://img.shields.io/packagist/php-v/maatify/data-repository?label=PHP&color=777BB3)](https://packagist.org/packages/maatify/data-repository)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.4-blue)](https://www.php.net/)
+
+[![Build](https://github.com/Maatify/data-repository/actions/workflows/test.yml/badge.svg?label=Build&color=brightgreen)](https://github.com/Maatify/data-repository/actions/workflows/test.yml)
+
+[![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/data-repository?label=Monthly%20Downloads&color=00A8E8)](https://packagist.org/packages/maatify/data-repository)
+[![Total Downloads](https://img.shields.io/packagist/dt/maatify/data-repository?label=Total%20Downloads&color=2AA9E0)](https://packagist.org/packages/maatify/data-repository)
+
+[![Stars](https://img.shields.io/github/stars/Maatify/data-repository?label=Stars&color=FFD43B&cacheSeconds=3600)](https://github.com/Maatify/data-repository/stargazers)
+[![License](https://img.shields.io/github/license/Maatify/data-repository?label=License&color=blueviolet)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Stable-success?style=flat-square)]()
+[![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/data-repository/main?color=brightgreen)](https://www.codefactor.io/repository/github/Maatify/data-repository)
+
+[![PHPStan](https://img.shields.io/badge/PHPStan-Level%206-4E8CAE)](https://phpstan.org/)
+[![Coverage](https://img.shields.io/badge/Coverage-92%25-9C27B0)](#)
+
+[![Changelog](https://img.shields.io/badge/Changelog-View-blue)](CHANGELOG.md)
+[![Security](https://img.shields.io/badge/Security-Policy-important)](SECURITY.md)
+
 
 > **Tip:** For detailed documentation, see [docs/README.full.md](docs/README.full.md).
 
@@ -113,6 +134,28 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 
 ---
 
-## 📄 License
 
-MIT License © 2025 Maatify.dev
+## 🪪 License
+
+**[MIT License](LICENSE)**  
+© [Maatify.dev](https://www.maatify.dev) — Free to use, modify, and distribute with attribution.
+
+---
+
+## 👤 Author
+
+Engineered by **Mohamed Abdulalim** ([@megyptm](https://github.com/megyptm))  
+Backend Lead & Technical Architect — https://www.maatify.dev
+
+---
+
+## 🤝 Contributors
+
+Special thanks to the Maatify.dev engineering team and open-source contributors.
+
+---
+
+<p align="center">
+  <sub>Built with ❤️ by <a href="https://www.maatify.dev">Maatify.dev</a> — Unified Ecosystem for Modern PHP Libraries</sub>
+</p>
+
