@@ -35,7 +35,7 @@ class UserHydrator extends BaseHydrator
     }
 }
 
-// 3. Define Repository (Simulated for example)
+// 3. Define Repository (Simulated, for example)
 class UserRepository extends GenericMySQLRepository
 {
     // In a real app, connection logic happens here
@@ -52,6 +52,6 @@ class UserRepository extends GenericMySQLRepository
 //     echo $user->name; // Typed property access
 // }
 //
-// echo "Total Users: " . $result->pagination->total;
+// echo "Total Users:" . $result->pagination->total;
 
 echo "Hydrated pagination example code (simulated) loaded successfully.\n";
