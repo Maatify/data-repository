@@ -54,7 +54,7 @@ class MySQLPaginationOptimizationTest extends TestCase
 
         $mockAdapter = $this->createMock(\Maatify\Common\Contracts\Adapter\AdapterInterface::class);
 
-        $repo = new class($mockAdapter, $pdo) extends GenericMySQLRepository {
+        $repo = new class ($mockAdapter, $pdo) extends GenericMySQLRepository {
             protected string $tableName = 'test_table';
 
             public function __construct(\Maatify\Common\Contracts\Adapter\AdapterInterface $adapter, private PDO $pdo)

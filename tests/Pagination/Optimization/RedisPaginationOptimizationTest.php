@@ -34,7 +34,7 @@ class RedisPaginationOptimizationTest extends TestCase
 
         $mockAdapter = $this->createMock(\Maatify\Common\Contracts\Adapter\AdapterInterface::class);
 
-        $repo = new class($mockAdapter, $spy) extends GenericRedisRepository {
+        $repo = new class ($mockAdapter, $spy) extends GenericRedisRepository {
             protected string $keyPrefix = 'test:';
 
             public function __construct(\Maatify\Common\Contracts\Adapter\AdapterInterface $adapter, private object $driver)

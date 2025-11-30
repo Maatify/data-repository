@@ -46,7 +46,7 @@ class MongoPaginationOptimizationTest extends TestCase
 
         $mockAdapter = $this->createMock(\Maatify\Common\Contracts\Adapter\AdapterInterface::class);
 
-        $repo = new class($mockAdapter, $collection) extends GenericMongoRepository {
+        $repo = new class ($mockAdapter, $collection) extends GenericMongoRepository {
             protected string $collectionName = 'test_collection';
 
             public function __construct(\Maatify\Common\Contracts\Adapter\AdapterInterface $adapter, private Collection $collection)

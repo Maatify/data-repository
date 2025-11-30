@@ -79,10 +79,10 @@ echo "\n--- Paginating Page 2 (Limit 5, Offset 5) ---\n";
 $result = $repo->paginate(2, 5);
 
 echo "\n--- Results ---\n";
-echo "Page: " . $result->pagination->page . "\n";
-echo "Total: " . $result->pagination->total . "\n";
-echo "Items count: " . count($result->data) . "\n";
+echo 'Page: ' . $result->pagination->page . "\n";
+echo 'Total: ' . $result->pagination->total . "\n";
+echo 'Items count: ' . count($result->data) . "\n";
 
 foreach ($result->data as $item) {
-    echo " - " . $item['name'] . "\n";
+    echo ' - ' . $item['name'] . "\n";
 }
