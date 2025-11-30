@@ -775,7 +775,8 @@
       "added": [
         "tests/Integration/IntegrationValidatorTest.php",
         "tests/Integration/FakeVsRealMatrixTest.php",
-        "docs/phases/README.phase18.md"
+        "docs/phases/README.phase18.md",
+        "examples/phase18/integration_matrix_example.php"
       ],
       "updated": [
         "phase-output.json",

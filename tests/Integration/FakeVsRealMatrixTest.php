@@ -19,15 +19,16 @@ use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Generic\GenericMongoRepository;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use PDO;
+use PHPUnit\Framework\Attributes\DataProvider;
+use RuntimeException;
 
 class FakeVsRealMatrixTest extends IntegrationValidatorTest
 {
     /**
-     * @dataProvider adapterProvider
-     *
      * @param string $adapterType
      * @param GenericMySQLRepository|GenericMongoRepository $repository
      */
+    #[DataProvider('adapterProvider')]
     public function testCrudConsistency(string $adapterType, object $repository): void
     {
         // 1. Insert
@@ -38,7 +39,6 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
         // 2. Find
         $found = $repository->find($id);
         $this->assertNotNull($found, "Should find record by ID in $adapterType");
-        // Removed assertIsArray as find() return type ?array guarantees array if not null
         $this->assertEquals('Matrix Test', $found['name']);
 
         // 3. Update
@@ -60,116 +60,191 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
     /**
      * @return array<string, array{0: string, 1: object}>
      */
-    public function adapterProvider(): array
+    public static function adapterProvider(): array
     {
         return [
-            'MySQL Fake' => ['MySQL', $this->createFakeMySQLRepo()],
-            'Mongo Fake' => ['Mongo', $this->createFakeMongoRepo()],
+            'MySQL Fake' => ['MySQL', self::createFakeMySQLRepo()],
+            'Mongo Fake' => ['Mongo', self::createFakeMongoRepo()],
         ];
     }
 
-    private function createFakeMySQLRepo(): object
+    private static function createFakeMySQLRepo(): object
     {
         $dummyAdapter = new class implements AdapterInterface {
-            public function connect(): void {}
-            public function disconnect(): void {}
-            /** @phpstan-ignore-next-line */
-            public function getConnection(): mixed { return null; }
-            /** @phpstan-ignore-next-line */
-            public function getDriver(): mixed { return null; }
-            public function healthCheck(): bool { return true; }
-            public function isConnected(): bool { return true; }
-            public function go(): void {} // Extra method to satisfy prev code if any
+            public function connect(): void
+            {
+            }
+
+            public function disconnect(): void
+            {
+            }
+
+            public function getConnection(): mixed
+            {
+                return null; // @phpstan-ignore-line
+            }
+
+            public function getDriver(): mixed
+            {
+                return null; // @phpstan-ignore-line
+            }
+
+            public function healthCheck(): bool
+            {
+                return true;
+            }
+
+            public function isConnected(): bool
+            {
+                return true;
+            }
+
+            public function go(): void
+            {
+            }
         };
 
-        return new class($dummyAdapter, null) extends GenericMySQLRepository {
+        return new class ($dummyAdapter, null) extends GenericMySQLRepository {
             /** @var array<int|string, array<string, mixed>> */
             private array $storage = [];
             private int $lastId = 0;
 
-            protected function getPdo(): PDO {
-                throw new \RuntimeException("Fake overrides CRUD, getPdo should not be called.");
+            protected function getPdo(): PDO
+            {
+                throw new RuntimeException('Fake overrides CRUD, getPdo should not be called.');
             }
 
-            // Narrowed return type to int to satisfy PHPStan unusedType check
-            public function insert(array $data): int {
+            public function insert(array $data): int
+            {
                 $this->lastId++;
                 $data['id'] = $this->lastId;
                 $this->storage[$this->lastId] = $data;
                 return $this->lastId;
             }
 
-            public function find(int|string $id): ?array {
+            public function find(int|string $id): ?array
+            {
                 return $this->storage[$id] ?? null;
             }
 
-            public function update(int|string $id, array $data): bool {
-                if (!isset($this->storage[$id])) return false;
+            public function update(int|string $id, array $data): bool
+            {
+                if (! isset($this->storage[$id])) {
+                    return false;
+                }
                 /** @var array<string, mixed> $existing */
                 $existing = $this->storage[$id];
                 $this->storage[$id] = array_merge($existing, $data);
                 return true;
             }
 
-            public function delete(int|string $id): bool {
-                if (!isset($this->storage[$id])) return false;
+            public function delete(int|string $id): bool
+            {
+                if (! isset($this->storage[$id])) {
+                    return false;
+                }
                 unset($this->storage[$id]);
                 return true;
             }
 
-            public function validateAdapter(): void {}
-            protected function getDriver(): mixed { return null; }
+            public function validateAdapter(): void
+            {
+            }
+
+            protected function getDriver(): mixed
+            {
+                return null;
+            }
         };
     }
 
-    private function createFakeMongoRepo(): object
+    private static function createFakeMongoRepo(): object
     {
         $dummyAdapter = new class implements AdapterInterface {
-            public function connect(): void {}
-            public function disconnect(): void {}
-            /** @phpstan-ignore-next-line */
-            public function getConnection(): mixed { return null; }
-            /** @phpstan-ignore-next-line */
-            public function getDriver(): mixed { return null; }
-            public function healthCheck(): bool { return true; }
-            public function isConnected(): bool { return true; }
-            public function go(): void {}
+            public function connect(): void
+            {
+            }
+
+            public function disconnect(): void
+            {
+            }
+
+            public function getConnection(): mixed
+            {
+                return null; // @phpstan-ignore-line
+            }
+
+            public function getDriver(): mixed
+            {
+                return null; // @phpstan-ignore-line
+            }
+
+            public function healthCheck(): bool
+            {
+                return true;
+            }
+
+            public function isConnected(): bool
+            {
+                return true;
+            }
+
+            public function go(): void
+            {
+            }
         };
 
-        return new class($dummyAdapter, null) extends GenericMongoRepository {
+        return new class ($dummyAdapter, null) extends GenericMongoRepository {
             /** @var array<int|string, array<string, mixed>> */
             private array $storage = [];
             private int $lastId = 0;
 
-            // Narrowed return type to int
-            public function insert(array $data): int {
+            public function insert(array $data): int
+            {
                 $this->lastId++;
                 $data['id'] = $this->lastId;
                 $this->storage[$this->lastId] = $data;
                 return $this->lastId;
             }
 
-            public function find(int|string $id): ?array {
+            public function find(int|string $id): ?array
+            {
                 return $this->storage[$id] ?? null;
             }
 
-            public function update(int|string $id, array $data): bool {
-                if (!isset($this->storage[$id])) return false;
+            public function update(int|string $id, array $data): bool
+            {
+                if (! isset($this->storage[$id])) {
+                    return false;
+                }
                 /** @var array<string, mixed> $existing */
                 $existing = $this->storage[$id];
                 $this->storage[$id] = array_merge($existing, $data);
                 return true;
             }
 
-            public function delete(int|string $id): bool {
-                if (!isset($this->storage[$id])) return false;
+            public function delete(int|string $id): bool
+            {
+                if (! isset($this->storage[$id])) {
+                    return false;
+                }
                 unset($this->storage[$id]);
                 return true;
             }
 
-            public function validateAdapter(): void {}
-            protected function getCollectionObj(): \MongoDB\Collection { throw new \Exception("Mock"); }
-            protected function getDriver(): mixed { return null; }
+            public function validateAdapter(): void
+            {
+            }
+
+            protected function getCollectionObj(): \MongoDB\Collection
+            {
+                throw new \Exception('Mock');
+            }
+
+            protected function getDriver(): mixed
+            {
+                return null;
+            }
         };
     }
 }
