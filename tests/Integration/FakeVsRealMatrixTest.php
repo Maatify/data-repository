@@ -38,7 +38,7 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
         // 2. Find
         $found = $repository->find($id);
         $this->assertNotNull($found, "Should find record by ID in $adapterType");
-        $this->assertIsArray($found, "Result should be an array in $adapterType");
+        // Removed assertIsArray as find() return type ?array guarantees array if not null
         $this->assertEquals('Matrix Test', $found['name']);
 
         // 3. Update
@@ -47,7 +47,6 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
 
         $foundAfterUpdate = $repository->find($id);
         $this->assertNotNull($foundAfterUpdate);
-        $this->assertIsArray($foundAfterUpdate);
         $this->assertEquals(456, $foundAfterUpdate['value']);
 
         // 4. Delete
@@ -74,7 +73,9 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
         $dummyAdapter = new class implements AdapterInterface {
             public function connect(): void {}
             public function disconnect(): void {}
+            /** @phpstan-ignore-next-line */
             public function getConnection(): mixed { return null; }
+            /** @phpstan-ignore-next-line */
             public function getDriver(): mixed { return null; }
             public function healthCheck(): bool { return true; }
             public function isConnected(): bool { return true; }
@@ -90,7 +91,8 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
                 throw new \RuntimeException("Fake overrides CRUD, getPdo should not be called.");
             }
 
-            public function insert(array $data): int|string {
+            // Narrowed return type to int to satisfy PHPStan unusedType check
+            public function insert(array $data): int {
                 $this->lastId++;
                 $data['id'] = $this->lastId;
                 $this->storage[$this->lastId] = $data;
@@ -125,7 +127,9 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
         $dummyAdapter = new class implements AdapterInterface {
             public function connect(): void {}
             public function disconnect(): void {}
+            /** @phpstan-ignore-next-line */
             public function getConnection(): mixed { return null; }
+            /** @phpstan-ignore-next-line */
             public function getDriver(): mixed { return null; }
             public function healthCheck(): bool { return true; }
             public function isConnected(): bool { return true; }
@@ -137,7 +141,8 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
             private array $storage = [];
             private int $lastId = 0;
 
-            public function insert(array $data): int|string {
+            // Narrowed return type to int
+            public function insert(array $data): int {
                 $this->lastId++;
                 $data['id'] = $this->lastId;
                 $this->storage[$this->lastId] = $data;
