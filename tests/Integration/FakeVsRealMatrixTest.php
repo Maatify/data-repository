@@ -70,7 +70,7 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
 
     private static function createFakeMySQLRepo(): object
     {
-        $dummyAdapter = new class () implements AdapterInterface {
+        $dummyAdapter = new class implements AdapterInterface {
             public function connect(): void
             {
             }
@@ -160,7 +160,7 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
 
     private static function createFakeMongoRepo(): object
     {
-        $dummyAdapter = new class () implements AdapterInterface {
+        $dummyAdapter = new class implements AdapterInterface {
             public function connect(): void
             {
             }
