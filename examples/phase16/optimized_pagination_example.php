@@ -16,9 +16,10 @@ declare(strict_types=1);
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Maatify\DataRepository\Generic\GenericRedisRepository;
+use Maatify\Common\Contracts\Adapter\AdapterInterface;
 
 // Mock Spy Driver for Example
-class ExampleSpyRedisDriver
+class ExampleSpyRedisDriver implements AdapterInterface
 {
     private array $store = [];
 
@@ -45,6 +46,42 @@ class ExampleSpyRedisDriver
         }
         return $matches;
     }
+
+    // Implement Interface Methods (Dummy)
+    public function getType(): string
+    {
+        return 'redis';
+    }
+    public function getName(): string
+    {
+        return 'example_spy';
+    }
+    public function connect(): void
+    {
+    }
+    public function disconnect(): void
+    {
+    }
+    public function isConnected(): bool
+    {
+        return true;
+    }
+    public function getNativeConnection(): object
+    {
+        return $this;
+    }
+    public function getConnection(): object
+    {
+        return $this;
+    }
+    public function getDriver(): object
+    {
+        return $this;
+    }
+    public function healthCheck(): bool
+    {
+        return true;
+    }
 }
 
 // Concrete Repository
@@ -54,7 +91,9 @@ class UserRedisRepository extends GenericRedisRepository
 
     public function __construct(private object $driver)
     {
-        parent::__construct();
+        /** @var AdapterInterface $adapter */
+        $adapter = $driver;
+        parent::__construct($adapter);
     }
 
     protected function getDriver(): object
