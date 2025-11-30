@@ -15,7 +15,9 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Generic\Support;
 
+use Maatify\Common\Pagination\DTO\PaginationResultDTO;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Pagination\HydratedPaginationCollection;
 
 trait RepositoryHydrationTrait
 {
@@ -54,5 +56,39 @@ trait RepositoryHydrationTrait
         }
 
         return array_map(fn ($row) => (object)$row, $data);
+    }
+
+    /**
+     * @param int $page
+     * @param int $perPage
+     * @param array<string, string>|null $orderBy
+     * @return HydratedPaginationCollection
+     * @throws RepositoryException
+     */
+    public function paginateObjects(int $page = 1, int $perPage = 10, ?array $orderBy = null): HydratedPaginationCollection
+    {
+        return $this->paginateObjectsBy([], $page, $perPage, $orderBy);
+    }
+
+    /**
+     * @param array<string, mixed> $filters
+     * @param int $page
+     * @param int $perPage
+     * @param array<string, string>|null $orderBy
+     * @return HydratedPaginationCollection
+     * @throws RepositoryException
+     */
+    public function paginateObjectsBy(array $filters, int $page = 1, int $perPage = 10, ?array $orderBy = null): HydratedPaginationCollection
+    {
+        // Assuming $this->paginateBy is available via the class using this trait
+        /** @var PaginationResultDTO $result */
+        $result = $this->paginateBy($filters, $page, $perPage, $orderBy);
+
+        /** @var array<int, array<string, mixed>> $rows */
+        $rows = $result->data;
+
+        $objects = $this->hydrator ? $this->hydrator->hydrateAll($rows) : array_map(fn ($item) => (object)$item, $rows);
+
+        return new HydratedPaginationCollection($objects, $result->pagination);
     }
 }

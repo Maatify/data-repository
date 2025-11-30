@@ -362,13 +362,14 @@
       "id": "phase17",
       "title": "Paginated Hydrated Results",
       "version": "1.0.4",
-      "status": "pending",
+      "status": "completed",
       "summary": "Combine hydration pipeline + pagination metadata seamlessly.",
       "tasks": [
         "Integrate hydration into pagination output",
         "Add HydratedPaginationCollection"
       ],
       "outputs": [
+        "src/Pagination/HydratedPaginationCollection.php",
         "README.phase17.md"
       ],
       "tests": [

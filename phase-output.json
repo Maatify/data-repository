@@ -698,5 +698,72 @@
       "notes": "Verified optimization logic via mock drivers."
     },
     "git_patch": "phase16.patch"
+  },
+  {
+    "phase_id": "phase17",
+    "timestamp": "2025-11-27T19:30:00+02:00",
+    "status": "completed",
+    "summary": "Paginated Hydrated Results implemented via HydratedPaginationCollection and RepositoryHydrationTrait updates.",
+    "changes": {
+      "added": [
+        "src/Pagination/HydratedPaginationCollection.php",
+        "tests/Pagination/Hydrated/HydratedPaginationTest.php",
+        "docs/phases/README.phase17.md",
+        "examples/phase17/hydrated_pagination_example.php"
+      ],
+      "updated": [
+        "src/Generic/Support/RepositoryHydrationTrait.php",
+        "CHANGELOG.md",
+        "api-map.json",
+        "phase-output.json"
+      ]
+    },
+    "tests": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "coverage": "Unknown",
+      "notes": "Verified hydrated pagination behavior via unit tests with mocks."
+    },
+    "git_patch": "phase17.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Pagination\\HydratedPaginationCollection": {
+        "type": "class",
+        "methods": {
+          "__construct": {
+            "visibility": "public",
+            "return_type": "void",
+            "arguments": [
+              { "name": "data", "type": "array<object>", "optional": false },
+              { "name": "pagination", "type": "Maatify\\Common\\Pagination\\DTO\\PaginationDTO", "optional": false }
+            ]
+          }
+        }
+      },
+      "Maatify\\DataRepository\\Generic\\Support\\RepositoryHydrationTrait": {
+        "type": "trait",
+        "methods": {
+          "paginateObjects": {
+            "visibility": "public",
+            "return_type": "Maatify\\DataRepository\\Pagination\\HydratedPaginationCollection",
+            "arguments": [
+              { "name": "page", "type": "int", "optional": false },
+              { "name": "perPage", "type": "int", "optional": false },
+              { "name": "orderBy", "type": "array<string, string>|null", "optional": true }
+            ]
+          },
+          "paginateObjectsBy": {
+            "visibility": "public",
+            "return_type": "Maatify\\DataRepository\\Pagination\\HydratedPaginationCollection",
+            "arguments": [
+              { "name": "filters", "type": "array<string, mixed>", "optional": false },
+              { "name": "page", "type": "int", "optional": false },
+              { "name": "perPage", "type": "int", "optional": false },
+              { "name": "orderBy", "type": "array<string, string>|null", "optional": true }
+            ]
+          }
+        }
+      }
+    }
   }
 ]
