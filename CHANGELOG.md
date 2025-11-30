@@ -9,6 +9,17 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.4] — 2025-11-27 (Phase 17 Update)
+
+### 🚀 Added
+- **Paginated Hydrated Results (Phase 17)**
+    - Introduced `HydratedPaginationCollection` DTO for type-safe handling of paginated, hydrated object sets.
+    - Updated `RepositoryHydrationTrait` with `paginateObjects()` and `paginateObjectsBy()` methods.
+    - Enabled `GenericRepositories` to return fully hydrated object collections while retaining pagination metadata.
+    - Verified behavior via `HydratedPaginationTest` ensuring correct hydration of paginated subsets.
+
+---
+
 ## [1.0.4] — 2025-11-27 (Phase 16 Update)
 
 ### 🚀 Added
