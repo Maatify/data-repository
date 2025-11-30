@@ -26,15 +26,20 @@ class RedisPaginationOptimizationTest extends TestCase
 
         // Seed 100 keys
         for ($i = 1; $i <= 100; $i++) {
-            $spy->set("test:$i", json_encode(['id' => $i, 'name' => "Item $i"]));
+            $json = json_encode(['id' => $i, 'name' => "Item $i"]);
+            if (is_string($json)) {
+                $spy->set("test:$i", $json);
+            }
         }
 
-        $repo = new class($spy) extends GenericRedisRepository {
+        $mockAdapter = $this->createMock(\Maatify\Common\Contracts\Adapter\AdapterInterface::class);
+
+        $repo = new class($mockAdapter, $spy) extends GenericRedisRepository {
             protected string $keyPrefix = 'test:';
 
-            public function __construct(private object $driver)
+            public function __construct(\Maatify\Common\Contracts\Adapter\AdapterInterface $adapter, private object $driver)
             {
-                parent::__construct();
+                parent::__construct($adapter);
             }
 
             protected function getDriver(): object
@@ -87,6 +92,9 @@ class SpyRedisDriver
         return true;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function keys(string $pattern): array
     {
         $this->callCounts['keys']++;

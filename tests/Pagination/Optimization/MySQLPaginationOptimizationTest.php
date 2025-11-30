@@ -36,7 +36,10 @@ class MySQLPaginationOptimizationTest extends TestCase
 
         $pdo->expects($this->exactly(2))
             ->method('prepare')
-            ->willReturnCallback(function ($sql) use ($stmtCount, $stmtFetch) {
+            ->willReturnCallback(function (mixed $sql) use ($stmtCount, $stmtFetch) {
+                if (! is_string($sql)) {
+                    throw new \Exception('Expected string sql');
+                }
                 if (str_contains($sql, 'COUNT(*)')) {
                     return $stmtCount;
                 }
@@ -49,12 +52,14 @@ class MySQLPaginationOptimizationTest extends TestCase
                 throw new \Exception("Query did not contain expected optimization clauses: $sql");
             });
 
-        $repo = new class($pdo) extends GenericMySQLRepository {
+        $mockAdapter = $this->createMock(\Maatify\Common\Contracts\Adapter\AdapterInterface::class);
+
+        $repo = new class($mockAdapter, $pdo) extends GenericMySQLRepository {
             protected string $tableName = 'test_table';
 
-            public function __construct(private PDO $pdo)
+            public function __construct(\Maatify\Common\Contracts\Adapter\AdapterInterface $adapter, private PDO $pdo)
             {
-                parent::__construct();
+                parent::__construct($adapter);
             }
 
             protected function getDriver(): object

@@ -33,7 +33,10 @@ class MongoPaginationOptimizationTest extends TestCase
             ->method('find')
             ->with(
                 $this->anything(), // filters
-                $this->callback(function ($options) {
+                $this->callback(function (mixed $options) {
+                    if (! is_array($options)) {
+                        return false;
+                    }
                     // Verify Optimization: Options must contain limit and skip
                     return isset($options['limit']) && $options['limit'] === 10
                         && isset($options['skip']) && $options['skip'] === 20;
@@ -41,12 +44,14 @@ class MongoPaginationOptimizationTest extends TestCase
             )
             ->willReturn(new \ArrayIterator([])); // Return empty iterator
 
-        $repo = new class($collection) extends GenericMongoRepository {
+        $mockAdapter = $this->createMock(\Maatify\Common\Contracts\Adapter\AdapterInterface::class);
+
+        $repo = new class($mockAdapter, $collection) extends GenericMongoRepository {
             protected string $collectionName = 'test_collection';
 
-            public function __construct(private Collection $collection)
+            public function __construct(\Maatify\Common\Contracts\Adapter\AdapterInterface $adapter, private Collection $collection)
             {
-                parent::__construct();
+                parent::__construct($adapter);
             }
 
             protected function getCollection(string $name): object
