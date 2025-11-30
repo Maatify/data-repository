@@ -1081,6 +1081,38 @@
           "arguments": []
         }
       }
+    },
+    "Maatify\\DataRepository\\Tests\\Integration\\IntegrationValidatorTest": {
+      "type": "class",
+      "methods": {
+        "assertArraysEqual": {
+          "visibility": "protected",
+          "return_type": "void",
+          "arguments": [
+            { "name": "expected", "type": "array<string, mixed>", "optional": false },
+            { "name": "actual", "type": "array<string, mixed>", "optional": false },
+            { "name": "message", "type": "string", "optional": false }
+          ]
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Tests\\Integration\\FakeVsRealMatrixTest": {
+      "type": "class",
+      "methods": {
+        "testCrudConsistency": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "adapterType", "type": "string", "optional": false },
+            { "name": "repository", "type": "object", "optional": false }
+          ]
+        },
+        "adapterProvider": {
+          "visibility": "public",
+          "return_type": "array",
+          "arguments": []
+        }
+      }
     }
   }
 }

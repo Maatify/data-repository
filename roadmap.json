@@ -381,7 +381,7 @@
       "id": "phase18",
       "title": "Integration With data-fakes + data-integrations",
       "version": "1.0.5",
-      "status": "pending",
+      "status": "completed",
       "summary": "Ensure fake + real adapters match identically; full integration tests.",
       "tasks": [
         "Fake-vs-Real matrix suite",
