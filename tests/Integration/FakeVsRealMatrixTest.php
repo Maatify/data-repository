@@ -20,6 +20,7 @@ use Maatify\DataRepository\Generic\GenericMongoRepository;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use PDO;
 use PHPUnit\Framework\Attributes\DataProvider;
+use RuntimeException;
 
 class FakeVsRealMatrixTest extends IntegrationValidatorTest
 {
@@ -38,7 +39,6 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
         // 2. Find
         $found = $repository->find($id);
         $this->assertNotNull($found, "Should find record by ID in $adapterType");
-        // Removed assertIsArray as find() return type ?array guarantees array if not null
         $this->assertEquals('Matrix Test', $found['name']);
 
         // 3. Update
@@ -70,34 +70,38 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
 
     private static function createFakeMySQLRepo(): object
     {
-        $dummyAdapter = new class implements AdapterInterface {
+        $dummyAdapter = new class () implements AdapterInterface {
             public function connect(): void
             {
             }
+
             public function disconnect(): void
             {
             }
-            /** @phpstan-ignore-next-line */
+
             public function getConnection(): mixed
             {
-                return null;
+                return null; // @phpstan-ignore-line
             }
-            /** @phpstan-ignore-next-line */
+
             public function getDriver(): mixed
             {
-                return null;
+                return null; // @phpstan-ignore-line
             }
+
             public function healthCheck(): bool
             {
                 return true;
             }
+
             public function isConnected(): bool
             {
                 return true;
             }
+
             public function go(): void
             {
-            } // Extra method to satisfy prev code if any
+            }
         };
 
         return new class ($dummyAdapter, null) extends GenericMySQLRepository {
@@ -107,10 +111,9 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
 
             protected function getPdo(): PDO
             {
-                throw new \RuntimeException("Fake overrides CRUD, getPdo should not be called.");
+                throw new RuntimeException('Fake overrides CRUD, getPdo should not be called.');
             }
 
-            // Narrowed return type to int to satisfy PHPStan unusedType check
             public function insert(array $data): int
             {
                 $this->lastId++;
@@ -147,6 +150,7 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
             public function validateAdapter(): void
             {
             }
+
             protected function getDriver(): mixed
             {
                 return null;
@@ -156,31 +160,35 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
 
     private static function createFakeMongoRepo(): object
     {
-        $dummyAdapter = new class implements AdapterInterface {
+        $dummyAdapter = new class () implements AdapterInterface {
             public function connect(): void
             {
             }
+
             public function disconnect(): void
             {
             }
-            /** @phpstan-ignore-next-line */
+
             public function getConnection(): mixed
             {
-                return null;
+                return null; // @phpstan-ignore-line
             }
-            /** @phpstan-ignore-next-line */
+
             public function getDriver(): mixed
             {
-                return null;
+                return null; // @phpstan-ignore-line
             }
+
             public function healthCheck(): bool
             {
                 return true;
             }
+
             public function isConnected(): bool
             {
                 return true;
             }
+
             public function go(): void
             {
             }
@@ -191,7 +199,6 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
             private array $storage = [];
             private int $lastId = 0;
 
-            // Narrowed return type to int
             public function insert(array $data): int
             {
                 $this->lastId++;
@@ -228,10 +235,12 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
             public function validateAdapter(): void
             {
             }
+
             protected function getCollectionObj(): \MongoDB\Collection
             {
-                throw new \Exception("Mock");
+                throw new \Exception('Mock');
             }
+
             protected function getDriver(): mixed
             {
                 return null;
