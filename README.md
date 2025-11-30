@@ -19,11 +19,11 @@ This library separates **domain logic** from **database drivers**. It guarantees
 
 ### Supported Drivers
 
-| Type | Real Driver | Fake Driver |
-| :--- | :--- | :--- |
-| **MySQL** | `PDO` / `Doctrine DBAL` | In-Memory Array (SQL-like) |
-| **MongoDB** | `mongodb/mongodb` | In-Memory Collection (BSON-like) |
-| **Redis** | `redis` / `predis` | In-Memory Key-Value Store |
+| Type        | Real Driver             | Fake Driver                      |
+|:------------|:------------------------|:---------------------------------|
+| **MySQL**   | `PDO` / `Doctrine DBAL` | In-Memory Array (SQL-like)       |
+| **MongoDB** | `mongodb/mongodb`       | In-Memory Collection (BSON-like) |
+| **Redis**   | `redis` / `predis`      | In-Memory Key-Value Store        |
 
 ---
 
