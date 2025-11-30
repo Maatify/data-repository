@@ -16,17 +16,17 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Integration;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
-use Maatify\DataRepository\Base\BaseRepository;
 use Maatify\DataRepository\Generic\GenericMongoRepository;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
-use Maatify\DataRepository\Generic\GenericRedisRepository;
-use Maatify\DataRepository\Tests\Integration\IntegrationValidatorTest;
 use PDO;
 
 class FakeVsRealMatrixTest extends IntegrationValidatorTest
 {
     /**
      * @dataProvider adapterProvider
+     *
+     * @param string $adapterType
+     * @param GenericMySQLRepository|GenericMongoRepository $repository
      */
     public function testCrudConsistency(string $adapterType, object $repository): void
     {
@@ -38,6 +38,7 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
         // 2. Find
         $found = $repository->find($id);
         $this->assertNotNull($found, "Should find record by ID in $adapterType");
+        $this->assertIsArray($found, "Result should be an array in $adapterType");
         $this->assertEquals('Matrix Test', $found['name']);
 
         // 3. Update
@@ -45,6 +46,8 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
         $this->assertTrue($updated, "Update should return true for $adapterType");
 
         $foundAfterUpdate = $repository->find($id);
+        $this->assertNotNull($foundAfterUpdate);
+        $this->assertIsArray($foundAfterUpdate);
         $this->assertEquals(456, $foundAfterUpdate['value']);
 
         // 4. Delete
@@ -55,89 +58,113 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
         $this->assertNull($foundAfterDelete, "Record should be gone after delete in $adapterType");
     }
 
+    /**
+     * @return array<string, array{0: string, 1: object}>
+     */
     public function adapterProvider(): array
     {
         return [
             'MySQL Fake' => ['MySQL', $this->createFakeMySQLRepo()],
             'Mongo Fake' => ['Mongo', $this->createFakeMongoRepo()],
-            // Redis generic repo logic is vastly different (no simple find/findBy), so we might need a separate test or specialized fake.
-            // For now, omitting Redis from CRUD matrix or using a specialized one.
         ];
     }
 
     private function createFakeMySQLRepo(): object
     {
-        return new class(new class implements AdapterInterface { public function go(): void {} }, null) extends GenericMySQLRepository {
+        $dummyAdapter = new class implements AdapterInterface {
+            public function connect(): void {}
+            public function disconnect(): void {}
+            public function getConnection(): mixed { return null; }
+            public function getDriver(): mixed { return null; }
+            public function healthCheck(): bool { return true; }
+            public function isConnected(): bool { return true; }
+            public function go(): void {} // Extra method to satisfy prev code if any
+        };
+
+        return new class($dummyAdapter, null) extends GenericMySQLRepository {
+            /** @var array<int|string, array<string, mixed>> */
             private array $storage = [];
             private int $lastId = 0;
 
             protected function getPdo(): PDO {
-                // Return a mock PDO only if strictly needed by internal Ops,
-                // but we are overriding methods here to simulate the "Driver" behavior
-                // since GenericMySQLRepository expects a real PDO.
-                // However, to truly test GenericMySQLRepository logic, we need it to CALL getPdo().
-                // Since we can't spin up a real PDO in this env easily without sqlite (which isn't PDO-MySQL),
-                // we have to Mock the PDO *Result* behavior if we want to test Generic logic.
-
-                // BUT, the goal here is "Fake vs Real".
-                // A "Fake" Generic Repository usually overrides the CRUD methods entirely to use array storage.
-
-                throw new \RuntimeException("This Fake overrides CRUD, so getPdo should not be called directly.");
+                throw new \RuntimeException("Fake overrides CRUD, getPdo should not be called.");
             }
 
-            // We override these to behave like a "Fake Adapter"
             public function insert(array $data): int|string {
                 $this->lastId++;
                 $data['id'] = $this->lastId;
                 $this->storage[$this->lastId] = $data;
                 return $this->lastId;
             }
+
             public function find(int|string $id): ?array {
                 return $this->storage[$id] ?? null;
             }
+
             public function update(int|string $id, array $data): bool {
                 if (!isset($this->storage[$id])) return false;
-                $this->storage[$id] = array_merge($this->storage[$id], $data);
+                /** @var array<string, mixed> $existing */
+                $existing = $this->storage[$id];
+                $this->storage[$id] = array_merge($existing, $data);
                 return true;
             }
+
             public function delete(int|string $id): bool {
                 if (!isset($this->storage[$id])) return false;
                 unset($this->storage[$id]);
                 return true;
             }
-             public function validateAdapter(): void {}
-             protected function getDriver(): mixed { return null; }
+
+            public function validateAdapter(): void {}
+            protected function getDriver(): mixed { return null; }
         };
     }
 
     private function createFakeMongoRepo(): object
     {
-         return new class(new class implements AdapterInterface { public function go(): void {} }, null) extends GenericMongoRepository {
+        $dummyAdapter = new class implements AdapterInterface {
+            public function connect(): void {}
+            public function disconnect(): void {}
+            public function getConnection(): mixed { return null; }
+            public function getDriver(): mixed { return null; }
+            public function healthCheck(): bool { return true; }
+            public function isConnected(): bool { return true; }
+            public function go(): void {}
+        };
+
+        return new class($dummyAdapter, null) extends GenericMongoRepository {
+            /** @var array<int|string, array<string, mixed>> */
             private array $storage = [];
             private int $lastId = 0;
 
             public function insert(array $data): int|string {
                 $this->lastId++;
-                $data['id'] = $this->lastId; // Normalize to 'id' for test consistency
+                $data['id'] = $this->lastId;
                 $this->storage[$this->lastId] = $data;
                 return $this->lastId;
             }
+
             public function find(int|string $id): ?array {
                 return $this->storage[$id] ?? null;
             }
-             public function update(int|string $id, array $data): bool {
+
+            public function update(int|string $id, array $data): bool {
                 if (!isset($this->storage[$id])) return false;
-                $this->storage[$id] = array_merge($this->storage[$id], $data);
+                /** @var array<string, mixed> $existing */
+                $existing = $this->storage[$id];
+                $this->storage[$id] = array_merge($existing, $data);
                 return true;
             }
+
             public function delete(int|string $id): bool {
                 if (!isset($this->storage[$id])) return false;
                 unset($this->storage[$id]);
                 return true;
             }
+
             public function validateAdapter(): void {}
             protected function getCollectionObj(): \MongoDB\Collection { throw new \Exception("Mock"); }
-             protected function getDriver(): mixed { return null; }
+            protected function getDriver(): mixed { return null; }
         };
     }
 }
