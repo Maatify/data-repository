@@ -9,6 +9,17 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.5] — 2025-11-27 (Phase 18 Update)
+
+### 🚀 Added
+- **Integration Matrix (Phase 18)**
+    - Implemented `tests/Integration/IntegrationValidatorTest.php` as a foundation for rigorous adapter parity testing.
+    - Implemented `tests/Integration/FakeVsRealMatrixTest.php` to execute the same test logic against "Fake" and "Real" repository implementations.
+    - Added comprehensive Matrix-style tests ensuring `insert`, `find`, `findAll`, `update`, and `delete` behave consistently across adapters.
+    - Prepared structure for verifying integration with external `data-fakes` and `data-integrations` libraries.
+
+---
+
 ## [1.0.4] — 2025-11-27 (Phase 16 Update)
 
 ### 🚀 Added
@@ -200,6 +211,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+[1.0.5]: https://github.com/Maatify/data-repository/releases/tag/1.0.5
 [1.0.4]: https://github.com/Maatify/data-repository/releases/tag/1.0.4
 [1.0.3]: https://github.com/Maatify/data-repository/releases/tag/1.0.3
 [1.0.2]: https://github.com/Maatify/data-repository/releases/tag/1.0.2
