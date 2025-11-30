@@ -56,6 +56,7 @@ Perfect for production AND deterministic testing.
     * **Result Normalization** (Unified ID mapping, Type casting)
     * **Standardized Error Handling** (Phase 8): All repositories throw `RepositoryException`
     * **Hydration Pipeline** (Phase 11+): Contracts, Context, and Base Implementations for transforming results.
+    * **Paginated Hydrated Results** (Phase 17): Seamlessly hydrate paginated result sets into object collections.
     * JSON column querying (MySQL)
 * **Zero native driver exposure**
   Everything uses `AdapterInterface`.
@@ -247,7 +248,8 @@ src/
 └── Pagination/       # Phase 15 — Pagination DTOs
     ├── PaginationEntry.php
     ├── PaginationContext.php
-    └── PaginationResultDTO.php
+    ├── PaginationResultDTO.php
+    └── HydratedPaginationCollection.php # Phase 17
 
 ```
 
@@ -275,6 +277,7 @@ src/
 | 14    | DTO Mapping & Profiles                      | ✅ Completed    | Transformers & Trait        |
 | 15    | Pagination Core                             | ✅ Completed    | Standardized paginate()     |
 | 16    | Pagination Optimization                     | ✅ Completed    | Efficient Driver Paging     |
+| 17    | Paginated Hydrated Results                  | ✅ Completed    | Hydration + Pagination      |
 
 ---
 
@@ -327,6 +330,9 @@ src/
 
 - **Phase 16 — Pagination Optimization**
   [`phases/README.phase16.md`](phases/README.phase16.md)
+
+- **Phase 17 — Paginated Hydrated Results**
+  [`phases/README.phase17.md`](phases/README.phase17.md)
 
 ---
 

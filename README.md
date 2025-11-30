@@ -109,6 +109,7 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 *   [**Phase 3: Generic CRUD**](docs/phases/README.phase3.md)
 *   [**Phase 15: Pagination**](docs/phases/README.phase15.md)
 *   [**Phase 16: Pagination Optimization**](docs/phases/README.phase16.md)
+*   [**Phase 17: Hydrated Pagination**](docs/phases/README.phase17.md)
 
 ---
 
