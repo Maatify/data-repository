@@ -33,6 +33,7 @@ class GenericRedisCoverageTest extends TestCase
     {
         $this->adapter = $this->createMock(AdapterInterface::class);
 
+        // We use a partial mock but don't mock findBy/findOneBy to test their new logic
         /** @var GenericRedisRepository&MockObject $repo */
         $repo = $this->getMockBuilder(GenericRedisRepository::class)
             ->disableOriginalConstructor()
@@ -46,29 +47,15 @@ class GenericRedisCoverageTest extends TestCase
         $refAdapter->setValue($this->repository, $this->adapter);
     }
 
-    public function testUnsupportedMethodsThrowException(): void
-    {
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('findBy() is not supported');
-        $this->repository->findBy([]);
-    }
-
-    public function testFindOneByThrowsException(): void
-    {
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('findOneBy() is not supported');
-        $this->repository->findOneBy([]);
-    }
-
-    public function testPaginateByThrowsException(): void
-    {
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('paginateBy() with filters is not supported');
-        $this->repository->paginateBy([], 1, 10);
-    }
+    // Phase 19: findBy / findOneBy / paginateBy no longer throw exceptions.
+    // We removed those tests.
 
     public function testCountWithFiltersThrowsException(): void
     {
+        // This is STILL unsupported in the current implementation of count()
+        // Phase 19 implementation only touched findBy/paginateBy logic.
+        // Let's check the code: GenericRedisRepository::count() still has check:
+        // if (! empty($filters)) { throw new RepositoryException... }
         $this->expectException(RepositoryException::class);
         $this->expectExceptionMessage('Filtering count is not supported');
         $this->repository->count(['a' => 1]);

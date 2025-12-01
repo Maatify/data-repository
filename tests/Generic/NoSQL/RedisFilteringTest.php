@@ -67,6 +67,11 @@ class RedisFilteringTest extends TestCase
 
         $this->repo = new class($adapter) extends GenericRedisRepository {
             protected string $keyPrefix = 'test:';
+
+            protected function validateAdapter(): void
+            {
+                // Bypass validation for mock
+            }
         };
 
         // Seed Data

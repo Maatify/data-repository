@@ -48,10 +48,10 @@ class MongoRobustnessTest extends TestCase
         $repo = new class($this->adapterMock) extends GenericMongoRepository {
             protected string $tableName = 'users';
 
-            // Override to return our mock directly instead of calling getDriver()->selectCollection
-            // because BaseMongoRepository calls selectCollection via driver.
-            // But wait, BaseMongoRepository implementation calls $this->getDriver()->selectCollection(...)
-            // Let's rely on that.
+            protected function validateAdapter(): void
+            {
+                // Bypass validation for mock
+            }
 
             // We need to override getCollection because BaseMongoRepository expects
             // the driver to have selectCollection method.
@@ -75,6 +75,11 @@ class MongoRobustnessTest extends TestCase
         $repo = new class($this->adapterMock) extends GenericMongoRepository {
             protected string $tableName = 'users';
 
+            protected function validateAdapter(): void
+            {
+                // Bypass validation for mock
+            }
+
             protected function getCollection(string $collectionName): object
             {
                 return (object)['name' => $collectionName, 'type' => 'MongoDB\Collection'];
@@ -94,6 +99,12 @@ class MongoRobustnessTest extends TestCase
     {
         $repo = new class($this->adapterMock) extends GenericMongoRepository {
             protected string $tableName = ''; // Empty
+
+            protected function validateAdapter(): void
+            {
+                // Bypass validation for mock
+            }
+
             protected function getCollection(string $collectionName): object { return (object)[]; }
         };
 
