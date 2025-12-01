@@ -92,25 +92,24 @@ class GenericRedisRepositoryFakeTest extends TestCase
         $this->repo->insert(['id' => ['bad'], 'name' => 'Invalid']);
     }
 
-    public function testFindByAndFindOneByThrowExceptions(): void
+    public function testFindByAndFindOneByAreSupported(): void
     {
-        $this->expectException(RepositoryException::class);
-        try {
-            $this->repo->findBy(['role' => 'admin']);
-        } catch (RepositoryException $e) {
-            // Verify message and rethrow for PHPUnit expectation
-            $this->assertStringContainsString('findBy()', $e->getMessage());
+        // Phase 19: findBy and findOneBy are now supported in GenericRedisRepository
+        // We verify that they do NOT throw exceptions anymore.
 
-            throw $e;
-        }
+        // Seed data
+        $this->repo->insert(['id' => 'k1', 'role' => 'admin']);
+        $this->repo->insert(['id' => 'k2', 'role' => 'user']);
 
-        $this->fail('Exception not thrown for findBy');
-    }
+        // findBy
+        $result = $this->repo->findBy(['role' => 'admin']);
+        $this->assertCount(1, $result);
+        $this->assertEquals('k1', $result[0]['id']);
 
-    public function testFindOneByThrowsException(): void
-    {
-        $this->expectException(RepositoryException::class);
-        $this->repo->findOneBy(['role' => 'admin']);
+        // findOneBy
+        $resultOne = $this->repo->findOneBy(['role' => 'user']);
+        $this->assertNotNull($resultOne);
+        $this->assertEquals('k2', $resultOne['id']);
     }
 
     public function testCountWithFiltersThrowsException(): void

@@ -28,7 +28,13 @@ class RedisMissingCoverageTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->redisMock = $this->createMock(Client::class);
+        // Mock Predis Client that returns empty array for keys to prevent TypeError in findAll
+        // Using addMethods to handle magic method 'keys'
+        $this->redisMock = $this->getMockBuilder(Client::class)
+            ->addMethods(['keys'])
+            ->getMock();
+
+        $this->redisMock->method('keys')->willReturn([]);
 
         $adapter = new FakeRedisAdapterSatisfying($this->redisMock);
 
@@ -37,19 +43,7 @@ class RedisMissingCoverageTest extends TestCase
         };
     }
 
-    public function testFindByThrowsException(): void
-    {
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('findBy() is not supported in GenericRedisRepository');
-        $this->repo->findBy(['id' => 1]);
-    }
-
-    public function testFindOneByThrowsException(): void
-    {
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('findOneBy() is not supported in GenericRedisRepository');
-        $this->repo->findOneBy(['id' => 1]);
-    }
+    // Phase 19: Removed findBy/findOneBy exception tests as they are now supported.
 
     public function testCountWithFiltersThrowsException(): void
     {
