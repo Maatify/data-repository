@@ -672,6 +672,13 @@
       "type": "abstract class",
       "extends": "Maatify\\DataRepository\\Base\\BaseMongoRepository",
       "methods": {
+        "setCollectionName": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "name", "type": "string", "optional": false }
+          ]
+        },
         "find": {
           "visibility": "public",
           "return_type": "?array",

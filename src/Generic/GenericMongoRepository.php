@@ -184,20 +184,28 @@ abstract class GenericMongoRepository extends BaseMongoRepository
         }
     }
 
+    public function setCollectionName(string $name): void
+    {
+        $this->collectionName = $name;
+    }
+
     /**
      * @throws RepositoryException
      */
     private function getCollectionObj(): Collection
     {
-        if (empty($this->collectionName)) {
-            if (empty($this->tableName)) {
+        $name = $this->collectionName;
+
+        if (empty($name)) {
+            if (!empty($this->tableName)) {
+                $name = $this->tableName;
+            } else {
                 throw new RepositoryException('Collection name not defined for GenericMongoRepository.');
             }
-            $this->collectionName = $this->tableName;
         }
 
         /** @var mixed $collection */
-        $collection = $this->getCollection($this->collectionName);
+        $collection = $this->getCollection($name);
 
         if (! $collection instanceof Collection) {
             throw new RepositoryException('Failed to retrieve MongoDB Collection.');
