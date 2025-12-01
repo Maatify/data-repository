@@ -280,6 +280,7 @@ src/
 | 17    | Paginated Hydrated Results                | ✅ Completed | Hydration + Pagination       |
 | 18    | Integration Matrix                        | ✅ Completed | Fake vs Real Parity          |
 | 19    | NoSQL Robustness                          | ✅ Completed | Mongo Collections, Redis Filtering |
+| 20    | SQL & Filter Improvements                 | ✅ Completed | Semantic SQL, Safe BigInt    |
 
 ---
 
@@ -341,6 +342,9 @@ src/
 
 - **Phase 19 — NoSQL Robustness**
   [`phases/README.phase19.md`](phases/README.phase19.md)
+
+- **Phase 20 — SQL & Filter Improvements**
+  [`phases/README.phase20.md`](phases/README.phase20.md)
 
 ---
 

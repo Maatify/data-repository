@@ -9,6 +9,18 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.7] — 2025-12-01 (Phase 20 Update)
+
+### 🚀 Added
+- **SQL & Filter Improvements (Phase 20)**
+    - **Semantic Placeholders:** Refactored `FilterUtils::buildSqlWhere` to use column names as placeholders (e.g., `:status`, `:age_GT`) instead of generic indices (`:p0`). This improves debuggability of generated SQL.
+    - **Safe BigInt Handling:** Refactored `MysqlOps::lastInsertId` to robustly handle 64-bit integers. It now safely preserves IDs as strings if they exceed `int` precision, while strictly casting standard IDs to `int`.
+    - Added verification tests in `tests/Generic/SQL/`.
+    - Updated `AdvancedFilterFakeTest` and `FilterUtilsCoverageTest` to reflect new semantic placeholder format.
+    - Included usage examples in `examples/phase20/`.
+
+---
+
 ## [1.0.6] — 2025-12-01 (Phase 19 Update)
 
 ### 🚀 Added
@@ -238,6 +250,8 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+[1.0.7]: https://github.com/Maatify/data-repository/releases/tag/1.0.7
+[1.0.6]: https://github.com/Maatify/data-repository/releases/tag/1.0.6
 [1.0.4]: https://github.com/Maatify/data-repository/releases/tag/1.0.4
 [1.0.3]: https://github.com/Maatify/data-repository/releases/tag/1.0.3
 [1.0.2]: https://github.com/Maatify/data-repository/releases/tag/1.0.2

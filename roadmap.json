@@ -421,7 +421,7 @@
       "id": "phase20",
       "title": "SQL & Filter Improvements",
       "version": "1.0.7",
-      "status": "pending",
+      "status": "completed",
       "summary": "Improve debuggability of generated SQL and handle large integers safely.",
       "tasks": [
         "Refactor FilterUtils to use semantic placeholders",
