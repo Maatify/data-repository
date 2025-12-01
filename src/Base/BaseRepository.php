@@ -33,8 +33,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function __construct(AdapterInterface $adapter, ?LoggerInterface $logger = null)
     {
         $this->setAdapter($adapter);
-        // Wrap logger to ensure consistent context source or use NullLogger if none provided
-        $this->logger = $logger ? new RepositoryLogger($logger) : new NullLogger();
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
