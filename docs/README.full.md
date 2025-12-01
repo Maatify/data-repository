@@ -278,6 +278,8 @@ src/
 | 15    | Pagination Core                           | ✅ Completed | Standardized paginate()      |
 | 16    | Pagination Optimization                   | ✅ Completed | Efficient Driver Paging      |
 | 17    | Paginated Hydrated Results                | ✅ Completed | Hydration + Pagination       |
+| 18    | Integration Matrix                        | ✅ Completed | Fake vs Real Parity          |
+| 19    | NoSQL Robustness                          | ✅ Completed | Mongo Collections, Redis Filtering |
 
 ---
 
@@ -333,6 +335,12 @@ src/
 
 - **Phase 17 — Paginated Hydrated Results**
   [`phases/README.phase17.md`](phases/README.phase17.md)
+
+- **Phase 18 — Integration Matrix**
+  [`phases/README.phase18.md`](phases/README.phase18.md)
+
+- **Phase 19 — NoSQL Robustness**
+  [`phases/README.phase19.md`](phases/README.phase19.md)
 
 ---
 
