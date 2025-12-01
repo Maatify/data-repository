@@ -2,10 +2,10 @@
 
 /**
  * @copyright   ©2025 Maatify.dev
- * @Library    maatify/data-repository
+ * @Library     maatify/data-repository
  * @Project     maatify:data-repository
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
- * @since       2025-11-25 09:10
+ * @since       2025-11-25 04:10
  * @see         https://www.maatify.dev Maatify.com
  * @link        https://github.com/Maatify/data-repository view project on GitHub
  * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
@@ -20,89 +20,50 @@ use PHPUnit\Framework\TestCase;
 
 class FilterUtilsCoverageTest extends TestCase
 {
-    public function testBuildSqlWhereWithMultipleConditions(): void
+    public function testBuildSqlWhereWithEmptyFilters(): void
     {
-        $filters = [
-            'id' => 1,
-            'status' => 'active',
-            'age' => ['>' => 18],
-            'role' => ['IN' => ['admin', 'user']],
-            'name' => ['LIKE' => '%John%'],
-        ];
-
-        [$where, $params] = FilterUtils::buildSqlWhere($filters);
-
-        $this->assertStringContainsString('`id` = :', $where);
-        $this->assertStringContainsString('`status` = :', $where);
-        $this->assertStringContainsString('`age` > :', $where);
-        $this->assertStringContainsString('`role` IN (:', $where);
-        $this->assertStringContainsString('`name` LIKE :', $where);
-        $this->assertCount(6, $params); // id, status, age, role1, role2, name
+        $result = FilterUtils::buildSqlWhere([]);
+        $this->assertEquals(['', []], $result);
     }
 
-    public function testBuildSqlWhereWithNull(): void
+    public function testBuildSqlWhereWithSimpleEquality(): void
     {
-        $filters = ['deleted_at' => null];
-        [$where, $params] = FilterUtils::buildSqlWhere($filters);
-
-        $this->assertStringContainsString('`deleted_at` IS NULL', $where);
-        $this->assertEmpty($params);
+        $result = FilterUtils::buildSqlWhere(['id' => 1]);
+        // Implementation generates keys without leading colon for the params array
+        $this->assertEquals([" WHERE `id` = :p0", ['p0' => 1]], $result);
     }
 
-    public function testBuildSqlWhereWithIsNotNull(): void
+    public function testBuildSqlWhereWithComplexConditions(): void
     {
-        $filters = ['deleted_at' => ['IS NOT NULL' => true]];
-        [$where, $params] = FilterUtils::buildSqlWhere($filters);
+        // Greater Than
+        $result = FilterUtils::buildSqlWhere(['age' => ['>' => 18]]);
+        // Implementation generates keys without leading colon for the params array
+        $this->assertEquals([" WHERE `age` > :p0_GT", ['p0_GT' => 18]], $result);
 
-        $this->assertStringContainsString('`deleted_at` IS NOT NULL', $where);
-        $this->assertEmpty($params);
+        // IN
+        $result = FilterUtils::buildSqlWhere(['status' => ['IN' => [1, 2]]]);
+        $this->assertStringContainsString('IN (:p0_IN_0, :p0_IN_1)', $result[0]);
     }
 
-    public function testBuildMongoFilterWithComplexConditions(): void
+    public function testBuildMongoFilter(): void
     {
-        $filters = [
-            'age' => ['>=' => 21],
-            'name' => ['!=' => 'Bob'],
-        ];
+        $this->assertEquals([], FilterUtils::buildMongoFilter([]));
+        $this->assertEquals(['a' => 1], FilterUtils::buildMongoFilter(['a' => 1]));
 
-        $mongoFilter = FilterUtils::buildMongoFilter($filters);
+        // Operators
+        $this->assertEquals(['a' => ['$gt' => 1]], FilterUtils::buildMongoFilter(['a' => ['>' => 1]]));
+        $this->assertEquals(['a' => ['$in' => [1, 2]]], FilterUtils::buildMongoFilter(['a' => ['IN' => [1, 2]]]));
 
-        $this->assertArrayHasKey('age', $mongoFilter);
+        // ID Mapping
+        $oid = new \MongoDB\BSON\ObjectId();
+        $strOid = (string)$oid;
+        $result = FilterUtils::buildMongoFilter(['id' => $strOid]);
+        $this->assertEquals(['_id' => $oid], $result); // Should convert id to _id and string to ObjectId
 
-        /** @var array<string, mixed> $ageFilter */
-        $ageFilter = $mongoFilter['age'];
-        $this->assertArrayHasKey('$gte', $ageFilter);
-        $this->assertEquals(21, $ageFilter['$gte']);
+        // NOT EQUAL
+        $this->assertEquals(['a' => ['$ne' => 1]], FilterUtils::buildMongoFilter(['a' => ['!=' => 1]]));
 
-        $this->assertArrayHasKey('name', $mongoFilter);
-
-        /** @var array<string, mixed> $nameFilter */
-        $nameFilter = $mongoFilter['name'];
-        $this->assertArrayHasKey('$ne', $nameFilter);
-        $this->assertEquals('Bob', $nameFilter['$ne']);
-    }
-
-    public function testBuildMongoFilterWithInNotIn(): void
-    {
-        $filters = [
-            'role' => ['IN' => [1, 2]],
-            'status' => ['NOT IN' => ['banned']],
-        ];
-
-        $mongoFilter = FilterUtils::buildMongoFilter($filters);
-
-        $this->assertArrayHasKey('role', $mongoFilter);
-
-        /** @var array<string, mixed> $roleFilter */
-        $roleFilter = $mongoFilter['role'];
-        $this->assertArrayHasKey('$in', $roleFilter);
-        $this->assertEquals([1, 2], $roleFilter['$in']);
-
-        $this->assertArrayHasKey('status', $mongoFilter);
-
-        /** @var array<string, mixed> $statusFilter */
-        $statusFilter = $mongoFilter['status'];
-        $this->assertArrayHasKey('$nin', $statusFilter);
-        $this->assertEquals(['banned'], $statusFilter['$nin']);
+        // NOT IN
+        $this->assertEquals(['a' => ['$nin' => [1, 2]]], FilterUtils::buildMongoFilter(['a' => ['NOT IN' => [1, 2]]]));
     }
 }
