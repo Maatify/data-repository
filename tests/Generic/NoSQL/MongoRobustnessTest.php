@@ -27,15 +27,18 @@ class MongoRobustnessTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->collectionMock = new class {
+        $this->collectionMock = new class () {
             public string $name = '';
         };
 
         // Mock Adapter to return "fake" Mongo database object
         $this->adapterMock = $this->createMock(AdapterInterface::class);
-        $this->adapterMock->method('getDriver')->willReturn(new class($this->collectionMock) {
-            public function __construct(private object $collection) {}
-            public function selectCollection(string $db, string $collection): object {
+        $this->adapterMock->method('getDriver')->willReturn(new class ($this->collectionMock) {
+            public function __construct(private object $collection)
+            {
+            }
+            public function selectCollection(string $db, string $collection): object
+            {
                 if (property_exists($this->collection, 'name')) {
                     $this->collection->name = $collection;
                 }
@@ -50,11 +53,12 @@ class MongoRobustnessTest extends TestCase
         $collectionMock = $this->createMock(\MongoDB\Collection::class);
 
         // 1. Define repo with tableName only
-        $repo = new class($this->adapterMock, $collectionMock) extends GenericMongoRepository {
+        $repo = new class ($this->adapterMock, $collectionMock) extends GenericMongoRepository {
             protected string $tableName = 'users';
             public string $requestedName = '';
 
-            public function __construct(AdapterInterface $adapter, private object $mockCollection) {
+            public function __construct(AdapterInterface $adapter, private object $mockCollection)
+            {
                 parent::__construct($adapter);
             }
 
@@ -86,11 +90,12 @@ class MongoRobustnessTest extends TestCase
     {
         $collectionMock = $this->createMock(\MongoDB\Collection::class);
 
-        $repo = new class($this->adapterMock, $collectionMock) extends GenericMongoRepository {
+        $repo = new class ($this->adapterMock, $collectionMock) extends GenericMongoRepository {
             protected string $tableName = 'users';
             public string $requestedName = '';
 
-            public function __construct(AdapterInterface $adapter, private object $mockCollection) {
+            public function __construct(AdapterInterface $adapter, private object $mockCollection)
+            {
                 parent::__construct($adapter);
             }
 
@@ -118,7 +123,7 @@ class MongoRobustnessTest extends TestCase
 
     public function testMissingNameThrowsException(): void
     {
-        $repo = new class($this->adapterMock) extends GenericMongoRepository {
+        $repo = new class ($this->adapterMock) extends GenericMongoRepository {
             protected string $tableName = ''; // Empty
 
             protected function validateAdapter(): void
@@ -126,7 +131,10 @@ class MongoRobustnessTest extends TestCase
                 // Bypass validation for mock
             }
 
-            protected function getCollection(string $collectionName): object { return (object)[]; }
+            protected function getCollection(string $collectionName): object
+            {
+                return (object)[];
+            }
         };
 
         $this->expectException(RepositoryException::class);

@@ -27,20 +27,23 @@ class RedisFilteringTest extends TestCase
     protected function setUp(): void
     {
         // 1. Create a FakeRedis in-memory store
-        $this->fakeRedis = new class {
+        $this->fakeRedis = new class () {
             /** @var array<string, string> */
             public array $store = [];
 
-            public function get(string $key): ?string {
+            public function get(string $key): ?string
+            {
                 return $this->store[$key] ?? null;
             }
 
-            public function set(string $key, string $value): bool {
+            public function set(string $key, string $value): bool
+            {
                 $this->store[$key] = $value;
                 return true;
             }
 
-            public function del(string $key): int {
+            public function del(string $key): int
+            {
                 if (isset($this->store[$key])) {
                     unset($this->store[$key]);
                     return 1;
@@ -51,7 +54,8 @@ class RedisFilteringTest extends TestCase
             // GenericRedisRepository uses RedisOps which might use reflection to find 'store'
             // or we can implement keys()
             /** @return array<int, string> */
-            public function keys(string $pattern): array {
+            public function keys(string $pattern): array
+            {
                 // simple prefix match logic
                 $prefix = str_replace('*', '', $pattern);
                 $result = [];
@@ -67,7 +71,7 @@ class RedisFilteringTest extends TestCase
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->method('getDriver')->willReturn($this->fakeRedis);
 
-        $this->repo = new class($adapter) extends GenericRedisRepository {
+        $this->repo = new class ($adapter) extends GenericRedisRepository {
             protected string $keyPrefix = 'test:';
 
             protected function validateAdapter(): void

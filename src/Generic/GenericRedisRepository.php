@@ -342,7 +342,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             if (is_array($value)) {
                 // If it's a simple list, treat as IN
                 if (array_keys($value) === range(0, count($value) - 1)) {
-                    if (!in_array($item[$field], $value)) {
+                    if (!in_array($item[$field], $value, true)) {
                         return false;
                     }
                 } else {
