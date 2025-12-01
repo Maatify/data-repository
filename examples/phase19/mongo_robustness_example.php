@@ -25,18 +25,40 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  */
 
 // 1. Setup Mock Adapter (Simulation)
-$adapter = new class implements AdapterInterface {
-    public function getDriver(): mixed { return new \stdClass(); } // Mock driver
-    public function getType(): string { return 'mongo'; }
-    public function connect(): void {}
-    public function isConnected(): bool { return true; }
-    public function disconnect(): void {}
-    public function getConnection(): mixed { return null; }
-    public function debugConfig(): object { return (object)[]; }
-    public function healthCheck(): bool { return true; }
+$adapter = new class () implements AdapterInterface {
+    public function getDriver(): mixed
+    {
+        return new \stdClass();
+    } // Mock driver
+    public function getType(): string
+    {
+        return 'mongo';
+    }
+    public function connect(): void
+    {
+    }
+    public function isConnected(): bool
+    {
+        return true;
+    }
+    public function disconnect(): void
+    {
+    }
+    public function getConnection(): mixed
+    {
+        return null;
+    }
+    public function debugConfig(): object
+    {
+        return (object)[];
+    }
+    public function healthCheck(): bool
+    {
+        return true;
+    }
 };
 
-// 2. Define Repository with default table
+// 2. Define Repository with the default table
 class UserRepository extends GenericMongoRepository
 {
     protected string $tableName = 'users';
@@ -44,7 +66,7 @@ class UserRepository extends GenericMongoRepository
     // Simulate collection retrieval for example purposes without real Mongo
     protected function getCollection(string $collectionName): object
     {
-        echo "Requested Collection: " . $collectionName . PHP_EOL;
+        echo 'Requested Collection: ' . $collectionName . PHP_EOL;
         return (object)['name' => $collectionName];
     }
 }
@@ -52,7 +74,7 @@ class UserRepository extends GenericMongoRepository
 $repo = new UserRepository($adapter);
 
 // 3. Default behavior (uses tableName)
-echo "--- Default Access ---" . PHP_EOL;
+echo '--- Default Access ---' . PHP_EOL;
 // Calling an internal method via public proxy for demo (or just trust the echo above if we could invoke it)
 // In real usage, calling findAll() triggers getCollection('users')
 try {
@@ -69,12 +91,14 @@ $repo->setCollectionName('archived_users');
 
 try {
     $ref->invoke($repo);
-} catch (\Exception $e) {}
+} catch (\Exception $e) {
+}
 
 // 5. Reset to Default (empty string triggers fallback to tableName)
-echo "--- Resetting to Default ---" . PHP_EOL;
+echo '--- Resetting to Default ---' . PHP_EOL;
 $repo->setCollectionName('');
 
 try {
     $ref->invoke($repo);
-} catch (\Exception $e) {}
+} catch (\Exception $e) {
+}
