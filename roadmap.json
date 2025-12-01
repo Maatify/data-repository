@@ -2,8 +2,7 @@
   "roadmap_version": "1.0.0",
   "project": "maatify/data-repository",
 
-  "note": "Core repository runtime for the entire Maatify ecosystem. Repository must remain adapter-agnostic and behave identically across FakeAdapters and RealAdapters. This roadmap reflects 20 ultra-modular phases optimized for clean executor execution and maximum flexibility.",
-
+  "note": "Core repository runtime for the entire Maatify ecosystem. Repository must remain adapter-agnostic and behave identically across FakeAdapters and RealAdapters. This roadmap reflects 23 ultra-modular phases optimized for clean executor execution and maximum flexibility.",
   "phases": [
 
     {
@@ -394,9 +393,73 @@
         "tests/Integration/*"
       ]
     },
-
     {
       "id": "phase19",
+      "title": "NoSQL Robustness (Mongo & Redis)",
+      "version": "1.0.6",
+      "status": "pending",
+      "summary": "Fix Mongo collection naming logic and implement in-memory filtering for Redis repository.",
+      "tasks": [
+        "Fix GenericMongoRepository collection name logic",
+        "Add setCollectionName to GenericMongoRepository",
+        "Implement in-memory findBy for GenericRedisRepository",
+        "Implement in-memory findOneBy for GenericRedisRepository",
+        "Implement in-memory paginateBy for GenericRedisRepository"
+      ],
+      "outputs": [
+        "src/Generic/GenericMongoRepository.php",
+        "src/Generic/GenericRedisRepository.php",
+        "README.phase19.md"
+      ],
+      "tests": [
+        "tests/Generic/NoSQL/RedisFilteringTest.php",
+        "tests/Generic/NoSQL/MongoRobustnessTest.php"
+      ]
+    },
+
+    {
+      "id": "phase20",
+      "title": "SQL & Filter Improvements",
+      "version": "1.0.7",
+      "status": "pending",
+      "summary": "Improve debuggability of generated SQL and handle large integers safely.",
+      "tasks": [
+        "Refactor FilterUtils to use semantic placeholders",
+        "Refactor MysqlOps to handle 64-bit integer strings",
+        "Update unit tests for placeholder expectations"
+      ],
+      "outputs": [
+        "src/Generic/Support/FilterUtils.php",
+        "src/Generic/Support/MysqlOps.php",
+        "README.phase20.md"
+      ],
+      "tests": [
+        "tests/Generic/SQL/SemanticPlaceholdersTest.php",
+        "tests/Generic/SQL/BigIntTest.php"
+      ]
+    },
+
+    {
+      "id": "phase21",
+      "title": "Architecture Decoupling (Logger Injection)",
+      "version": "1.0.8",
+      "status": "pending",
+      "summary": "Decouple BaseRepository from RepositoryLogger to allow raw PSR-3 injection.",
+      "tasks": [
+        "Refactor BaseRepository constructor",
+        "Remove strict RepositoryLogger wrapping",
+        "Update all child repositories constructors"
+      ],
+      "outputs": [
+        "src/Base/BaseRepository.php",
+        "README.phase21.md"
+      ],
+      "tests": [
+        "tests/Architecture/LoggerInjectionTest.php"
+      ]
+    },
+    {
+      "id": "phase22",
       "title": "Documentation & Examples",
       "version": "1.0.5",
       "status": "pending",
@@ -415,7 +478,7 @@
     },
 
     {
-      "id": "phase20",
+      "id": "phase23",
       "title": "Final Release v1.0.0",
       "version": "1.0.5",
       "status": "pending",
