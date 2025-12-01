@@ -9,6 +9,22 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.6] — 2025-12-01 (Phase 19 Update)
+
+### 🚀 Added
+- **Mongo Robustness (Phase 19)**
+    - Added `setCollectionName(string $name)` to `GenericMongoRepository` for dynamic collection switching.
+    - Updated `getCollectionObj()` to prioritize explicit collection names while maintaining backward compatibility with `tableName`.
+    - Added `tests/Generic/NoSQL/MongoRobustnessTest.php`.
+
+- **Redis Filtering (Phase 19)**
+    - Implemented in-memory `findBy`, `findOneBy`, and `paginateBy` for `GenericRedisRepository`.
+    - Added support for basic equality and `IN` list filtering on Redis JSON values.
+    - Verified functionality via `tests/Generic/NoSQL/RedisFilteringTest.php`.
+    - Note: Redis filtering performs a full scan of keys matching the prefix; suitable for small datasets only.
+
+---
+
 ## [1.0.4] — 2025-11-27 (Phase 17 Update)
 
 ### 🚀 Added

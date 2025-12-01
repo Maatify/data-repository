@@ -33,19 +33,7 @@ class MissingCoverageTest extends TestCase
         };
     }
 
-    public function testFindByThrowsException(): void
-    {
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('findBy() is not supported in GenericRedisRepository');
-        $this->repo->findBy(['id' => 1]);
-    }
-
-    public function testFindOneByThrowsException(): void
-    {
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('findOneBy() is not supported in GenericRedisRepository');
-        $this->repo->findOneBy(['id' => 1]);
-    }
+    // Phase 19: findBy and findOneBy are now supported. Exception tests removed.
 
     public function testCountWithFiltersThrowsException(): void
     {
