@@ -71,7 +71,7 @@ class GenericRedisCoverageTest extends TestCase
     {
         $this->expectException(RepositoryException::class);
         $this->expectExceptionMessage('Filtering count is not supported');
-        $this->repository->count(['a'=>1]);
+        $this->repository->count(['a' => 1]);
     }
 
     public function testInsertThrowsExceptionIfIdMissing(): void

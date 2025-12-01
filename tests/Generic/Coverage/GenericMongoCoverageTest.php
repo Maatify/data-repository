@@ -37,7 +37,7 @@ class GenericMongoCoverageTest extends TestCase
     {
         // Use anonymous class to extend GenericMongoRepository
         // We bypass the constructor to avoid validation logic triggering prematurely
-        $repo = new class($this->adapter) extends GenericMongoRepository {
+        $repo = new class ($this->adapter) extends GenericMongoRepository {
             public function __construct(AdapterInterface $adapter)
             {
                 // Bypass parent constructor
@@ -61,7 +61,7 @@ class GenericMongoCoverageTest extends TestCase
     public function testGetCollectionObjThrowsExceptionIfDriverFails(): void
     {
         // Mock getCollection to return null
-        $repo = new class($this->adapter) extends GenericMongoRepository {
+        $repo = new class ($this->adapter) extends GenericMongoRepository {
             public function __construct(AdapterInterface $adapter)
             {
                 $this->adapter = $adapter;
@@ -93,7 +93,7 @@ class GenericMongoCoverageTest extends TestCase
         $result->method('getInsertedId')->willReturn(new \stdClass()); // Invalid ID type
         $collection->method('insertOne')->willReturn($result);
 
-        $repo = new class($this->adapter, $collection) extends GenericMongoRepository {
+        $repo = new class ($this->adapter, $collection) extends GenericMongoRepository {
             private object $mockCollection;
 
             public function __construct(AdapterInterface $adapter, object $mockCollection)
@@ -128,7 +128,7 @@ class GenericMongoCoverageTest extends TestCase
         $collection->method('updateOne')->willThrowException($exception);
         $collection->method('deleteOne')->willThrowException($exception);
 
-        $repo = new class($this->adapter, $collection) extends GenericMongoRepository {
+        $repo = new class ($this->adapter, $collection) extends GenericMongoRepository {
             private object $mockCollection;
 
             public function __construct(AdapterInterface $adapter, object $mockCollection)
@@ -165,7 +165,7 @@ class GenericMongoCoverageTest extends TestCase
             $repo->findOneBy([]);
             $this->fail('Expected exception');
         } catch (RepositoryException $e) {
-             $this->assertStringContainsString('FindOneBy failed', $e->getMessage());
+            $this->assertStringContainsString('FindOneBy failed', $e->getMessage());
         }
 
         // Count
@@ -178,7 +178,7 @@ class GenericMongoCoverageTest extends TestCase
 
         // Insert
         try {
-            $repo->insert(['a'=>1]);
+            $repo->insert(['a' => 1]);
             $this->fail('Expected exception');
         } catch (RepositoryException $e) {
             $this->assertStringContainsString('Insert failed', $e->getMessage());
@@ -186,7 +186,7 @@ class GenericMongoCoverageTest extends TestCase
 
         // Update
         try {
-            $repo->update('123', ['a'=>1]);
+            $repo->update('123', ['a' => 1]);
             $this->fail('Expected exception');
         } catch (RepositoryException $e) {
             $this->assertStringContainsString('Update failed', $e->getMessage());

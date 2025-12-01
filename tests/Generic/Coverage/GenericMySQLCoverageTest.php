@@ -73,10 +73,16 @@ class GenericMySQLCoverageTest extends TestCase
     public function testGetPdoRecognizesDbalWrapper(): void
     {
         $pdo = $this->createMock(\PDO::class);
-        $dbalDriver = new class($pdo) {
+        $dbalDriver = new class ($pdo) {
             private \PDO $pdo;
-            public function __construct(\PDO $pdo) { $this->pdo = $pdo; }
-            public function getNativeConnection(): \PDO { return $this->pdo; }
+            public function __construct(\PDO $pdo)
+            {
+                $this->pdo = $pdo;
+            }
+            public function getNativeConnection(): \PDO
+            {
+                return $this->pdo;
+            }
         };
 
         $this->repository->expects($this->any())

@@ -30,7 +30,7 @@ class FilterUtilsCoverageTest extends TestCase
     {
         $result = FilterUtils::buildSqlWhere(['id' => 1]);
         // Implementation generates keys without leading colon for the params array
-        $this->assertEquals([" WHERE `id` = :p0", ['p0' => 1]], $result);
+        $this->assertEquals([' WHERE `id` = :p0', ['p0' => 1]], $result);
     }
 
     public function testBuildSqlWhereWithComplexConditions(): void
@@ -38,7 +38,7 @@ class FilterUtilsCoverageTest extends TestCase
         // Greater Than
         $result = FilterUtils::buildSqlWhere(['age' => ['>' => 18]]);
         // Implementation generates keys without leading colon for the params array
-        $this->assertEquals([" WHERE `age` > :p0_GT", ['p0_GT' => 18]], $result);
+        $this->assertEquals([' WHERE `age` > :p0_GT', ['p0_GT' => 18]], $result);
 
         // IN
         $result = FilterUtils::buildSqlWhere(['status' => ['IN' => [1, 2]]]);

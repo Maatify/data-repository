@@ -49,9 +49,12 @@ class MysqlOpsCoverageTest extends TestCase
 
     public function testLastInsertIdWithFakeDriver(): void
     {
-        $fake = new class {
+        $fake = new class () {
             public mixed $returnVal;
-            public function lastInsertId(): mixed { return $this->returnVal; }
+            public function lastInsertId(): mixed
+            {
+                return $this->returnVal;
+            }
         };
 
         $ops = new MysqlOps($fake);
