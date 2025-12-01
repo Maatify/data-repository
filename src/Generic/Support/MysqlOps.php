@@ -64,7 +64,12 @@ final class MysqlOps
             // PDO returns string for IDs usually, but can be int if driver handles it.
             // Check if numeric string
             if (is_numeric($id)) {
-                return (int)$id;
+                // Handle 64-bit integer strings safely
+                if ((string)(int)$id === (string)$id) {
+                    return (int)$id;
+                }
+                // Return as string if it overflows integer bounds
+                return (string)$id;
             }
             return $id;
         }
@@ -76,7 +81,15 @@ final class MysqlOps
             if ($id === false) {
                 return 0;
             }
-            if (is_int($id) || is_string($id)) {
+            if (is_int($id)) {
+                return $id;
+            }
+            if (is_string($id)) {
+                if (is_numeric($id)) {
+                    if ((string)(int)$id === $id) {
+                        return (int)$id;
+                    }
+                }
                 return $id;
             }
         }

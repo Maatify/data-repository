@@ -67,30 +67,27 @@ final class FilterUtils
         /** @var array<string,mixed> $params */
         $params  = [];
 
-        $i = 0;
-
         foreach ($filters as $col => $val) {
-            if (! self::isValidSqlColumn($col)) {
-                throw new InvalidArgumentException("Invalid SQL column name '{$col}'");
+            $colName = (string)$col;
+            if (! self::isValidSqlColumn($colName)) {
+                throw new InvalidArgumentException("Invalid SQL column name '{$colName}'");
             }
 
-            $base = "p{$i}";
+            $base = $colName;
 
             if (!is_array($val)) {
                 if ($val === null) {
-                    $clauses[] = "`{$col}` IS NULL";
+                    $clauses[] = "`{$colName}` IS NULL";
                 } else {
-                    $clauses[] = "`{$col}` = :{$base}";
+                    $clauses[] = "`{$colName}` = :{$base}";
                     $params[$base] = $val;
                 }
 
             } else {
                 /** @var array<int,string> $opClauses */
-                $opClauses = self::processSqlOperators($col, $val, $base, $params);
+                $opClauses = self::processSqlOperators($colName, $val, $base, $params);
                 $clauses = array_merge($clauses, $opClauses);
             }
-
-            $i++;
         }
 
         if ($clauses === []) {

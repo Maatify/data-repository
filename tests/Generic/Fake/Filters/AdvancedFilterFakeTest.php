@@ -24,8 +24,8 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['status' => 'active'];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString('`status` = :p0', $sql);
-        $this->assertEquals(['p0' => 'active'], $params);
+        $this->assertStringContainsString('`status` = :status', $sql);
+        $this->assertEquals(['status' => 'active'], $params);
     }
 
     public function testBuildSqlWhere_ExplicitIsNull(): void
@@ -63,9 +63,9 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['status' => ['IN' => ['active', 'pending']]];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString('`status` IN (:p0_IN_0, :p0_IN_1)', $sql);
-        $this->assertEquals('active', $params['p0_IN_0']);
-        $this->assertEquals('pending', $params['p0_IN_1']);
+        $this->assertStringContainsString('`status` IN (:status_IN_0, :status_IN_1)', $sql);
+        $this->assertEquals('active', $params['status_IN_0']);
+        $this->assertEquals('pending', $params['status_IN_1']);
     }
 
     public function testBuildSqlWhere_InOperator_Empty(): void
@@ -95,9 +95,9 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['age' => ['BETWEEN' => [18, 65]]];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString('`age` BETWEEN :p0_BETWEEN_1 AND :p0_BETWEEN_2', $sql);
-        $this->assertEquals(18, $params['p0_BETWEEN_1']);
-        $this->assertEquals(65, $params['p0_BETWEEN_2']);
+        $this->assertStringContainsString('`age` BETWEEN :age_BETWEEN_1 AND :age_BETWEEN_2', $sql);
+        $this->assertEquals(18, $params['age_BETWEEN_1']);
+        $this->assertEquals(65, $params['age_BETWEEN_2']);
     }
 
     public function testBuildSqlWhere_BetweenOperator_Invalid(): void
@@ -111,8 +111,8 @@ class AdvancedFilterFakeTest extends TestCase
         $filters = ['name' => ['LIKE' => '%John%']];
         [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertStringContainsString('`name` LIKE :p0_LIKE', $sql);
-        $this->assertEquals('%John%', $params['p0_LIKE']);
+        $this->assertStringContainsString('`name` LIKE :name_LIKE', $sql);
+        $this->assertEquals('%John%', $params['name_LIKE']);
     }
 
     public function testBuildSqlWhere_IsNullOperator(): void
