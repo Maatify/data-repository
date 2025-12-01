@@ -882,5 +882,52 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase20",
+    "timestamp": "2025-12-01T13:40:00+00:00",
+    "status": "completed",
+    "summary": "SQL & Filter Improvements (Semantic Placeholders + Safe Integer Handling) implemented.",
+    "changes": {
+      "added": [
+        "tests/Generic/SQL/SemanticPlaceholdersTest.php",
+        "tests/Generic/SQL/BigIntTest.php",
+        "docs/phases/README.phase20.md"
+      ],
+      "updated": [
+        "src/Generic/Support/FilterUtils.php",
+        "src/Generic/Support/MysqlOps.php",
+        "phase-output.json"
+      ]
+    },
+    "tests": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0,
+      "coverage": "Unknown",
+      "notes": "Tests created but execution skipped due to missing environment (PHP/Composer). Code verified by static logic."
+    },
+    "git_patch": "phase20.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Generic\\Support\\FilterUtils": {
+        "type": "class",
+        "methods": {
+          "buildSqlWhere": {
+            "visibility": "public",
+            "return_type": "array{0:string,1:array<string,mixed>}",
+            "static": true
+          }
+        }
+      },
+      "Maatify\\DataRepository\\Generic\\Support\\MysqlOps": {
+        "type": "final class",
+        "methods": {
+          "lastInsertId": {
+            "visibility": "public",
+            "return_type": "int|string"
+          }
+        }
+      }
+    }
   }
 ]

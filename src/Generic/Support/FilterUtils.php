@@ -67,14 +67,12 @@ final class FilterUtils
         /** @var array<string,mixed> $params */
         $params  = [];
 
-        $i = 0;
-
         foreach ($filters as $col => $val) {
             if (! self::isValidSqlColumn($col)) {
                 throw new InvalidArgumentException("Invalid SQL column name '{$col}'");
             }
 
-            $base = "p{$i}";
+            $base = $col;
 
             if (!is_array($val)) {
                 if ($val === null) {
@@ -89,8 +87,6 @@ final class FilterUtils
                 $opClauses = self::processSqlOperators($col, $val, $base, $params);
                 $clauses = array_merge($clauses, $opClauses);
             }
-
-            $i++;
         }
 
         if ($clauses === []) {
