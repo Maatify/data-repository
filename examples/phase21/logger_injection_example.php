@@ -16,10 +16,10 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Examples\Phase21;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
+use Maatify\Common\Pagination\DTO\PaginationResultDTO;
 use Maatify\DataRepository\Base\BaseRepository;
 use Maatify\DataRepository\Logging\RepositoryLogger;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 // Mock dependencies for the example
 class MockAdapter implements AdapterInterface {
@@ -30,9 +30,31 @@ class MockAdapter implements AdapterInterface {
     public function disconnect(): void {}
     public function healthCheck(): bool { return true; }
     public function getType(): string { return 'mock'; }
+    public function debugConfig(): object { return (object)[]; }
 }
 
-class UserRepository extends BaseRepository {}
+class UserRepository extends BaseRepository {
+    public function find(int|string $id): ?array { return null; }
+    public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array { return []; }
+    public function findOneBy(array $filters): ?array { return null; }
+    public function findAll(): array { return []; }
+    public function count(array $filters = []): int { return 0; }
+    public function insert(array $data): int|string { return 1; }
+    public function update(int|string $id, array $data): bool { return true; }
+    public function delete(int|string $id): bool { return true; }
+    public function paginate(int $page = 1, int $perPage = 10, ?array $orderBy = null): PaginationResultDTO {
+        // Return dummy object for example
+        /** @var PaginationResultDTO $mock */
+        $mock = new \stdClass();
+        return $mock;
+    }
+    public function paginateBy(array $filters, int $page = 1, int $perPage = 10, ?array $orderBy = null): PaginationResultDTO {
+        // Return dummy object for example
+        /** @var PaginationResultDTO $mock */
+        $mock = new \stdClass();
+        return $mock;
+    }
+}
 
 class AppLogger implements LoggerInterface {
     public function emergency(string|\Stringable $message, array $context = []): void { echo "[EMERGENCY] $message" . PHP_EOL; }
