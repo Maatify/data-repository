@@ -9,6 +9,17 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.8] — 2025-12-02 (Phase 21 Update)
+
+### 🚀 Added
+- **Architecture Decoupling (Phase 21)**
+    - Refactored `BaseRepository` to allow raw `Psr\Log\LoggerInterface` injection without forced `RepositoryLogger` wrapping.
+    - Updated `BaseRepository::__construct` to default to `NullLogger` if no logger is provided.
+    - Added `tests/Architecture/LoggerInjectionTest.php` verifying injection behavior (Null, Raw, Wrapped).
+    - Note: This is a behavioral change; logs will no longer automatically include the `source` context unless manually wrapped in `RepositoryLogger`.
+
+---
+
 ## [1.0.7] — 2025-12-01 (Phase 20 Update)
 
 ### 🚀 Added
@@ -250,6 +261,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+[1.0.8]: https://github.com/Maatify/data-repository/releases/tag/1.0.8
 [1.0.7]: https://github.com/Maatify/data-repository/releases/tag/1.0.7
 [1.0.6]: https://github.com/Maatify/data-repository/releases/tag/1.0.6
 [1.0.4]: https://github.com/Maatify/data-repository/releases/tag/1.0.4

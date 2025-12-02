@@ -443,7 +443,7 @@
       "id": "phase21",
       "title": "Architecture Decoupling (Logger Injection)",
       "version": "1.0.8",
-      "status": "pending",
+      "status": "completed",
       "summary": "Decouple BaseRepository from RepositoryLogger to allow raw PSR-3 injection.",
       "tasks": [
         "Refactor BaseRepository constructor",
