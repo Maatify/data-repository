@@ -22,11 +22,10 @@ echo "--- Simple Equality ---\n";
 $filters = ['status' => 'active'];
 [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-echo "SQL: " . $sql . "\n";
+echo 'SQL: ' . $sql . "\n";
 // Output: SQL:  WHERE `status` = :status
-echo "Params: " . print_r($params, true) . "\n";
+echo 'Params: ' . print_r($params, true) . "\n";
 // Output: Params: Array ( [status] => active )
-
 
 // Example 2: Complex Conditions with Operators
 echo "\n--- Complex Conditions ---\n";
@@ -37,9 +36,9 @@ $filters = [
 ];
 [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-echo "SQL: " . $sql . "\n";
+echo 'SQL: ' . $sql . "\n";
 // Output: SQL:  WHERE `age` > :age_GT AND `role` IN (:role_IN_0, :role_IN_1) AND `deleted_at` IS NULL
-echo "Params: " . print_r($params, true) . "\n";
+echo 'Params: ' . print_r($params, true) . "\n";
 
 /*
 Params: Array
