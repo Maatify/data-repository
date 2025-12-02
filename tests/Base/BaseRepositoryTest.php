@@ -110,7 +110,7 @@ class BaseRepositoryTest extends TestCase
         $this->assertTrue($repository->validated);
     }
 
-    public function testConstructorWrapsLoggerWithRepositoryLogger(): void
+    public function testConstructorInjectsLoggerDirectlyWithoutWrapper(): void
     {
         $adapter = new RecordingAdapter(new PDO('sqlite::memory:'));
         $logger = new InMemoryLogger();
@@ -206,7 +206,6 @@ class BaseRepositoryTest extends TestCase
         $this->assertSame(
             [
                 'foo' => 'bar',
-                'source' => 'maatify/data-repository',
             ],
             $logger->records[0]['context']
         );
