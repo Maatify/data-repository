@@ -234,6 +234,8 @@ src/
 │   └── Support/
 │       ├── FilterUtils.php  # Phase 4 — Advanced Filtering
 │       ├── FilterParser.php # Phase 22 — Filter Parsing
+│       ├── MySQLFilterBuilder.php # Phase 23 — SQL Builder
+│       ├── MongoFilterBuilder.php # Phase 23 — Mongo Builder
 │       ├── OrderUtils.php   # Phase 5 — Ordering & Sorting
 │       ├── LimitOffsetValidator.php # Phase 6 — Limits & Offsets
 │       ├── ResultNormalizer.php # Phase 7 — Result Normalization
@@ -284,6 +286,7 @@ src/
 | 20    | SQL & Filter Improvements                 | ✅ Completed | Semantic SQL, Safe BigInt    |
 | 21    | Architecture Decoupling                   | ✅ Completed | Logger Injection             |
 | 22    | FilterParser Extraction                   | ✅ Completed | Decoupled Parsing Logic      |
+| 23    | Filter Builders (MySQL + Mongo)           | ✅ Completed | Extracted Builder Logic      |
 
 ---
 
@@ -354,6 +357,9 @@ src/
 
 - **Phase 22 — FilterParser Extraction**
   [`phases/README.phase22.md`](phases/README.phase22.md)
+
+- **Phase 23 — Filter Builders**
+  [`phases/README.phase23.md`](phases/README.phase23.md)
 
 ---
 

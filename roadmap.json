@@ -462,7 +462,7 @@
       "id": "phase23",
       "title": "Filter Builders (MySQL + Mongo)",
       "version": "1.0.9",
-      "status": "pending",
+      "status": "completed",
       "summary": "Introduce driver-specific filter builders for MySQL and Mongo, separating concerns previously handled inside FilterUtils.",
       "tasks": [
         "Add MySQLFilterBuilder",

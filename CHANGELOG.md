@@ -9,9 +9,15 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
-## [1.0.9] — 2025-12-02 (Phase 22 Update)
+## [1.0.9] — 2025-12-02 (Phase 23 Update)
 
 ### 🚀 Added
+- **Filter Builders (Phase 23)**
+    - Added `Maatify\DataRepository\Generic\Support\MySQLFilterBuilder` for dedicated SQL WHERE clause generation.
+    - Added `Maatify\DataRepository\Generic\Support\MongoFilterBuilder` for MongoDB query structure generation.
+    - Refactored `FilterUtils` to act as a facade, delegating to the new builders while maintaining public API compatibility.
+    - Added extensive unit tests for both builders covering standard equality, complex operators (`IN`, `LIKE`, `BETWEEN`), and edge cases.
+
 - **FilterParser Extraction (Phase 22)**
     - Extracted filter parsing logic into `Maatify\DataRepository\Generic\Support\FilterParser`.
     - Introduced `Maatify\DataRepository\Generic\Support\FieldFilter` value object to represent parsed filter conditions.
