@@ -1143,5 +1143,73 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase25",
+    "timestamp": "2025-12-02T06:30:00+00:00",
+    "status": "completed",
+    "summary": "Order Builders (MySQL + Mongo) implemented. Logic extracted from OrderUtils into dedicated MySQLOrderBuilder and MongoOrderBuilder.",
+    "changes": {
+      "added": [
+        "src/Generic/Support/MySQLOrderBuilder.php",
+        "src/Generic/Support/MongoOrderBuilder.php",
+        "tests/Generic/Ordering/MySQLOrderBuilderTest.php",
+        "tests/Generic/Ordering/MongoOrderBuilderTest.php",
+        "docs/phases/README.phase25.md",
+        "examples/phase25/order_builders_example.php"
+      ],
+      "updated": [
+        "src/Generic/Support/OrderUtils.php",
+        "phase-output.json",
+        "api-map.json",
+        "CHANGELOG.md",
+        "roadmap.json"
+      ]
+    },
+    "tests": {
+      "total": 19,
+      "passed": 19,
+      "failed": 0,
+      "coverage": "100% (Order Builders)",
+      "notes": "Verified builder logic via new unit tests covering standard sorting, JSON paths, and edge cases."
+    },
+    "git_patch": "phase25.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Generic\\Support\\MySQLOrderBuilder": {
+        "type": "class",
+        "methods": {
+          "build": {
+            "visibility": "public",
+            "return_type": "string",
+            "arguments": [
+              { "name": "orderBy", "type": "?array", "optional": true },
+              { "name": "quoteChar", "type": "string", "optional": true }
+            ]
+          },
+          "buildJson": {
+            "visibility": "public",
+            "return_type": "string",
+            "arguments": [
+              { "name": "jsonColumn", "type": "string", "optional": false },
+              { "name": "jsonPath", "type": "string", "optional": false },
+              { "name": "direction", "type": "string", "optional": false },
+              { "name": "quoteChar", "type": "string", "optional": true }
+            ]
+          }
+        }
+      },
+      "Maatify\\DataRepository\\Generic\\Support\\MongoOrderBuilder": {
+        "type": "class",
+        "methods": {
+          "build": {
+            "visibility": "public",
+            "return_type": "array<string, int>",
+            "arguments": [
+              { "name": "orderBy", "type": "?array", "optional": true }
+            ]
+          }
+        }
+      }
+    }
   }
 ]

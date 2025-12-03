@@ -476,6 +476,41 @@
         }
       }
     },
+    "Maatify\\DataRepository\\Generic\\Support\\MySQLOrderBuilder": {
+      "type": "final class",
+      "methods": {
+        "build": {
+          "visibility": "public",
+          "return_type": "string",
+          "arguments": [
+            { "name": "orderBy", "type": "?array", "optional": true },
+            { "name": "quoteChar", "type": "string", "optional": true }
+          ]
+        },
+        "buildJson": {
+          "visibility": "public",
+          "return_type": "string",
+          "arguments": [
+            { "name": "jsonColumn", "type": "string", "optional": false },
+            { "name": "jsonPath", "type": "string", "optional": false },
+            { "name": "direction", "type": "string", "optional": false },
+            { "name": "quoteChar", "type": "string", "optional": true }
+          ]
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Generic\\Support\\MongoOrderBuilder": {
+      "type": "final class",
+      "methods": {
+        "build": {
+          "visibility": "public",
+          "return_type": "array<string, int>",
+          "arguments": [
+            { "name": "orderBy", "type": "?array", "optional": true }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Generic\\Support\\MysqlOps": {
       "type": "final class",
       "methods": {
