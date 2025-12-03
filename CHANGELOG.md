@@ -9,6 +9,17 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.9] — 2025-12-02 (Phase 22 Update)
+
+### 🚀 Added
+- **FilterParser Extraction (Phase 22)**
+    - Extracted filter parsing logic into `Maatify\DataRepository\Generic\Support\FilterParser`.
+    - Introduced `Maatify\DataRepository\Generic\Support\FieldFilter` value object to represent parsed filter conditions.
+    - Updated `FilterUtils` to use `FilterParser` for normalization, separating parsing concerns from query generation.
+    - Added comprehensive unit tests for `FilterParser` covering equality, operators, nulls, and error handling.
+
+---
+
 ## [1.0.8] — 2025-12-02 (Phase 21 Update)
 
 ### 🚀 Added
@@ -261,6 +272,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+[1.0.9]: https://github.com/Maatify/data-repository/releases/tag/1.0.9
 [1.0.8]: https://github.com/Maatify/data-repository/releases/tag/1.0.8
 [1.0.7]: https://github.com/Maatify/data-repository/releases/tag/1.0.7
 [1.0.6]: https://github.com/Maatify/data-repository/releases/tag/1.0.6

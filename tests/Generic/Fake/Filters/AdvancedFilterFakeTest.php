@@ -54,7 +54,8 @@ class AdvancedFilterFakeTest extends TestCase
     public function testBuildSqlWhere_UnsupportedOperator(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Unsupported SQL operator 'XYZ'");
+        // Updated to match generic FilterParser message (was "Unsupported SQL operator...")
+        $this->expectExceptionMessage("Unsupported operator 'XYZ'");
         FilterUtils::buildSqlWhere(['age' => ['XYZ' => 10]]);
     }
 
@@ -153,6 +154,7 @@ class AdvancedFilterFakeTest extends TestCase
     public function testBuildMongoFilter_UnsupportedOperator(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Unsupported operator 'XYZ'");
         FilterUtils::buildMongoFilter(['age' => ['XYZ' => 10]]);
     }
 

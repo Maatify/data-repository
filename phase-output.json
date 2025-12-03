@@ -971,5 +971,65 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase22",
+    "timestamp": "2025-12-02T03:00:00+00:00",
+    "status": "completed",
+    "summary": "FilterParser Extraction completed. Implemented FilterParser and FieldFilter to decouple parsing logic from FilterUtils.",
+    "changes": {
+      "added": [
+        "src/Generic/Support/FieldFilter.php",
+        "src/Generic/Support/FilterParser.php",
+        "tests/Generic/Filters/FilterParserTest.php",
+        "docs/phases/README.phase22.md",
+        "examples/phase22/filter_parser_example.php"
+      ],
+      "updated": [
+        "src/Generic/Support/FilterUtils.php",
+        "phase-output.json",
+        "api-map.json",
+        "CHANGELOG.md",
+        "README.md",
+        "roadmap.json",
+        "docs/README.full.md"
+      ]
+    },
+    "tests": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "coverage": "100% (FilterParser)",
+      "notes": "Verified parsing logic for various inputs (equality, operators, nulls)."
+    },
+    "git_patch": "phase22.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Generic\\Support\\FilterParser": {
+        "type": "class",
+        "methods": {
+          "parse": {
+            "visibility": "public",
+            "return_type": "array<Maatify\\DataRepository\\Generic\\Support\\FieldFilter>",
+            "arguments": [
+              { "name": "filters", "type": "array", "optional": false }
+            ]
+          }
+        }
+      },
+      "Maatify\\DataRepository\\Generic\\Support\\FieldFilter": {
+        "type": "class",
+        "methods": {
+          "__construct": {
+            "visibility": "public",
+            "return_type": "void",
+            "arguments": [
+              { "name": "field", "type": "string", "optional": false },
+              { "name": "operator", "type": "string", "optional": false },
+              { "name": "value", "type": "mixed", "optional": false }
+            ]
+          }
+        }
+      }
+    }
   }
 ]

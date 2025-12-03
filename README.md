@@ -132,6 +132,7 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 *   [**Phase 16: Pagination Optimization**](docs/phases/README.phase16.md)
 *   [**Phase 17: Hydrated Pagination**](docs/phases/README.phase17.md)
 *   [**Phase 20: SQL & Filter Improvements**](docs/phases/README.phase20.md)
+*   [**Phase 22: FilterParser Extraction**](docs/phases/README.phase22.md)
 
 ---
 
@@ -159,4 +160,3 @@ Special thanks to the Maatify.dev engineering team and open-source contributors.
 <p align="center">
   <sub>Built with ❤️ by <a href="https://www.maatify.dev">Maatify.dev</a> — Unified Ecosystem for Modern PHP Libraries</sub>
 </p>
-

@@ -233,6 +233,7 @@ src/
 │   ├── GenericRedisRepository.php
 │   └── Support/
 │       ├── FilterUtils.php  # Phase 4 — Advanced Filtering
+│       ├── FilterParser.php # Phase 22 — Filter Parsing
 │       ├── OrderUtils.php   # Phase 5 — Ordering & Sorting
 │       ├── LimitOffsetValidator.php # Phase 6 — Limits & Offsets
 │       ├── ResultNormalizer.php # Phase 7 — Result Normalization
@@ -281,6 +282,8 @@ src/
 | 18    | Integration Matrix                        | ✅ Completed | Fake vs Real Parity          |
 | 19    | NoSQL Robustness                          | ✅ Completed | Mongo Collections, Redis Filtering |
 | 20    | SQL & Filter Improvements                 | ✅ Completed | Semantic SQL, Safe BigInt    |
+| 21    | Architecture Decoupling                   | ✅ Completed | Logger Injection             |
+| 22    | FilterParser Extraction                   | ✅ Completed | Decoupled Parsing Logic      |
 
 ---
 
@@ -345,6 +348,12 @@ src/
 
 - **Phase 20 — SQL & Filter Improvements**
   [`phases/README.phase20.md`](phases/README.phase20.md)
+
+- **Phase 21 — Architecture Decoupling**
+  [`phases/README.phase21.md`](phases/README.phase21.md)
+
+- **Phase 22 — FilterParser Extraction**
+  [`phases/README.phase22.md`](phases/README.phase22.md)
 
 ---
 
