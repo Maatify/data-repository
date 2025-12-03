@@ -31,31 +31,12 @@ final class OrderUtils
      */
     public static function normalize(?array $orderBy, bool $throwOnInvalid = false): array
     {
-        if (empty($orderBy)) {
-            return [];
-        }
+        $parser = new OrderParser();
+        $fields = $parser->parse($orderBy, $throwOnInvalid);
 
         $normalized = [];
-
-        foreach ($orderBy as $column => $direction) {
-            $upper = strtoupper((string) $direction);
-
-            if ($upper !== self::ORDER_ASC && $upper !== self::ORDER_DESC) {
-                if ($throwOnInvalid) {
-                    throw new InvalidArgumentException(
-                        "Invalid order direction: '{$direction}'. Must be 'ASC' or 'DESC'."
-                    );
-                }
-
-                $upper = self::ORDER_ASC;
-            }
-
-            // Column name sanitized (SQL safe)
-            $cleanColumn = preg_replace('/[^a-zA-Z0-9_.]/', '', (string) $column);
-
-            if ($cleanColumn !== '' && $cleanColumn !== null) {
-                $normalized[$cleanColumn] = $upper;
-            }
+        foreach ($fields as $field) {
+            $normalized[$field->field] = $field->direction;
         }
 
         return $normalized;
