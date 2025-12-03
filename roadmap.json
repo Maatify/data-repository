@@ -505,7 +505,7 @@
       "id": "phase25",
       "title": "Order Builders (MySQL + Mongo)",
       "version": "1.0.9",
-      "status": "pending",
+      "status": "completed",
       "summary": "Implement dedicated order builders for MySQL and Mongo, removing heavy logic from OrderUtils.",
       "tasks": [
         "Add MySQLOrderBuilder",

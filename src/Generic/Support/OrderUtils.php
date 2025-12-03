@@ -49,34 +49,7 @@ final class OrderUtils
      */
     public static function buildSqlOrderBy(?array $orderBy, string $quoteChar = '`'): string
     {
-        $normalized = self::normalize($orderBy);
-
-        if (empty($normalized)) {
-            return '';
-        }
-
-        $parts = [];
-
-        foreach ($normalized as $column => $direction) {
-            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_$.]*([.][a-zA-Z_][a-zA-Z0-9_$.]*)*$/', $column)) {
-                continue;
-            }
-
-            // Quote each part if table.column syntax
-            $quoted = implode(
-                '.',
-                array_map(
-                    static fn ($p) => "{$quoteChar}{$p}{$quoteChar}",
-                    explode('.', $column)
-                )
-            );
-
-            $parts[] = "{$quoted} {$direction}";
-        }
-
-        return empty($parts)
-            ? ''
-            : 'ORDER BY ' . implode(', ', $parts);
+        return (new MySQLOrderBuilder())->build($orderBy, $quoteChar);
     }
 
     /**
@@ -94,38 +67,7 @@ final class OrderUtils
         string $direction,
         string $quoteChar = '`'
     ): string {
-        $normalized = self::normalize([$jsonColumn => $direction]);
-        $safeDir = $normalized[$jsonColumn] ?? self::ORDER_ASC;
-
-        $cleanColumn = preg_replace('/[^a-zA-Z0-9_.]/', '', $jsonColumn);
-        if ($cleanColumn === '' || $cleanColumn === null) {
-            return '';
-        }
-
-        $quoted = implode(
-            '.',
-            array_map(
-                static fn ($p) => "{$quoteChar}{$p}{$quoteChar}",
-                explode('.', $cleanColumn)
-            )
-        );
-
-        $safeJsonPath = addslashes($jsonPath);
-        if ($safeJsonPath === '') {
-            return '';
-        }
-
-        // Ensure the JSON path begins with '$'
-        if ($safeJsonPath[0] !== '$') {
-            // Example cases:
-            // user.level     → $.user.level
-            // .user.level    → $.user.level
-            // $.user.level   → (valid)
-            $safeJsonPath = ltrim($safeJsonPath, '.');
-            $safeJsonPath = '$.' . $safeJsonPath;
-        }
-
-        return "JSON_UNQUOTE(JSON_EXTRACT({$quoted}, '{$safeJsonPath}')) {$safeDir}";
+        return (new MySQLOrderBuilder())->buildJson($jsonColumn, $jsonPath, $direction, $quoteChar);
     }
 
     /**
@@ -136,19 +78,7 @@ final class OrderUtils
      */
     public static function buildMongoSort(?array $orderBy): array
     {
-        $normalized = self::normalize($orderBy);
-
-        if (empty($normalized)) {
-            return [];
-        }
-
-        $sort = [];
-
-        foreach ($normalized as $column => $direction) {
-            $sort[$column] = $direction === self::ORDER_ASC ? 1 : -1;
-        }
-
-        return $sort;
+        return (new MongoOrderBuilder())->build($orderBy);
     }
 
     /**
