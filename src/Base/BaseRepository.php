@@ -19,7 +19,6 @@ use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\Common\Contracts\Repository\RepositoryInterface;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Hydration\HydratorInterface;
-use Maatify\DataRepository\Logging\RepositoryLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 

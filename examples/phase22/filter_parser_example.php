@@ -47,17 +47,17 @@ echo "\n--- Integration via FilterUtils (SQL) ---\n";
 
 try {
     [$sql, $params] = FilterUtils::buildSqlWhere($filters);
-    echo "Generated SQL: " . $sql . "\n";
-    echo "Parameters: " . json_encode($params, JSON_PRETTY_PRINT) . "\n";
+    echo 'Generated SQL: ' . $sql . "\n";
+    echo 'Parameters: ' . json_encode($params, JSON_PRETTY_PRINT) . "\n";
 } catch (Exception $e) {
-    echo "SQL Generation Error: " . $e->getMessage() . "\n";
+    echo 'SQL Generation Error: ' . $e->getMessage() . "\n";
 }
 
 echo "\n--- Integration via FilterUtils (Mongo) ---\n";
 
 try {
     $mongoQuery = FilterUtils::buildMongoFilter($filters);
-    echo "Generated Mongo Query: " . json_encode($mongoQuery, JSON_PRETTY_PRINT) . "\n";
+    echo 'Generated Mongo Query: ' . json_encode($mongoQuery, JSON_PRETTY_PRINT) . "\n";
 } catch (Exception $e) {
-    echo "Mongo Generation Error: " . $e->getMessage() . "\n";
+    echo 'Mongo Generation Error: ' . $e->getMessage() . "\n";
 }
