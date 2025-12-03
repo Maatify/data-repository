@@ -128,6 +128,41 @@
     "generate_after_each_phase": true
   },
 
+  "finalization_policy": {
+    "auto_finalize_checks": true,
+
+    "required_files": [
+      "CHANGELOG.md",
+      "roadmap.json",
+      "docs/README.full.md",
+      "README.md"
+    ],
+
+    "phase_required_outputs": [
+      "docs/phases/README.phase{ID}.md",
+      "api-map.json",
+      "phase-output.json",
+      "examples/phase{ID}/"
+    ],
+
+    "checks": {
+      "validate_phase_readme": true,
+      "validate_api_map": true,
+      "validate_phase_output": true,
+      "validate_examples": true,
+      "validate_changelog": true,
+      "validate_roadmap": true,
+      "validate_full_readme": true,
+      "validate_root_readme": true
+    },
+
+    "block_finalize_if_missing": true,
+    "block_finalize_if_outdated": true,
+
+    "auto_update_missing_sections": true,
+    "auto_generate_missing_files": true
+  },
+
   "file_header_policy": {
     "enabled": true,
     "header_template": [
