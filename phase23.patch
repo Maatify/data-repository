@@ -1,5 +1,5 @@
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ src/Generic/Support/MySQLFilterBuilder.php	2025-12-03 09:50:14.802375378 +0000
++++ src/Generic/Support/MySQLFilterBuilder.php	2025-12-03 09:57:42.604223070 +0000
 @@ -0,0 +1,150 @@
 +<?php
 +
@@ -152,7 +152,7 @@
 +    }
 +}
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ src/Generic/Support/MongoFilterBuilder.php	2025-12-03 09:50:14.798374948 +0000
++++ src/Generic/Support/MongoFilterBuilder.php	2025-12-03 09:57:42.600223506 +0000
 @@ -0,0 +1,151 @@
 +<?php
 +
@@ -306,7 +306,7 @@
 +    }
 +}
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ tests/Generic/Filters/MySQLFilterBuilderTest.php	2025-12-03 09:50:14.802375378 +0000
++++ tests/Generic/Filters/MySQLFilterBuilderTest.php	2025-12-03 09:57:42.604223070 +0000
 @@ -0,0 +1,87 @@
 +<?php
 +
@@ -396,8 +396,8 @@
 +    }
 +}
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ tests/Generic/Filters/MongoFilterBuilderTest.php	2025-12-03 09:50:14.802375378 +0000
-@@ -0,0 +1,90 @@
++++ tests/Generic/Filters/MongoFilterBuilderTest.php	2025-12-03 09:57:42.604223070 +0000
+@@ -0,0 +1,94 @@
 +<?php
 +
 +/**
@@ -464,8 +464,12 @@
 +        $result = $this->builder->build($filters);
 +
 +        $this->assertArrayHasKey('name', $result);
-+        $this->assertArrayHasKey('$regex', $result['name']);
-+        $this->assertSame('John', $result['name']['$regex']);
++        $nameFilter = $result['name'];
++
++        $this->assertIsArray($nameFilter);
++        /** @var array<string, mixed> $nameFilter */
++        $this->assertArrayHasKey('$regex', $nameFilter);
++        $this->assertSame('John', $nameFilter['$regex']);
 +    }
 +
 +    public function testInvalidFieldThrowsException(): void
@@ -489,7 +493,7 @@
 +    }
 +}
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ README.phase23.md	2025-12-03 09:50:14.798374948 +0000
++++ README.phase23.md	2025-12-03 09:57:42.600223506 +0000
 @@ -0,0 +1,51 @@
 +# Phase 23: Filter Builders (MySQL + Mongo)
 +

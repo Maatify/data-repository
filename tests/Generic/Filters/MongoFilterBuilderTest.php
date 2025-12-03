@@ -64,8 +64,12 @@ class MongoFilterBuilderTest extends TestCase
         $result = $this->builder->build($filters);
 
         $this->assertArrayHasKey('name', $result);
-        $this->assertArrayHasKey('$regex', $result['name']);
-        $this->assertSame('John', $result['name']['$regex']);
+        $nameFilter = $result['name'];
+
+        $this->assertIsArray($nameFilter);
+        /** @var array<string, mixed> $nameFilter */
+        $this->assertArrayHasKey('$regex', $nameFilter);
+        $this->assertSame('John', $nameFilter['$regex']);
     }
 
     public function testInvalidFieldThrowsException(): void
