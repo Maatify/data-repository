@@ -15,8 +15,6 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Generic\Support;
 
-use InvalidArgumentException;
-
 final class OrderUtils
 {
     public const string ORDER_ASC  = 'ASC';

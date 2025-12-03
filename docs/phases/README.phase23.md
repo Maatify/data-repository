@@ -1,5 +1,8 @@
 # Phase 23: Filter Builders (MySQL + Mongo)
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 ## Overview
 Phase 23 introduces dedicated `MySQLFilterBuilder` and `MongoFilterBuilder` classes to handle the generation of driver-specific query structures. This refactoring extracts logic previously contained within the static `FilterUtils` class, promoting better separation of concerns and testability.
 

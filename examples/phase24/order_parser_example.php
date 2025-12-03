@@ -18,7 +18,7 @@ namespace Maatify\DataRepository\Examples\Phase24;
 use Maatify\DataRepository\Generic\Support\OrderParser;
 use Maatify\DataRepository\Generic\Support\OrderUtils;
 
-require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 // Example: Using OrderParser directly
 $parser = new OrderParser();
@@ -46,5 +46,5 @@ try {
     echo "\n--- Strict Mode Test ---\n";
     $parser->parse(['score' => 'invalid'], true);
 } catch (\InvalidArgumentException $e) {
-    echo "Caught expected exception: " . $e->getMessage() . "\n";
+    echo 'Caught expected exception: ' . $e->getMessage() . "\n";
 }

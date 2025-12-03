@@ -262,31 +262,31 @@ src/
 
 > The executor/roadmap engine drives this library in phases. The table below reflects the **current repository state**.
 
-| Phase | Module                                    | Status      | Notes                        |
-|-------|-------------------------------------------|-------------|------------------------------|
-| 1     | Bootstrap + Resolver + Exceptions         | ✅ Completed | Project foundation ready     |
-| 2     | Base Repositories (MySQL / Redis / Mongo) | ✅ Completed | Drivers unified              |
-| 3     | CRUD Layer + Basic Filtering              | ✅ Completed | Implementing CRUD + filters  |
-| 4     | Advanced Filtering (IN, LIKE, Ranges)     | ✅ Completed | SQL & Mongo                  |
-| 5     | Ordering & Sorting                        | ✅ Completed | SQL, Mongo, Array Sorting    |
-| 6     | Limits & Offsets                          | ✅ Completed | Unified Validation           |
-| 7     | Result Normalization                      | ✅ Completed | ID Mapping, Type Casting     |
-| 8     | CRUD Edge Cases                           | ✅ Completed | Standardized Exceptions      |
-| 9     | Generic Ops Integration                   | ✅ Completed | MysqlOps, MongoOps, RedisOps |
-| 10    | Pagination Preparation                    | ✅ Completed | DTOs only                    |
-| 11    | Hydration Interfaces                      | ✅ Completed | Contract + Context           |
-| 12    | BaseHydrator + Pipeline                   | ✅ Completed | Base Implementation          |
-| 13    | AutoCasting System                        | ✅ Completed | Strict Type Conversion       |
-| 14    | DTO Mapping & Profiles                    | ✅ Completed | Transformers & Trait         |
-| 15    | Pagination Core                           | ✅ Completed | Standardized paginate()      |
-| 16    | Pagination Optimization                   | ✅ Completed | Efficient Driver Paging      |
-| 17    | Paginated Hydrated Results                | ✅ Completed | Hydration + Pagination       |
-| 18    | Integration Matrix                        | ✅ Completed | Fake vs Real Parity          |
+| Phase | Module                                    | Status      | Notes                              |
+|-------|-------------------------------------------|-------------|------------------------------------|
+| 1     | Bootstrap + Resolver + Exceptions         | ✅ Completed | Project foundation ready           |
+| 2     | Base Repositories (MySQL / Redis / Mongo) | ✅ Completed | Drivers unified                    |
+| 3     | CRUD Layer + Basic Filtering              | ✅ Completed | Implementing CRUD + filters        |
+| 4     | Advanced Filtering (IN, LIKE, Ranges)     | ✅ Completed | SQL & Mongo                        |
+| 5     | Ordering & Sorting                        | ✅ Completed | SQL, Mongo, Array Sorting          |
+| 6     | Limits & Offsets                          | ✅ Completed | Unified Validation                 |
+| 7     | Result Normalization                      | ✅ Completed | ID Mapping, Type Casting           |
+| 8     | CRUD Edge Cases                           | ✅ Completed | Standardized Exceptions            |
+| 9     | Generic Ops Integration                   | ✅ Completed | MysqlOps, MongoOps, RedisOps       |
+| 10    | Pagination Preparation                    | ✅ Completed | DTOs only                          |
+| 11    | Hydration Interfaces                      | ✅ Completed | Contract + Context                 |
+| 12    | BaseHydrator + Pipeline                   | ✅ Completed | Base Implementation                |
+| 13    | AutoCasting System                        | ✅ Completed | Strict Type Conversion             |
+| 14    | DTO Mapping & Profiles                    | ✅ Completed | Transformers & Trait               |
+| 15    | Pagination Core                           | ✅ Completed | Standardized paginate()            |
+| 16    | Pagination Optimization                   | ✅ Completed | Efficient Driver Paging            |
+| 17    | Paginated Hydrated Results                | ✅ Completed | Hydration + Pagination             |
+| 18    | Integration Matrix                        | ✅ Completed | Fake vs Real Parity                |
 | 19    | NoSQL Robustness                          | ✅ Completed | Mongo Collections, Redis Filtering |
-| 20    | SQL & Filter Improvements                 | ✅ Completed | Semantic SQL, Safe BigInt    |
-| 21    | Architecture Decoupling                   | ✅ Completed | Logger Injection             |
-| 22    | FilterParser Extraction                   | ✅ Completed | Decoupled Parsing Logic      |
-| 23    | Filter Builders (MySQL + Mongo)           | ✅ Completed | Extracted Builder Logic      |
+| 20    | SQL & Filter Improvements                 | ✅ Completed | Semantic SQL, Safe BigInt          |
+| 21    | Architecture Decoupling                   | ✅ Completed | Logger Injection                   |
+| 22    | FilterParser Extraction                   | ✅ Completed | Decoupled Parsing Logic            |
+| 23    | Filter Builders (MySQL + Mongo)           | ✅ Completed | Extracted Builder Logic            |
 
 ---
 

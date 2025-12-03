@@ -1,5 +1,8 @@
 # Phase 22: FilterParser Extraction
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 ## Summary
 Extracted filtering logic parsing into a dedicated `FilterParser` class and introduced `FieldFilter` value object.
 This refactoring separates the concern of parsing user input (filter arrays) from the concern of building SQL or Mongo queries.

@@ -1,5 +1,8 @@
 # Phase 20: SQL & Filter Improvements
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 ## Summary
 Improved the debuggability of generated SQL by introducing semantic placeholders and enhanced the robustness of MySQL integer handling for 64-bit environments.
 

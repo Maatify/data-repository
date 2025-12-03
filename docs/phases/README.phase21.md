@@ -1,5 +1,8 @@
 # Phase 21: Architecture Decoupling (Logger Injection)
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 ## Summary
 Decoupled `BaseRepository` from `RepositoryLogger` to allow raw `Psr\Log\LoggerInterface` injection. This allows developers to inject any PSR-3 compliant logger without it being automatically wrapped in `RepositoryLogger`. The `RepositoryLogger` class remains available for manual usage if the "source" context is desired.
 

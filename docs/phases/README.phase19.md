@@ -1,5 +1,8 @@
 # Phase 19: NoSQL Robustness (Mongo & Redis)
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 ## Overview
 This phase enhances the robustness of the Generic Mongo and Redis repositories. It addresses the inconsistency in Mongo collection naming (ensuring dynamic switching via `setCollectionName` is possible and robust) and adds in-memory filtering capabilities to the Generic Redis Repository, allowing `findBy`, `findOneBy`, and `paginateBy` to work by iterating over keys (useful for small datasets or specialized use cases).
 
