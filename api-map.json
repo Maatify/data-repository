@@ -603,6 +603,32 @@
         }
       }
     },
+    "Maatify\\DataRepository\\Generic\\Support\\OrderParser": {
+      "type": "class",
+      "methods": {
+        "parse": {
+          "visibility": "public",
+          "return_type": "array<Maatify\\DataRepository\\Generic\\Support\\OrderField>",
+          "arguments": [
+            { "name": "orderBy", "type": "?array", "optional": false },
+            { "name": "throwOnInvalid", "type": "bool", "optional": false }
+          ]
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Generic\\Support\\OrderField": {
+      "type": "class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "field", "type": "string", "optional": false },
+            { "name": "direction", "type": "string", "optional": false }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Base\\BaseMongoRepository": {
       "type": "abstract class",
       "extends": "Maatify\\DataRepository\\Base\\BaseRepository",

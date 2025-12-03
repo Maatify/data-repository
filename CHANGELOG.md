@@ -9,6 +9,15 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.9] — 2025-12-02 (Phase 24 Update)
+
+### 🚀 Added
+- **OrderParser Extraction (Phase 24)**
+    - Extracted order parsing logic into `Maatify\DataRepository\Generic\Support\OrderParser`.
+    - Introduced `Maatify\DataRepository\Generic\Support\OrderField` value object.
+    - Updated `OrderUtils` to delegate to `OrderParser` for normalization.
+    - Added unit tests for `OrderParser` verifying sanitization and direction validation.
+
 ## [1.0.9] — 2025-12-02 (Phase 23 Update)
 
 ### 🚀 Added

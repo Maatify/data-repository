@@ -1085,5 +1085,63 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase24",
+    "timestamp": "2025-12-02T05:30:00+00:00",
+    "status": "completed",
+    "summary": "OrderParser Extraction completed. Implemented OrderParser and OrderField to decouple order parsing logic from OrderUtils.",
+    "changes": {
+      "added": [
+        "src/Generic/Support/OrderField.php",
+        "src/Generic/Support/OrderParser.php",
+        "tests/Generic/Ordering/OrderParserTest.php",
+        "docs/phases/README.phase24.md",
+        "examples/phase24/order_parser_example.php"
+      ],
+      "updated": [
+        "src/Generic/Support/OrderUtils.php",
+        "phase-output.json",
+        "api-map.json",
+        "CHANGELOG.md",
+        "roadmap.json"
+      ]
+    },
+    "tests": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "coverage": "100% (OrderParser)",
+      "notes": "Verified parsing logic for order directions and sanitization."
+    },
+    "git_patch": "phase24.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Generic\\Support\\OrderParser": {
+        "type": "class",
+        "methods": {
+          "parse": {
+            "visibility": "public",
+            "return_type": "array<Maatify\\DataRepository\\Generic\\Support\\OrderField>",
+            "arguments": [
+              { "name": "orderBy", "type": "?array", "optional": false },
+              { "name": "throwOnInvalid", "type": "bool", "optional": false }
+            ]
+          }
+        }
+      },
+      "Maatify\\DataRepository\\Generic\\Support\\OrderField": {
+        "type": "class",
+        "methods": {
+          "__construct": {
+            "visibility": "public",
+            "return_type": "void",
+            "arguments": [
+              { "name": "field", "type": "string", "optional": false },
+              { "name": "direction", "type": "string", "optional": false }
+            ]
+          }
+        }
+      }
+    }
   }
 ]
