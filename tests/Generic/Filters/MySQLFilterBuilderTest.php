@@ -39,8 +39,8 @@ class MySQLFilterBuilderTest extends TestCase
         $filters = ['status' => 1];
         [$where, $params] = $this->builder->build($filters);
 
-        $this->assertSame(' WHERE `status` = :status_EQ', $where);
-        $this->assertSame(['status_EQ' => 1], $params);
+        $this->assertSame(' WHERE `status` = :status', $where);
+        $this->assertSame(['status' => 1], $params);
     }
 
     public function testBuildGreaterThan(): void

@@ -71,7 +71,7 @@ class MongoFilterBuilderTest extends TestCase
     public function testInvalidFieldThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid Mongo field '$where'");
+        $this->expectExceptionMessage("Invalid Mongo field '\$where'");
         $this->builder->build(['$where' => 'javascript']);
     }
 

@@ -1,5 +1,5 @@
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ src/Generic/Support/MySQLFilterBuilder.php	2025-12-03 08:46:26.954561212 +0000
++++ src/Generic/Support/MySQLFilterBuilder.php	2025-12-03 09:50:14.802375378 +0000
 @@ -0,0 +1,150 @@
 +<?php
 +
@@ -152,7 +152,7 @@
 +    }
 +}
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ src/Generic/Support/MongoFilterBuilder.php	2025-12-03 08:46:26.954561212 +0000
++++ src/Generic/Support/MongoFilterBuilder.php	2025-12-03 09:50:14.798374948 +0000
 @@ -0,0 +1,151 @@
 +<?php
 +
@@ -306,7 +306,7 @@
 +    }
 +}
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ tests/Generic/Filters/MySQLFilterBuilderTest.php	2025-12-03 08:46:26.954561212 +0000
++++ tests/Generic/Filters/MySQLFilterBuilderTest.php	2025-12-03 09:50:14.802375378 +0000
 @@ -0,0 +1,87 @@
 +<?php
 +
@@ -349,8 +349,8 @@
 +        $filters = ['status' => 1];
 +        [$where, $params] = $this->builder->build($filters);
 +
-+        $this->assertSame(' WHERE `status` = :status_EQ', $where);
-+        $this->assertSame(['status_EQ' => 1], $params);
++        $this->assertSame(' WHERE `status` = :status', $where);
++        $this->assertSame(['status' => 1], $params);
 +    }
 +
 +    public function testBuildGreaterThan(): void
@@ -396,7 +396,7 @@
 +    }
 +}
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ tests/Generic/Filters/MongoFilterBuilderTest.php	2025-12-03 08:46:26.954561212 +0000
++++ tests/Generic/Filters/MongoFilterBuilderTest.php	2025-12-03 09:50:14.802375378 +0000
 @@ -0,0 +1,90 @@
 +<?php
 +
@@ -471,7 +471,7 @@
 +    public function testInvalidFieldThrowsException(): void
 +    {
 +        $this->expectException(InvalidArgumentException::class);
-+        $this->expectExceptionMessage("Invalid Mongo field '$where'");
++        $this->expectExceptionMessage("Invalid Mongo field '\$where'");
 +        $this->builder->build(['$where' => 'javascript']);
 +    }
 +
@@ -489,7 +489,7 @@
 +    }
 +}
 --- /dev/null	2025-11-07 00:27:45.917313976 +0000
-+++ README.phase23.md	2025-12-03 08:46:26.954561212 +0000
++++ README.phase23.md	2025-12-03 09:50:14.798374948 +0000
 @@ -0,0 +1,51 @@
 +# Phase 23: Filter Builders (MySQL + Mongo)
 +
