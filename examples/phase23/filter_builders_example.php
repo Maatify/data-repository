@@ -41,7 +41,7 @@ print_r($filters);
 echo "\n--- MySQL SQL Generation ---\n";
 [$sql, $params] = FilterUtils::buildSqlWhere($filters);
 
-echo "SQL Clause: " . $sql . "\n";
+echo 'SQL Clause: ' . $sql . "\n";
 echo "Parameters: \n";
 print_r($params);
 
@@ -50,7 +50,6 @@ Expected Output:
 SQL Clause:  WHERE `status` = :status_EQ AND `age` > :age_GT AND `age` <= :age_LE AND `roles` IN (:roles_IN_0, :roles_IN_1) AND `name` LIKE :name_LIKE
 Parameters: Array (...)
 */
-
 
 // -----------------------------------------------------------------------------
 // 2. MongoDB Query Generation
