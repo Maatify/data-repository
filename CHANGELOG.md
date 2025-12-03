@@ -9,6 +9,15 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.9] — 2025-12-02 (Phase 25 Update)
+
+### 🚀 Added
+- **Order Builders (Phase 25)**
+    - Added `Maatify\DataRepository\Generic\Support\MySQLOrderBuilder` for dedicated SQL ORDER BY clause generation.
+    - Added `Maatify\DataRepository\Generic\Support\MongoOrderBuilder` for MongoDB sort array generation.
+    - Refactored `OrderUtils` to act as a facade, delegating to the new builders while maintaining public API compatibility.
+    - Added extensive unit tests for both builders covering standard sorting, JSON paths, and edge cases.
+
 ## [1.0.9] — 2025-12-02 (Phase 24 Update)
 
 ### 🚀 Added
