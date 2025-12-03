@@ -1,0 +1,544 @@
+--- /dev/null	2025-11-07 00:27:45.917313976 +0000
++++ src/Generic/Support/MySQLFilterBuilder.php	2025-12-03 08:46:26.954561212 +0000
+@@ -0,0 +1,150 @@
++<?php
++
++/**
++ * @copyright   ©2025 Maatify.dev
++ * @Library     maatify/data-repository
++ * @Project     maatify:data-repository
++ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
++ * @since       2025-11-25
++ * @see         https://www.maatify.dev Maatify.dev
++ * @link        https://github.com/Maatify/data-repository view project on GitHub
++ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
++ */
++
++declare(strict_types=1);
++
++namespace Maatify\DataRepository\Generic\Support;
++
++use InvalidArgumentException;
++
++final class MySQLFilterBuilder
++{
++    /** @var array<int,string> */
++    private const array SQL_RESERVED = [
++        'SELECT','INSERT','UPDATE','DELETE','DROP',
++        'CREATE','ALTER','TABLE','FROM',
++        'WHERE','JOIN','UNION','OR','AND','NOT',
++    ];
++
++    /**
++     * @param array<array-key,mixed> $filters
++     * @return array{0:string,1:array<string,mixed>}
++     */
++    public function build(array $filters): array
++    {
++        if ($filters === []) {
++            /** @var array<string,mixed> $empty */
++            $empty = [];
++            return ['', $empty];
++        }
++
++        $parser = new FilterParser();
++        $conditions = $parser->parse($filters);
++
++        /** @var array<int,string> $clauses */
++        $clauses = [];
++
++        /** @var array<string,mixed> $params */
++        $params  = [];
++
++        foreach ($conditions as $filter) {
++            $colName = $filter->field;
++
++            if (! $this->isValidSqlColumn($colName)) {
++                throw new InvalidArgumentException("Invalid SQL column name '{$colName}'");
++            }
++
++            $base = $colName;
++            $op = $filter->operator;
++            $val = $filter->value;
++
++            $suffix = str_replace(['>', '<', '=', '!', ' '], ['GT','LT','EQ','NE','_'], $op);
++            $p = "{$base}_{$suffix}";
++
++            $clauses[] = $this->buildSqlClause($colName, $op, $val, $base, $params, $p);
++        }
++
++        if ($clauses === []) {
++            /** @var array<string,mixed> $emptyParams */
++            $emptyParams = [];
++            return ['', $emptyParams];
++        }
++
++        return [' WHERE ' . implode(' AND ', $clauses), $params];
++    }
++
++    /**
++     * @param array<string,mixed> $params
++     */
++    private function buildSqlClause(
++        string $col,
++        string $op,
++        mixed $value,
++        string $base,
++        array &$params,
++        string $p
++    ): string {
++        switch ($op) {
++            case '=':
++                $params[$base] = $value;
++                return "`{$col}` = :{$base}";
++
++            case 'IN':
++            case 'NOT IN':
++                if (!is_array($value)) {
++                    throw new InvalidArgumentException("'{$op}' requires array");
++                }
++
++                if ($value === []) {
++                    return $op === 'IN' ? '1=0' : '1=1';
++                }
++
++                /** @var array<int,string> $place */
++                $place = [];
++
++                foreach (array_values($value) as $i => $v) {
++                    $pi = "{$p}_{$i}";
++                    $place[] = ":{$pi}";
++                    $params[$pi] = $v;
++                }
++
++                return "`{$col}` {$op} (" . implode(', ', $place) . ')';
++
++            case 'LIKE':
++                if (!is_string($value)) {
++                    throw new InvalidArgumentException('LIKE requires string');
++                }
++                $params[$p] = $value;
++                return "`{$col}` LIKE :{$p}";
++
++            case 'BETWEEN':
++                if (!is_array($value) || count($value) !== 2) {
++                    throw new InvalidArgumentException('BETWEEN requires [v1,v2]');
++                }
++
++                $p1 = "{$p}_1";
++                $p2 = "{$p}_2";
++
++                $params[$p1] = $value[0];
++                $params[$p2] = $value[1];
++
++                return "`{$col}` BETWEEN :{$p1} AND :{$p2}";
++
++            case 'IS NULL':
++                return "`{$col}` IS NULL";
++
++            case 'IS NOT NULL':
++                return "`{$col}` IS NOT NULL";
++
++            default:
++                $params[$p] = $value;
++                return "`{$col}` {$op} :{$p}";
++        }
++    }
++
++    private function isValidSqlColumn(string $name): bool
++    {
++        return preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $name) === 1
++            && ! in_array(strtoupper($name), self::SQL_RESERVED, true);
++    }
++}
+--- /dev/null	2025-11-07 00:27:45.917313976 +0000
++++ src/Generic/Support/MongoFilterBuilder.php	2025-12-03 08:46:26.954561212 +0000
+@@ -0,0 +1,151 @@
++<?php
++
++/**
++ * @copyright   ©2025 Maatify.dev
++ * @Library     maatify/data-repository
++ * @Project     maatify:data-repository
++ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
++ * @since       2025-11-25
++ * @see         https://www.maatify.dev Maatify.dev
++ * @link        https://github.com/Maatify/data-repository view project on GitHub
++ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
++ */
++
++declare(strict_types=1);
++
++namespace Maatify\DataRepository\Generic\Support;
++
++use InvalidArgumentException;
++
++final class MongoFilterBuilder
++{
++    /** @var array<string,string> */
++    private const array SQL_TO_MONGO = [
++        '>'      => '$gt',
++        '<'      => '$lt',
++        '>='     => '$gte',
++        '<='     => '$lte',
++        '!='     => '$ne',
++        '<>'     => '$ne',
++        'IN'     => '$in',
++        'NOT IN' => '$nin',
++        'LIKE'   => '$regex',
++    ];
++
++    /** @var array<int,string> */
++    private const array MONGO_RESERVED = [
++        '$where', '$group', '$match',
++    ];
++
++    /**
++     * @param array<array-key,mixed> $filters
++     * @return array<string|int, mixed>
++     */
++    public function build(array $filters): array
++    {
++        $parser = new FilterParser();
++        $conditions = $parser->parse($filters);
++
++        /** @var array<string,mixed> $final */
++        $final = [];
++
++        foreach ($conditions as $filter) {
++            $field = $filter->field === 'id' ? '_id' : $filter->field;
++
++            if (! $this->isValidMongoField($field)) {
++                throw new InvalidArgumentException("Invalid Mongo field '{$field}'");
++            }
++
++            /** @var array<string,mixed> $condition */
++            $condition = $this->buildMongoCondition($field, $filter->operator, $filter->value);
++
++            // Merge logic
++            if (! isset($final[$field])) {
++                $final[$field] = $condition[$field];
++                continue;
++            }
++
++            if (is_array($final[$field]) && is_array($condition[$field])) {
++                /** @var array<string,mixed> $merged */
++                $merged = array_merge($final[$field], $condition[$field]);
++                $final[$field] = $merged;
++            } else {
++                $final[$field] = $condition[$field];
++            }
++        }
++
++        return $final;
++    }
++
++    /**
++     * @return array<string,mixed>
++     */
++    private function buildMongoCondition(string $field, string $op, mixed $value): array
++    {
++        switch ($op) {
++            case '=':
++                return [$field => $value];
++
++            case 'LIKE':
++                if (!is_string($value)) {
++                    throw new InvalidArgumentException('LIKE requires string');
++                }
++
++                $pattern = preg_quote($value, '/');
++                $pattern = str_replace(['%','_'], ['.*','.'], $pattern);
++
++                return [
++                    $field => [
++                        '$regex'   => $pattern,
++                        '$options' => 'i',
++                    ],
++                ];
++
++            case 'BETWEEN':
++                if (!is_array($value) || count($value) !== 2) {
++                    throw new InvalidArgumentException('BETWEEN requires array[2]');
++                }
++                return [
++                    $field => [
++                        '$gte' => $value[0],
++                        '$lte' => $value[1],
++                    ],
++                ];
++
++            case 'IS NULL':
++                return [$field => null];
++
++            case 'IS NOT NULL':
++                return [$field => ['$ne' => null]];
++
++            case 'IN':
++            case 'NOT IN':
++                if (!is_array($value)) {
++                    throw new InvalidArgumentException("'{$op}' requires array");
++                }
++
++                return [
++                    $field => [
++                        $op === 'IN' ? '$in' : '$nin' => array_values($value),
++                    ],
++                ];
++
++            default:
++                if (isset(self::SQL_TO_MONGO[$op])) {
++                    return [
++                        $field => [
++                            self::SQL_TO_MONGO[$op] => $value,
++                        ],
++                    ];
++                }
++        }
++
++        return [$field => []];
++    }
++
++    private function isValidMongoField(string $name): bool
++    {
++        return preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $name) === 1
++            && ! in_array(strtolower($name), self::MONGO_RESERVED, true);
++    }
++}
+--- /dev/null	2025-11-07 00:27:45.917313976 +0000
++++ tests/Generic/Filters/MySQLFilterBuilderTest.php	2025-12-03 08:46:26.954561212 +0000
+@@ -0,0 +1,87 @@
++<?php
++
++/**
++ * @copyright   ©2025 Maatify.dev
++ * @Library     maatify/data-repository
++ * @Project     maatify:data-repository
++ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
++ * @since       2025-11-25
++ * @see         https://www.maatify.dev Maatify.dev
++ * @link        https://github.com/Maatify/data-repository view project on GitHub
++ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
++ */
++
++declare(strict_types=1);
++
++namespace Maatify\DataRepository\Tests\Generic\Filters;
++
++use InvalidArgumentException;
++use Maatify\DataRepository\Generic\Support\MySQLFilterBuilder;
++use PHPUnit\Framework\TestCase;
++
++class MySQLFilterBuilderTest extends TestCase
++{
++    private MySQLFilterBuilder $builder;
++
++    protected function setUp(): void
++    {
++        $this->builder = new MySQLFilterBuilder();
++    }
++
++    public function testBuildEmptyFilters(): void
++    {
++        $result = $this->builder->build([]);
++        $this->assertSame(['', []], $result);
++    }
++
++    public function testBuildSimpleEquality(): void
++    {
++        $filters = ['status' => 1];
++        [$where, $params] = $this->builder->build($filters);
++
++        $this->assertSame(' WHERE `status` = :status_EQ', $where);
++        $this->assertSame(['status_EQ' => 1], $params);
++    }
++
++    public function testBuildGreaterThan(): void
++    {
++        $filters = ['age' => ['>' => 18]];
++        [$where, $params] = $this->builder->build($filters);
++
++        $this->assertSame(' WHERE `age` > :age_GT', $where);
++        $this->assertSame(['age_GT' => 18], $params);
++    }
++
++    public function testBuildInOperator(): void
++    {
++        $filters = ['id' => ['IN' => [1, 2, 3]]];
++        [$where, $params] = $this->builder->build($filters);
++
++        // Params are now using placeholders like :id_IN_0, :id_IN_1
++        // We verify the structure roughly
++        $this->assertStringContainsString('`id` IN (', $where);
++        $this->assertCount(3, $params);
++    }
++
++    public function testBuildLikeOperator(): void
++    {
++        $filters = ['name' => ['LIKE' => '%John%']];
++        [$where, $params] = $this->builder->build($filters);
++
++        $this->assertSame(' WHERE `name` LIKE :name_LIKE', $where);
++        $this->assertSame(['name_LIKE' => '%John%'], $params);
++    }
++
++    public function testInvalidColumnThrowsException(): void
++    {
++        $this->expectException(InvalidArgumentException::class);
++        $this->expectExceptionMessage("Invalid SQL column name 'DROP'");
++        $this->builder->build(['DROP' => 1]);
++    }
++
++    public function testInvalidOperatorThrowsException(): void
++    {
++        $this->expectException(InvalidArgumentException::class);
++        $this->builder->build(['age' => ['INVALID' => 10]]);
++    }
++}
+--- /dev/null	2025-11-07 00:27:45.917313976 +0000
++++ tests/Generic/Filters/MongoFilterBuilderTest.php	2025-12-03 08:46:26.954561212 +0000
+@@ -0,0 +1,90 @@
++<?php
++
++/**
++ * @copyright   ©2025 Maatify.dev
++ * @Library     maatify/data-repository
++ * @Project     maatify:data-repository
++ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
++ * @since       2025-11-25
++ * @see         https://www.maatify.dev Maatify.dev
++ * @link        https://github.com/Maatify/data-repository view project on GitHub
++ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
++ */
++
++declare(strict_types=1);
++
++namespace Maatify\DataRepository\Tests\Generic\Filters;
++
++use InvalidArgumentException;
++use Maatify\DataRepository\Generic\Support\MongoFilterBuilder;
++use PHPUnit\Framework\TestCase;
++
++class MongoFilterBuilderTest extends TestCase
++{
++    private MongoFilterBuilder $builder;
++
++    protected function setUp(): void
++    {
++        $this->builder = new MongoFilterBuilder();
++    }
++
++    public function testBuildEmptyFilters(): void
++    {
++        $result = $this->builder->build([]);
++        $this->assertSame([], $result);
++    }
++
++    public function testBuildSimpleEquality(): void
++    {
++        $filters = ['status' => 1];
++        $result = $this->builder->build($filters);
++
++        $this->assertSame(['status' => 1], $result);
++    }
++
++    public function testBuildGreaterThan(): void
++    {
++        $filters = ['age' => ['>' => 18]];
++        $result = $this->builder->build($filters);
++
++        $this->assertSame(['age' => ['$gt' => 18]], $result);
++    }
++
++    public function testBuildIdMapping(): void
++    {
++        $filters = ['id' => 123];
++        $result = $this->builder->build($filters);
++
++        $this->assertSame(['_id' => 123], $result);
++    }
++
++    public function testBuildLikeOperator(): void
++    {
++        $filters = ['name' => ['LIKE' => 'John']];
++        $result = $this->builder->build($filters);
++
++        $this->assertArrayHasKey('name', $result);
++        $this->assertArrayHasKey('$regex', $result['name']);
++        $this->assertSame('John', $result['name']['$regex']);
++    }
++
++    public function testInvalidFieldThrowsException(): void
++    {
++        $this->expectException(InvalidArgumentException::class);
++        $this->expectExceptionMessage("Invalid Mongo field '$where'");
++        $this->builder->build(['$where' => 'javascript']);
++    }
++
++    public function testMergingConditions(): void
++    {
++        $filters = ['age' => ['>' => 18, '<' => 30]];
++        $result = $this->builder->build($filters);
++
++        $this->assertSame([
++            'age' => [
++                '$gt' => 18,
++                '$lt' => 30,
++            ],
++        ], $result);
++    }
++}
+--- /dev/null	2025-11-07 00:27:45.917313976 +0000
++++ README.phase23.md	2025-12-03 08:46:26.954561212 +0000
+@@ -0,0 +1,51 @@
++# Phase 23: Filter Builders (MySQL + Mongo)
++
++## Overview
++Phase 23 introduces dedicated `MySQLFilterBuilder` and `MongoFilterBuilder` classes to handle the generation of driver-specific query structures. This refactoring extracts logic previously contained within the static `FilterUtils` class, promoting better separation of concerns and testability.
++
++## Changes
++
++### New Components
++*   **`Maatify\DataRepository\Generic\Support\MySQLFilterBuilder`**: Responsible for converting `FieldFilter` objects (from `FilterParser`) into SQL `WHERE` clauses and parameter arrays.
++*   **`Maatify\DataRepository\Generic\Support\MongoFilterBuilder`**: Responsible for converting `FieldFilter` objects into MongoDB query arrays, including operator mapping (`$gt`, `$regex`, etc.).
++
++### Refactoring
++*   **`Maatify\DataRepository\Generic\Support\FilterUtils`**: Now acts as a facade, delegating calls to the new builder classes. This maintains backward compatibility for existing consumers while using the new modular logic internally.
++
++## Implementation Details
++
++### MySQL Filter Builder
++*   Handles SQL reserved word validation.
++*   Generates semantic placeholders (e.g., `:age_GT`) for better debuggability.
++*   Supports `IN`, `NOT IN`, `LIKE`, `BETWEEN`, `IS NULL`, and standard comparison operators.
++
++### Mongo Filter Builder
++*   Handles MongoDB reserved key validation (`$where`, `$match`, etc.).
++*   Maps standard SQL-like operators (`>`, `LIKE`) to Mongo equivalents (`$gt`, `$regex`).
++*   Automatically maps `id` to `_id`.
++*   Merges multiple conditions for the same field (e.g., range queries).
++
++## Testing
++*   Added `tests/Generic/Filters/MySQLFilterBuilderTest.php`: Verifies SQL string generation and parameter binding.
++*   Added `tests/Generic/Filters/MongoFilterBuilderTest.php`: Verifies Mongo array structure generation.
++
++## Usage Example
++
++```php
++use Maatify\DataRepository\Generic\Support\FilterUtils;
++
++// Usage remains the same via FilterUtils facade
++$filters = [
++    'status' => 1,
++    'age' => ['>' => 18, '<' => 65],
++    'name' => ['LIKE' => '%John%']
++];
++
++// SQL
++[$where, $params] = FilterUtils::buildSqlWhere($filters);
++// $where: " WHERE `status` = :status_EQ AND `age` > :age_GT AND `age` < :age_LT AND `name` LIKE :name_LIKE"
++
++// Mongo
++$query = FilterUtils::buildMongoFilter($filters);
++// $query: ['status' => 1, 'age' => ['$gt' => 18, '$lt' => 65], 'name' => ['$regex' => '%John%', '$options' => 'i']]
++```

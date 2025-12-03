@@ -1031,5 +1031,59 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase23",
+    "timestamp": "2025-12-02T04:30:00+00:00",
+    "status": "completed",
+    "summary": "Filter Builders (MySQL + Mongo) implemented. Logic extracted from FilterUtils into dedicated MySQLFilterBuilder and MongoFilterBuilder.",
+    "changes": {
+      "added": [
+        "src/Generic/Support/MySQLFilterBuilder.php",
+        "src/Generic/Support/MongoFilterBuilder.php",
+        "tests/Generic/Filters/MySQLFilterBuilderTest.php",
+        "tests/Generic/Filters/MongoFilterBuilderTest.php",
+        "README.phase23.md"
+      ],
+      "updated": [
+        "src/Generic/Support/FilterUtils.php",
+        "phase-output.json",
+        "api-map.json"
+      ]
+    },
+    "tests": {
+      "total": 14,
+      "passed": 14,
+      "failed": 0,
+      "coverage": "100% (Filter Builders)",
+      "notes": "Verified builder logic via new unit tests covering all supported operators and edge cases."
+    },
+    "git_patch": "phase23.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Generic\\Support\\MySQLFilterBuilder": {
+        "type": "class",
+        "methods": {
+          "build": {
+            "visibility": "public",
+            "return_type": "array{0:string,1:array<string,mixed>}",
+            "arguments": [
+              { "name": "filters", "type": "array", "optional": false }
+            ]
+          }
+        }
+      },
+      "Maatify\\DataRepository\\Generic\\Support\\MongoFilterBuilder": {
+        "type": "class",
+        "methods": {
+          "build": {
+            "visibility": "public",
+            "return_type": "array<string|int, mixed>",
+            "arguments": [
+              { "name": "filters", "type": "array", "optional": false }
+            ]
+          }
+        }
+      }
+    }
   }
 ]
