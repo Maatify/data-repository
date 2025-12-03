@@ -553,6 +553,32 @@
         }
       }
     },
+    "Maatify\\DataRepository\\Generic\\Support\\FilterParser": {
+      "type": "class",
+      "methods": {
+        "parse": {
+          "visibility": "public",
+          "return_type": "array<Maatify\\DataRepository\\Generic\\Support\\FieldFilter>",
+          "arguments": [
+            { "name": "filters", "type": "array", "optional": false }
+          ]
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Generic\\Support\\FieldFilter": {
+      "type": "class",
+      "methods": {
+        "__construct": {
+          "visibility": "public",
+          "return_type": "void",
+          "arguments": [
+            { "name": "field", "type": "string", "optional": false },
+            { "name": "operator", "type": "string", "optional": false },
+            { "name": "value", "type": "mixed", "optional": false }
+          ]
+        }
+      }
+    },
     "Maatify\\DataRepository\\Base\\BaseMongoRepository": {
       "type": "abstract class",
       "extends": "Maatify\\DataRepository\\Base\\BaseRepository",

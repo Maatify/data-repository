@@ -4,10 +4,11 @@
  * @copyright   ©2025 Maatify.dev
  * @Library     maatify/data-repository
  * @Project     maatify:data-repository
- * @author      Mohamed
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
  * @since       2025-11-25
- * @see         https://www.maatify.dev
- * @link        https://github.com/Maatify/data-repository
+ * @see         https://www.maatify.dev Maatify.dev
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
  */
 
 declare(strict_types=1);
@@ -18,12 +19,6 @@ use InvalidArgumentException;
 
 final class FilterUtils
 {
-    /** @var array<int,string> */
-    private const array ALLOWED_OPERATORS = [
-        '>', '<', '>=', '<=', '!=', '<>', 'LIKE',
-        'IN', 'NOT IN', 'BETWEEN', 'IS NULL', 'IS NOT NULL',
-    ];
-
     /** @var array<string,string> */
     private const array SQL_TO_MONGO = [
         '>'      => '$gt',
@@ -61,33 +56,36 @@ final class FilterUtils
             return ['', $empty];
         }
 
+        $parser = new FilterParser();
+        $conditions = $parser->parse($filters);
+
         /** @var array<int,string> $clauses */
         $clauses = [];
 
         /** @var array<string,mixed> $params */
         $params  = [];
 
-        foreach ($filters as $col => $val) {
-            $colName = (string)$col;
+        foreach ($conditions as $filter) {
+            $colName = $filter->field;
+
             if (! self::isValidSqlColumn($colName)) {
                 throw new InvalidArgumentException("Invalid SQL column name '{$colName}'");
             }
 
             $base = $colName;
+            $op = $filter->operator;
+            $val = $filter->value;
 
-            if (!is_array($val)) {
-                if ($val === null) {
-                    $clauses[] = "`{$colName}` IS NULL";
-                } else {
-                    $clauses[] = "`{$colName}` = :{$base}";
-                    $params[$base] = $val;
-                }
+            $suffix = str_replace(['>', '<', '=', '!', ' '], ['GT','LT','EQ','NE','_'], $op);
+            $p = "{$base}_{$suffix}";
 
-            } else {
-                /** @var array<int,string> $opClauses */
-                $opClauses = self::processSqlOperators($colName, $val, $base, $params);
-                $clauses = array_merge($clauses, $opClauses);
-            }
+            // Handle uniqueness of parameters for same field/operator if needed,
+            // but for now relying on FilterParser output structure which maps roughly to original.
+            // Note: If multiple filters for same field with same operator exist, this might overwrite.
+            // However, array input `['age' => ['>' => 18]]` prevents duplicate operators for same field.
+            // So uniqueness is guaranteed by input array structure.
+
+            $clauses[] = self::buildSqlClause($colName, $op, $val, $base, $params, $p);
         }
 
         if ($clauses === []) {
@@ -100,49 +98,21 @@ final class FilterUtils
     }
 
     /**
-     * @param string $col
-     * @param array<array-key,mixed> $ops
-     * @param string $base
-     * @param array<string,mixed> $params
-     * @return array<int,string>
-     */
-    private static function processSqlOperators(
-        string $col,
-        array $ops,
-        string $base,
-        array &$params
-    ): array {
-        /** @var array<int,string> $clauses */
-        $clauses = [];
-
-        foreach ($ops as $op => $value) {
-            $op = strtoupper((string)$op);
-
-            if (!in_array($op, self::ALLOWED_OPERATORS, true)) {
-                throw new InvalidArgumentException("Unsupported SQL operator '{$op}'");
-            }
-
-            $clause = self::buildSqlOperatorClause($col, $op, $value, $base, $params);
-            $clauses[] = $clause;
-        }
-
-        return $clauses;
-    }
-
-    /**
      * @param array<string,mixed> $params
      */
-    private static function buildSqlOperatorClause(
+    private static function buildSqlClause(
         string $col,
         string $op,
         mixed $value,
         string $base,
-        array &$params
+        array &$params,
+        string $p
     ): string {
-        $suffix = str_replace(['>', '<', '=', '!', ' '], ['GT','LT','EQ','NE','_'], $op);
-        $p = "{$base}_{$suffix}";
-
         switch ($op) {
+            case '=':
+                $params[$base] = $value;
+                return "`{$col}` = :{$base}";
+
             case 'IN':
             case 'NOT IN':
                 if (!is_array($value)) {
@@ -202,41 +172,37 @@ final class FilterUtils
      */
     public static function buildMongoFilter(array $filters): array
     {
+        $parser = new FilterParser();
+        $conditions = $parser->parse($filters);
+
         /** @var array<string,mixed> $final */
         $final = [];
 
-        foreach ($filters as $field => $value) {
-            $field = $field === 'id' ? '_id' : $field;
+        foreach ($conditions as $filter) {
+            $field = $filter->field === 'id' ? '_id' : $filter->field;
 
             if (! self::isValidMongoField($field)) {
                 throw new InvalidArgumentException("Invalid Mongo field '{$field}'");
             }
 
-            if (!is_array($value)) {
-                $final[$field] = $value;
+            /** @var array<string,mixed> $condition */
+            $condition = self::buildMongoCondition($field, $filter->operator, $filter->value);
+
+            // Merge logic
+            if (! isset($final[$field])) {
+                $final[$field] = $condition[$field];
                 continue;
             }
 
-            /** @var array<string,mixed> $conditions */
-            $conditions = self::processMongoOperators($field, $value);
-
-            // merge conditions into final
-            foreach ($conditions as $f => $ops) {
-
-                if (! isset($final[$f])) {
-                    $final[$f] = $ops;
-                    continue;
-                }
-
-                if (is_array($final[$f]) && is_array($ops)) {
-                    /** @var array<string,mixed> $merged */
-                    $merged = array_merge($final[$f], $ops);
-                    $final[$f] = $merged;
-                    continue;
-                }
-
-                // fallback overwrite case
-                $final[$f] = $ops;
+            if (is_array($final[$field]) && is_array($condition[$field])) {
+                /** @var array<string,mixed> $merged */
+                $merged = array_merge($final[$field], $condition[$field]);
+                $final[$field] = $merged;
+            } else {
+                // If existing value is scalar (equality), and new is also scalar, overwrite.
+                // Or if one is scalar and other is operator array, we probably need to handle more gracefully.
+                // But simplified logic: overwrite or merge if arrays.
+                $final[$field] = $condition[$field];
             }
         }
 
@@ -244,47 +210,14 @@ final class FilterUtils
     }
 
     /**
-     * @param array<array-key,mixed> $ops
      * @return array<string,mixed>
      */
-    private static function processMongoOperators(string $field, array $ops): array
-    {
-        /** @var array<string,mixed> $resultOps */
-        $resultOps = [];
-
-        foreach ($ops as $op => $value) {
-            $op = strtoupper((string)$op);
-
-            if (!in_array($op, self::ALLOWED_OPERATORS, true)) {
-                throw new InvalidArgumentException("Unsupported Mongo operator '{$op}'");
-            }
-
-            /** @var array<string,mixed> $condition */
-            $condition = self::buildMongoOperatorCondition($field, $op, $value);
-
-            if (! isset($resultOps[$field])) {
-                $resultOps[$field] = $condition[$field];
-                continue;
-            }
-
-            if (is_array($resultOps[$field]) && is_array($condition[$field])) {
-                /** @var array<string,mixed> $merged */
-                $merged = array_merge($resultOps[$field], $condition[$field]);
-                $resultOps[$field] = $merged;
-            } else {
-                $resultOps[$field] = $condition[$field];
-            }
-        }
-
-        return [$field => $resultOps[$field]];
-    }
-
-    /**
-     * @return array<string,mixed>
-     */
-    private static function buildMongoOperatorCondition(string $field, string $op, mixed $value): array
+    private static function buildMongoCondition(string $field, string $op, mixed $value): array
     {
         switch ($op) {
+            case '=':
+                return [$field => $value];
+
             case 'LIKE':
                 if (!is_string($value)) {
                     throw new InvalidArgumentException('LIKE requires string');
@@ -339,9 +272,8 @@ final class FilterUtils
                 }
         }
 
-        /** @var array<string,mixed> $empty */
-        $empty = [];
-        return [$field => $empty];
+        // Should not happen as parser validates operators
+        return [$field => []];
     }
 
     private static function isValidSqlColumn(string $name): bool
