@@ -1,5 +1,8 @@
 # Phase 25: Order Builders (MySQL + Mongo)
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 ## Overview
 Phase 25 continues the refactoring process initiated in Phases 22-24 by extracting driver-specific sorting logic from `OrderUtils` into dedicated builder classes. This improves maintainability, testability, and separation of concerns.
 
