@@ -78,7 +78,8 @@ foreach ($internalHelpers as $helper) {
         if ($method->isPublic()) {
             echo "❌ ERROR: {$helper}() is PUBLIC!\n";
         } else {
-            echo "🔒 {$helper}() is hidden ({$method->isProtected() ? 'protected' : 'private'})\n";
+            $type = $method->isProtected() ? 'protected' : 'private';
+            echo "🔒 {$helper}() is hidden ({$type})\n";
         }
     } else {
         echo "❓ {$helper}() not found on this class.\n";

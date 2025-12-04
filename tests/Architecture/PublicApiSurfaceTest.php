@@ -18,6 +18,7 @@ namespace Maatify\DataRepository\Tests\Architecture;
 use Maatify\DataRepository\Generic\GenericMongoRepository;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use Maatify\DataRepository\Generic\GenericRedisRepository;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -61,7 +62,7 @@ class PublicApiSurfaceTest extends TestCase
     /**
      * @return array<string, array{0: class-string}>
      */
-    public function repositoryProvider(): array
+    public static function repositoryProvider(): array
     {
         return [
             'MySQL' => [GenericMySQLRepository::class],
@@ -71,9 +72,9 @@ class PublicApiSurfaceTest extends TestCase
     }
 
     /**
-     * @dataProvider repositoryProvider
      * @param class-string $className
      */
+    #[DataProvider('repositoryProvider')]
     public function testPublicApiSurface(string $className): void
     {
         $reflection = new ReflectionClass($className);
@@ -85,7 +86,7 @@ class PublicApiSurfaceTest extends TestCase
                 $name,
                 self::ALLOWED_PUBLIC_METHODS,
                 "Method {$className}::{$name} is public but not in the allowed API list. " .
-                "It should likely be protected or private."
+                'It should likely be protected or private.'
             );
         }
     }
