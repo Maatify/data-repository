@@ -1211,5 +1211,25 @@
         }
       }
     }
+  },
+  {
+    "phase_id": "phase26",
+    "timestamp": "2025-12-02T07:30:00+00:00",
+    "status": "completed",
+    "summary": "Public API Tightening completed. Audited Generic Repositories, downgraded internal helpers (verified visibility), and added PublicApiSurfaceTest to enforce API contracts.",
+    "changes": {
+      "added": [
+        "tests/Architecture/PublicApiSurfaceTest.php",
+        "README.phase26.md"
+      ]
+    },
+    "tests": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "coverage": "100% (Architecture)",
+      "notes": "Verified via PublicApiSurfaceTest that only official API methods are public."
+    },
+    "git_patch": "phase26.patch"
   }
 ]
