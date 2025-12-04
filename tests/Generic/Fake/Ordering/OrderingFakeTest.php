@@ -19,6 +19,7 @@ use DateTime;
 use InvalidArgumentException;
 use Maatify\DataRepository\Generic\Support\OrderUtils;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 
 class OrderingFakeTest extends TestCase
 {
@@ -164,13 +165,6 @@ class OrderingFakeTest extends TestCase
         $this->assertSame($date2, $dRow1['date']);
     }
 
-    public function testIsValidDirection(): void
-    {
-        $this->assertTrue(OrderUtils::isValidDirection('asc'));
-        $this->assertTrue(OrderUtils::isValidDirection('DESC'));
-        $this->assertFalse(OrderUtils::isValidDirection('foo'));
-    }
-
     public function testFromString(): void
     {
         $str = 'name:asc,age:desc, created:asc';
@@ -196,32 +190,41 @@ class OrderingFakeTest extends TestCase
         $this->assertSame($expected, OrderUtils::merge($o1, $o2));
     }
 
+    private function invokeCompareValues(mixed $a, mixed $b): int
+    {
+        $method = new ReflectionMethod(OrderUtils::class, 'compareValues');
+        $method->setAccessible(true);
+        /** @var int $result */
+        $result = $method->invoke(null, $a, $b);
+        return $result;
+    }
+
     public function testCompareNulls(): void
     {
-        $this->assertSame(0, OrderUtils::compareValues(null, null));
-        $this->assertSame(-1, OrderUtils::compareValues(null, 5));
-        $this->assertSame(1, OrderUtils::compareValues(10, null));
+        $this->assertSame(0, $this->invokeCompareValues(null, null));
+        $this->assertSame(-1, $this->invokeCompareValues(null, 5));
+        $this->assertSame(1, $this->invokeCompareValues(10, null));
     }
 
     public function testCompareNumbers(): void
     {
-        $this->assertSame(-1, OrderUtils::compareValues(1, 2));
-        $this->assertSame(1, OrderUtils::compareValues(5, 3));
-        $this->assertSame(0, OrderUtils::compareValues(10, 10));
+        $this->assertSame(-1, $this->invokeCompareValues(1, 2));
+        $this->assertSame(1, $this->invokeCompareValues(5, 3));
+        $this->assertSame(0, $this->invokeCompareValues(10, 10));
 
         // Non-numeric — should fall back to 0
-        $this->assertSame(0, OrderUtils::compareValues('a', 10));
-        $this->assertSame(0, OrderUtils::compareValues(10, 'a'));
+        $this->assertSame(0, $this->invokeCompareValues('a', 10));
+        $this->assertSame(0, $this->invokeCompareValues(10, 'a'));
     }
 
     public function testCompareBooleans(): void
     {
-        $this->assertSame(-1, OrderUtils::compareValues(false, true));
-        $this->assertSame(1, OrderUtils::compareValues(true, false));
-        $this->assertSame(0, OrderUtils::compareValues(true, true));
+        $this->assertSame(-1, $this->invokeCompareValues(false, true));
+        $this->assertSame(1, $this->invokeCompareValues(true, false));
+        $this->assertSame(0, $this->invokeCompareValues(true, true));
 
         // Non-bool fallback
-        $this->assertSame(0, OrderUtils::compareValues(true, 1));
+        $this->assertSame(0, $this->invokeCompareValues(true, 1));
     }
 
     public function testCompareDates(): void
@@ -229,17 +232,17 @@ class OrderingFakeTest extends TestCase
         $d1 = new DateTime('2024-01-01');
         $d2 = new DateTime('2024-02-01');
 
-        $this->assertSame(-1, OrderUtils::compareValues($d1, $d2));
-        $this->assertSame(1, OrderUtils::compareValues($d2, $d1));
-        $this->assertSame(0, OrderUtils::compareValues($d1, $d1));
+        $this->assertSame(-1, $this->invokeCompareValues($d1, $d2));
+        $this->assertSame(1, $this->invokeCompareValues($d2, $d1));
+        $this->assertSame(0, $this->invokeCompareValues($d1, $d1));
 
         // Non-date fallback
-        $this->assertSame(0, OrderUtils::compareValues($d1, '2024-01-01'));
+        $this->assertSame(0, $this->invokeCompareValues($d1, '2024-01-01'));
     }
 
     public function testIsComparableScalar(): void
     {
-        $ref = new \ReflectionMethod(OrderUtils::class, 'isComparableScalar');
+        $ref = new ReflectionMethod(OrderUtils::class, 'isComparableScalar');
         $ref->setAccessible(true);
 
         $this->assertTrue($ref->invoke(null, 'abc'));
@@ -254,30 +257,19 @@ class OrderingFakeTest extends TestCase
     public function testCompareValuesFull(): void
     {
         // Nulls
-        $this->assertSame(-1, OrderUtils::compareValues(null, 1));
+        $this->assertSame(-1, $this->invokeCompareValues(null, 1));
 
         // Numbers
-        $this->assertSame(-1, OrderUtils::compareValues(1, 2));
+        $this->assertSame(-1, $this->invokeCompareValues(1, 2));
 
         // Booleans
-        $this->assertSame(-1, OrderUtils::compareValues(false, true));
+        $this->assertSame(-1, $this->invokeCompareValues(false, true));
 
         // Strings
-        $this->assertSame(-1, OrderUtils::compareValues('a', 'b'));
-        $this->assertSame(0, OrderUtils::compareValues('abc', 'abc'));
+        $this->assertSame(-1, $this->invokeCompareValues('a', 'b'));
+        $this->assertSame(0, $this->invokeCompareValues('abc', 'abc'));
 
         // Incomparable
-        $this->assertSame(0, OrderUtils::compareValues(['a'], ['b']));
+        $this->assertSame(0, $this->invokeCompareValues(['a'], ['b']));
     }
-
-    public function testIsValidDirectionEdgeCases(): void
-    {
-        $this->assertFalse(OrderUtils::isValidDirection(''));
-        $this->assertFalse(OrderUtils::isValidDirection('asc '));
-        $this->assertFalse(OrderUtils::isValidDirection(' ASC '));
-
-        // Lowercase mixed
-        $this->assertTrue(OrderUtils::isValidDirection('aSc'));
-    }
-
 }

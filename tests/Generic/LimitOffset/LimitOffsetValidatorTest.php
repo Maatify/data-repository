@@ -17,6 +17,7 @@ namespace Maatify\DataRepository\Tests\Generic\LimitOffset;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 
 class LimitOffsetValidatorTest extends TestCase
 {
@@ -71,13 +72,18 @@ class LimitOffsetValidatorTest extends TestCase
 
     public function testNormalize(): void
     {
-        $norm = LimitOffsetValidator::normalize(-5, -5);
+        $method = new ReflectionMethod(LimitOffsetValidator::class, 'normalize');
+        $method->setAccessible(true);
+
+        /** @var array{limit: int, offset: int} $norm */
+        $norm = $method->invoke(null, -5, -5);
         $this->assertSame(0, $norm['limit']); // min 0 (since max(0, min(limit, max))) -> if limit is -5, min(-5, 10000) is -5. max(0, -5) is 0.
         $this->assertSame(0, $norm['offset']);
 
-        $norm = LimitOffsetValidator::normalize(LimitOffsetValidator::MAX_LIMIT + 100, LimitOffsetValidator::MAX_OFFSET + 100);
-        $this->assertSame(LimitOffsetValidator::MAX_LIMIT, $norm['limit']);
-        $this->assertSame(LimitOffsetValidator::MAX_OFFSET, $norm['offset']);
+        /** @var array{limit: int, offset: int} $norm2 */
+        $norm2 = $method->invoke(null, LimitOffsetValidator::MAX_LIMIT + 100, LimitOffsetValidator::MAX_OFFSET + 100);
+        $this->assertSame(LimitOffsetValidator::MAX_LIMIT, $norm2['limit']);
+        $this->assertSame(LimitOffsetValidator::MAX_OFFSET, $norm2['offset']);
     }
 
     public function testValidateAndNormalize(): void

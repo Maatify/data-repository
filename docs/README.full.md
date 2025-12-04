@@ -287,6 +287,9 @@ src/
 | 21    | Architecture Decoupling                   | ✅ Completed | Logger Injection                   |
 | 22    | FilterParser Extraction                   | ✅ Completed | Decoupled Parsing Logic            |
 | 23    | Filter Builders (MySQL + Mongo)           | ✅ Completed | Extracted Builder Logic            |
+| 24    | OrderParser Extraction                    | ✅ Completed | Decoupled Order Logic              |
+| 25    | Order Builders (MySQL + Mongo)            | ✅ Completed | Extracted Order Builders           |
+| 26    | Public API Tightening                     | ✅ Completed | Audit & Strict API Surface         |
 
 ---
 
@@ -364,8 +367,11 @@ src/
 - **Phase 24 — OrderParser Extraction**
   [`phases/README.phase24.md`](phases/README.phase24.md)
 
-- **Phase 25 — OOrder Builders (MySQL + Mongo)**
+- **Phase 25 — Order Builders (MySQL + Mongo)**
   [`phases/README.phase25.md`](phases/README.phase25.md)
+
+- **Phase 26 — Public API Tightening**
+  [`phases/README.phase26.md`](phases/README.phase26.md)
 
 ---
 

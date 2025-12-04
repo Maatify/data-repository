@@ -9,6 +9,16 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.1.0] — 2025-12-02 (Phase 26 Update)
+
+### 🚀 Added
+- **Public API Tightening (Phase 26)**
+    - Audited the public API surface of all Generic Repositories to ensure only official methods (CRUD, Pagination, Hydration) are exposed.
+    - Added `tests/Architecture/PublicApiSurfaceTest.php` to strictly enforce this contract and prevent accidental exposure of internal helpers.
+    - Downgraded internal helpers in `OrderUtils` (`compareValues`) and `LimitOffsetValidator` (`normalize`) to `private`.
+    - Removed unused methods (`OrderUtils::isValidDirection`) to improve code cleanliness.
+    - Documented the official public API in `README.phase26.md`.
+
 ## [1.0.9] — 2025-12-02 (Phase 25 Update)
 
 ### 🚀 Added
@@ -296,6 +306,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+[1.1.0]: https://github.com/Maatify/data-repository/releases/tag/1.1.0
 [1.0.9]: https://github.com/Maatify/data-repository/releases/tag/1.0.9
 [1.0.8]: https://github.com/Maatify/data-repository/releases/tag/1.0.8
 [1.0.7]: https://github.com/Maatify/data-repository/releases/tag/1.0.7

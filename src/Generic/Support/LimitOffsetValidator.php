@@ -86,7 +86,7 @@ class LimitOffsetValidator
      *
      * @return array{limit: int, offset: int}
      */
-    public static function normalize(?int $limit, ?int $offset): array
+    private static function normalize(?int $limit, ?int $offset): array
     {
         return [
             'limit' => max(0, min($limit ?? 0, self::MAX_LIMIT)),

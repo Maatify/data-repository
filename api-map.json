@@ -317,15 +317,6 @@
             { "name": "offset", "type": "int|null", "optional": true }
           ]
         },
-        "normalize": {
-          "visibility": "public",
-          "static": true,
-          "return_type": "array",
-          "arguments": [
-            { "name": "limit", "type": "int|null", "optional": true },
-            { "name": "offset", "type": "int|null", "optional": true }
-          ]
-        },
         "validateAndNormalize": {
           "visibility": "public",
           "static": true,
@@ -431,14 +422,6 @@
             { "name": "orderBy", "type": "array<string, string>|null", "optional": true }
           ]
         },
-        "isValidDirection": {
-          "visibility": "public",
-          "static": true,
-          "return_type": "bool",
-          "arguments": [
-            { "name": "direction", "type": "string", "optional": false }
-          ]
-        },
         "fromString": {
           "visibility": "public",
           "static": true,
@@ -447,15 +430,6 @@
             { "name": "orderString", "type": "string", "optional": false },
             { "name": "pairSeparator", "type": "string", "optional": true },
             { "name": "keyValueSeparator", "type": "string", "optional": true }
-          ]
-        },
-        "compareValues": {
-          "visibility": "public",
-          "static": true,
-          "return_type": "int",
-          "arguments": [
-            { "name": "a", "type": "mixed", "optional": false },
-            { "name": "b", "type": "mixed", "optional": false }
           ]
         },
         "reverse": {

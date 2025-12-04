@@ -527,7 +527,7 @@
       "id": "phase26",
       "title": "Public API Tightening",
       "version": "1.1.0",
-      "status": "pending",
+      "status": "completed",
       "summary": "Review public APIs of Generic repositories, move internal helpers to protected/private, and document the official public API surface.",
       "tasks": [
         "Audit all Generic repository public methods",

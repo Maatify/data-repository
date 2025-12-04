@@ -121,11 +121,6 @@ final class OrderUtils
         return $data;
     }
 
-    public static function isValidDirection(string $direction): bool
-    {
-        return in_array(strtoupper($direction), [self::ORDER_ASC, self::ORDER_DESC], true);
-    }
-
     /**
      * Parses order-from-string: "name:ASC, age:DESC".
      *
@@ -175,7 +170,7 @@ final class OrderUtils
      * @param mixed $b
      * @return int
      */
-    public static function compareValues(mixed $a, mixed $b): int
+    private static function compareValues(mixed $a, mixed $b): int
     {
         if ($cmp = self::compareNulls($a, $b)) {
             return $cmp;
