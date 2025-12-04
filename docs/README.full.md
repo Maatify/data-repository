@@ -359,10 +359,13 @@ src/
   [`phases/README.phase22.md`](phases/README.phase22.md)
 
 - **Phase 23 — Filter Builders**
-  [`phases/README.phase23.md`](phases/README.phase23
+  [`phases/README.phase23.md`](phases/README.phase23.md)
 
 - **Phase 24 — OrderParser Extraction**
   [`phases/README.phase24.md`](phases/README.phase24.md)
+
+- **Phase 25 — OOrder Builders (MySQL + Mongo)**
+  [`phases/README.phase25.md`](phases/README.phase25.md)
 
 ---
 
