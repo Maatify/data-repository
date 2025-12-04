@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Generic\Ordering;
 
 use Maatify\DataRepository\Generic\Support\MySQLOrderBuilder;
-use Maatify\DataRepository\Generic\Support\OrderUtils;
 use PHPUnit\Framework\TestCase;
 
 class MySQLOrderBuilderTest extends TestCase

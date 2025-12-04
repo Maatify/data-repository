@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Generic\Ordering;
 
 use Maatify\DataRepository\Generic\Support\MongoOrderBuilder;
-use Maatify\DataRepository\Generic\Support\OrderUtils;
 use PHPUnit\Framework\TestCase;
 
 class MongoOrderBuilderTest extends TestCase

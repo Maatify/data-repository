@@ -26,7 +26,7 @@ echo "=== 1. Using OrderUtils (Facade) ===\n";
 // Normalized Array
 $orderBy = ['name' => 'ASC', 'age' => 'desc', 'created_at' => 'Invalid'];
 $normalized = OrderUtils::normalize($orderBy);
-echo "Normalized Order: " . json_encode($normalized) . "\n";
+echo 'Normalized Order: ' . json_encode($normalized) . "\n";
 // Output: {"name":"ASC","age":"DESC","created_at":"ASC"}
 
 // SQL Generation via OrderUtils
@@ -36,9 +36,8 @@ echo "SQL Order By: {$sql}\n";
 
 // Mongo Sort Array via OrderUtils
 $mongoSort = OrderUtils::buildMongoSort($orderBy);
-echo "Mongo Sort: " . json_encode($mongoSort) . "\n";
+echo 'Mongo Sort: ' . json_encode($mongoSort) . "\n";
 // Output: {"name":1,"age":-1,"created_at":1}
-
 
 // --- 2. Using MySQLOrderBuilder Directly ---
 
@@ -55,12 +54,11 @@ $jsonSql = $mysqlBuilder->buildJson('meta', '$.seo.score', 'DESC');
 echo "JSON SQL: {$jsonSql}\n";
 // Output: JSON_UNQUOTE(JSON_EXTRACT(`meta`, '$.seo.score')) DESC
 
-
 // --- 3. Using MongoOrderBuilder Directly ---
 
 echo "\n=== 3. Using MongoOrderBuilder Directly ===\n";
 $mongoBuilder = new MongoOrderBuilder();
 
 $mongoSortDirect = $mongoBuilder->build(['views' => 'DESC', 'title' => 'ASC']);
-echo "Direct Mongo Sort: " . json_encode($mongoSortDirect) . "\n";
+echo 'Direct Mongo Sort: ' . json_encode($mongoSortDirect) . "\n";
 // Output: {"views":-1,"title":1}
