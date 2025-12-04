@@ -359,7 +359,10 @@ src/
   [`phases/README.phase22.md`](phases/README.phase22.md)
 
 - **Phase 23 — Filter Builders**
-  [`phases/README.phase23.md`](phases/README.phase23.md)
+  [`phases/README.phase23.md`](phases/README.phase23
+
+- **Phase 24 — OrderParser Extraction**
+  [`phases/README.phase24.md`](phases/README.phase24.md)
 
 ---
 
