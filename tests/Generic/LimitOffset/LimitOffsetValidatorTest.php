@@ -75,13 +75,28 @@ class LimitOffsetValidatorTest extends TestCase
         $method = new ReflectionMethod(LimitOffsetValidator::class, 'normalize');
         $method->setAccessible(true);
 
+        // Update: normalize now requires 4 arguments: $limit, $offset, $maxLimit, $maxOffset
+        // because we updated it to support dynamic config in LimitOffsetValidator.php
+
         /** @var array{limit: int, offset: int} $norm */
-        $norm = $method->invoke(null, -5, -5);
-        $this->assertSame(0, $norm['limit']); // min 0 (since max(0, min(limit, max))) -> if limit is -5, min(-5, 10000) is -5. max(0, -5) is 0.
+        $norm = $method->invoke(
+            null,
+            -5,
+            -5,
+            LimitOffsetValidator::MAX_LIMIT,
+            LimitOffsetValidator::MAX_OFFSET
+        );
+        $this->assertSame(0, $norm['limit']);
         $this->assertSame(0, $norm['offset']);
 
         /** @var array{limit: int, offset: int} $norm2 */
-        $norm2 = $method->invoke(null, LimitOffsetValidator::MAX_LIMIT + 100, LimitOffsetValidator::MAX_OFFSET + 100);
+        $norm2 = $method->invoke(
+            null,
+            LimitOffsetValidator::MAX_LIMIT + 100,
+            LimitOffsetValidator::MAX_OFFSET + 100,
+            LimitOffsetValidator::MAX_LIMIT,
+            LimitOffsetValidator::MAX_OFFSET
+        );
         $this->assertSame(LimitOffsetValidator::MAX_LIMIT, $norm2['limit']);
         $this->assertSame(LimitOffsetValidator::MAX_OFFSET, $norm2['offset']);
     }

@@ -85,24 +85,12 @@ class LimitOffsetConfigTest extends TestCase
             ->withMaxLimit(50)
             ->withMaxOffset(100);
 
-        $result = LimitOffsetValidator::validateAndNormalize(60, 150, $config);
+        // This expects an exception because validateAndNormalize() calls validate() first,
+        // which enforces strict bounds.
+        $this->expectException(RepositoryException::class);
+        $this->expectExceptionMessage('Limit 60 exceeds the maximum allowed (50)');
 
-        // validateAndNormalize actually validates first, so it throws Exception if invalid.
-        // Wait, validateAndNormalize calls validateWithConfig first.
-        // So I can't test normalization clamping unless I bypass validation,
-        // but normalize() is private.
-        // However, validateAndNormalize calls validateWithConfig, which throws exception if out of bounds.
-        // So testing clamping via public API is only possible if validate doesn't throw, but validate DOES throw.
-        // Thus, effectively, we cannot pass values larger than maxLimit.
-
-        // Wait, check the implementation of normalize():
-        // 'limit' => max(0, min($limit ?? 0, $maxLimit)),
-        // It clamps. But validate() throws.
-        // So effectively, the clamping logic for upper bound is never reached if validation is stricter.
-        // UNLESS we use it without validation, but method is validateAndNormalize.
-        // Ah, maybe the intent is that normalize should only clamp?
-        // But validateAndNormalize throws.
-        // So let's test that it throws.
+        LimitOffsetValidator::validateAndNormalize(60, 150, $config);
     }
 
     public function testValidateAndNormalizeThrowsOnOutOfBounds(): void
