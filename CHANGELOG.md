@@ -9,6 +9,16 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.1.1] — 2025-12-02 (Phase 27 Update)
+
+### 🚀 Added
+- **Normalizer Options & Config (Phase 27)**
+    - Added `Maatify\DataRepository\Generic\Support\NormalizerOptions` Value Object for flexible result normalization.
+    - Added `Maatify\DataRepository\Generic\Pagination\LimitOffsetConfig` Value Object for dynamic pagination bounds.
+    - Updated `ResultNormalizer` to support per-call configuration via `normalizeWithOptions()`.
+    - Updated `LimitOffsetValidator` to support per-call limits via `validateWithConfig()`.
+    - Added comprehensive unit tests and examples for the new configuration objects.
+
 ## [1.1.0] — 2025-12-02 (Phase 26 Update)
 
 ### 🚀 Added
