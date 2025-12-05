@@ -17,13 +17,17 @@ namespace Maatify\DataRepository\Hydration;
 
 use Maatify\DataRepository\Exceptions\RepositoryException;
 
+/**
+ * @template T of object
+ * @implements HydratorInterface<T>
+ */
 abstract class BaseHydrator implements HydratorInterface
 {
     /**
      * @param array<string, mixed>  $data
      * @param HydrationContext|null $context
      *
-     * @return object
+     * @return T
      * @throws RepositoryException
      */
     public function hydrate(array $data, ?HydrationContext $context = null): object
@@ -31,6 +35,7 @@ abstract class BaseHydrator implements HydratorInterface
         $context ??= new HydrationContext();
         $stages = $context->getStages();
 
+        /** @var T|null $instance */
         $instance = null;
 
         foreach ($stages as $stage) {
@@ -63,7 +68,7 @@ abstract class BaseHydrator implements HydratorInterface
      * @param array<int, array<string, mixed>> $dataset
      * @param HydrationContext|null            $context
      *
-     * @return array<object>
+     * @return array<T>
      * @throws RepositoryException
      */
     public function hydrateAll(array $dataset, ?HydrationContext $context = null): array
@@ -75,6 +80,9 @@ abstract class BaseHydrator implements HydratorInterface
         return $result;
     }
 
+    /**
+     * @return T
+     */
     abstract protected function createInstance(): object;
 
     /**
@@ -126,10 +134,10 @@ abstract class BaseHydrator implements HydratorInterface
      * but concrete classes should likely override this for specific logic.
      *
      * @param array<string, mixed> $data
-     * @param object               $instance
+     * @param T                    $instance
      * @param HydrationContext|null $context
      *
-     * @return object
+     * @return T
      */
     protected function onMap(array $data, object $instance, ?HydrationContext $context = null): object
     {
@@ -175,7 +183,7 @@ abstract class BaseHydrator implements HydratorInterface
      * Stage: Validate
      * Perform consistency checks on the hydrated object.
      *
-     * @param object $instance
+     * @param T $instance
      *
      * @throws RepositoryException
      */
@@ -188,7 +196,7 @@ abstract class BaseHydrator implements HydratorInterface
      * Stage: Complete
      * Final hook after object is ready.
      *
-     * @param object $instance
+     * @param T $instance
      */
     protected function onComplete(object $instance): void
     {
@@ -198,9 +206,9 @@ abstract class BaseHydrator implements HydratorInterface
     /**
      * Helper to ensure instance exists before late stages.
      *
-     * @param object|null $instance
+     * @param T|null $instance
      *
-     * @return object
+     * @return T
      */
     private function ensureInstance(?object $instance): object
     {

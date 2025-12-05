@@ -26,8 +26,13 @@ use Maatify\Common\Pagination\DTO\PaginationResultDTO;
 use Maatify\Common\Pagination\Helpers\PaginationHelper;
 use PDO;
 
+/**
+ * @template T of object
+ * @extends BaseMySQLRepository<T>
+ */
 abstract class GenericMySQLRepository extends BaseMySQLRepository
 {
+    /** @use RepositoryHydrationTrait<T> */
     use RepositoryHydrationTrait;
 
     protected string $primaryKey = 'id';

@@ -18,6 +18,10 @@ namespace Maatify\DataRepository\Base;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Redis;
 
+/**
+ * @template T of object
+ * @extends BaseRepository<T>
+ */
 abstract class BaseRedisRepository extends BaseRepository
 {
     protected function validateAdapter(): void

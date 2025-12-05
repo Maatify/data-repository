@@ -15,6 +15,9 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Hydration;
 
+/**
+ * @template T of object
+ */
 interface HydratorInterface
 {
     /**
@@ -23,7 +26,7 @@ interface HydratorInterface
      * @param array<string, mixed>  $data    Raw data from repository
      * @param HydrationContext|null $context Contextual options for hydration
      *
-     * @return object
+     * @return T
      */
     public function hydrate(array $data, ?HydrationContext $context = null): object;
 
@@ -33,7 +36,7 @@ interface HydratorInterface
      * @param array<int, array<string, mixed>> $dataset Array of raw data arrays
      * @param HydrationContext|null            $context Contextual options for hydration
      *
-     * @return array<object>
+     * @return array<T>
      */
     public function hydrateAll(array $dataset, ?HydrationContext $context = null): array;
 }
