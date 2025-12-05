@@ -122,7 +122,6 @@ class HydratedPaginationTest extends TestCase
         $this->assertInstanceOf(HydratedPaginationCollection::class, $result);
         $this->assertCount(1, $result->data);
         $this->assertInstanceOf(\stdClass::class, $result->data[0]);
-        // @phpstan-ignore-next-line
         $this->assertEquals(1, $result->data[0]->id);
     }
 }

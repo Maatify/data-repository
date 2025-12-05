@@ -16,22 +16,13 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Integration;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
-use Maatify\DataRepository\Base\BaseMongoRepository;
-use Maatify\DataRepository\Base\BaseMySQLRepository;
-use Maatify\DataRepository\Base\BaseRedisRepository;
-use Maatify\DataRepository\Base\BaseRepository;
 use Maatify\DataRepository\Generic\GenericMongoRepository;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use Maatify\DataRepository\Generic\GenericRedisRepository;
-use Maatify\DataRepository\Generic\Support\MongoOps;
 use Maatify\DataRepository\Generic\Support\MysqlOps;
-use Maatify\DataRepository\Generic\Support\RedisOps;
 use Maatify\DataRepository\Tests\Helpers\RealAdapterTrait;
-use Maatify\DataFakes\Adapters\MySQL\FakeMySQLAdapter;
 use Maatify\DataFakes\Adapters\Redis\FakeRedisAdapter;
 use Maatify\DataFakes\Adapters\Mongo\FakeMongoAdapter;
-use Maatify\DataAdapters\Adapters\MySQLAdapter;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 class FakeVsRealMatrixTest extends IntegrationValidatorTest
 {
@@ -164,7 +155,7 @@ class FakeVsRealMatrixTest extends IntegrationValidatorTest
     private function createFakeMongo(): ?GenericMongoRepository
     {
         if (! class_exists(\MongoDB\Collection::class)) {
-            return null; // @phpstan-ignore-line
+            return null;
         }
 
         // We need a complex mock for Mongo to simulate behavior or use FakeMongoAdapter from data-fakes

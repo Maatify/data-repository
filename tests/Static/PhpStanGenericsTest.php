@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Static;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
-use Maatify\DataRepository\Base\BaseRepository;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use Maatify\DataRepository\Hydration\HydratorInterface;
-use Maatify\DataRepository\Pagination\HydratedPaginationCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +18,7 @@ class PhpStanGenericsTest extends TestCase
     public function testGenericSyntax(): void
     {
         // 1. Define a fake entity
-        $entity = new class {
+        $entity = new class () {
             public int $id = 1;
             public string $name = 'Test';
         };
@@ -37,7 +35,7 @@ class PhpStanGenericsTest extends TestCase
         $this->assertInstanceOf(GenericMySQLRepository::class, $repo);
 
         // 3. Verify HydratorInterface usage
-        $hydrator = new class implements HydratorInterface {
+        $hydrator = new class () implements HydratorInterface {
             public function hydrate(array $data, ?\Maatify\DataRepository\Hydration\HydrationContext $context = null): object
             {
                 return (object)$data;
@@ -45,7 +43,7 @@ class PhpStanGenericsTest extends TestCase
 
             public function hydrateAll(array $dataset, ?\Maatify\DataRepository\Hydration\HydrationContext $context = null): array
             {
-                return array_map(fn($d) => (object)$d, $dataset);
+                return array_map(fn ($d) => (object)$d, $dataset);
             }
         };
 

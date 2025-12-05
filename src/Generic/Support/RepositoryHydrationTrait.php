@@ -17,7 +17,6 @@ namespace Maatify\DataRepository\Generic\Support;
 
 use Maatify\Common\Pagination\DTO\PaginationResultDTO;
 use Maatify\DataRepository\Exceptions\RepositoryException;
-use Maatify\DataRepository\Hydration\HydratorInterface;
 use Maatify\DataRepository\Pagination\HydratedPaginationCollection;
 
 /**

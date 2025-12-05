@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @copyright   ©2025 Maatify.dev
  * @Library     maatify/data-repository
@@ -48,17 +50,33 @@ class UserRepository extends GenericMySQLRepository
 
 // 4. Mock Adapter (for example purpose)
 /** @var AdapterInterface $adapter */
-$adapter = new class implements AdapterInterface {
+$adapter = new class () implements AdapterInterface {
     public function getDriver(): PDO
     {
         return new PDO('sqlite::memory:');
     }
-    public function getType(): string { return 'mysql'; }
-    public function connect(): void {}
-    public function isConnected(): bool { return true; }
-    public function disconnect(): void {}
-    public function getConnection(): mixed { return null; }
-    public function healthCheck(): bool { return true; }
+    public function getType(): string
+    {
+        return 'mysql';
+    }
+    public function connect(): void
+    {
+    }
+    public function isConnected(): bool
+    {
+        return true;
+    }
+    public function disconnect(): void
+    {
+    }
+    public function getConnection(): mixed
+    {
+        return null;
+    }
+    public function healthCheck(): bool
+    {
+        return true;
+    }
 };
 
 // 5. Usage
@@ -73,7 +91,7 @@ $repo->setHydrator(new UserHydrator());
 $user = $repo->findObject(1);
 
 if ($user) {
-    echo "Found User: " . $user->name . "\n";
+    echo 'Found User: ' . $user->name . "\n";
 }
 
 /*
@@ -81,5 +99,5 @@ if ($user) {
  */
 $users = $repo->findObjectsBy(['role' => 'admin']);
 foreach ($users as $u) {
-    echo "Admin: " . $u->name . "\n";
+    echo 'Admin: ' . $u->name . "\n";
 }
