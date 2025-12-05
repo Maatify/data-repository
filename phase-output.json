@@ -1231,5 +1231,93 @@
       "notes": "Verified via PublicApiSurfaceTest that only official API methods are public."
     },
     "git_patch": "phase26.patch"
+  },
+  {
+    "phase_id": "phase27",
+    "timestamp": "2025-12-02T08:45:00+00:00",
+    "status": "completed",
+    "summary": "NormalizerOptions + LimitOffsetConfig implemented. Added value objects for normalization and pagination configuration, updated services to accept them, and verified with unit tests.",
+    "changes": {
+      "added": [
+        "src/Generic/Support/NormalizerOptions.php",
+        "src/Generic/Pagination/LimitOffsetConfig.php",
+        "tests/Generic/Normalization/NormalizerOptionsTest.php",
+        "tests/Generic/Pagination/LimitOffsetConfigTest.php",
+        "docs/phases/README.phase27.md",
+        "examples/phase27/normalizer_options_example.php",
+        "examples/phase27/limit_offset_config_example.php"
+      ],
+      "updated": [
+        "src/Generic/Support/ResultNormalizer.php",
+        "src/Generic/Support/LimitOffsetValidator.php",
+        "phase-output.json",
+        "api-map.json"
+      ]
+    },
+    "tests": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "coverage": "100% (Configuration)",
+      "notes": "Verified creation, immutability, and integration of config objects."
+    },
+    "git_patch": "phase27.patch",
+    "reflection": {
+      "Maatify\\DataRepository\\Generic\\Support\\NormalizerOptions": {
+        "type": "class",
+        "methods": {
+          "create": {
+            "visibility": "public",
+            "return_type": "self",
+            "static": true
+          },
+          "withKeepMongoId": {
+            "visibility": "public",
+            "return_type": "self",
+            "arguments": [
+              { "name": "keepMongoId", "type": "bool", "optional": false }
+            ]
+          },
+          "withRecursive": {
+            "visibility": "public",
+            "return_type": "self",
+            "arguments": [
+              { "name": "recursive", "type": "bool", "optional": false }
+            ]
+          },
+          "withStrictIdTypes": {
+            "visibility": "public",
+            "return_type": "self",
+            "arguments": [
+              { "name": "strictIdTypes", "type": "bool", "optional": false }
+            ]
+          }
+        }
+      },
+      "Maatify\\DataRepository\\Generic\\Pagination\\LimitOffsetConfig": {
+        "type": "class",
+        "methods": {
+          "create": {
+            "visibility": "public",
+            "return_type": "self",
+            "static": true
+          },
+          "withMaxLimit": {
+            "visibility": "public",
+            "return_type": "self",
+            "arguments": [
+              { "name": "maxLimit", "type": "int", "optional": false }
+            ]
+          },
+          "withMaxOffset": {
+            "visibility": "public",
+            "return_type": "self",
+            "arguments": [
+              { "name": "maxOffset", "type": "int", "optional": false }
+            ]
+          }
+        }
+      }
+    }
   }
 ]

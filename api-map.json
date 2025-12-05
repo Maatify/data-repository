@@ -236,6 +236,15 @@
             { "name": "strictIdTypes", "type": "bool", "optional": true }
           ]
         },
+        "normalizeWithOptions": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "?array",
+          "arguments": [
+            { "name": "row", "type": "?array<string, mixed>", "optional": false },
+            { "name": "options", "type": "Maatify\\DataRepository\\Generic\\Support\\NormalizerOptions", "optional": false }
+          ]
+        },
         "normalizeAll": {
           "visibility": "public",
           "static": true,
@@ -255,11 +264,28 @@
             { "name": "strictIdTypes", "type": "bool", "optional": true }
           ]
         },
+        "normalizeAllWithOptions": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "array<int, array<string, mixed>>",
+          "arguments": [
+            { "name": "rows", "type": "array<int, array<string, mixed>>", "optional": false },
+            { "name": "options", "type": "Maatify\\DataRepository\\Generic\\Support\\NormalizerOptions", "optional": false }
+          ]
+        },
         "create": {
           "visibility": "public",
           "static": true,
           "return_type": "self",
           "arguments": []
+        },
+        "fromOptions": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "self",
+          "arguments": [
+            { "name": "options", "type": "Maatify\\DataRepository\\Generic\\Support\\NormalizerOptions", "optional": false }
+          ]
         },
         "normalizeRow": {
           "visibility": "public",
@@ -317,13 +343,81 @@
             { "name": "offset", "type": "int|null", "optional": true }
           ]
         },
+        "validateWithConfig": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "void",
+          "arguments": [
+            { "name": "limit", "type": "int|null", "optional": true },
+            { "name": "offset", "type": "int|null", "optional": true },
+            { "name": "config", "type": "?Maatify\\DataRepository\\Generic\\Pagination\\LimitOffsetConfig", "optional": true }
+          ]
+        },
         "validateAndNormalize": {
           "visibility": "public",
           "static": true,
           "return_type": "array",
           "arguments": [
             { "name": "limit", "type": "int|null", "optional": true },
-            { "name": "offset", "type": "int|null", "optional": true }
+            { "name": "offset", "type": "int|null", "optional": true },
+            { "name": "config", "type": "?Maatify\\DataRepository\\Generic\\Pagination\\LimitOffsetConfig", "optional": true }
+          ]
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Generic\\Support\\NormalizerOptions": {
+      "type": "class",
+      "methods": {
+        "create": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "self",
+          "arguments": []
+        },
+        "withKeepMongoId": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "keepMongoId", "type": "bool", "optional": false }
+          ]
+        },
+        "withRecursive": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "recursive", "type": "bool", "optional": false }
+          ]
+        },
+        "withStrictIdTypes": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "strictIdTypes", "type": "bool", "optional": false }
+          ]
+        }
+      }
+    },
+    "Maatify\\DataRepository\\Generic\\Pagination\\LimitOffsetConfig": {
+      "type": "class",
+      "methods": {
+        "create": {
+          "visibility": "public",
+          "static": true,
+          "return_type": "self",
+          "arguments": []
+        },
+        "withMaxLimit": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "maxLimit", "type": "int", "optional": false }
+          ]
+        },
+        "withMaxOffset": {
+          "visibility": "public",
+          "return_type": "self",
+          "arguments": [
+            { "name": "maxOffset", "type": "int", "optional": false }
           ]
         }
       }

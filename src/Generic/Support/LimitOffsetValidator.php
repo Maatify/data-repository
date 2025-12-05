@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Generic\Support;
 
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Generic\Pagination\LimitOffsetConfig;
 
 class LimitOffsetValidator
 {
@@ -27,14 +28,25 @@ class LimitOffsetValidator
      */
     public static function validate(?int $limit, ?int $offset): void
     {
-        self::validateLimit($limit);
-        self::validateOffset($offset);
+        self::validateWithConfig($limit, $offset);
     }
 
     /**
      * @throws RepositoryException
      */
-    private static function validateLimit(?int $limit): void
+    public static function validateWithConfig(?int $limit, ?int $offset, ?LimitOffsetConfig $config = null): void
+    {
+        $maxLimit = $config ? $config->getMaxLimit() : self::MAX_LIMIT;
+        $maxOffset = $config ? $config->getMaxOffset() : self::MAX_OFFSET;
+
+        self::validateLimit($limit, $maxLimit);
+        self::validateOffset($offset, $maxOffset);
+    }
+
+    /**
+     * @throws RepositoryException
+     */
+    private static function validateLimit(?int $limit, int $maxLimit): void
     {
         if ($limit === null) {
             return;
@@ -47,11 +59,11 @@ class LimitOffsetValidator
             ));
         }
 
-        if ($limit > self::MAX_LIMIT) {
+        if ($limit > $maxLimit) {
             throw new RepositoryException(sprintf(
                 'Limit %d exceeds the maximum allowed (%d). Consider paging your query.',
                 $limit,
-                self::MAX_LIMIT
+                $maxLimit
             ));
         }
     }
@@ -59,7 +71,7 @@ class LimitOffsetValidator
     /**
      * @throws RepositoryException
      */
-    private static function validateOffset(?int $offset): void
+    private static function validateOffset(?int $offset, int $maxOffset): void
     {
         if ($offset === null) {
             return;
@@ -72,10 +84,10 @@ class LimitOffsetValidator
             ));
         }
 
-        if ($offset > self::MAX_OFFSET) {
+        if ($offset > $maxOffset) {
             throw new RepositoryException(sprintf(
                 'Offset cannot exceed %d. Given: %d',
-                self::MAX_OFFSET,
+                $maxOffset,
                 $offset
             ));
         }
@@ -86,11 +98,11 @@ class LimitOffsetValidator
      *
      * @return array{limit: int, offset: int}
      */
-    private static function normalize(?int $limit, ?int $offset): array
+    private static function normalize(?int $limit, ?int $offset, int $maxLimit, int $maxOffset): array
     {
         return [
-            'limit' => max(0, min($limit ?? 0, self::MAX_LIMIT)),
-            'offset' => max(0, min($offset ?? 0, self::MAX_OFFSET)),
+            'limit' => max(0, min($limit ?? 0, $maxLimit)),
+            'offset' => max(0, min($offset ?? 0, $maxOffset)),
         ];
     }
 
@@ -100,10 +112,13 @@ class LimitOffsetValidator
      * @throws RepositoryException
      * @return array{limit: int, offset: int}
      */
-    public static function validateAndNormalize(?int $limit, ?int $offset): array
+    public static function validateAndNormalize(?int $limit, ?int $offset, ?LimitOffsetConfig $config = null): array
     {
-        self::validate($limit, $offset);
+        self::validateWithConfig($limit, $offset, $config);
 
-        return self::normalize($limit, $offset);
+        $maxLimit = $config ? $config->getMaxLimit() : self::MAX_LIMIT;
+        $maxOffset = $config ? $config->getMaxOffset() : self::MAX_OFFSET;
+
+        return self::normalize($limit, $offset, $maxLimit, $maxOffset);
     }
 }

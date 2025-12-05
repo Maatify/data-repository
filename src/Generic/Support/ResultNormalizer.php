@@ -58,6 +58,15 @@ final class ResultNormalizer
     }
 
     /**
+     * @param AssocRow|null $row
+     * @return AssocRow|null
+     */
+    public static function normalizeWithOptions(?array $row, NormalizerOptions $options): ?array
+    {
+        return self::fromOptions($options)->normalizeRow($row);
+    }
+
+    /**
      * @param AssocRowList $rows
      * @return AssocRowList
      */
@@ -79,9 +88,27 @@ final class ResultNormalizer
         return (new self($keepMongoId, $recursive, $strictIdTypes))->normalizeRows($rows);
     }
 
+    /**
+     * @param AssocRowList $rows
+     * @return AssocRowList
+     */
+    public static function normalizeAllWithOptions(array $rows, NormalizerOptions $options): array
+    {
+        return self::fromOptions($options)->normalizeRows($rows);
+    }
+
     // ───────────────────────────────────────────────
     //  INSTANCE API
     // ───────────────────────────────────────────────
+
+    public static function fromOptions(NormalizerOptions $options): self
+    {
+        return new self(
+            $options->shouldKeepMongoId(),
+            $options->isRecursive(),
+            $options->isStrictIdTypes()
+        );
+    }
 
     /**
      * @param AssocRow|null $row
