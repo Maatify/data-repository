@@ -587,7 +587,7 @@
       "id": "phase29",
       "title": "Developer Experience (DX) and Documentation",
       "version": "1.1.3",
-      "status": "pending",
+      "status": "completed",
       "summary": "Improve full documentation, add examples, and refine developer onboarding.",
       "tasks": [
         "Generate README.full.md",
@@ -617,6 +617,408 @@
         "README.phase30.md"
       ],
       "tests": []
+    },
+    {
+      "id": "phase31",
+      "title": "Repository Stability Pass",
+      "version": "1.1.0",
+      "status": "planned",
+      "summary": "Full stability sweep: naming consistency, error messages, repo options hardening, validation.",
+      "tasks": [
+        "Unify error messages across all repositories",
+        "Normalize naming conventions for all public methods",
+        "RepositoryOptions validation and enforcement",
+        "Internal refactor for stable method signatures"
+      ],
+      "outputs": [
+        "README.phase31.md",
+        "src/Generic/Internal/StabilityPatch.php"
+      ],
+      "tests": [
+        "tests/Stability/*"
+      ]
+    },
+    {
+      "id": "phase32",
+      "title": "Adapter Contract Hardening",
+      "version": "1.1.1",
+      "status": "planned",
+      "summary": "Formalize adapter contracts and unify behavior across MySQL, Mongo, Redis.",
+      "tasks": [
+        "Define AdapterCapabilities object",
+        "Standardize return shapes",
+        "Ensure consistent exceptions",
+        "Document required behaviors in adapter contracts"
+      ],
+      "outputs": [
+        "src/Adapters/AdapterCapabilities.php",
+        "README.phase32.md"
+      ],
+      "tests": [
+        "tests/Adapters/Contract/*"
+      ]
+    },
+    {
+      "id": "phase33",
+      "title": "Query Abstraction Layer (Query Objects v2)",
+      "version": "1.2.0",
+      "status": "planned",
+      "summary": "Introduce QueryObject, QueryFilter, QueryOrder, QueryPagination to replace loose arrays.",
+      "tasks": [
+        "Add QueryObject class",
+        "Add QueryFilter class",
+        "Add QueryOrder class",
+        "Add QueryPagination class",
+        "Integrate QueryObject into Generic Repositories"
+      ],
+      "outputs": [
+        "src/Query/QueryObject.php",
+        "src/Query/QueryFilter.php",
+        "src/Query/QueryOrder.php",
+        "src/Query/QueryPagination.php",
+        "README.phase33.md"
+      ],
+      "tests": [
+        "tests/Query/*"
+      ]
+    },
+    {
+      "id": "phase34",
+      "title": "Repository Events System",
+      "version": "1.2.1",
+      "status": "planned",
+      "summary": "Add before/after hooks for find, insert, update, delete, paginate.",
+      "tasks": [
+        "Define RepositoryEvent interface",
+        "Implement beforeFind, afterFind",
+        "Implement beforeInsert, afterInsert",
+        "Implement event dispatcher trait",
+        "Add RepositoryEventContext object"
+      ],
+      "outputs": [
+        "src/Events/RepositoryEvent.php",
+        "src/Events/RepositoryEventContext.php",
+        "src/Events/RepositoryEventDispatcher.php",
+        "README.phase34.md"
+      ],
+      "tests": [
+        "tests/Events/*"
+      ]
+    },
+    {
+      "id": "phase35",
+      "title": "Repository Profiling Layer",
+      "version": "1.2.2",
+      "status": "planned",
+      "summary": "Add profiling for query time, operation counts, adapter timings.",
+      "tasks": [
+        "Add QueryProfiler",
+        "Add AdapterProfiler",
+        "Add ProfilingEntry",
+        "Expose profiling hooks"
+      ],
+      "outputs": [
+        "src/Profiling/*",
+        "README.phase35.md"
+      ],
+      "tests": [
+        "tests/Profiling/*"
+      ]
+    },
+    {
+      "id": "phase36",
+      "title": "In-Memory Repository Cache Layer",
+      "version": "1.2.3",
+      "status": "planned",
+      "summary": "Add runtime-only cache for read-heavy repositories with TTL support.",
+      "tasks": [
+        "Implement CacheStore",
+        "Add repository-level cache strategies",
+        "Add invalidation rules",
+        "Integrate into Generic repositories"
+      ],
+      "outputs": [
+        "src/Cache/CacheStore.php",
+        "src/Cache/RepositoryCacheTrait.php",
+        "README.phase36.md"
+      ],
+      "tests": [
+        "tests/Cache/*"
+      ]
+    },
+    {
+      "id": "phase37",
+      "title": "Schema Definition & Field Rules",
+      "version": "1.3.0",
+      "status": "planned",
+      "summary": "Define schemas with field types, nullability, default values, validation rules.",
+      "tasks": [
+        "Add FieldDefinition",
+        "Add SchemaDefinition",
+        "Add SchemaValidator",
+        "Integrate into Generic Repositories"
+      ],
+      "outputs": [
+        "src/Schema/*",
+        "README.phase37.md"
+      ],
+      "tests": [
+        "tests/Schema/*"
+      ]
+    },
+    {
+      "id": "phase38",
+      "title": "Advanced Normalizers v2",
+      "version": "1.3.1",
+      "status": "planned",
+      "summary": "Rewrite normalization layer for collections, errors, mixed types, and performance.",
+      "tasks": [
+        "CollectionNormalizer",
+        "ErrorNormalizer",
+        "ValueNormalizer",
+        "NormalizedResult v2"
+      ],
+      "outputs": [
+        "src/Normalizers/v2/*",
+        "README.phase38.md"
+      ],
+      "tests": [
+        "tests/Normalizers/v2/*"
+      ]
+    },
+    {
+      "id": "phase39",
+      "title": "Cursor-Based Pagination",
+      "version": "1.4.0",
+      "status": "planned",
+      "summary": "Add cursor pagination with forward/backward traversal.",
+      "tasks": [
+        "CursorPaginationDTO",
+        "CursorPaginator",
+        "Keyset strategy for MySQL/Mongo"
+      ],
+      "outputs": [
+        "src/Pagination/Cursor/*",
+        "README.phase39.md"
+      ],
+      "tests": [
+        "tests/Pagination/Cursor/*"
+      ]
+    },
+    {
+      "id": "phase40",
+      "title": "Repository Migration Framework",
+      "version": "1.4.1",
+      "status": "planned",
+      "summary": "High-level migration tools to move between repositories and adapters.",
+      "tasks": [
+        "MigrationPlan",
+        "MigrationRunner",
+        "MigrationProgress",
+        "AdapterDiffInspector"
+      ],
+      "outputs": [
+        "src/Migration/*",
+        "README.phase40.md"
+      ],
+      "tests": [
+        "tests/Migration/*"
+      ]
+    },
+    {
+      "id": "phase41",
+      "title": "Soft Deletes Layer",
+      "version": "1.4.2",
+      "status": "planned",
+      "summary": "Add soft delete support via deleted_at convention.",
+      "tasks": [
+        "SoftDeleteTrait",
+        "RepositorySoftDeleteMixin",
+        "Ensure filters respect soft-delete logic"
+      ],
+      "outputs": [
+        "src/SoftDelete/*",
+        "README.phase41.md"
+      ],
+      "tests": [
+        "tests/SoftDelete/*"
+      ]
+    },
+    {
+      "id": "phase42",
+      "title": "Repository Consistency Checker",
+      "version": "1.5.0",
+      "status": "planned",
+      "summary": "Add consistency checker for adapters, schemas, and normalization.",
+      "tasks": [
+        "ConsistencyReport",
+        "ConsistencyChecker",
+        "CI Helper: repo:check-consistency"
+      ],
+      "outputs": [
+        "src/Tools/ConsistencyChecker.php",
+        "README.phase42.md"
+      ],
+      "tests": [
+        "tests/Consistency/*"
+      ]
+    },
+    {
+      "id": "phase43",
+      "title": "Repository Error Codes System",
+      "version": "1.5.1",
+      "status": "planned",
+      "summary": "Standardize all errors with specific codes and multilingual documentation.",
+      "tasks": [
+        "Create ErrorCodeMap",
+        "Create RepositoryErrorCode enum",
+        "Document mapping in README"
+      ],
+      "outputs": [
+        "src/Errors/*",
+        "README.phase43.md"
+      ],
+      "tests": [
+        "tests/Errors/*"
+      ]
+    },
+    {
+      "id": "phase44",
+      "title": "Projection Layer",
+      "version": "1.6.0",
+      "status": "planned",
+      "summary": "Add field projection support (select name, email, ...).",
+      "tasks": [
+        "Add ProjectionQuery",
+        "Add ProjectionBuilder",
+        "Integrate projections into adapters"
+      ],
+      "outputs": [
+        "src/Projection/*",
+        "README.phase44.md"
+      ],
+      "tests": [
+        "tests/Projection/*"
+      ]
+    },
+    {
+      "id": "phase45",
+      "title": "Aggregation Layer (Unified API)",
+      "version": "1.6.1",
+      "status": "planned",
+      "summary": "Add adapter-agnostic aggregation (SUM, AVG, MIN, MAX, COUNT).",
+      "tasks": [
+        "AggregationQuery",
+        "AggregationResult",
+        "MySQLAggregationAdapter",
+        "MongoAggregationAdapter"
+      ],
+      "outputs": [
+        "src/Aggregation/*",
+        "README.phase45.md"
+      ],
+      "tests": [
+        "tests/Aggregation/*"
+      ]
+    },
+    {
+      "id": "phase46",
+      "title": "Repository Streaming API",
+      "version": "1.7.0",
+      "status": "planned",
+      "summary": "Stream large result sets with memory efficiency.",
+      "tasks": [
+        "StreamResult",
+        "StreamCursor",
+        "Repository::streamFind()"
+      ],
+      "outputs": [
+        "src/Streaming/*",
+        "README.phase46.md"
+      ],
+      "tests": [
+        "tests/Streaming/*"
+      ]
+    },
+    {
+      "id": "phase47",
+      "title": "Metadata & Reflection API",
+      "version": "1.7.1",
+      "status": "planned",
+      "summary": "Expose repository metadata and schema introspection.",
+      "tasks": [
+        "RepositoryMetadataProvider",
+        "getSchema()",
+        "listFields()",
+        "getAdapterCapabilities()"
+      ],
+      "outputs": [
+        "src/Metadata/*",
+        "README.phase47.md"
+      ],
+      "tests": [
+        "tests/Metadata/*"
+      ]
+    },
+    {
+      "id": "phase48",
+      "title": "Performance Optimization Pass",
+      "version": "1.8.0",
+      "status": "planned",
+      "summary": "Improve normalization, hydration, ordering, pagination performance.",
+      "tasks": [
+        "Micro-optimizations",
+        "Reduce allocations",
+        "Improve loop efficiency",
+        "Benchmark tooling"
+      ],
+      "outputs": [
+        "src/Performance/*",
+        "README.phase48.md"
+      ],
+      "tests": [
+        "tests/Performance/*"
+      ]
+    },
+    {
+      "id": "phase49",
+      "title": "Async-Like Deferred Query API",
+      "version": "1.9.0",
+      "status": "planned",
+      "summary": "Support deferred execution (Future/Promise style) without true async.",
+      "tasks": [
+        "DeferredQuery",
+        "DeferredResult",
+        "Repository::deferFind()"
+      ],
+      "outputs": [
+        "src/Deferred/*",
+        "README.phase49.md"
+      ],
+      "tests": [
+        "tests/Deferred/*"
+      ]
+    },
+    {
+      "id": "phase50",
+      "title": "Plugin System (Repository Extensions)",
+      "version": "2.0.0",
+      "status": "planned",
+      "summary": "Allow user-defined filters, orders, normalizers, hooks, and query extensions.",
+      "tasks": [
+        "PluginInterface",
+        "PluginRegistry",
+        "Repository::registerPlugin()",
+        "PluginContext"
+      ],
+      "outputs": [
+        "src/Plugins/*",
+        "README.phase50.md"
+      ],
+      "tests": [
+        "tests/Plugins/*"
+      ]
     }
   ]
 }
+
