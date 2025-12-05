@@ -19,18 +19,19 @@ Perfect for production AND deterministic testing.
 ---
 
 ## 📘 Table of Contents
-- Features
-- Installation
-- Usage
-- Wiring with Adapters
-- Testing
-- Architecture
-- Roadmap
-- Phase Documentation
-- Quick Start
-- Testing Philosophy
-- License
-- Author
+- [Features](#-features)
+- [Installation](#-installation)
+- [Onboarding Guide](ONBOARDING.md)
+- [Usage](#-usage)
+- [Wiring with Adapters](#-wiring-with-adapters)
+- [Testing](#-testing)
+- [Architecture](#-architecture-overview)
+- [Roadmap & Status](#-roadmap--phase-status)
+- [Phase Documentation](#-development-phases--documentation-links)
+- [Quick Start](#-modern-quick-start-phase-3)
+- [Testing Philosophy](#-testing-philosophy)
+- [License](#-license)
+- [Author](#-author)
 
 ---
 
@@ -160,7 +161,7 @@ $user = $repo->findObject(1);
 
 ---
 
-### 2. Wiring with Adapters
+## 2. Wiring with Adapters
 
 ```php
 use Maatify\DataAdapters\Core\EnvironmentConfig;
@@ -262,8 +263,13 @@ src/
 │       ├── MySQLFilterBuilder.php # Phase 23 — SQL Builder
 │       ├── MongoFilterBuilder.php # Phase 23 — Mongo Builder
 │       ├── OrderUtils.php   # Phase 5 — Ordering & Sorting
+│       ├── OrderParser.php  # Phase 24 — Order Parsing
+│       ├── MySQLOrderBuilder.php # Phase 25 — SQL Order Builder
+│       ├── MongoOrderBuilder.php # Phase 25 — Mongo Order Builder
 │       ├── LimitOffsetValidator.php # Phase 6 — Limits & Offsets
+│       ├── LimitOffsetConfig.php # Phase 27 — Limit Config
 │       ├── ResultNormalizer.php # Phase 7 — Result Normalization
+│       ├── NormalizerOptions.php # Phase 27 — Normalizer Options
 │       ├── MysqlOps.php
 │       ├── MongoOps.php
 │       └── RedisOps.php
@@ -271,7 +277,10 @@ src/
 ├── Hydration/        # Phase 11 — DTO Mapping & Object Hydration
 │   ├── HydratorInterface.php
 │   ├── HydrationContext.php
-│   └── BaseHydrator.php # Phase 12
+│   ├── BaseHydrator.php # Phase 12
+│   ├── AutoCaster.php   # Phase 13
+│   ├── MappingProfile.php # Phase 14
+│   └── TransformerInterface.php
 │
 └── Pagination/       # Phase 15 — Pagination DTOs
     ├── PaginationEntry.php
@@ -317,6 +326,7 @@ src/
 | 26    | Public API Tightening                     | ✅ Completed | Audit & Strict API Surface         |
 | 27    | NormalizerOptions + LimitOffsetConfig     | ✅ Completed | Runtime Configuration              |
 | 28    | PHPStan Generics Templates                | ✅ Completed | Static Analysis & Strong Types     |
+| 29    | DX & Documentation                        | ✅ Completed | Examples, Onboarding, Full Docs    |
 
 ---
 
@@ -405,6 +415,9 @@ src/
 
 - **Phase 28 — PHPStan Generics Templates**
   [`phases/README.phase28.md`](phases/README.phase28.md)
+
+- **Phase 29 — DX & Documentation**
+  [`phases/README.phase29.md`](phases/README.phase29.md)
 
 ---
 
