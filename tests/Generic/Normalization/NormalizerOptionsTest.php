@@ -67,6 +67,7 @@ class NormalizerOptionsTest extends TestCase
         // ResultNormalizer::normalizeWithOptions
         $normalized = ResultNormalizer::normalizeWithOptions($row, $options);
 
+        $this->assertNotNull($normalized);
         $this->assertArrayHasKey('_id', $normalized); // Kept because of keepMongoId(true)
         $this->assertArrayHasKey('id', $normalized);
         $this->assertEquals(123, $normalized['id']);
