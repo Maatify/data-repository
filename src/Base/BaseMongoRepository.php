@@ -19,6 +19,10 @@ use Maatify\DataRepository\Exceptions\RepositoryException;
 use MongoDB\Client;
 use MongoDB\Database;
 
+/**
+ * @template T of object
+ * @extends BaseRepository<T>
+ */
 abstract class BaseMongoRepository extends BaseRepository
 {
     protected string $databaseName = '';

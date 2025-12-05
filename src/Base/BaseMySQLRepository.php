@@ -22,6 +22,9 @@ use PDO;
 /**
  * Base Repository for MySQL interactions.
  * Supports both PDO and Doctrine DBAL drivers via normalization.
+ *
+ * @template T of object
+ * @extends BaseRepository<T>
  */
 abstract class BaseMySQLRepository extends BaseRepository
 {

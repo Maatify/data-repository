@@ -22,6 +22,7 @@ use PHPUnit\Framework\TestCase;
 
 class PaginationFakeTest extends TestCase
 {
+    /** @var GenericMySQLRepository<object> */
     private GenericMySQLRepository $repository;
 
     protected function setUp(): void

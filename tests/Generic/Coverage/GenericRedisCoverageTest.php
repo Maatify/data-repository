@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 class GenericRedisCoverageTest extends TestCase
 {
-    /** @var GenericRedisRepository&MockObject */
+    /** @var GenericRedisRepository<object>&MockObject */
     private GenericRedisRepository $repository;
 
     /** @var AdapterInterface&MockObject */
@@ -34,7 +34,7 @@ class GenericRedisCoverageTest extends TestCase
         $this->adapter = $this->createMock(AdapterInterface::class);
 
         // We use a partial mock but don't mock findBy/findOneBy to test their new logic
-        /** @var GenericRedisRepository&MockObject $repo */
+        /** @var GenericRedisRepository<object>&MockObject $repo */
         $repo = $this->getMockBuilder(GenericRedisRepository::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getRedisOps'])

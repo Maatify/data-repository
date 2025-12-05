@@ -568,7 +568,7 @@
       "id": "phase28",
       "title": "PHPStan Generics Templates",
       "version": "1.1.2",
-      "status": "pending",
+      "status": "completed",
       "summary": "Add template support to hydrators, pagination collections, and repository classes for improved static analysis.",
       "tasks": [
         "Add @template to HydratorInterface",

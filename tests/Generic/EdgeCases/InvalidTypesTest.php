@@ -29,6 +29,7 @@ class InvalidTypesTest extends TestCase
      * @var PDO&MockObject
      */
     private $pdo;
+    /** @var GenericMySQLRepository<object> */
     private GenericMySQLRepository $repository;
 
     protected function setUp(): void

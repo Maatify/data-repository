@@ -27,7 +27,7 @@ use ReflectionException;
 class GenericMongoRepositoryBuildIdFilterTest extends TestCase
 {
     /**
-     * @var GenericMongoRepository&object
+     * @var GenericMongoRepository<object>&object
      */
     private GenericMongoRepository $repo;
 

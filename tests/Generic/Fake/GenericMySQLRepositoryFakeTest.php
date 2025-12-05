@@ -23,8 +23,8 @@ use InvalidArgumentException;
 class GenericMySQLRepositoryFakeTest extends TestCase
 {
     /**
-     * @var GenericMySQLRepository&object
-     * @phpstan-var GenericMySQLRepository&object
+     * @var GenericMySQLRepository<object>&object
+     * @phpstan-var GenericMySQLRepository<object>&object
      */
     private GenericMySQLRepository $repo;
 

@@ -27,41 +27,49 @@ class TestPerson
     public bool $processed = false;
 }
 
+/**
+ * @extends BaseHydrator<TestPerson>
+ */
+class TestHydrator extends BaseHydrator
+{
+    protected function createInstance(): object
+    {
+        return new TestPerson();
+    }
+
+    protected function onPrepare(array $data): array
+    {
+        if (isset($data['name']) && is_string($data['name'])) {
+            $data['name'] = trim($data['name']);
+        }
+        return $data;
+    }
+
+    protected function onCast(array $data): array
+    {
+        if (isset($data['age']) && is_numeric($data['age'])) {
+            $data['age'] = (int)$data['age'];
+        }
+        return $data;
+    }
+
+    protected function onComplete(object $instance): void
+    {
+        // @phpstan-ignore-next-line
+        if ($instance instanceof TestPerson) {
+            $instance->processed = true;
+        }
+    }
+}
+
 class BaseHydratorTest extends TestCase
 {
+    /** @var TestHydrator */
     private BaseHydrator $hydrator;
 
     protected function setUp(): void
     {
-        $this->hydrator = new class () extends BaseHydrator {
-            protected function createInstance(): object
-            {
-                return new TestPerson();
-            }
-
-            protected function onPrepare(array $data): array
-            {
-                if (isset($data['name']) && is_string($data['name'])) {
-                    $data['name'] = trim($data['name']);
-                }
-                return $data;
-            }
-
-            protected function onCast(array $data): array
-            {
-                if (isset($data['age']) && is_numeric($data['age'])) {
-                    $data['age'] = (int)$data['age'];
-                }
-                return $data;
-            }
-
-            protected function onComplete(object $instance): void
-            {
-                if ($instance instanceof TestPerson) {
-                    $instance->processed = true;
-                }
-            }
-        };
+        $this->hydrator = new TestHydrator();
     }
 
     public function testHydrateSimpleFlow(): void

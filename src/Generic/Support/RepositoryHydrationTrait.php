@@ -17,13 +17,17 @@ namespace Maatify\DataRepository\Generic\Support;
 
 use Maatify\Common\Pagination\DTO\PaginationResultDTO;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Hydration\HydratorInterface;
 use Maatify\DataRepository\Pagination\HydratedPaginationCollection;
 
+/**
+ * @template T of object
+ */
 trait RepositoryHydrationTrait
 {
     /**
      * @param int|string $id
-     * @return object|null
+     * @return T|null
      * @throws RepositoryException
      */
     public function findObject(int|string $id): ?object
@@ -34,17 +38,18 @@ trait RepositoryHydrationTrait
         }
 
         if ($this->hydrator) {
+            /** @var array<string, mixed> $data */
             return $this->hydrator->hydrate($data);
         }
 
-        // If no hydrator is set, we can either throw exception or return (object)$data.
-        // Returning object cast is safer than crashing, but strictly we should probably require a hydrator.
-        return (object)$data;
+        /** @var T $obj */
+        $obj = (object)$data; // @phpstan-ignore-line fallback to stdClass if no hydrator
+        return $obj;
     }
 
     /**
      * @param array<string, mixed> $filters
-     * @return array<object>
+     * @return array<T>
      * @throws RepositoryException
      */
     public function findObjectsBy(array $filters): array
@@ -52,17 +57,22 @@ trait RepositoryHydrationTrait
         $data = $this->findBy($filters);
 
         if ($this->hydrator) {
+            /** @var array<int, array<string, mixed>> $data */
             return $this->hydrator->hydrateAll($data);
         }
 
-        return array_map(fn ($row) => (object)$row, $data);
+        return array_map(function ($row) {
+            /** @var T $obj */
+            $obj = (object)$row; // @phpstan-ignore-line fallback
+            return $obj;
+        }, $data);
     }
 
     /**
      * @param int $page
      * @param int $perPage
      * @param array<string, string>|null $orderBy
-     * @return HydratedPaginationCollection
+     * @return HydratedPaginationCollection<T>
      * @throws RepositoryException
      */
     public function paginateObjects(int $page = 1, int $perPage = 10, ?array $orderBy = null): HydratedPaginationCollection
@@ -75,7 +85,7 @@ trait RepositoryHydrationTrait
      * @param int $page
      * @param int $perPage
      * @param array<string, string>|null $orderBy
-     * @return HydratedPaginationCollection
+     * @return HydratedPaginationCollection<T>
      * @throws RepositoryException
      */
     public function paginateObjectsBy(array $filters, int $page = 1, int $perPage = 10, ?array $orderBy = null): HydratedPaginationCollection
@@ -87,7 +97,15 @@ trait RepositoryHydrationTrait
         /** @var array<int, array<string, mixed>> $rows */
         $rows = $result->data;
 
-        $objects = $this->hydrator ? $this->hydrator->hydrateAll($rows) : array_map(fn ($item) => (object)$item, $rows);
+        if ($this->hydrator) {
+            $objects = $this->hydrator->hydrateAll($rows);
+        } else {
+            $objects = array_map(function ($item) {
+                /** @var T $obj */
+                $obj = (object)$item; // @phpstan-ignore-line fallback
+                return $obj;
+            }, $rows);
+        }
 
         return new HydratedPaginationCollection($objects, $result->pagination);
     }

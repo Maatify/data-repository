@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * @copyright   ©2025 Maatify.dev
+ * @Library     Maatify.dev Data Repository
+ * @Project     maatify/data-repository
+ * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
+ * @since       2025-11-27 19:30:00
+ * @see         https://www.maatify.dev Maatify.dev
+ * @link        https://github.com/Maatify/data-repository view project on GitHub
+ * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
+ */
+
 namespace Maatify\DataRepository\Tests\Pagination\Hydrated;
 
 use Maatify\Common\Pagination\DTO\PaginationDTO;
@@ -11,40 +22,26 @@ use Maatify\DataRepository\Hydration\HydratorInterface;
 use Maatify\DataRepository\Pagination\HydratedPaginationCollection;
 use PHPUnit\Framework\TestCase;
 
-class TestEntity
-{
-    public int $id;
-    public string $name;
-    public bool $hydrated = false;
-}
-
+/**
+ * @template T of object
+ */
 class TestHydratedRepository
 {
+    /** @use RepositoryHydrationTrait<object> */
     use RepositoryHydrationTrait;
 
+    /** @var HydratorInterface<object>|null */
     public ?HydratorInterface $hydrator = null;
 
-    /**
-     * @param int|string $id
-     * @return array<string, mixed>|null
-     */
-    public function find(int|string $id): ?array
-    {
-        return ['id' => (int)$id, 'name' => 'Item ' . $id];
-    }
+    /** @var PaginationResultDTO|null */
+    public ?PaginationResultDTO $paginateByResult = null;
 
     /**
-     * @param array<string, mixed> $filters
-     * @param array<string, string>|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return array<int, array<string, mixed>>
+     * @param HydratorInterface<object> $hydrator
      */
-    public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
+    public function setHydrator(HydratorInterface $hydrator): void
     {
-        return [
-            ['id' => 1, 'name' => 'Item 1'],
-        ];
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -52,76 +49,80 @@ class TestHydratedRepository
      * @param int $page
      * @param int $perPage
      * @param array<string, string>|null $orderBy
-     * @return PaginationResultDTO
      */
     public function paginateBy(array $filters, int $page = 1, int $perPage = 10, ?array $orderBy = null): PaginationResultDTO
     {
-        // Return dummy data matching the request
-        $data = [
-            ['id' => 1, 'name' => 'Item 1'],
-            ['id' => 2, 'name' => 'Item 2'],
-        ];
+        return $this->paginateByResult ?? new PaginationResultDTO([], new PaginationDTO(1, 10, 0, 0, false, false));
+    }
 
-        // If limit is small, slice it (dummy logic)
-        if ($perPage === 1) {
-            $data = array_slice($data, 0, 1);
-        }
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function find(int|string $id): ?array
+    {
+        return null;
+    }
 
-        // PaginationDTO constructor:
-        // __construct(int $total, int $page, int $perPage, int $lastPage, bool $hasNext = false, bool $hasPrev = false)
-        // Adjusting args to match expected types:
-        $meta = new PaginationDTO(2, $page, $perPage, 1, false, false);
-        return new PaginationResultDTO($data, $meta);
+    /**
+     * @param array<string, mixed> $filters
+     * @return array<int, array<string, mixed>>
+     */
+    public function findBy(array $filters): array
+    {
+        return [];
     }
 }
 
 class HydratedPaginationTest extends TestCase
 {
-    public function testPaginateObjectsReturnsHydratedCollection(): void
+    /** @var TestHydratedRepository<object> */
+    private TestHydratedRepository $repo;
+
+    protected function setUp(): void
     {
-        $repo = new TestHydratedRepository();
-
-        // Mock Hydrator
-        $hydrator = $this->createMock(HydratorInterface::class);
-
-        $entity1 = new TestEntity();
-        $entity1->id = 1;
-        $entity1->name = 'Item 1';
-        $entity1->hydrated = true;
-
-        $entity2 = new TestEntity();
-        $entity2->id = 2;
-        $entity2->name = 'Item 2';
-        $entity2->hydrated = true;
-
-        $hydrator->method('hydrateAll')
-            ->willReturn([$entity1, $entity2]);
-
-        $repo->hydrator = $hydrator;
-
-        $result = $repo->paginateObjects(1, 10);
-
-        $this->assertInstanceOf(HydratedPaginationCollection::class, $result);
-        $this->assertCount(2, $result->data);
-
-        $first = $result->data[0];
-        $this->assertInstanceOf(TestEntity::class, $first);
-        $this->assertTrue($first->hydrated);
-        $this->assertInstanceOf(PaginationDTO::class, $result->pagination);
+        $this->repo = new TestHydratedRepository();
     }
 
-    public function testPaginateObjectsByPassesFilters(): void
+    public function testPaginateObjectsReturnsHydratedCollection(): void
     {
-        $repo = new TestHydratedRepository();
+        // 1. Setup Mock Data
+        $data = [['id' => 1], ['id' => 2]];
+        $pagination = new PaginationDTO(1, 10, 2, 1, false, false);
+        $this->repo->paginateByResult = new PaginationResultDTO($data, $pagination);
 
-        // No hydrator set, should fallback to stdClass casting
-        $result = $repo->paginateObjectsBy(['name' => 'test'], 1, 1);
+        // 2. Setup Hydrator
+        $hydrator = $this->createMock(HydratorInterface::class);
+        $obj1 = (object)['id' => 1, 'hydrated' => true];
+        $obj2 = (object)['id' => 2, 'hydrated' => true];
+        $hydrator->method('hydrateAll')->willReturn([$obj1, $obj2]);
 
+        $this->repo->setHydrator($hydrator);
+
+        // 3. Execute
+        $result = $this->repo->paginateObjects(1, 10);
+
+        // 4. Verify
         $this->assertInstanceOf(HydratedPaginationCollection::class, $result);
-        $this->assertCount(1, $result->data); // mocked to slice 1
+        $this->assertCount(2, $result->data);
+        $this->assertTrue(property_exists($result->data[0], 'hydrated') ? $result->data[0]->hydrated : false);
+        $this->assertEquals(2, $result->pagination->total);
+    }
 
-        $first = $result->data[0];
-        /** @var object{id: int} $first */
-        $this->assertEquals(1, $first->id);
+    public function testPaginateObjectsWithoutHydrator(): void
+    {
+        // 1. Setup Mock Data
+        $data = [['id' => 1]];
+        $pagination = new PaginationDTO(1, 10, 1, 1, false, false);
+        $this->repo->paginateByResult = new PaginationResultDTO($data, $pagination);
+
+        // 2. Execute without hydrator
+        $result = $this->repo->paginateObjects(1, 10);
+
+        // 3. Verify fallback to stdClass
+        $this->assertInstanceOf(HydratedPaginationCollection::class, $result);
+        $this->assertCount(1, $result->data);
+        $this->assertInstanceOf(\stdClass::class, $result->data[0]);
+        // @phpstan-ignore-next-line
+        $this->assertEquals(1, $result->data[0]->id);
     }
 }

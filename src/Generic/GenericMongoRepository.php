@@ -27,8 +27,13 @@ use Maatify\Common\Pagination\Helpers\PaginationHelper;
 use MongoDB\Collection;
 use MongoDB\BSON\ObjectId;
 
+/**
+ * @template T of object
+ * @extends BaseMongoRepository<T>
+ */
 abstract class GenericMongoRepository extends BaseMongoRepository
 {
+    /** @use RepositoryHydrationTrait<T> */
     use RepositoryHydrationTrait;
 
     protected string $collectionName = '';

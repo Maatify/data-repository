@@ -28,8 +28,8 @@ use PHPUnit\Framework\TestCase;
 class GenericMongoRepositoryFakeTest extends TestCase
 {
     /**
-     * @var GenericMongoRepository&object
-     * @phpstan-var GenericMongoRepository&object
+     * @var GenericMongoRepository<object>&object
+     * @phpstan-var GenericMongoRepository<object>&object
      */
     private GenericMongoRepository $repo;
     /** @var MockObject&Collection */

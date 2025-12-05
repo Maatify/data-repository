@@ -137,6 +137,10 @@ class BaseMongoRepositoryTest extends TestCase
 
 }
 
+/**
+ * @template T of object
+ * @extends BaseMongoRepository<T>
+ */
 class MongoRepositoryStub extends BaseMongoRepository
 {
     protected string $databaseName = 'testing';
@@ -215,11 +219,14 @@ class MongoRepositoryStub extends BaseMongoRepository
 class FakeMongoAdapter implements AdapterInterface
 {
     public function __construct(
-        private MongoDatabase $db,
-        private MongoClient $client,
+        private ?MongoDatabase $db = null,
+        private ?MongoClient $client = null,
     ) {
     }
 
+    /**
+     * @return \MongoDB\Database|\MongoDB\Client|object|null
+     */
     public function getDriver(): mixed
     {
         return $this->db;
@@ -227,7 +234,7 @@ class FakeMongoAdapter implements AdapterInterface
 
     public function getConnection(): MongoClient
     {
-        return $this->client;
+        return $this->client ?? new MongoClient();
     }
 
     public function getType(): string

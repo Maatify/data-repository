@@ -18,6 +18,10 @@ namespace Maatify\DataRepository\Tests\Helpers;
 use Maatify\DataRepository\Generic\GenericRedisRepository;
 use Maatify\DataRepository\Generic\Support\RedisOps;
 
+/**
+ * @template T of object
+ * @extends GenericRedisRepository<T>
+ */
 class RedisRepositoryStub extends GenericRedisRepository
 {
     protected string $keyPrefix = 'test:';

@@ -24,8 +24,13 @@ use Maatify\Common\Pagination\Helpers\PaginationHelper;
 use Predis\Client as PredisClient;
 use Redis;
 
+/**
+ * @template T of object
+ * @extends BaseRedisRepository<T>
+ */
 abstract class GenericRedisRepository extends BaseRedisRepository
 {
+    /** @use RepositoryHydrationTrait<T> */
     use RepositoryHydrationTrait;
 
     protected string $keyPrefix = '';

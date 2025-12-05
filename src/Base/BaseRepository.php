@@ -22,11 +22,18 @@ use Maatify\DataRepository\Hydration\HydratorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
+/**
+ * @template T of object
+ */
 abstract class BaseRepository implements RepositoryInterface
 {
     protected AdapterInterface $adapter;
     protected LoggerInterface $logger;
     protected string $tableName = '';
+
+    /**
+     * @var HydratorInterface<T>|null
+     */
     protected ?HydratorInterface $hydrator = null;
 
     public function __construct(AdapterInterface $adapter, ?LoggerInterface $logger = null)
@@ -77,12 +84,19 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->adapter->getDriver();
     }
 
+    /**
+     * @param HydratorInterface<T> $hydrator
+     * @return static
+     */
     public function setHydrator(HydratorInterface $hydrator): static
     {
         $this->hydrator = $hydrator;
         return $this;
     }
 
+    /**
+     * @return HydratorInterface<T>|null
+     */
     public function getHydrator(): ?HydratorInterface
     {
         return $this->hydrator;

@@ -21,6 +21,7 @@ use PHPUnit\Framework\TestCase;
 
 class RedisFilteringTest extends TestCase
 {
+    /** @var GenericRedisRepository<object> */
     private GenericRedisRepository $repo;
     private object $fakeRedis;
 

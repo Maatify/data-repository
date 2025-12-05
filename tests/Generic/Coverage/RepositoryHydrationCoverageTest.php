@@ -22,10 +22,15 @@ use Maatify\DataRepository\Hydration\HydratorInterface;
 use Maatify\DataRepository\Pagination\HydratedPaginationCollection;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @template T of object
+ */
 class TestHydrationRepo
 {
+    /** @use RepositoryHydrationTrait<object> */
     use RepositoryHydrationTrait;
 
+    /** @var HydratorInterface<object>|null */
     public ?HydratorInterface $hydrator = null;
 
     /** @var array<string, mixed>|null */
@@ -36,6 +41,9 @@ class TestHydrationRepo
 
     public ?PaginationResultDTO $paginateByResult = null;
 
+    /**
+     * @param HydratorInterface<object> $hydrator
+     */
     public function setHydrator(HydratorInterface $hydrator): void
     {
         $this->hydrator = $hydrator;
@@ -81,6 +89,7 @@ class TestObject
 
 class RepositoryHydrationCoverageTest extends TestCase
 {
+    /** @var TestHydrationRepo<object> */
     private TestHydrationRepo $repo;
 
     protected function setUp(): void

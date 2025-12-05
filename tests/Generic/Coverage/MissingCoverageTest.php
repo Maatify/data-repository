@@ -22,6 +22,7 @@ use PHPUnit\Framework\TestCase;
 
 class MissingCoverageTest extends TestCase
 {
+    /** @var GenericRedisRepository<object> */
     private GenericRedisRepository $repo;
 
     protected function setUp(): void

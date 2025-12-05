@@ -28,6 +28,7 @@ class NullValuesTest extends TestCase
     private $pdo;
     /** @var PDOStatement&MockObject */
     private $stmt;
+    /** @var GenericMySQLRepository<object> */
     private GenericMySQLRepository $repository;
 
     protected function setUp(): void

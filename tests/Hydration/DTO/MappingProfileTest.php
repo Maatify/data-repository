@@ -24,8 +24,8 @@ class MappingProfileTest extends TestCase
     public function testMappingConfiguration(): void
     {
         $profile = new MappingProfile();
-        $profile->addMap('user_id', 'id')
-            ->addMap('user_name', 'name');
+        $profile->forSource('user_id')->mapTo('id')
+            ->forSource('user_name')->mapTo('name');
 
         $this->assertEquals(['user_id' => 'id', 'user_name' => 'name'], $profile->getMapping());
     }
@@ -34,7 +34,7 @@ class MappingProfileTest extends TestCase
     {
         $profile = new MappingProfile();
         $transformer = new JsonTransformer();
-        $profile->addTransformer('meta', $transformer);
+        $profile->forSource('meta')->transformWith($transformer);
 
         $this->assertSame($transformer, $profile->getTransformer('meta'));
         $this->assertNull($profile->getTransformer('unknown'));
@@ -43,8 +43,9 @@ class MappingProfileTest extends TestCase
     public function testDefaultValues(): void
     {
         $profile = new MappingProfile();
-        $profile->addDefault('status', 'active');
+        $profile->forSource('status')->withDefault('active');
 
+        // withDefault keys by destination, which defaults to source if mapTo not called
         $this->assertEquals(['status' => 'active'], $profile->getDefaults());
     }
 }

@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 class GenericMySQLCoverageTest extends TestCase
 {
-    /** @var GenericMySQLRepository&MockObject */
+    /** @var GenericMySQLRepository<object>&MockObject */
     private GenericMySQLRepository $repository;
 
     /** @var AdapterInterface&MockObject */
@@ -33,7 +33,7 @@ class GenericMySQLCoverageTest extends TestCase
     {
         $this->adapter = $this->createMock(AdapterInterface::class);
 
-        /** @var GenericMySQLRepository&MockObject $repo */
+        /** @var GenericMySQLRepository<object>&MockObject $repo */
         $repo = $this->getMockBuilder(GenericMySQLRepository::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getDriver'])

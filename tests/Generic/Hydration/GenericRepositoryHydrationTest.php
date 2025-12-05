@@ -27,6 +27,9 @@ class TestDto
     public string $name;
 }
 
+/**
+ * @extends BaseHydrator<TestDto>
+ */
 class TestHydrator extends BaseHydrator
 {
     protected function createInstance(): object
@@ -35,6 +38,9 @@ class TestHydrator extends BaseHydrator
     }
 }
 
+/**
+ * @extends GenericMySQLRepository<TestDto>
+ */
 class TestRepository extends GenericMySQLRepository
 {
     protected string $tableName = 'test_users';
@@ -85,8 +91,13 @@ class GenericRepositoryHydrationTest extends TestCase
 
     public function testFindObjectWithoutHydratorReturnsStdClass(): void
     {
+        // This test technically violates strict typing of TestRepository<TestDto>
+        // because findObject will return stdClass (via trait fallback) which is NOT TestDto.
+        // However, at runtime it works. Static analysis might complain if we check return type strictly.
+        // The trait suppression handles the fallback return.
         $obj = $this->repo->findObject(1);
 
+        // We assert stdClass because no hydrator is set.
         $this->assertInstanceOf(\stdClass::class, $obj);
         $this->assertEquals(1, $obj->id);
     }

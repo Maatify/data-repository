@@ -97,6 +97,10 @@ class BaseMySQLRepositoryTest extends TestCase
 
 }
 
+/**
+ * @template T of object
+ * @extends BaseMySQLRepository<T>
+ */
 class MySQLRepositoryStub extends BaseMySQLRepository
 {
     protected string $tableName = 'items';

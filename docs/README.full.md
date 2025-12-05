@@ -57,6 +57,7 @@ Perfect for production AND deterministic testing.
     * **Standardized Error Handling** (Phase 8): All repositories throw `RepositoryException`
     * **Hydration Pipeline** (Phase 11+): Contracts, Context, and Base Implementations for transforming results.
     * **Paginated Hydrated Results** (Phase 17): A seamlessly hydrate paginated result sets into object collections.
+    * **Static Analysis & Generics** (Phase 28): Fully typed for PHPStan (Level Max) with `@template T` support.
     * JSON column querying (MySQL)
 * **Zero native driver exposure**
   Everything uses `AdapterInterface`.
@@ -131,6 +132,30 @@ class SessionRepository extends BaseRedisRepository
         return $this->getDriver()->get("session:{$id}");
     }
 }
+```
+
+#### **Generics & Hydration Example (Phase 28)**
+
+```php
+use Maatify\DataRepository\Generic\GenericMySQLRepository;
+use Maatify\DataRepository\Hydration\BaseHydrator;
+
+class UserDto { public int $id; public string $name; }
+
+/** @extends BaseHydrator<UserDto> */
+class UserHydrator extends BaseHydrator { ... }
+
+/** @extends GenericMySQLRepository<UserDto> */
+class UserRepository extends GenericMySQLRepository
+{
+    protected string $tableName = 'users';
+}
+
+$repo = new UserRepository($adapter);
+$repo->setHydrator(new UserHydrator());
+
+// PHPStan knows this is UserDto|null
+$user = $repo->findObject(1);
 ```
 
 ---
@@ -291,6 +316,7 @@ src/
 | 25    | Order Builders (MySQL + Mongo)            | ✅ Completed | Extracted Order Builders           |
 | 26    | Public API Tightening                     | ✅ Completed | Audit & Strict API Surface         |
 | 27    | NormalizerOptions + LimitOffsetConfig     | ✅ Completed | Runtime Configuration              |
+| 28    | PHPStan Generics Templates                | ✅ Completed | Static Analysis & Strong Types     |
 
 ---
 
@@ -376,6 +402,9 @@ src/
 
 - **Phase 27 — NormalizerOptions + LimitOffsetConfig**
   [`phases/README.phase27.md`](phases/README.phase27.md)
+
+- **Phase 28 — PHPStan Generics Templates**
+  [`phases/README.phase28.md`](phases/README.phase28.md)
 
 ---
 

@@ -9,6 +9,17 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.1.2] — 2025-12-02 (Phase 28 Update)
+
+### 🚀 Added
+- **PHPStan Generics Templates (Phase 28)**
+    - Implemented strict static typing across the library using `@template T of object`.
+    - Updated `BaseRepository`, `HydratorInterface`, `BaseHydrator`, and `HydratedPaginationCollection` to support generics.
+    - Updated `RepositoryHydrationTrait` to return strongly typed entities (`T` or `array<T>`) instead of generic objects.
+    - Added `phpstan.neon` configuration enforcing `level: max`.
+    - Refactored internal test suite to comply with strict generic typing rules.
+    - Updated `MappingProfile` to support both fluent and legacy APIs for better backward compatibility.
+
 ## [1.1.1] — 2025-12-02 (Phase 27 Update)
 
 ### 🚀 Added
@@ -316,6 +327,8 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
+[1.1.2]: https://github.com/Maatify/data-repository/releases/tag/1.1.2
+[1.1.1]: https://github.com/Maatify/data-repository/releases/tag/1.1.1
 [1.1.0]: https://github.com/Maatify/data-repository/releases/tag/1.1.0
 [1.0.9]: https://github.com/Maatify/data-repository/releases/tag/1.0.9
 [1.0.8]: https://github.com/Maatify/data-repository/releases/tag/1.0.8

@@ -24,6 +24,7 @@ use Predis\Client;
 class RedisMissingCoverageTest extends TestCase
 {
     private object $redisMock;
+    /** @var GenericRedisRepository<object> */
     private GenericRedisRepository $repo;
 
     protected function setUp(): void

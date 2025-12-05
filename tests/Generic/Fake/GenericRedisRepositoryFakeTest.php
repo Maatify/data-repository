@@ -25,8 +25,8 @@ use Predis\Client as PredisClient;
 class GenericRedisRepositoryFakeTest extends TestCase
 {
     /**
-     * @var GenericRedisRepository&object
-     * @phpstan-var GenericRedisRepository&object
+     * @var GenericRedisRepository<object>&object
+     * @phpstan-var GenericRedisRepository<object>&object
      */
     private GenericRedisRepository $repo;
 

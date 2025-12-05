@@ -17,10 +17,13 @@ namespace Maatify\DataRepository\Pagination;
 
 use Maatify\Common\Pagination\DTO\PaginationDTO;
 
+/**
+ * @template T of object
+ */
 class HydratedPaginationCollection
 {
     /**
-     * @param array<object> $data
+     * @param array<T>      $data
      * @param PaginationDTO $pagination
      */
     public function __construct(
