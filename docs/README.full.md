@@ -290,6 +290,7 @@ src/
 | 24    | OrderParser Extraction                    | ✅ Completed | Decoupled Order Logic              |
 | 25    | Order Builders (MySQL + Mongo)            | ✅ Completed | Extracted Order Builders           |
 | 26    | Public API Tightening                     | ✅ Completed | Audit & Strict API Surface         |
+| 27    | NormalizerOptions + LimitOffsetConfig     | ✅ Completed | Runtime Configuration              |
 
 ---
 
@@ -372,6 +373,9 @@ src/
 
 - **Phase 26 — Public API Tightening**
   [`phases/README.phase26.md`](phases/README.phase26.md)
+
+- **Phase 27 — NormalizerOptions + LimitOffsetConfig**
+  [`phases/README.phase27.md`](phases/README.phase27.md)
 
 ---
 
