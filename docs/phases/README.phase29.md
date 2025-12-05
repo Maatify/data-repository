@@ -1,5 +1,8 @@
 # Phase 29: Developer Experience (DX) and Documentation
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 ## 📝 Overview
 Phase 29 focuses on improving the developer experience by providing comprehensive documentation, examples, and onboarding guides. This phase consolidates the knowledge generated throughout the previous 28 phases into a cohesive documentation set.
 

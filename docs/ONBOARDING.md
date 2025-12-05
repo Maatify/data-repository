@@ -1,5 +1,8 @@
 # Developer Onboarding Guide
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 Welcome to the **Maatify Data Repository**!
 
 This guide is designed to help you get up to speed with the architecture, core concepts, and daily workflows of the `maatify/data-repository` library.

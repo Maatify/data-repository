@@ -1,5 +1,8 @@
 # Phase 27: NormalizerOptions + LimitOffsetConfig
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 ## Overview
 Phase 27 introduces strict value objects (`NormalizerOptions`, `LimitOffsetConfig`) to configure `ResultNormalizer` and `LimitOffsetValidator` flexibly at runtime. This allows per-query customization of normalization behavior (e.g., recursive handling, ID types) and pagination constraints (limit/offset bounds) without modifying global state or class constants.
 
