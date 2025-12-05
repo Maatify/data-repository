@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @copyright   ©2024 Maatify.dev
+ * @copyright   ©2025 Maatify.dev
  * @Library     Maatify.dev DataRepository
  * @Project     maatify:data-repository
  * @author      Mohamed Abdulalim (megyptm) <mohamed@maatify.dev>
- * @since       2024-12-02 11:00:00
+ * @since       2025-12-05 11:00:00
  * @see         https://www.maatify.dev Maatify.dev
  * @link        https://github.com/maatify/data-repository view project on GitHub
  * @note        Distributed in the hope that it will be useful - WITHOUT WARRANTY.
@@ -33,13 +33,13 @@ abstract class AdvancedRepository extends GenericMySQLRepository
         // We access the protected $adapter property directly as this class extends BaseRepository
         $pdo = $this->adapter->getConnection();
 
-        $sql = "
+        $sql = '
             SELECT u.status, COUNT(*) as count
             FROM users u
             LEFT JOIN orders o ON o.user_id = u.id
             WHERE o.created_at > :date
             GROUP BY u.status
-        ";
+        ';
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['date' => '2024-01-01']);

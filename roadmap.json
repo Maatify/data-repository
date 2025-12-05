@@ -610,12 +610,9 @@
       "summary": "Finalize notes, changelog, and publish stable release.",
       "tasks": [
         "Generate final release notes",
-        "Complete CHANGELOG",
-        "Tag version v1.0.0",
-        "Publish to Packagist"
+        "Complete CHANGELOG"
       ],
       "outputs": [
-        "release-notes.md",
         "CHANGELOG.md",
         "README.phase30.md"
       ],
