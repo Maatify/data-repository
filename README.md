@@ -133,7 +133,7 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 *   [**Phase 17: Hydrated Pagination**](docs/phases/README.phase17.md)
 *   [**Phase 20: SQL & Filter Improvements**](docs/phases/README.phase20.md)
 *   [**Phase 22: FilterParser Extraction**](docs/phases/README.phase22.md)
-
+*   [**Phase 26: Public API Tightening**](docs/phases/README.phase26.md)
 ---
 
 
