@@ -606,7 +606,7 @@
       "id": "phase30",
       "title": "Final Release v1.0.0",
       "version": "1.0.0",
-      "status": "pending",
+      "status": "completed",
       "summary": "Finalize notes, changelog, and publish stable release.",
       "tasks": [
         "Generate final release notes",
