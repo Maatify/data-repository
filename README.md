@@ -1,6 +1,6 @@
 # Maatify Data Repository
 
-**Unified repository abstraction layer normalizing MySQL, MongoDB, and Redis real drivers and fake drivers.**
+**Unified repository abstraction layer normalizing MySQL, MongoDB, and Redis real & fake drivers.**
 
 ![Maatify.dev](https://www.maatify.dev/assets/img/img/maatify_logo_white.svg)
 
@@ -8,149 +8,115 @@
 
 [![Version](https://img.shields.io/packagist/v/maatify/data-repository?label=Version&color=4C1)](https://packagist.org/packages/maatify/data-repository)
 [![PHP](https://img.shields.io/packagist/php-v/maatify/data-repository?label=PHP&color=777BB3)](https://packagist.org/packages/maatify/data-repository)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.4-blue)](https://www.php.net/)
+![PHP Version](https://img.shields.io/badge/php-%3E%3D8.4-blue)
 
 [![Build](https://github.com/Maatify/data-repository/actions/workflows/test.yml/badge.svg?label=Build&color=brightgreen)](https://github.com/Maatify/data-repository/actions/workflows/test.yml)
 
-[![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/data-repository?label=Monthly%20Downloads&color=00A8E8)](https://packagist.org/packages/maatify/data-repository)
-[![Total Downloads](https://img.shields.io/packagist/dt/maatify/data-repository?label=Total%20Downloads&color=2AA9E0)](https://packagist.org/packages/maatify/data-repository)
+![Monthly Downloads](https://img.shields.io/packagist/dm/maatify/data-repository?label=Monthly%20Downloads&color=00A8E8)
+![Total Downloads](https://img.shields.io/packagist/dt/maatify/data-repository?label=Total%20Downloads&color=2AA9E0)
 
-[![Stars](https://img.shields.io/github/stars/Maatify/data-repository?label=Stars&color=FFD43B&cacheSeconds=3600)](https://github.com/Maatify/data-repository/stargazers)
+![Stars](https://img.shields.io/github/stars/Maatify/data-repository?label=Stars&color=FFD43B)
 [![License](https://img.shields.io/github/license/Maatify/data-repository?label=License&color=blueviolet)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Stable-success?style=flat-square)]()
+![Status](https://img.shields.io/badge/Status-Stable-success)
 [![Code Quality](https://img.shields.io/codefactor/grade/github/Maatify/data-repository/main?color=brightgreen)](https://www.codefactor.io/repository/github/Maatify/data-repository)
 
-[![PHPStan](https://img.shields.io/badge/PHPStan-Level%20Max-4E8CAE)](https://phpstan.org/)
-[![Coverage](https://img.shields.io/badge/Coverage-92%25-9C27B0)](#)
+![PHPStan](https://img.shields.io/badge/PHPStan-Level%20Max-4E8CAE)
+![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Maatify/data-repository/badges/coverage.json)
 
 [![Changelog](https://img.shields.io/badge/Changelog-View-blue)](CHANGELOG.md)
 [![Security](https://img.shields.io/badge/Security-Policy-important)](SECURITY.md)
-
-
-> **Tip:** For detailed documentation, see [docs/README.full.md](docs/README.full.md).
-
 ---
 
-## 🚀 Overview
+# 🚀 Overview
 
-**Maatify Data Repository** isolates your **domain logic** from **database drivers**. It guarantees that your code behaves **exactly the same** whether you use:
+**Maatify Data Repository** separates domain logic from database-specific implementations and provides a unified API supporting:
 
-*   **Real Adapters** (`maatify/data-adapters`): Connect to production MySQL, Redis, or Mongo databases.
-*   **Fake Adapters** (`maatify/data-fakes`): Use in-memory arrays for fast, reliable unit tests.
+- **Real Drivers** (`maatify/data-adapters`)
+- **Fake Drivers** (`maatify/data-fakes`)
 
-### Why use this?
-*   **Zero Lock-in**: Switch between drivers or mock them instantly.
-*   **Deterministic Testing**: Run your entire repository layer in memory without Docker or mocks.
-*   **Strict Typing**: Full PHP 8.4+ support with PHPStan Level Max generics.
+### Why this library?
+
+- Zero driver lock-in  
+- Deterministic testing without Docker  
+- Static analysis with PHPStan Level Max  
+- Unified CRUD/Filters/Pagination across MySQL, MongoDB, and Redis  
 
 ### Supported Drivers
 
-| Type        | Real Driver             | Fake Driver                      |
-|:------------|:------------------------|:---------------------------------|
-| **MySQL**   | `PDO` / `Doctrine DBAL` | In-Memory Array (SQL-like)       |
-| **MongoDB** | `mongodb/mongodb`       | In-Memory Collection (BSON-like) |
-| **Redis**   | `redis` / `predis`      | In-Memory Key-Value Store        |
+| Type     | Real Drivers                   | Fake Drivers                         |
+|----------|--------------------------------|--------------------------------------|
+| MySQL    | PDO / Doctrine DBAL            | In-memory SQL-like tables            |
+| MongoDB  | mongodb/mongodb                | In-memory BSON-like collections      |
+| Redis    | redis / predis                 | In-memory key-value store            |
 
 ---
 
-## 📦 Installation
+# 📦 Installation
 
 ```bash
 composer require maatify/data-repository
-```
+````
 
 ---
 
-## ⚡ Quick Usage
+# ⚡ Quick Usage
 
-### 1. Create a Repository
-
-Extend the base class for your database type (`MySQL`, `Mongo`, or `Redis`).
-Use `@extends` to define your return types for static analysis.
+## 1) Create a Repository
 
 ```php
 use Maatify\DataRepository\Base\BaseMySQLRepository;
 
-/**
- * @extends BaseMySQLRepository<array>
- */
+/** @extends BaseMySQLRepository<array> */
 class UserRepository extends BaseMySQLRepository
 {
     protected string $tableName = 'users';
 }
 ```
 
-### 2. Use it (Production)
-
-Inject a **Real Adapter** (via `maatify/data-adapters`):
+## 2) Use in Production (Real Adapter)
 
 ```php
-use Maatify\DataAdapters\Core\DatabaseResolver;
-use Maatify\DataAdapters\Core\EnvironmentConfig;
+$resolver = new DatabaseResolver(new EnvironmentConfig(__DIR__));
+$adapter  = $resolver->resolve('mysql.main');
 
-$config = new EnvironmentConfig(__DIR__);
-$resolver = new DatabaseResolver($config);
-
-// Connect to Real MySQL
-$adapter = $resolver->resolve('mysql.main');
 $repo = new UserRepository($adapter);
-
-// Use Generic CRUD
-$users = $repo->findBy(['active' => 1], ['created_at' => 'DESC']);
+$users = $repo->findBy(['active' => 1]);
 ```
 
-### 3. Test it (CI / Unit Tests)
-
-Inject a **Fake Adapter** (via `maatify/data-fakes`):
+## 3) Use in Testing (Fake Adapter)
 
 ```php
-use Maatify\DataFakes\Adapters\MySQL\FakeMySQLAdapter;
-use Maatify\DataFakes\Storage\FakeStorageLayer;
-
 $storage = new FakeStorageLayer();
 $adapter = new FakeMySQLAdapter($storage);
 
-// Seed fake data
 $storage->seed('users', [
     ['id' => 1, 'active' => 1, 'name' => 'Alice'],
 ]);
 
 $repo = new UserRepository($adapter);
-$users = $repo->findBy(['active' => 1]); // Returns Alice
+$repo->findBy(['active' => 1]); // Alice
 ```
 
 ---
 
-## 💎 Advanced: Hydration & DTOs
-
-Automatically transform database arrays into rich PHP Objects/DTOs.
+# 💎 Hydration & DTOs
 
 ```php
-use Maatify\DataRepository\Generic\GenericMySQLRepository;
-use Maatify\DataRepository\Hydration\BaseHydrator;
-
-// 1. Define DTO
-class UserDto { public int $id; public string $name; }
-
-// 2. Define Hydrator
-/** @extends BaseHydrator<UserDto> */
-class UserHydrator extends BaseHydrator { ... }
-
-// 3. Define Repository
-/** @extends GenericMySQLRepository<UserDto> */
-class UserRepository extends GenericMySQLRepository
-{
-    protected string $tableName = 'users';
+class UserDto {
+    public int $id;
+    public string $name;
 }
 
-// 4. Usage
+/** @extends BaseHydrator<UserDto> */
+class UserHydrator extends BaseHydrator {}
+
 $repo->setHydrator(new UserHydrator());
-$user = $repo->findObject(1); // Returns UserDto|null
+$user = $repo->findObject(1);
 ```
 
 ---
 
-## 🧩 Key Features
+# 🧩 Key Features
 
 *   **Generic CRUD**: `find`, `findBy`, `findOneBy`, `insert`, `update`, `delete`, `count`, `paginate`.
 *   **Advanced Filtering**: `IN`, `LIKE`, ranges (`>`, `<`), `IS NULL`.
@@ -162,7 +128,7 @@ $user = $repo->findObject(1); // Returns UserDto|null
 
 ---
 
-## 📄 Documentation
+# 📄 Documentation
 
 *   [**New Developer Onboarding**](docs/ONBOARDING.md)
 *   [**Full Documentation**](docs/README.full.md)
@@ -188,6 +154,86 @@ The development of this library follows a strict phase-based roadmap.
 </details>
 
 ---
+
+# 📚 Development History & Phase Details
+
+<details>
+<summary><strong>Click to expand</strong></summary>
+
+This library evolves through a strict phase-based roadmap.
+
+### Major Completed Phases
+
+* Phase 1 – Bootstrap & Foundation
+* Phase 3 – Generic CRUD
+* Phase 15–17 – Pagination Improvements & Hydration
+* Phase 20 – SQL & Filter Enhancements
+* Phase 21 – Architecture Decoupling
+* Phase 22 – FilterParser Extraction
+* Phase 26 – Public API Tightening
+* Phase 28 – PHPStan Generics
+* Phase 29 – Developer Experience
+
+Full details available in `docs/phases/`.
+
+</details>
+
+---
+
+# 🧱 Dependencies Overview
+
+`maatify/data-repository` relies on Maatify core ecosystem + selected open-source libraries.
+
+---
+
+## 🧩 Maatify Ecosystem Dependencies
+
+| Package                   | Description                              | Role                                    |
+|---------------------------|------------------------------------------|-----------------------------------------|
+| **maatify/bootstrap**     | Environment loader, diagnostics, helpers | Powers `.env` and adapter bootstrapping |
+| **maatify/data-adapters** | Real MySQL/Mongo/Redis adapters          | Production database connectivity        |
+| **maatify/data-fakes**    | Fake in-memory drivers                   | Deterministic, Docker-free testing      |
+
+---
+
+## 🔌 Direct Open-Source Dependencies
+
+| Library                    | Purpose                |
+|----------------------------|------------------------|
+| psr/log                    | Logging interface      |
+| phpunit/phpunit            | Test suite             |
+| phpstan/phpstan            | Static analysis        |
+| mongodb/mongodb            | MongoDB driver         |
+| predis/predis / php-redis  | Redis driver           |
+| doctrine/dbal *(optional)* | MySQL DBAL abstraction |
+
+---
+
+## 🔄 Indirect Dependencies (via bootstrap)
+
+| Library          | Purpose          |
+|------------------|------------------|
+| vlucas/phpdotenv | `.env` loader    |
+| psr/container    | DI compatibility |
+
+---
+
+# 🧪 Testing
+
+```bash
+composer test
+```
+
+Runs:
+
+* Real vs Fake consistency checks
+* Filter/Order parser tests
+* Pagination & Hydration tests
+* Architecture tests
+* Coverage with Clover output
+
+---
+
 
 ## 🪪 License
 
