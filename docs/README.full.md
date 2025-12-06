@@ -421,22 +421,104 @@ src/
 
 ---
 
-## 📚 Modern Quick Start (Phase 3+)
+## 📚 Modern Quick Start (Recommended)
+
+The fastest way to start using `maatify/data-repository` is through
+`DatabaseResolver` (from `maatify/data-adapters`) and any concrete repository you define.
+
+### 1. Initialize the environment
 
 ```php
-use Maatify\DataRepository\Resolver\RepositoryResolver;
-use Maatify\Bootstrap\Core\Bootstrap;
+use Maatify\DataAdapters\Core\EnvironmentConfig;
+use Maatify\DataAdapters\Core\DatabaseResolver;
 
-Bootstrap::init();
+$config   = new EnvironmentConfig(__DIR__);
+$resolver = new DatabaseResolver($config);
+````
 
-$users = RepositoryResolver::resolve('mysql://users');
-$user  = $users->find(42);
+---
 
-$cache = RepositoryResolver::resolve('redis://session:');
-$cache->set('theme', 'dark', 3600);
+### 2. Resolve an adapter (MySQL / Mongo / Redis)
 
-$logs = RepositoryResolver::resolve('mongo://app_logs');
+```php
+$mysql = $resolver->resolve('mysql.main', autoConnect: true);
+$mongo = $resolver->resolve('mongo.logs', autoConnect: true);
+$redis = $resolver->resolve('redis.cache', autoConnect: true);
 ```
+
+Each adapter:
+
+* Loads its connection config via DSN-first rules
+* Uses the correct config builder (MySQL, Mongo, Redis)
+* Connects only when needed (or immediately when autoConnect is true)
+
+---
+
+### 3. Create a Repository
+
+```php
+use App\Repository\UserRepository;
+
+$userRepo = new UserRepository($mysql);
+```
+
+---
+
+### 4. Perform basic operations
+
+```php
+$user = $userRepo->find(10);
+
+$active = $userRepo->findBy(['active' => 1]);
+
+$newId = $userRepo->insert([
+    'name' => 'Ahmed',
+    'email' => 'ahmed@example.com',
+]);
+
+$userRepo->update(['id' => $newId], ['active' => 0]);
+
+$userRepo->delete(['id' => $newId]);
+```
+
+---
+
+### 5. Mongo Example
+
+```php
+$logRepo = new LogRepository($mongo);
+
+$logRepo->insert([
+    'type' => 'error',
+    'msg'  => 'Something happened'
+]);
+
+$errors = $logRepo->findBy(['type' => 'error']);
+```
+
+---
+
+### 6. Redis Example
+
+```php
+$cacheRepo = new CacheRepository($redis);
+
+$cacheRepo->insert([
+    'key'   => 'theme',
+    'value' => 'dark'
+]);
+
+$theme = $cacheRepo->findOneBy(['key' => 'theme']);
+```
+
+---
+
+### ✔ That’s it.
+
+You are now fully wired into MySQL, MongoDB, and Redis through the unified repository layer.
+
+This is the correct & official quick-start flow of `maatify/data-repository`.
+
 
 ---
 
