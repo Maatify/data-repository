@@ -9,6 +9,15 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.1.3] — 2025-12-02 (Phase 29 Update)
+
+### 🚀 Added
+- **Developer Experience (DX) & Documentation (Phase 29)**
+    - Added `docs/ONBOARDING.md` guide for new developers.
+    - Added comprehensive usage examples in `examples/phase29/` covering filters, ordering, hydration, pagination, and raw queries.
+    - Updated `docs/README.full.md` to serve as the definitive documentation source.
+    - Added `docs/phases/README.phase29.md` summary.
+
 ## [1.1.2] — 2025-12-02 (Phase 28 Update)
 
 ### 🚀 Added

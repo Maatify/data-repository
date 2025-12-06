@@ -1387,6 +1387,10 @@
         "examples/phase29/pagination_example.php",
         "examples/phase29/raw_query_example.php",
         "docs/phases/README.phase29.md"
+      ],
+      "updated": [
+        "CHANGELOG.md",
+        "api-map.json"
       ]
     },
     "tests": {

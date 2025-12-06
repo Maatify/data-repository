@@ -50,7 +50,7 @@ without modification.
 
 ```bash
 composer require maatify/data-repository
-````
+```
 
 ### Required for real database usage:
 
@@ -121,8 +121,7 @@ This is the **only supported and recommended** method.
 
 ### Example `.env`
 
-```
-
+```env
 MYSQL_MAIN_DSN=mysql:host=127.0.0.1;dbname=test;charset=utf8mb4
 MYSQL_MAIN_USER=root
 MYSQL_MAIN_PASS=secret
@@ -136,8 +135,7 @@ REDIS_MAIN_HOST=127.0.0.1
 REDIS_MAIN_PORT=6379
 
 PREDIS_MAIN_URI=redis://127.0.0.1:6379
-
-````
+```
 
 ### Resolver Bootstrapping
 
@@ -154,7 +152,7 @@ $mysqlDbal = $resolver->resolve('mysql_dbal.main');
 $mongo     = $resolver->resolve('mongo.main');
 $redis     = $resolver->resolve('redis.main');
 $predis    = $resolver->resolve('predis.main');
-````
+```
 
 ### Adapter Usage
 
@@ -228,9 +226,14 @@ Your custom repository extends one of:
 * `BaseMongoRepository`
 * `BaseRedisRepository`
 
+Use **Generics** to define the entity type handled by the repository.
+
 ### MySQL Example
 
 ```php
+/**
+ * @extends BaseMySQLRepository<UserDTO>
+ */
 class UserRepository extends BaseMySQLRepository
 {
     protected string $tableName = 'users';
@@ -240,6 +243,9 @@ class UserRepository extends BaseMySQLRepository
 ### Mongo Example
 
 ```php
+/**
+ * @extends BaseMongoRepository<LogDTO>
+ */
 class LogRepository extends BaseMongoRepository
 {
     protected string $collectionName = 'logs';
@@ -249,6 +255,9 @@ class LogRepository extends BaseMongoRepository
 ### Redis Example
 
 ```php
+/**
+ * @extends BaseRedisRepository<CacheItemDTO>
+ */
 class CacheRepository extends BaseRedisRepository
 {
     protected string $keyPrefix = 'cache:';
@@ -287,13 +296,13 @@ $id = $userRepo->insert([
 ### Update
 
 ```php
-$userRepo->update(['id' => $id], ['active' => 0]);
+$userRepo->update($id, ['active' => 0]);
 ```
 
 ### Delete
 
 ```php
-$userRepo->delete(['id' => $id]);
+$userRepo->delete($id);
 ```
 
 ### Count
@@ -335,6 +344,9 @@ $count = $logRepo->count(['type' => 'error']);
 
 # 8. Redis Repository Usage
 
+Redis Repositories treat data as a collection of items stored as JSON values.
+The `id` field is required and used to generate the Redis key.
+
 ```php
 $cacheRepo = new CacheRepository($redisAdapter);
 ```
@@ -343,21 +355,23 @@ $cacheRepo = new CacheRepository($redisAdapter);
 
 ```php
 $cacheRepo->insert([
-    'key' => 'user:1',
-    'value' => json_encode(['name' => 'Ahmed']),
+    'id' => 'user:1',
+    'name' => 'Ahmed',
+    'role' => 'admin',
 ]);
+// Stores as JSON in key: 'cache:user:1'
 ```
 
 ### Fetch
 
 ```php
-$value = $cacheRepo->findOneBy(['key' => 'user:1']);
+$data = $cacheRepo->findOneBy(['id' => 'user:1']);
 ```
 
 ### Delete
 
 ```php
-$cacheRepo->delete(['key' => 'user:1']);
+$cacheRepo->delete('user:1');
 ```
 
 ---
@@ -431,26 +445,31 @@ $rows = $repo->findBy(
 
 # 12. Pagination
 
+Repositories return a `PaginationResultDTO` which contains the data and metadata.
+
 ```php
-$page = $userRepo->paginate(
-    filters: ['active' => 1],
-    orderBy: ['created_at' => 'DESC'],
+$result = $userRepo->paginate(
     page: 2,
-    perPage: 20
+    perPage: 20,
+    orderBy: ['created_at' => 'DESC']
 );
+
+// Accessing Data
+$items = $result->getData(); // Array of rows or objects
+
+// Accessing Metadata
+$meta = $result->getPagination();
+echo $meta->totalItems;
+echo $meta->totalPages;
+echo $meta->page;
+echo $meta->perPage;
 ```
-
-Returns:
-
-* `items`
-* `totalItems`
-* `totalPages`
-* `page`
-* `perPage`
 
 ---
 
 # 13. DTOs & Hydration
+
+You can automatically convert database rows into DTOs by setting a Hydrator.
 
 ### DTO
 
@@ -467,22 +486,43 @@ class UserDTO {
 ### Hydrator
 
 ```php
+/**
+ * @implements HydratorInterface<UserDTO>
+ */
 class UserHydrator implements HydratorInterface {
     public function hydrate(array $row): UserDTO {
-        return new UserDTO($row['id'], $row['name'], $row['email']);
+        return new UserDTO((int)$row['id'], $row['name'], $row['email']);
     }
 }
+```
+
+### Usage
+
+```php
+$userRepo->setHydrator(new UserHydrator());
+
+// Returns UserDTO[]
+$users = $userRepo->findObjectsBy(['active' => 1]);
+
+// Returns ?UserDTO
+$user = $userRepo->findObject(1);
+
+// Returns PaginationResultDTO containing UserDTO[]
+$result = $userRepo->paginateObjects(page: 1);
 ```
 
 ---
 
 # 14. Error Handling
 
+All repository methods throw `Maatify\DataRepository\Exceptions\RepositoryException` on failure.
+
 ```php
 try {
     $repo->findBy([], [], limit: -1);
 } catch (RepositoryException $e) {
-    // handle error
+    // Handle error (e.g., log it or show a user-friendly message)
+    echo $e->getMessage();
 }
 ```
 
@@ -490,20 +530,31 @@ try {
 
 # 15. Raw Driver Access
 
+By default, the underlying driver (PDO, MongoDB\Client, Redis) is **protected** inside the repository.
+If you need public access to the raw driver, you must explicitly expose it in your child repository.
+
 ```php
-$pdo   = $userRepo->getPdo();
-$mongo = $logRepo->getMongo();
-$redis = $cacheRepo->getRedis();
+class UserRepository extends BaseMySQLRepository {
+    public function getRawPdo(): PDO {
+        return $this->getDriver(); // Protected method in BaseRepository
+    }
+}
+
+// Usage
+$pdo = $userRepo->getRawPdo();
 ```
 
 ---
 
 # 16. Using Fake Adapters for Testing
 
+Fake adapters simulate database behavior in memory, allowing for fast, deterministic unit tests.
+
 ```php
 $storage = new FakeStorageLayer();
 $fake = new FakeMySQLAdapter($storage);
 
+// Seed data
 $storage->seed('users', [
     ['id' => 1, 'name' => 'Test', 'active' => 1],
 ]);
@@ -520,23 +571,25 @@ $result = $repo->findBy(['active' => 1]);
 * One repository per table/collection
 * Keep filters simple
 * Avoid business logic inside repositories
-* DTOs for domain-rich structures
-* FakeAdapters for fast and isolated tests
+* Use DTOs for domain-rich structures
+* Use FakeAdapters for fast and isolated tests
 * Validate input in services before passing it to the repository
 
 ---
 
 # 18. Common Mistakes
 
-❌ Invalid limits/offsets  
+❌ Invalid limits/offsets (must be positive)
 ❌ Putting business logic inside repositories  
-❌ Over-using Redis for queries  
+❌ Over-using Redis for complex queries (it performs full scans for filtering)
 ❌ Forgetting to seed FakeAdapters in tests  
 ❌ Overcomplicating filters  
 
 ---
 
 # 19. Final Notes
+
+For more comprehensive and phase-specific examples, please check the `examples/phase29/` directory.
 
 `maatify/data-repository` provides a clean, unified, framework-agnostic API for
 interacting with MySQL, MongoDB, Redis, and fake adapters with consistent behavior.

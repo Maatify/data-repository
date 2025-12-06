@@ -126,6 +126,7 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 
 ## 📄 Documentation
 
+*   [**New Developer Onboarding**](docs/ONBOARDING.md)
 *   [**Full Documentation**](docs/README.full.md)
 *   [**Phase 1: Bootstrap**](docs/phases/README.phase1.md)
 *   [**Phase 3: Generic CRUD**](docs/phases/README.phase3.md)
@@ -133,9 +134,11 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 *   [**Phase 16: Pagination Optimization**](docs/phases/README.phase16.md)
 *   [**Phase 17: Hydrated Pagination**](docs/phases/README.phase17.md)
 *   [**Phase 20: SQL & Filter Improvements**](docs/phases/README.phase20.md)
+*   [**Phase 21: Architecture Decoupling**](docs/phases/README.phase21.md)
 *   [**Phase 22: FilterParser Extraction**](docs/phases/README.phase22.md)
 *   [**Phase 26: Public API Tightening**](docs/phases/README.phase26.md)
 *   [**Phase 28: PHPStan Generics**](docs/phases/README.phase28.md)
+*   [**Phase 29: Developer Experience**](docs/phases/README.phase29.md)
 ---
 
 

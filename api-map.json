@@ -1,6 +1,6 @@
 {
   "project": "maatify/data-repository",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "classes": {
     "Maatify\\DataRepository\\Hydration\\HydratorInterface": {
       "type": "interface",
