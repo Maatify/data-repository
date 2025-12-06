@@ -24,7 +24,7 @@ abstract class IntegrationValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
+        // parent::setUp();
         // Here we would typically set up the environment or connections.
     }
 
