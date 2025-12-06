@@ -216,6 +216,8 @@ Full details available in `docs/phases/`.
 | vlucas/phpdotenv | `.env` loader    |
 | psr/container    | DI compatibility |
 
+> Special thanks to the maintainers of these open-source libraries
+> for providing the stable foundations that make this project possible. ❤️
 ---
 
 # 🧪 Testing
