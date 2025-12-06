@@ -26,17 +26,19 @@
 [![Changelog](https://img.shields.io/badge/Changelog-View-blue)](CHANGELOG.md)
 [![Security](https://img.shields.io/badge/Security-Policy-important)](SECURITY.md)
 
-
-> **Tip:** For detailed documentation, see [docs/README.full.md](docs/README.full.md).
-
 ---
 
 ## 🚀 Overview
 
-This library separates **domain logic** from **database drivers**. It guarantees that your code behaves **exactly the same** whether you use:
+**Maatify Data Repository** isolates your **domain logic** from **database drivers**. It guarantees that your code behaves **exactly the same** whether you use:
 
-*   **Real Adapters** (`maatify/data-adapters`): Connect to real MySQL, Redis, or Mongo databases.
+*   **Real Adapters** (`maatify/data-adapters`): Connect to production MySQL, Redis, or Mongo databases.
 *   **Fake Adapters** (`maatify/data-fakes`): Use in-memory arrays for fast, reliable unit tests.
+
+### Why use this?
+*   **Zero Lock-in**: Switch between drivers or mock them instantly.
+*   **Deterministic Testing**: Run your entire repository layer in memory without Docker or mocks.
+*   **Strict Typing**: Full PHP 8.4+ support with PHPStan Level Max generics.
 
 ### Supported Drivers
 
@@ -60,11 +62,15 @@ composer require maatify/data-repository
 
 ### 1. Create a Repository
 
-Extend the base class for your database type (`MySQL`, `Mongo`, or `Redis`):
+Extend the base class for your database type (`MySQL`, `Mongo`, or `Redis`).
+Use `@extends` to define your return types for static analysis.
 
 ```php
 use Maatify\DataRepository\Base\BaseMySQLRepository;
 
+/**
+ * @extends BaseMySQLRepository<array>
+ */
 class UserRepository extends BaseMySQLRepository
 {
     protected string $tableName = 'users';
@@ -112,6 +118,35 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 
 ---
 
+## 💎 Advanced: Hydration & DTOs
+
+Automatically transform database arrays into rich PHP Objects/DTOs.
+
+```php
+use Maatify\DataRepository\Generic\GenericMySQLRepository;
+use Maatify\DataRepository\Hydration\BaseHydrator;
+
+// 1. Define DTO
+class UserDto { public int $id; public string $name; }
+
+// 2. Define Hydrator
+/** @extends BaseHydrator<UserDto> */
+class UserHydrator extends BaseHydrator { ... }
+
+// 3. Define Repository
+/** @extends GenericMySQLRepository<UserDto> */
+class UserRepository extends GenericMySQLRepository
+{
+    protected string $tableName = 'users';
+}
+
+// 4. Usage
+$repo->setHydrator(new UserHydrator());
+$user = $repo->findObject(1); // Returns UserDto|null
+```
+
+---
+
 ## 🧩 Key Features
 
 *   **Generic CRUD**: `find`, `findBy`, `findOneBy`, `insert`, `update`, `delete`, `count`, `paginate`.
@@ -129,6 +164,12 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 *   [**New Developer Onboarding**](docs/ONBOARDING.md)
 *   [**Full Documentation**](docs/README.full.md)
 *   [**Practical Usage Guide (Examples)**](examples/Examples.md)
+
+<details>
+<summary><strong>📚 Development History & Phase Details</strong></summary>
+
+The development of this library follows a strict phase-based roadmap.
+
 *   [**Phase 1: Bootstrap**](docs/phases/README.phase1.md)
 *   [**Phase 3: Generic CRUD**](docs/phases/README.phase3.md)
 *   [**Phase 15: Pagination**](docs/phases/README.phase15.md)
@@ -140,8 +181,16 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 *   [**Phase 26: Public API Tightening**](docs/phases/README.phase26.md)
 *   [**Phase 28: PHPStan Generics**](docs/phases/README.phase28.md)
 *   [**Phase 29: Developer Experience**](docs/phases/README.phase29.md)
+
+</details>
+
 ---
 
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before submitting a Pull Request.
+
+---
 
 ## 🪪 License
 
@@ -154,12 +203,6 @@ $users = $repo->findBy(['active' => 1]); // Returns Alice
 
 Engineered by **Mohamed Abdulalim** ([@megyptm](https://github.com/megyptm))  
 Backend Lead & Technical Architect — https://www.maatify.dev
-
----
-
-## 🤝 Contributors
-
-Special thanks to the Maatify.dev engineering team and open-source contributors.
 
 ---
 
