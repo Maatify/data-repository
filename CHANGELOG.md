@@ -9,7 +9,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
-## [1.1.3] — 2025-12-02 (Phase 29 Update)
+## [1.0.0] — 2025-12-02 (Phase 29 Update)
 
 ### 🚀 Added
 - **Developer Experience (DX) & Documentation (Phase 29)**
@@ -18,7 +18,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
     - Updated `docs/README.full.md` to serve as the definitive documentation source.
     - Added `docs/phases/README.phase29.md` summary.
 
-## [1.1.2] — 2025-12-02 (Phase 28 Update)
+## [1.0.0] — 2025-12-02 (Phase 28 Update)
 
 ### 🚀 Added
 - **PHPStan Generics Templates (Phase 28)**
@@ -29,7 +29,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
     - Refactored internal test suite to comply with strict generic typing rules.
     - Updated `MappingProfile` to support both fluent and legacy APIs for better backward compatibility.
 
-## [1.1.1] — 2025-12-02 (Phase 27 Update)
+## [1.0.0] — 2025-12-02 (Phase 27 Update)
 
 ### 🚀 Added
 - **Normalizer Options & Config (Phase 27)**
@@ -39,7 +39,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
     - Updated `LimitOffsetValidator` to support per-call limits via `validateWithConfig()`.
     - Added comprehensive unit tests and examples for the new configuration objects.
 
-## [1.1.0] — 2025-12-02 (Phase 26 Update)
+## [1.0.0] — 2025-12-02 (Phase 26 Update)
 
 ### 🚀 Added
 - **Public API Tightening (Phase 26)**
@@ -49,7 +49,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
     - Removed unused methods (`OrderUtils::isValidDirection`) to improve code cleanliness.
     - Documented the official public API in `README.phase26.md`.
 
-## [1.0.9] — 2025-12-02 (Phase 25 Update)
+## [1.0.0] — 2025-12-02 (Phase 25 Update)
 
 ### 🚀 Added
 - **Order Builders (Phase 25)**
@@ -58,7 +58,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
     - Refactored `OrderUtils` to act as a facade, delegating to the new builders while maintaining public API compatibility.
     - Added extensive unit tests for both builders covering standard sorting, JSON paths, and edge cases.
 
-## [1.0.9] — 2025-12-02 (Phase 24 Update)
+## [1.0.0] — 2025-12-02 (Phase 24 Update)
 
 ### 🚀 Added
 - **OrderParser Extraction (Phase 24)**
@@ -67,7 +67,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
     - Updated `OrderUtils` to delegate to `OrderParser` for normalization.
     - Added unit tests for `OrderParser` verifying sanitization and direction validation.
 
-## [1.0.9] — 2025-12-02 (Phase 23 Update)
+## [1.0.0] — 2025-12-02 (Phase 23 Update)
 
 ### 🚀 Added
 - **Filter Builders (Phase 23)**
@@ -84,7 +84,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.8] — 2025-12-02 (Phase 21 Update)
+## [1.0.0] — 2025-12-02 (Phase 21 Update)
 
 ### 🚀 Added
 - **Architecture Decoupling (Phase 21)**
@@ -95,7 +95,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.7] — 2025-12-01 (Phase 20 Update)
+## [1.0.0] — 2025-12-01 (Phase 20 Update)
 
 ### 🚀 Added
 - **SQL & Filter Improvements (Phase 20)**
@@ -107,7 +107,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.6] — 2025-12-01 (Phase 19 Update)
+## [1.0.0] — 2025-12-01 (Phase 19 Update)
 
 ### 🚀 Added
 - **Mongo Robustness (Phase 19)**
@@ -123,7 +123,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.4] — 2025-11-27 (Phase 17 Update)
+## [1.0.0] — 2025-11-27 (Phase 17 Update)
 
 ### 🚀 Added
 - **Paginated Hydrated Results (Phase 17)**
@@ -134,7 +134,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.5] — 2025-11-27 (Phase 18 Update)
+## [1.0.0] — 2025-11-27 (Phase 18 Update)
 
 ### 🚀 Added
 - **Integration Matrix (Phase 18)**
@@ -145,7 +145,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.4] — 2025-11-27 (Phase 16 Update)
+## [1.0.0] — 2025-11-27 (Phase 16 Update)
 
 ### 🚀 Added
 - **Pagination Optimization (Phase 16)**
@@ -156,7 +156,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.4] — 2025-11-27 (Phase 15 Update)
+## [1.0.0] — 2025-11-27 (Phase 15 Update)
 
 ### 🚀 Added
 - **Pagination Core (Phase 15)**
@@ -169,7 +169,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.3] — 2025-11-27 (Phase 14 Update)
+## [1.0.0] — 2025-11-27 (Phase 14 Update)
 
 ### 🚀 Added
 - **DTO Mapping & Hydration Integration (Phase 14)**
@@ -183,7 +183,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.3] — 2025-11-27 (Phase 13 Update)
+## [1.0.0] — 2025-11-27 (Phase 13 Update)
 
 ### 🚀 Added
 - **AutoCasting System (Phase 13)**
@@ -194,7 +194,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.2] — 2025-11-27 (Phase 12 Update)
+## [1.0.0] — 2025-11-27 (Phase 12 Update)
 
 ### 🚀 Added
 - **Base Hydrator (Phase 12)**
@@ -205,7 +205,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.2] — 2025-11-27 (Phase 11 Update)
+## [1.0.0] — 2025-11-27 (Phase 11 Update)
 
 ### 🚀 Added
 - **Hydrator Interface (Phase 11)**
@@ -215,7 +215,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.2] — 2025-11-27 (Phase 9 Update)
+## [1.0.0] — 2025-11-27 (Phase 9 Update)
 
 ### 🚀 Added
 - **Generic Ops Integration (Phase 9)**
@@ -229,7 +229,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.1] — 2025-11-25 (Phase 8 Update)
+## [1.0.0] — 2025-11-25 (Phase 8 Update)
 
 ### 🚀 Added
 - **CRUD Edge Cases (Phase 8)**
@@ -241,7 +241,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.2] — 2025-11-25
+## [1.0.0] — 2025-11-25
 
 ### 🚀 Added
 - **Result Normalization (Phase 7)**
@@ -271,7 +271,7 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-## [1.0.1] — 2025-11-25
+## [1.0.0] — 2025-11-25
 
 ### 🚀 Added
 - **Ordering & Sorting (Phase 5)**
@@ -336,15 +336,4 @@ and the project adheres to **[Semantic Versioning](https://semver.org/spec/v2.0.
 
 ---
 
-[1.1.2]: https://github.com/Maatify/data-repository/releases/tag/1.1.2
-[1.1.1]: https://github.com/Maatify/data-repository/releases/tag/1.1.1
-[1.1.0]: https://github.com/Maatify/data-repository/releases/tag/1.1.0
-[1.0.9]: https://github.com/Maatify/data-repository/releases/tag/1.0.9
-[1.0.8]: https://github.com/Maatify/data-repository/releases/tag/1.0.8
-[1.0.7]: https://github.com/Maatify/data-repository/releases/tag/1.0.7
-[1.0.6]: https://github.com/Maatify/data-repository/releases/tag/1.0.6
-[1.0.4]: https://github.com/Maatify/data-repository/releases/tag/1.0.4
-[1.0.3]: https://github.com/Maatify/data-repository/releases/tag/1.0.3
-[1.0.2]: https://github.com/Maatify/data-repository/releases/tag/1.0.2
-[1.0.1]: https://github.com/Maatify/data-repository/releases/tag/1.0.1
 [1.0.0]: https://github.com/Maatify/data-repository/releases/tag/1.0.0
