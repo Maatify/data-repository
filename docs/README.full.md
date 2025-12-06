@@ -22,6 +22,7 @@ Perfect for production AND deterministic testing.
 - [Features](#-features)
 - [Installation](#-installation)
 - [Onboarding Guide](ONBOARDING.md)
+- [Practical Usage Guide](../examples/Examples.md)
 - [Usage](#-usage)
 - [Wiring with Adapters](#-wiring-with-adapters)
 - [Testing](#-testing)
