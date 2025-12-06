@@ -20,16 +20,17 @@ Perfect for production AND deterministic testing.
 
 ## 📘 Table of Contents
 - [Features](#-features)
+- [Core Concepts](#-core-concepts)
 - [Installation](#-installation)
 - [Onboarding Guide](ONBOARDING.md)
 - [Practical Usage Guide](../examples/Examples.md)
 - [Usage](#-usage)
-- [Wiring with Adapters](#-wiring-with-adapters)
+- [Wiring with Adapters](#2-wiring-with-adapters)
 - [Testing](#-testing)
 - [Architecture](#-architecture-overview)
 - [Roadmap & Status](#-roadmap--phase-status)
 - [Phase Documentation](#-development-phases--documentation-links)
-- [Quick Start](#-modern-quick-start-phase-3)
+- [Quick Start](#-modern-quick-start-recommended)
 - [Testing Philosophy](#-testing-philosophy)
 - [License](#-license)
 - [Author](#-author)
@@ -518,7 +519,7 @@ $theme = $cacheRepo->findOneBy(['key' => 'theme']);
 
 You are now fully wired into MySQL, MongoDB, and Redis through the unified repository layer.
 
-This is the correct & official quick-start flow of `maatify/data-repository`.
+This is the correct and official quick-start flow of `maatify/data-repository`.
 
 
 ---
