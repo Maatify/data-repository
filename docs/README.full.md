@@ -28,7 +28,6 @@ Perfect for production AND deterministic testing.
 - [Architecture](#-architecture-overview)
 - [Roadmap & Status](#-roadmap--phase-status)
 - [Phase Documentation](#-development-phases--documentation-links)
-- [Quick Start](#-modern-quick-start-phase-3)
 - [Testing Philosophy](#-testing-philosophy)
 - [License](#-license)
 - [Author](#-author)
@@ -419,26 +418,6 @@ src/
 - **Phase 29 — DX & Documentation**
   [`phases/README.phase29.md`](phases/README.phase29.md)
 
----
-
-## 📚 Modern Quick Start (Phase 3+)
-
-```php
-use Maatify\DataRepository\Resolver\RepositoryResolver;
-use Maatify\Bootstrap\Core\Bootstrap;
-
-Bootstrap::init();
-
-$users = RepositoryResolver::resolve('mysql://users');
-$user  = $users->find(42);
-
-$cache = RepositoryResolver::resolve('redis://session:');
-$cache->set('theme', 'dark', 3600);
-
-$logs = RepositoryResolver::resolve('mongo://app_logs');
-```
-
----
 
 ## 🧪 Testing Philosophy
 
