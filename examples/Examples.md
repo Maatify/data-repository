@@ -1,5 +1,8 @@
 # Maatify Data Repository — Practical Usage Guide
 
+[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+
 This guide provides a complete and practical overview of how to use the
 `maatify/data-repository` library.  
 It is intentionally written in a clear, simple, and developer-friendly manner.  
@@ -579,9 +582,9 @@ $result = $repo->findBy(['active' => 1]);
 
 # 18. Common Mistakes
 
-❌ Invalid limits/offsets (must be positive)
+❌ Invalid limits/offsets (must be positive)  
 ❌ Putting business logic inside repositories  
-❌ Over-using Redis for complex queries (it performs full scans for filtering)
+❌ Over-using Redis for complex queries (it performs full scans for filtering)  
 ❌ Forgetting to seed FakeAdapters in tests  
 ❌ Overcomplicating filters  
 

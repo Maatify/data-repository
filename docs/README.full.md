@@ -3,7 +3,6 @@
 [![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../README.md)
 [![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
 
-
 > This is the extended full documentation for the Maatify Data Repository.  
 > For the short version, see the main [`README.md`](../README.md).
 
