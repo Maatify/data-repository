@@ -85,11 +85,12 @@ class MysqlOpsTest extends TestCase
 
     public function testLastInsertIdWithNonPDODriver(): void
     {
-        $driver = $this->getMockBuilder(\stdClass::class)
-            ->addMethods(['lastInsertId'])
-            ->getMock();
-
-        $driver->method('lastInsertId')->willReturn(456);
+        $driver = new class {
+            public function lastInsertId(): int
+            {
+                return 456;
+            }
+        };
 
         $ops = new MysqlOps($driver);
         $this->assertSame(456, $ops->lastInsertId());
@@ -97,11 +98,12 @@ class MysqlOpsTest extends TestCase
 
     public function testLastInsertIdWithNonPDODriverString(): void
     {
-        $driver = $this->getMockBuilder(\stdClass::class)
-            ->addMethods(['lastInsertId'])
-            ->getMock();
-
-        $driver->method('lastInsertId')->willReturn('789');
+        $driver = new class {
+            public function lastInsertId(): string
+            {
+                return '789';
+            }
+        };
 
         $ops = new MysqlOps($driver);
         $this->assertSame(789, $ops->lastInsertId());
@@ -109,12 +111,18 @@ class MysqlOpsTest extends TestCase
 
     public function testLastInsertIdWithNonPDODriverOverflowString(): void
     {
-        $driver = $this->getMockBuilder(\stdClass::class)
-            ->addMethods(['lastInsertId'])
-            ->getMock();
-
         $largeString = '999999999999999999999999999999';
-        $driver->method('lastInsertId')->willReturn($largeString);
+        $driver = new class ($largeString) {
+            private string $id;
+            public function __construct(string $id)
+            {
+                $this->id = $id;
+            }
+            public function lastInsertId(): string
+            {
+                return $this->id;
+            }
+        };
 
         $ops = new MysqlOps($driver);
         $this->assertSame($largeString, $ops->lastInsertId());
@@ -122,11 +130,12 @@ class MysqlOpsTest extends TestCase
 
     public function testLastInsertIdWithNonPDODriverFalse(): void
     {
-        $driver = $this->getMockBuilder(\stdClass::class)
-            ->addMethods(['lastInsertId'])
-            ->getMock();
-
-        $driver->method('lastInsertId')->willReturn(false);
+        $driver = new class {
+            public function lastInsertId(): bool
+            {
+                return false;
+            }
+        };
 
         $ops = new MysqlOps($driver);
         $this->assertSame(0, $ops->lastInsertId());
