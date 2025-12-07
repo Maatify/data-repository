@@ -38,6 +38,7 @@ class RedisMissingCoverageTest extends TestCase
             }
 
             // Allow other calls if necessary (though this test might only need keys)
+            /** @param array<mixed> $args */
             public function __call(string $method, array $args): mixed
             {
                 return null;
