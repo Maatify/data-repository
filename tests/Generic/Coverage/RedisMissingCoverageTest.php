@@ -19,7 +19,6 @@ use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\GenericRedisRepository;
 use PHPUnit\Framework\TestCase;
-use Predis\Client;
 
 class RedisMissingCoverageTest extends TestCase
 {
@@ -30,12 +29,20 @@ class RedisMissingCoverageTest extends TestCase
     protected function setUp(): void
     {
         // Mock Predis Client that returns empty array for keys to prevent TypeError in findAll
-        // Using addMethods to handle magic method 'keys'
-        $this->redisMock = $this->getMockBuilder(Client::class)
-            ->addMethods(['keys'])
-            ->getMock();
+        // Replaced deprecated addMethods with anonymous class
+        $this->redisMock = new class {
+            /** @return array<mixed> */
+            public function keys(string $pattern): array
+            {
+                return [];
+            }
 
-        $this->redisMock->method('keys')->willReturn([]);
+            // Allow other calls if necessary (though this test might only need keys)
+            public function __call(string $method, array $args): mixed
+            {
+                return null;
+            }
+        };
 
         $adapter = new FakeRedisAdapterSatisfying($this->redisMock);
 
