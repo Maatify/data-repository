@@ -141,16 +141,7 @@ class OrderUtilsCoverageTest extends TestCase
         $this->assertEquals(5, $sorted[1]['val']);
         $this->assertEquals(10, $sorted[2]['val']);
 
-        // DESC: nulls come last (1) (Wait, implementation check needed)
-        // Implementation: compareNulls returns -1 if a is null, 1 if b is null.
-        // If sorting DESC, we invert the result.
-        // If a=null, b=5: compareNulls returns -1. DESC -> return 1. So a > b? No, 1 means a comes AFTER b.
-        // So nulls should be at the end in DESC?
-        // Let's verify logic:
-        // $cmp = -1 (a < b).
-        // if DESC: return -$cmp = 1 (a > b). So a comes after b.
-        // So nulls are considered "smaller" than values. In ASC they are first. In DESC they are last.
-
+        // DESC: nulls come last
         $sortedDesc = OrderUtils::sortArray($data, ['val' => 'DESC']);
         $this->assertEquals(10, $sortedDesc[0]['val']);
         $this->assertEquals(5, $sortedDesc[1]['val']);

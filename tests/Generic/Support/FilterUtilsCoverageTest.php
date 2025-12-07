@@ -27,7 +27,6 @@ class FilterUtilsCoverageTest extends TestCase
         $filters = ['status' => 1];
         $result = FilterUtils::buildSqlWhere($filters);
 
-        $this->assertIsArray($result);
         $this->assertCount(2, $result);
         $this->assertStringContainsString('WHERE', $result[0]);
         $this->assertStringContainsString('`status` = :status', $result[0]);
@@ -42,7 +41,6 @@ class FilterUtilsCoverageTest extends TestCase
         $filters = ['status' => 1];
         $result = FilterUtils::buildMongoFilter($filters);
 
-        $this->assertIsArray($result);
         $this->assertArrayHasKey('status', $result);
         $this->assertEquals(1, $result['status']);
     }
