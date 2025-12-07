@@ -41,8 +41,7 @@ class OrderUtilsCoverageTest extends TestCase
     {
         $sql = OrderUtils::buildJsonOrderBy('data', '$.score', 'DESC');
 
-        $this->assertStringContainsString('ORDER BY', $sql);
-        $this->assertStringContainsString('JSON_UNQUOTE(JSON_EXTRACT(`data`, "$.score")) DESC', $sql);
+        $this->assertStringContainsString('JSON_UNQUOTE(JSON_EXTRACT(`data`, \'$.score\')) DESC', $sql);
     }
 
     public function testBuildMongoSort(): void

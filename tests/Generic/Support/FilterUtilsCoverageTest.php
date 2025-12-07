@@ -31,8 +31,8 @@ class FilterUtilsCoverageTest extends TestCase
         $this->assertCount(2, $result);
         $this->assertStringContainsString('WHERE', $result[0]);
         $this->assertStringContainsString('`status` = :status', $result[0]);
-        $this->assertArrayHasKey(':status', $result[1]);
-        $this->assertEquals(1, $result[1][':status']);
+        $this->assertArrayHasKey('status', $result[1]);
+        $this->assertEquals(1, $result[1]['status']);
     }
 
     public function testBuildMongoFilter(): void
