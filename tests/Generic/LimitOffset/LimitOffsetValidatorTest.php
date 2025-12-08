@@ -137,9 +137,25 @@ class LimitOffsetValidatorTest extends TestCase
             $this->assertStringContainsString('Offset cannot exceed 500', $e->getMessage());
         }
 
-        // ValidateAndNormalize with config
-        $res = LimitOffsetValidator::validateAndNormalize(200, 600, $config);
-        $this->assertSame(100, $res['limit']); // Capped at custom max
-        $this->assertSame(500, $res['offset']); // Capped at custom max
+        // ValidateAndNormalize with config (Valid)
+        $res = LimitOffsetValidator::validateAndNormalize(100, 500, $config);
+        $this->assertSame(100, $res['limit']);
+        $this->assertSame(500, $res['offset']);
+
+        // ValidateAndNormalize with config (Strict Validation - Limit)
+        try {
+            LimitOffsetValidator::validateAndNormalize(101, 500, $config);
+            $this->fail('Should have thrown exception for exceeding custom limit in validateAndNormalize');
+        } catch (RepositoryException $e) {
+            $this->assertStringContainsString('exceeds the maximum allowed (100)', $e->getMessage());
+        }
+
+        // ValidateAndNormalize with config (Strict Validation - Offset)
+        try {
+            LimitOffsetValidator::validateAndNormalize(100, 501, $config);
+            $this->fail('Should have thrown exception for exceeding custom offset in validateAndNormalize');
+        } catch (RepositoryException $e) {
+            $this->assertStringContainsString('Offset cannot exceed 500', $e->getMessage());
+        }
     }
 }
