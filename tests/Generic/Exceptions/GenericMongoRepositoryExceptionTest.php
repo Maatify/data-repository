@@ -42,6 +42,11 @@ class GenericMongoRepositoryExceptionStub extends GenericMongoRepository
     {
         return new MongoExceptionTestEntity();
     }
+
+    protected function validateAdapter(): void
+    {
+        // Bypass validation for mock driver
+    }
 }
 
 class GenericMongoRepositoryExceptionTest extends TestCase
