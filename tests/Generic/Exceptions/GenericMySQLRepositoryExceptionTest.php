@@ -33,12 +33,10 @@ class ExceptionTestEntity
  */
 class GenericMySQLRepositoryExceptionStub extends GenericMySQLRepository
 {
-    private AdapterInterface $adapter;
-
     public function __construct(AdapterInterface $adapter)
     {
-        $this->adapter = $adapter;
         parent::__construct($adapter);
+        $this->tableName = 'test_table';
     }
 
     protected function createInstance(): object
@@ -69,7 +67,6 @@ class GenericMySQLRepositoryExceptionTest extends TestCase
         $this->adapter->method('getDriver')->willReturn($this->pdo);
 
         $this->repository = new GenericMySQLRepositoryExceptionStub($this->adapter);
-        $this->repository->setTableName('test_table');
     }
 
     public function testFindThrowsRepositoryException(): void

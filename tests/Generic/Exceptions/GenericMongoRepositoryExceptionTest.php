@@ -32,12 +32,10 @@ class MongoExceptionTestEntity
  */
 class GenericMongoRepositoryExceptionStub extends GenericMongoRepository
 {
-    private AdapterInterface $adapter;
-
     public function __construct(AdapterInterface $adapter)
     {
-        $this->adapter = $adapter;
         parent::__construct($adapter);
+        $this->collectionName = 'test_collection';
     }
 
     protected function createInstance(): object
@@ -76,7 +74,6 @@ class GenericMongoRepositoryExceptionTest extends TestCase
         $this->adapter->method('getCollection')->willReturn($this->collection);
 
         $this->repository = new GenericMongoRepositoryExceptionStub($this->adapter);
-        $this->repository->setCollectionName('test_collection');
     }
 
     public function testFindThrowsRepositoryException(): void

@@ -65,7 +65,10 @@ class BaseHydratorMappingTest extends TestCase
         $upperCaseTransformer = new class implements TransformerInterface {
             public function transform(mixed $value): mixed
             {
-                return strtoupper((string)$value);
+                if (is_scalar($value) || $value instanceof \Stringable) {
+                    return strtoupper((string)$value);
+                }
+                return $value;
             }
         };
 
