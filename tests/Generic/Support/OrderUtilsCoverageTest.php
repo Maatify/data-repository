@@ -174,4 +174,22 @@ class OrderUtilsCoverageTest extends TestCase
         $this->assertEquals('Alice', $sorted[0]['name']);
         $this->assertEquals('Bob', $sorted[1]['name']);
     }
+
+    public function testSortArrayWithNonComparable(): void
+    {
+        // Arrays are not scalar, not numeric, not bool, not DateTime.
+        // OrderUtils::compareValues should return 0.
+        // sortArray uses usort. PHP's stable sort behavior varies, but if 0 is returned,
+        // order should arguably be preserved or undefined.
+        // We mainly want to ensure no crash/exception.
+
+        $data = [
+            ['obj' => ['a']],
+            ['obj' => ['b']],
+        ];
+
+        // This should run without error
+        $sorted = OrderUtils::sortArray($data, ['obj' => 'ASC']);
+        $this->assertCount(2, $sorted);
+    }
 }
