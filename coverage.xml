@@ -1,0 +1,1438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1765193881">
+  <project timestamp="1765193881" name="Clover Coverage">
+    <package name="Maatify\DataRepository\Base">
+      <file name="/app/src/Base/BaseMongoRepository.php">
+        <class name="Maatify\DataRepository\Base\BaseMongoRepository" namespace="Maatify\DataRepository\Base">
+          <metrics complexity="9" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="15" coveredelements="15"/>
+        </class>
+        <line num="30" type="method" name="validateAdapter" visibility="protected" complexity="4" crap="4" count="35"/>
+        <line num="33" type="stmt" count="35"/>
+        <line num="35" type="stmt" count="35"/>
+        <line num="36" type="stmt" count="35"/>
+        <line num="38" type="stmt" count="35"/>
+        <line num="39" type="stmt" count="3"/>
+        <line num="43" type="method" name="getCollection" visibility="protected" complexity="5" crap="5" count="29"/>
+        <line num="46" type="stmt" count="29"/>
+        <line num="48" type="stmt" count="29"/>
+        <line num="50" type="stmt" count="1"/>
+        <line num="53" type="stmt" count="28"/>
+        <line num="55" type="stmt" count="19"/>
+        <line num="60" type="stmt" count="9"/>
+        <line num="61" type="stmt" count="8"/>
+        <line num="64" type="stmt" count="1"/>
+        <metrics loc="67" ncloc="47" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="15" coveredelements="15"/>
+      </file>
+      <file name="/app/src/Base/BaseMySQLRepository.php">
+        <class name="Maatify\DataRepository\Base\BaseMySQLRepository" namespace="Maatify\DataRepository\Base">
+          <metrics complexity="7" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="8" elements="9" coveredelements="9"/>
+        </class>
+        <line num="31" type="method" name="validateAdapter" visibility="protected" complexity="7" crap="7" count="36"/>
+        <line num="34" type="stmt" count="36"/>
+        <line num="36" type="stmt" count="36"/>
+        <line num="38" type="stmt" count="36"/>
+        <line num="39" type="stmt" count="36"/>
+        <line num="41" type="stmt" count="36"/>
+        <line num="42" type="stmt" count="36"/>
+        <line num="44" type="stmt" count="36"/>
+        <line num="45" type="stmt" count="1"/>
+        <metrics loc="49" ncloc="30" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="8" elements="9" coveredelements="9"/>
+      </file>
+      <file name="/app/src/Base/BaseRedisRepository.php">
+        <class name="Maatify\DataRepository\Base\BaseRedisRepository" namespace="Maatify\DataRepository\Base">
+          <metrics complexity="5" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="7" coveredelements="7"/>
+        </class>
+        <line num="27" type="method" name="validateAdapter" visibility="protected" complexity="5" crap="5" count="47"/>
+        <line num="30" type="stmt" count="47"/>
+        <line num="32" type="stmt" count="47"/>
+        <line num="33" type="stmt" count="47"/>
+        <line num="34" type="stmt" count="47"/>
+        <line num="36" type="stmt" count="47"/>
+        <line num="37" type="stmt" count="1"/>
+        <metrics loc="41" ncloc="26" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="7" coveredelements="7"/>
+      </file>
+      <file name="/app/src/Base/BaseRepository.php">
+        <class name="Maatify\DataRepository\Base\BaseRepository" namespace="Maatify\DataRepository\Base">
+          <metrics complexity="8" methods="8" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="11" elements="20" coveredelements="18"/>
+        </class>
+        <line num="39" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="138"/>
+        <line num="41" type="stmt" count="138"/>
+        <line num="42" type="stmt" count="133"/>
+        <line num="48" type="method" name="setAdapter" visibility="public" complexity="1" crap="1" count="138"/>
+        <line num="50" type="stmt" count="138"/>
+        <line num="51" type="stmt" count="138"/>
+        <line num="53" type="stmt" count="133"/>
+        <line num="61" type="method" name="validateAdapter" visibility="protected" complexity="1" crap="1" count="2"/>
+        <line num="65" type="stmt" count="2"/>
+        <line num="67" type="method" name="getTableName" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="69" type="stmt" count="4"/>
+        <line num="72" type="method" name="setTableName" visibility="protected" complexity="1" crap="1" count="2"/>
+        <line num="74" type="stmt" count="2"/>
+        <line num="82" type="method" name="getDriver" visibility="protected" complexity="1" crap="1" count="84"/>
+        <line num="84" type="stmt" count="84"/>
+        <line num="91" type="method" name="setHydrator" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="93" type="stmt" count="2"/>
+        <line num="94" type="stmt" count="2"/>
+        <line num="100" type="method" name="getHydrator" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="102" type="stmt" count="0"/>
+        <metrics loc="105" ncloc="67" classes="1" methods="8" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="11" elements="20" coveredelements="18"/>
+      </file>
+    </package>
+    <package name="Maatify\DataRepository\Exceptions">
+      <file name="/app/src/Exceptions/RepositoryException.php">
+        <class name="Maatify\DataRepository\Exceptions\RepositoryException" namespace="Maatify\DataRepository\Exceptions">
+          <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
+        </class>
+        <line num="22" type="method" name="driverNotSupported" visibility="public" complexity="1" crap="1" count="7"/>
+        <line num="24" type="stmt" count="7"/>
+        <line num="27" type="method" name="connectionFailed" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="29" type="stmt" count="1"/>
+        <metrics loc="32" ncloc="22" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
+      </file>
+    </package>
+    <package name="Maatify\DataRepository\Generic">
+      <file name="/app/src/Generic/GenericMongoRepository.php">
+        <class name="Maatify\DataRepository\Generic\GenericMongoRepository" namespace="Maatify\DataRepository\Generic">
+          <metrics complexity="35" methods="14" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="74" coveredstatements="63" elements="88" coveredelements="74"/>
+        </class>
+        <line num="47" type="method" name="find" visibility="public" complexity="2" crap="2" count="7"/>
+        <line num="50" type="stmt" count="7"/>
+        <line num="52" type="stmt" count="7"/>
+        <line num="54" type="stmt" count="3"/>
+        <line num="55" type="stmt" count="4"/>
+        <line num="56" type="stmt" count="4"/>
+        <line num="67" type="method" name="findBy" visibility="public" complexity="5" crap="5.01" count="9"/>
+        <line num="69" type="stmt" count="9"/>
+        <line num="72" type="stmt" count="8"/>
+        <line num="74" type="stmt" count="8"/>
+        <line num="75" type="stmt" count="8"/>
+        <line num="76" type="stmt" count="0"/>
+        <line num="78" type="stmt" count="8"/>
+        <line num="79" type="stmt" count="1"/>
+        <line num="81" type="stmt" count="8"/>
+        <line num="82" type="stmt" count="1"/>
+        <line num="85" type="stmt" count="8"/>
+        <line num="87" type="stmt" count="5"/>
+        <line num="88" type="stmt" count="3"/>
+        <line num="89" type="stmt" count="3"/>
+        <line num="99" type="method" name="findOneBy" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="102" type="stmt" count="3"/>
+        <line num="105" type="stmt" count="3"/>
+        <line num="107" type="stmt" count="1"/>
+        <line num="108" type="stmt" count="2"/>
+        <line num="109" type="stmt" count="2"/>
+        <line num="117" type="method" name="findAll" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="119" type="stmt" count="3"/>
+        <line num="127" type="method" name="count" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="130" type="stmt" count="3"/>
+        <line num="132" type="stmt" count="3"/>
+        <line num="133" type="stmt" count="2"/>
+        <line num="134" type="stmt" count="2"/>
+        <line num="141" type="method" name="insert" visibility="public" complexity="4" crap="4" count="7"/>
+        <line num="144" type="stmt" count="7"/>
+        <line num="145" type="stmt" count="5"/>
+        <line num="147" type="stmt" count="5"/>
+        <line num="149" type="stmt" count="5"/>
+        <line num="150" type="stmt" count="2"/>
+        <line num="153" type="stmt" count="3"/>
+        <line num="154" type="stmt" count="4"/>
+        <line num="155" type="stmt" count="4"/>
+        <line num="156" type="stmt" count="2"/>
+        <line num="158" type="stmt" count="2"/>
+        <line num="165" type="method" name="update" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="168" type="stmt" count="4"/>
+        <line num="169" type="stmt" count="4"/>
+        <line num="171" type="stmt" count="2"/>
+        <line num="172" type="stmt" count="2"/>
+        <line num="173" type="stmt" count="2"/>
+        <line num="180" type="method" name="delete" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="183" type="stmt" count="3"/>
+        <line num="184" type="stmt" count="3"/>
+        <line num="186" type="stmt" count="1"/>
+        <line num="187" type="stmt" count="2"/>
+        <line num="188" type="stmt" count="2"/>
+        <line num="192" type="method" name="setCollectionName" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="194" type="stmt" count="3"/>
+        <line num="200" type="method" name="getCollectionObj" visibility="private" complexity="4" crap="4" count="33"/>
+        <line num="202" type="stmt" count="33"/>
+        <line num="204" type="stmt" count="33"/>
+        <line num="205" type="stmt" count="8"/>
+        <line num="206" type="stmt" count="5"/>
+        <line num="208" type="stmt" count="3"/>
+        <line num="213" type="stmt" count="30"/>
+        <line num="215" type="stmt" count="30"/>
+        <line num="216" type="stmt" count="1"/>
+        <line num="219" type="stmt" count="29"/>
+        <line num="227" type="method" name="getMongoOps" visibility="protected" complexity="2" crap="2" count="15"/>
+        <line num="229" type="stmt" count="15"/>
+        <line num="230" type="stmt" count="15"/>
+        <line num="233" type="stmt" count="15"/>
+        <line num="239" type="method" name="buildIdFilter" visibility="private" complexity="4" crap="4" count="19"/>
+        <line num="241" type="stmt" count="19"/>
+        <line num="242" type="stmt" count="7"/>
+        <line num="245" type="stmt" count="12"/>
+        <line num="256" type="method" name="paginate" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="258" type="stmt" count="0"/>
+        <line num="270" type="method" name="paginateBy" visibility="public" complexity="3" crap="12" count="0"/>
+        <line num="272" type="stmt" count="0"/>
+        <line num="273" type="stmt" count="0"/>
+        <line num="276" type="stmt" count="0"/>
+        <line num="277" type="stmt" count="0"/>
+        <line num="280" type="stmt" count="0"/>
+        <line num="281" type="stmt" count="0"/>
+        <line num="283" type="stmt" count="0"/>
+        <line num="285" type="stmt" count="0"/>
+        <line num="287" type="stmt" count="0"/>
+        <metrics loc="291" ncloc="210" classes="1" methods="14" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="74" coveredstatements="63" elements="88" coveredelements="74"/>
+      </file>
+      <file name="/app/src/Generic/GenericMySQLRepository.php">
+        <class name="Maatify\DataRepository\Generic\GenericMySQLRepository" namespace="Maatify\DataRepository\Generic">
+          <metrics complexity="32" methods="13" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="89" coveredstatements="79" elements="102" coveredelements="90"/>
+        </class>
+        <line num="46" type="method" name="find" visibility="public" complexity="3" crap="3" count="12"/>
+        <line num="49" type="stmt" count="12"/>
+        <line num="50" type="stmt" count="9"/>
+        <line num="51" type="stmt" count="9"/>
+        <line num="54" type="stmt" count="9"/>
+        <line num="56" type="stmt" count="9"/>
+        <line num="57" type="stmt" count="3"/>
+        <line num="58" type="stmt" count="2"/>
+        <line num="69" type="method" name="findBy" visibility="public" complexity="5" crap="5" count="9"/>
+        <line num="71" type="stmt" count="9"/>
+        <line num="73" type="stmt" count="7"/>
+        <line num="75" type="stmt" count="6"/>
+        <line num="77" type="stmt" count="6"/>
+        <line num="78" type="stmt" count="1"/>
+        <line num="81" type="stmt" count="6"/>
+        <line num="82" type="stmt" count="2"/>
+        <line num="85" type="stmt" count="6"/>
+        <line num="86" type="stmt" count="1"/>
+        <line num="90" type="stmt" count="6"/>
+        <line num="91" type="stmt" count="4"/>
+        <line num="93" type="stmt" count="4"/>
+        <line num="94" type="stmt" count="4"/>
+        <line num="95" type="stmt" count="2"/>
+        <line num="96" type="stmt" count="2"/>
+        <line num="106" type="method" name="findOneBy" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="108" type="stmt" count="1"/>
+        <line num="110" type="stmt" count="1"/>
+        <line num="117" type="method" name="findAll" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="119" type="stmt" count="1"/>
+        <line num="127" type="method" name="count" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="130" type="stmt" count="3"/>
+        <line num="131" type="stmt" count="3"/>
+        <line num="133" type="stmt" count="3"/>
+        <line num="134" type="stmt" count="1"/>
+        <line num="136" type="stmt" count="1"/>
+        <line num="137" type="stmt" count="2"/>
+        <line num="138" type="stmt" count="2"/>
+        <line num="145" type="method" name="insert" visibility="public" complexity="2" crap="2" count="15"/>
+        <line num="147" type="stmt" count="15"/>
+        <line num="148" type="stmt" count="15"/>
+        <line num="150" type="stmt" count="15"/>
+        <line num="151" type="stmt" count="15"/>
+        <line num="152" type="stmt" count="15"/>
+        <line num="153" type="stmt" count="15"/>
+        <line num="154" type="stmt" count="15"/>
+        <line num="155" type="stmt" count="15"/>
+        <line num="158" type="stmt" count="15"/>
+        <line num="159" type="stmt" count="15"/>
+        <line num="161" type="stmt" count="12"/>
+        <line num="162" type="stmt" count="3"/>
+        <line num="163" type="stmt" count="3"/>
+        <line num="170" type="method" name="update" visibility="public" complexity="4" crap="4" count="10"/>
+        <line num="172" type="stmt" count="10"/>
+        <line num="173" type="stmt" count="3"/>
+        <line num="176" type="stmt" count="7"/>
+        <line num="177" type="stmt" count="7"/>
+        <line num="178" type="stmt" count="7"/>
+        <line num="181" type="stmt" count="7"/>
+        <line num="182" type="stmt" count="7"/>
+        <line num="183" type="stmt" count="7"/>
+        <line num="184" type="stmt" count="7"/>
+        <line num="185" type="stmt" count="7"/>
+        <line num="186" type="stmt" count="7"/>
+        <line num="188" type="stmt" count="7"/>
+        <line num="191" type="stmt" count="7"/>
+        <line num="193" type="stmt" count="5"/>
+        <line num="194" type="stmt" count="2"/>
+        <line num="195" type="stmt" count="2"/>
+        <line num="202" type="method" name="delete" visibility="public" complexity="2" crap="2" count="5"/>
+        <line num="205" type="stmt" count="5"/>
+        <line num="206" type="stmt" count="5"/>
+        <line num="207" type="stmt" count="3"/>
+        <line num="209" type="stmt" count="3"/>
+        <line num="210" type="stmt" count="2"/>
+        <line num="211" type="stmt" count="2"/>
+        <line num="218" type="method" name="getPdo" visibility="private" complexity="5" crap="5" count="30"/>
+        <line num="221" type="stmt" count="30"/>
+        <line num="223" type="stmt" count="30"/>
+        <line num="224" type="stmt" count="26"/>
+        <line num="228" type="stmt" count="4"/>
+        <line num="230" type="stmt" count="2"/>
+        <line num="231" type="stmt" count="2"/>
+        <line num="232" type="stmt" count="2"/>
+        <line num="236" type="stmt" count="2"/>
+        <line num="242" type="method" name="getMysqlOps" visibility="protected" complexity="2" crap="2" count="12"/>
+        <line num="244" type="stmt" count="12"/>
+        <line num="245" type="stmt" count="12"/>
+        <line num="248" type="stmt" count="12"/>
+        <line num="256" type="method" name="buildWhereClause" visibility="protected" complexity="1" crap="1" count="9"/>
+        <line num="258" type="stmt" count="9"/>
+        <line num="269" type="method" name="paginate" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="271" type="stmt" count="0"/>
+        <line num="283" type="method" name="paginateBy" visibility="public" complexity="3" crap="12" count="0"/>
+        <line num="285" type="stmt" count="0"/>
+        <line num="286" type="stmt" count="0"/>
+        <line num="289" type="stmt" count="0"/>
+        <line num="290" type="stmt" count="0"/>
+        <line num="293" type="stmt" count="0"/>
+        <line num="294" type="stmt" count="0"/>
+        <line num="296" type="stmt" count="0"/>
+        <line num="298" type="stmt" count="0"/>
+        <line num="300" type="stmt" count="0"/>
+        <metrics loc="303" ncloc="220" classes="1" methods="13" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="89" coveredstatements="79" elements="102" coveredelements="90"/>
+      </file>
+      <file name="/app/src/Generic/GenericRedisRepository.php">
+        <class name="Maatify\DataRepository\Generic\GenericRedisRepository" namespace="Maatify\DataRepository\Generic">
+          <metrics complexity="49" methods="14" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="110" coveredstatements="76" elements="124" coveredelements="82"/>
+        </class>
+        <line num="44" type="method" name="find" visibility="public" complexity="4" crap="4.13" count="10"/>
+        <line num="47" type="stmt" count="10"/>
+        <line num="49" type="stmt" count="10"/>
+        <line num="51" type="stmt" count="10"/>
+        <line num="52" type="stmt" count="4"/>
+        <line num="55" type="stmt" count="8"/>
+        <line num="57" type="stmt" count="8"/>
+        <line num="58" type="stmt" count="1"/>
+        <line num="62" type="stmt" count="7"/>
+        <line num="63" type="stmt" count="0"/>
+        <line num="64" type="stmt" count="0"/>
+        <line num="71" type="method" name="insert" visibility="public" complexity="6" crap="6.13" count="26"/>
+        <line num="73" type="stmt" count="26"/>
+        <line num="74" type="stmt" count="2"/>
+        <line num="77" type="stmt" count="24"/>
+        <line num="79" type="stmt" count="24"/>
+        <line num="80" type="stmt" count="2"/>
+        <line num="82" type="stmt" count="22"/>
+        <line num="84" type="stmt" count="22"/>
+        <line num="85" type="stmt" count="22"/>
+        <line num="86" type="stmt" count="1"/>
+        <line num="90" type="stmt" count="21"/>
+        <line num="91" type="stmt" count="0"/>
+        <line num="92" type="stmt" count="0"/>
+        <line num="95" type="stmt" count="21"/>
+        <line num="101" type="method" name="update" visibility="public" complexity="4" crap="4.32" count="5"/>
+        <line num="103" type="stmt" count="5"/>
+        <line num="104" type="stmt" count="5"/>
+        <line num="105" type="stmt" count="0"/>
+        <line num="108" type="stmt" count="5"/>
+        <line num="109" type="stmt" count="5"/>
+        <line num="111" type="stmt" count="5"/>
+        <line num="112" type="stmt" count="5"/>
+        <line num="113" type="stmt" count="1"/>
+        <line num="117" type="stmt" count="4"/>
+        <line num="118" type="stmt" count="0"/>
+        <line num="119" type="stmt" count="0"/>
+        <line num="126" type="method" name="delete" visibility="public" complexity="2" crap="3.19" count="4"/>
+        <line num="129" type="stmt" count="4"/>
+        <line num="130" type="stmt" count="0"/>
+        <line num="131" type="stmt" count="0"/>
+        <line num="142" type="method" name="findBy" visibility="public" complexity="6" crap="6" count="8"/>
+        <line num="145" type="stmt" count="8"/>
+        <line num="148" type="stmt" count="8"/>
+        <line num="149" type="stmt" count="8"/>
+        <line num="150" type="stmt" count="8"/>
+        <line num="151" type="stmt" count="8"/>
+        <line num="156" type="stmt" count="8"/>
+        <line num="157" type="stmt" count="2"/>
+        <line num="161" type="stmt" count="8"/>
+        <line num="162" type="stmt" count="4"/>
+        <line num="163" type="stmt" count="4"/>
+        <line num="164" type="stmt" count="4"/>
+        <line num="167" type="stmt" count="8"/>
+        <line num="176" type="method" name="findOneBy" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="179" type="stmt" count="3"/>
+        <line num="181" type="stmt" count="3"/>
+        <line num="187" type="method" name="findAll" visibility="public" complexity="4" crap="4.01" count="10"/>
+        <line num="190" type="stmt" count="10"/>
+        <line num="193" type="stmt" count="10"/>
+        <line num="194" type="stmt" count="10"/>
+        <line num="195" type="stmt" count="10"/>
+        <line num="196" type="stmt" count="10"/>
+        <line num="197" type="stmt" count="0"/>
+        <line num="200" type="stmt" count="10"/>
+        <line num="201" type="stmt" count="10"/>
+        <line num="202" type="stmt" count="1"/>
+        <line num="206" type="stmt" count="10"/>
+        <line num="209" type="stmt" count="10"/>
+        <line num="217" type="method" name="count" visibility="public" complexity="2" crap="2" count="6"/>
+        <line num="219" type="stmt" count="6"/>
+        <line num="220" type="stmt" count="4"/>
+        <line num="223" type="stmt" count="2"/>
+        <line num="225" type="stmt" count="2"/>
+        <line num="228" type="method" name="getKey" visibility="private" complexity="1" crap="1" count="24"/>
+        <line num="230" type="stmt" count="24"/>
+        <line num="238" type="method" name="getRedis" visibility="private" complexity="1" crap="1" count="26"/>
+        <line num="241" type="stmt" count="26"/>
+        <line num="243" type="stmt" count="26"/>
+        <line num="250" type="method" name="getRedisOps" visibility="protected" complexity="2" crap="2" count="25"/>
+        <line num="252" type="stmt" count="25"/>
+        <line num="253" type="stmt" count="25"/>
+        <line num="256" type="stmt" count="25"/>
+        <line num="267" type="method" name="paginate" visibility="public" complexity="6" crap="42" count="0"/>
+        <line num="272" type="stmt" count="0"/>
+        <line num="273" type="stmt" count="0"/>
+        <line num="275" type="stmt" count="0"/>
+        <line num="276" type="stmt" count="0"/>
+        <line num="280" type="stmt" count="0"/>
+        <line num="281" type="stmt" count="0"/>
+        <line num="283" type="stmt" count="0"/>
+        <line num="284" type="stmt" count="0"/>
+        <line num="286" type="stmt" count="0"/>
+        <line num="287" type="stmt" count="0"/>
+        <line num="288" type="stmt" count="0"/>
+        <line num="289" type="stmt" count="0"/>
+        <line num="290" type="stmt" count="0"/>
+        <line num="291" type="stmt" count="0"/>
+        <line num="293" type="stmt" count="0"/>
+        <line num="298" type="stmt" count="0"/>
+        <line num="300" type="stmt" count="0"/>
+        <line num="312" type="method" name="paginateBy" visibility="public" complexity="3" crap="3.07" count="1"/>
+        <line num="314" type="stmt" count="1"/>
+        <line num="315" type="stmt" count="0"/>
+        <line num="317" type="stmt" count="1"/>
+        <line num="318" type="stmt" count="0"/>
+        <line num="322" type="stmt" count="1"/>
+        <line num="323" type="stmt" count="1"/>
+        <line num="326" type="stmt" count="1"/>
+        <line num="327" type="stmt" count="1"/>
+        <line num="329" type="stmt" count="1"/>
+        <line num="331" type="stmt" count="1"/>
+        <line num="338" type="method" name="matches" visibility="private" complexity="7" crap="11.60" count="8"/>
+        <line num="340" type="stmt" count="8"/>
+        <line num="341" type="stmt" count="8"/>
+        <line num="342" type="stmt" count="0"/>
+        <line num="347" type="stmt" count="8"/>
+        <line num="349" type="stmt" count="0"/>
+        <line num="350" type="stmt" count="0"/>
+        <line num="351" type="stmt" count="0"/>
+        <line num="358" type="stmt" count="0"/>
+        <line num="362" type="stmt" count="8"/>
+        <line num="363" type="stmt" count="6"/>
+        <line num="367" type="stmt" count="8"/>
+        <metrics loc="370" ncloc="264" classes="1" methods="14" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="110" coveredstatements="76" elements="124" coveredelements="82"/>
+      </file>
+    </package>
+    <package name="Maatify\DataRepository\Generic\Pagination">
+      <file name="/app/src/Generic/Pagination/LimitOffsetConfig.php">
+        <class name="Maatify\DataRepository\Generic\Pagination\LimitOffsetConfig" namespace="Maatify\DataRepository\Generic\Pagination">
+          <metrics complexity="6" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="16" coveredelements="16"/>
+        </class>
+        <line num="20" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="8"/>
+        <line num="24" type="stmt" count="8"/>
+        <line num="26" type="method" name="create" visibility="public" complexity="1" crap="1" count="8"/>
+        <line num="28" type="stmt" count="8"/>
+        <line num="31" type="method" name="withMaxLimit" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="33" type="stmt" count="6"/>
+        <line num="34" type="stmt" count="6"/>
+        <line num="35" type="stmt" count="6"/>
+        <line num="38" type="method" name="withMaxOffset" visibility="public" complexity="1" crap="1" count="5"/>
+        <line num="40" type="stmt" count="5"/>
+        <line num="41" type="stmt" count="5"/>
+        <line num="42" type="stmt" count="5"/>
+        <line num="45" type="method" name="getMaxLimit" visibility="public" complexity="1" crap="1" count="8"/>
+        <line num="47" type="stmt" count="8"/>
+        <line num="50" type="method" name="getMaxOffset" visibility="public" complexity="1" crap="1" count="8"/>
+        <line num="52" type="stmt" count="8"/>
+        <metrics loc="55" ncloc="45" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="16" coveredelements="16"/>
+      </file>
+    </package>
+    <package name="Maatify\DataRepository\Generic\Support">
+      <file name="/app/src/Generic/Support/FieldFilter.php">
+        <class name="Maatify\DataRepository\Generic\Support\FieldFilter" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+        </class>
+        <line num="23" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="56"/>
+        <line num="28" type="stmt" count="56"/>
+        <metrics loc="30" ncloc="17" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+      </file>
+      <file name="/app/src/Generic/Support/FilterParser.php">
+        <class name="Maatify\DataRepository\Generic\Support\FilterParser" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="6" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="15" coveredelements="15"/>
+        </class>
+        <line num="32" type="method" name="parse" visibility="public" complexity="6" crap="6" count="69"/>
+        <line num="35" type="stmt" count="69"/>
+        <line num="37" type="stmt" count="69"/>
+        <line num="38" type="stmt" count="60"/>
+        <line num="40" type="stmt" count="60"/>
+        <line num="42" type="stmt" count="33"/>
+        <line num="43" type="stmt" count="3"/>
+        <line num="45" type="stmt" count="30"/>
+        <line num="47" type="stmt" count="33"/>
+        <line num="51" type="stmt" count="30"/>
+        <line num="52" type="stmt" count="30"/>
+        <line num="54" type="stmt" count="30"/>
+        <line num="55" type="stmt" count="4"/>
+        <line num="58" type="stmt" count="26"/>
+        <line num="62" type="stmt" count="65"/>
+        <metrics loc="65" ncloc="47" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="15" coveredelements="15"/>
+      </file>
+      <file name="/app/src/Generic/Support/FilterUtils.php">
+        <class name="Maatify\DataRepository\Generic\Support\FilterUtils" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
+        </class>
+        <line num="24" type="method" name="buildSqlWhere" visibility="public" complexity="1" crap="1" count="32"/>
+        <line num="26" type="stmt" count="32"/>
+        <line num="33" type="method" name="buildMongoFilter" visibility="public" complexity="1" crap="1" count="22"/>
+        <line num="35" type="stmt" count="22"/>
+        <metrics loc="38" ncloc="20" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
+      </file>
+      <file name="/app/src/Generic/Support/LimitOffsetValidator.php">
+        <class name="Maatify\DataRepository\Generic\Support\LimitOffsetValidator" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="16" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="39" coveredstatements="39" elements="45" coveredelements="45"/>
+        </class>
+        <line num="29" type="method" name="validate" visibility="public" complexity="1" crap="1" count="24"/>
+        <line num="31" type="stmt" count="24"/>
+        <line num="37" type="method" name="validateWithConfig" visibility="public" complexity="3" crap="3" count="31"/>
+        <line num="39" type="stmt" count="31"/>
+        <line num="40" type="stmt" count="31"/>
+        <line num="42" type="stmt" count="31"/>
+        <line num="43" type="stmt" count="24"/>
+        <line num="49" type="method" name="validateLimit" visibility="private" complexity="4" crap="4" count="31"/>
+        <line num="51" type="stmt" count="31"/>
+        <line num="52" type="stmt" count="16"/>
+        <line num="55" type="stmt" count="17"/>
+        <line num="56" type="stmt" count="4"/>
+        <line num="57" type="stmt" count="4"/>
+        <line num="58" type="stmt" count="4"/>
+        <line num="59" type="stmt" count="4"/>
+        <line num="62" type="stmt" count="14"/>
+        <line num="63" type="stmt" count="5"/>
+        <line num="64" type="stmt" count="5"/>
+        <line num="65" type="stmt" count="5"/>
+        <line num="66" type="stmt" count="5"/>
+        <line num="67" type="stmt" count="5"/>
+        <line num="74" type="method" name="validateOffset" visibility="private" complexity="4" crap="4" count="24"/>
+        <line num="76" type="stmt" count="24"/>
+        <line num="77" type="stmt" count="14"/>
+        <line num="80" type="stmt" count="11"/>
+        <line num="81" type="stmt" count="3"/>
+        <line num="82" type="stmt" count="3"/>
+        <line num="83" type="stmt" count="3"/>
+        <line num="84" type="stmt" count="3"/>
+        <line num="87" type="stmt" count="8"/>
+        <line num="88" type="stmt" count="3"/>
+        <line num="89" type="stmt" count="3"/>
+        <line num="90" type="stmt" count="3"/>
+        <line num="91" type="stmt" count="3"/>
+        <line num="92" type="stmt" count="3"/>
+        <line num="101" type="method" name="normalize" visibility="private" complexity="1" crap="1" count="3"/>
+        <line num="103" type="stmt" count="3"/>
+        <line num="104" type="stmt" count="3"/>
+        <line num="105" type="stmt" count="3"/>
+        <line num="106" type="stmt" count="3"/>
+        <line num="115" type="method" name="validateAndNormalize" visibility="public" complexity="3" crap="3" count="4"/>
+        <line num="117" type="stmt" count="4"/>
+        <line num="119" type="stmt" count="2"/>
+        <line num="120" type="stmt" count="2"/>
+        <line num="122" type="stmt" count="2"/>
+        <metrics loc="125" ncloc="92" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="39" coveredstatements="39" elements="45" coveredelements="45"/>
+      </file>
+      <file name="/app/src/Generic/Support/MongoFilterBuilder.php">
+        <class name="Maatify\DataRepository\Generic\Support\MongoFilterBuilder" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="24" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="60" coveredstatements="55" elements="63" coveredelements="56"/>
+        </class>
+        <line num="44" type="method" name="build" visibility="public" complexity="7" crap="7.01" count="40"/>
+        <line num="46" type="stmt" count="40"/>
+        <line num="47" type="stmt" count="40"/>
+        <line num="50" type="stmt" count="39"/>
+        <line num="52" type="stmt" count="39"/>
+        <line num="53" type="stmt" count="31"/>
+        <line num="55" type="stmt" count="31"/>
+        <line num="56" type="stmt" count="2"/>
+        <line num="60" type="stmt" count="29"/>
+        <line num="63" type="stmt" count="29"/>
+        <line num="64" type="stmt" count="29"/>
+        <line num="65" type="stmt" count="29"/>
+        <line num="68" type="stmt" count="3"/>
+        <line num="70" type="stmt" count="3"/>
+        <line num="71" type="stmt" count="3"/>
+        <line num="73" type="stmt" count="0"/>
+        <line num="77" type="stmt" count="37"/>
+        <line num="83" type="method" name="buildMongoCondition" visibility="private" complexity="15" crap="15.19" count="29"/>
+        <line num="86" type="stmt" count="29"/>
+        <line num="87" type="stmt" count="12"/>
+        <line num="89" type="stmt" count="19"/>
+        <line num="90" type="stmt" count="3"/>
+        <line num="91" type="stmt" count="0"/>
+        <line num="94" type="stmt" count="3"/>
+        <line num="95" type="stmt" count="3"/>
+        <line num="97" type="stmt" count="3"/>
+        <line num="98" type="stmt" count="3"/>
+        <line num="99" type="stmt" count="3"/>
+        <line num="100" type="stmt" count="3"/>
+        <line num="101" type="stmt" count="3"/>
+        <line num="102" type="stmt" count="3"/>
+        <line num="104" type="stmt" count="16"/>
+        <line num="105" type="stmt" count="2"/>
+        <line num="106" type="stmt" count="0"/>
+        <line num="108" type="stmt" count="2"/>
+        <line num="109" type="stmt" count="2"/>
+        <line num="110" type="stmt" count="2"/>
+        <line num="111" type="stmt" count="2"/>
+        <line num="112" type="stmt" count="2"/>
+        <line num="113" type="stmt" count="2"/>
+        <line num="115" type="stmt" count="14"/>
+        <line num="116" type="stmt" count="2"/>
+        <line num="118" type="stmt" count="12"/>
+        <line num="119" type="stmt" count="2"/>
+        <line num="121" type="stmt" count="10"/>
+        <line num="122" type="stmt" count="9"/>
+        <line num="123" type="stmt" count="3"/>
+        <line num="124" type="stmt" count="0"/>
+        <line num="127" type="stmt" count="3"/>
+        <line num="128" type="stmt" count="3"/>
+        <line num="129" type="stmt" count="3"/>
+        <line num="130" type="stmt" count="3"/>
+        <line num="131" type="stmt" count="3"/>
+        <line num="134" type="stmt" count="8"/>
+        <line num="135" type="stmt" count="8"/>
+        <line num="136" type="stmt" count="8"/>
+        <line num="137" type="stmt" count="8"/>
+        <line num="138" type="stmt" count="8"/>
+        <line num="139" type="stmt" count="8"/>
+        <line num="143" type="stmt" count="0"/>
+        <line num="146" type="method" name="isValidMongoField" visibility="private" complexity="2" crap="2" count="31"/>
+        <line num="148" type="stmt" count="31"/>
+        <line num="149" type="stmt" count="31"/>
+        <metrics loc="152" ncloc="129" classes="1" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="60" coveredstatements="55" elements="63" coveredelements="56"/>
+      </file>
+      <file name="/app/src/Generic/Support/MongoOps.php">
+        <class name="Maatify\DataRepository\Generic\Support\MongoOps" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="15" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="22" coveredstatements="22" elements="27" coveredelements="27"/>
+        </class>
+        <line num="37" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="23"/>
+        <line num="39" type="stmt" count="23"/>
+        <line num="47" type="method" name="getCollection" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="49" type="stmt" count="6"/>
+        <line num="58" type="method" name="normalizeInsertedId" visibility="public" complexity="6" crap="6" count="6"/>
+        <line num="60" type="stmt" count="6"/>
+        <line num="61" type="stmt" count="1"/>
+        <line num="63" type="stmt" count="5"/>
+        <line num="64" type="stmt" count="3"/>
+        <line num="68" type="stmt" count="3"/>
+        <line num="69" type="stmt" count="1"/>
+        <line num="72" type="stmt" count="3"/>
+        <line num="81" type="method" name="toArray" visibility="public" complexity="4" crap="4" count="9"/>
+        <line num="83" type="stmt" count="9"/>
+        <line num="84" type="stmt" count="4"/>
+        <line num="87" type="stmt" count="7"/>
+        <line num="89" type="stmt" count="2"/>
+        <line num="90" type="stmt" count="2"/>
+        <line num="94" type="stmt" count="6"/>
+        <line num="95" type="stmt" count="6"/>
+        <line num="104" type="method" name="cursorToArray" visibility="public" complexity="3" crap="3" count="6"/>
+        <line num="106" type="stmt" count="6"/>
+        <line num="107" type="stmt" count="6"/>
+        <line num="109" type="stmt" count="4"/>
+        <line num="110" type="stmt" count="4"/>
+        <line num="111" type="stmt" count="4"/>
+        <line num="114" type="stmt" count="6"/>
+        <metrics loc="117" ncloc="68" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="22" coveredstatements="22" elements="27" coveredelements="27"/>
+      </file>
+      <file name="/app/src/Generic/Support/MongoOrderBuilder.php">
+        <class name="Maatify\DataRepository\Generic\Support\MongoOrderBuilder" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="4" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="8" coveredelements="8"/>
+        </class>
+        <line num="26" type="method" name="build" visibility="public" complexity="4" crap="4" count="9"/>
+        <line num="28" type="stmt" count="9"/>
+        <line num="30" type="stmt" count="9"/>
+        <line num="31" type="stmt" count="2"/>
+        <line num="34" type="stmt" count="8"/>
+        <line num="36" type="stmt" count="8"/>
+        <line num="37" type="stmt" count="8"/>
+        <line num="40" type="stmt" count="8"/>
+        <metrics loc="43" ncloc="27" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="8" coveredelements="8"/>
+      </file>
+      <file name="/app/src/Generic/Support/MySQLFilterBuilder.php">
+        <class name="Maatify\DataRepository\Generic\Support\MySQLFilterBuilder" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="23" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="57" coveredstatements="54" elements="60" coveredelements="55"/>
+        </class>
+        <line num="33" type="method" name="build" visibility="public" complexity="5" crap="5.02" count="50"/>
+        <line num="35" type="stmt" count="50"/>
+        <line num="37" type="stmt" count="9"/>
+        <line num="38" type="stmt" count="9"/>
+        <line num="41" type="stmt" count="45"/>
+        <line num="42" type="stmt" count="45"/>
+        <line num="45" type="stmt" count="43"/>
+        <line num="48" type="stmt" count="43"/>
+        <line num="50" type="stmt" count="43"/>
+        <line num="51" type="stmt" count="43"/>
+        <line num="53" type="stmt" count="43"/>
+        <line num="54" type="stmt" count="4"/>
+        <line num="57" type="stmt" count="40"/>
+        <line num="58" type="stmt" count="40"/>
+        <line num="59" type="stmt" count="40"/>
+        <line num="61" type="stmt" count="40"/>
+        <line num="62" type="stmt" count="40"/>
+        <line num="64" type="stmt" count="40"/>
+        <line num="67" type="stmt" count="37"/>
+        <line num="69" type="stmt" count="0"/>
+        <line num="70" type="stmt" count="0"/>
+        <line num="73" type="stmt" count="37"/>
+        <line num="79" type="method" name="buildSqlClause" visibility="private" complexity="16" crap="16" count="40"/>
+        <line num="88" type="stmt" count="40"/>
+        <line num="89" type="stmt" count="15"/>
+        <line num="90" type="stmt" count="15"/>
+        <line num="92" type="stmt" count="26"/>
+        <line num="93" type="stmt" count="21"/>
+        <line num="94" type="stmt" count="9"/>
+        <line num="95" type="stmt" count="1"/>
+        <line num="98" type="stmt" count="8"/>
+        <line num="99" type="stmt" count="2"/>
+        <line num="103" type="stmt" count="6"/>
+        <line num="105" type="stmt" count="6"/>
+        <line num="106" type="stmt" count="6"/>
+        <line num="107" type="stmt" count="6"/>
+        <line num="108" type="stmt" count="6"/>
+        <line num="111" type="stmt" count="6"/>
+        <line num="113" type="stmt" count="19"/>
+        <line num="114" type="stmt" count="3"/>
+        <line num="115" type="stmt" count="0"/>
+        <line num="117" type="stmt" count="3"/>
+        <line num="118" type="stmt" count="3"/>
+        <line num="120" type="stmt" count="16"/>
+        <line num="121" type="stmt" count="4"/>
+        <line num="122" type="stmt" count="1"/>
+        <line num="125" type="stmt" count="3"/>
+        <line num="126" type="stmt" count="3"/>
+        <line num="128" type="stmt" count="3"/>
+        <line num="129" type="stmt" count="3"/>
+        <line num="131" type="stmt" count="3"/>
+        <line num="133" type="stmt" count="13"/>
+        <line num="134" type="stmt" count="4"/>
+        <line num="136" type="stmt" count="9"/>
+        <line num="137" type="stmt" count="2"/>
+        <line num="140" type="stmt" count="7"/>
+        <line num="141" type="stmt" count="7"/>
+        <line num="145" type="method" name="isValidSqlColumn" visibility="private" complexity="2" crap="2" count="43"/>
+        <line num="147" type="stmt" count="43"/>
+        <line num="148" type="stmt" count="43"/>
+        <metrics loc="151" ncloc="128" classes="1" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="57" coveredstatements="54" elements="60" coveredelements="55"/>
+      </file>
+      <file name="/app/src/Generic/Support/MySQLOrderBuilder.php">
+        <class name="Maatify\DataRepository\Generic\Support\MySQLOrderBuilder" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="10" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="36" elements="39" coveredelements="37"/>
+        </class>
+        <line num="27" type="method" name="build" visibility="public" complexity="5" crap="5.00" count="11"/>
+        <line num="29" type="stmt" count="11"/>
+        <line num="31" type="stmt" count="11"/>
+        <line num="32" type="stmt" count="2"/>
+        <line num="35" type="stmt" count="10"/>
+        <line num="37" type="stmt" count="10"/>
+        <line num="39" type="stmt" count="10"/>
+        <line num="40" type="stmt" count="1"/>
+        <line num="44" type="stmt" count="10"/>
+        <line num="45" type="stmt" count="10"/>
+        <line num="46" type="stmt" count="10"/>
+        <line num="47" type="stmt" count="10"/>
+        <line num="48" type="stmt" count="10"/>
+        <line num="49" type="stmt" count="10"/>
+        <line num="50" type="stmt" count="10"/>
+        <line num="52" type="stmt" count="10"/>
+        <line num="55" type="stmt" count="10"/>
+        <line num="56" type="stmt" count="0"/>
+        <line num="57" type="stmt" count="10"/>
+        <line num="69" type="method" name="buildJson" visibility="public" complexity="5" crap="5" count="8"/>
+        <line num="75" type="stmt" count="8"/>
+        <line num="76" type="stmt" count="8"/>
+        <line num="78" type="stmt" count="8"/>
+        <line num="79" type="stmt" count="8"/>
+        <line num="80" type="stmt" count="1"/>
+        <line num="83" type="stmt" count="7"/>
+        <line num="84" type="stmt" count="7"/>
+        <line num="85" type="stmt" count="7"/>
+        <line num="86" type="stmt" count="7"/>
+        <line num="87" type="stmt" count="7"/>
+        <line num="88" type="stmt" count="7"/>
+        <line num="89" type="stmt" count="7"/>
+        <line num="91" type="stmt" count="7"/>
+        <line num="92" type="stmt" count="7"/>
+        <line num="93" type="stmt" count="1"/>
+        <line num="97" type="stmt" count="6"/>
+        <line num="102" type="stmt" count="3"/>
+        <line num="103" type="stmt" count="3"/>
+        <line num="106" type="stmt" count="6"/>
+        <metrics loc="109" ncloc="76" classes="1" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="36" elements="39" coveredelements="37"/>
+      </file>
+      <file name="/app/src/Generic/Support/MysqlOps.php">
+        <class name="Maatify\DataRepository\Generic\Support\MysqlOps" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="13" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="23" coveredstatements="23" elements="26" coveredelements="26"/>
+        </class>
+        <line num="36" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="34"/>
+        <line num="38" type="stmt" count="34"/>
+        <line num="46" type="method" name="getDriver" visibility="public" complexity="1" crap="1" count="5"/>
+        <line num="48" type="stmt" count="5"/>
+        <line num="57" type="method" name="lastInsertId" visibility="public" complexity="11" crap="11" count="30"/>
+        <line num="59" type="stmt" count="30"/>
+        <line num="60" type="stmt" count="22"/>
+        <line num="61" type="stmt" count="22"/>
+        <line num="62" type="stmt" count="3"/>
+        <line num="66" type="stmt" count="20"/>
+        <line num="68" type="stmt" count="20"/>
+        <line num="69" type="stmt" count="18"/>
+        <line num="72" type="stmt" count="2"/>
+        <line num="74" type="stmt" count="1"/>
+        <line num="78" type="stmt" count="8"/>
+        <line num="80" type="stmt" count="6"/>
+        <line num="81" type="stmt" count="6"/>
+        <line num="82" type="stmt" count="2"/>
+        <line num="84" type="stmt" count="5"/>
+        <line num="85" type="stmt" count="3"/>
+        <line num="87" type="stmt" count="3"/>
+        <line num="88" type="stmt" count="3"/>
+        <line num="89" type="stmt" count="2"/>
+        <line num="90" type="stmt" count="1"/>
+        <line num="93" type="stmt" count="2"/>
+        <line num="97" type="stmt" count="2"/>
+        <metrics loc="100" ncloc="61" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="23" coveredstatements="23" elements="26" coveredelements="26"/>
+      </file>
+      <file name="/app/src/Generic/Support/NormalizerOptions.php">
+        <class name="Maatify\DataRepository\Generic\Support\NormalizerOptions" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="8" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="22" coveredelements="22"/>
+        </class>
+        <line num="20" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="25" type="stmt" count="3"/>
+        <line num="27" type="method" name="create" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="29" type="stmt" count="3"/>
+        <line num="32" type="method" name="withKeepMongoId" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="34" type="stmt" count="2"/>
+        <line num="35" type="stmt" count="2"/>
+        <line num="36" type="stmt" count="2"/>
+        <line num="39" type="method" name="withRecursive" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="41" type="stmt" count="2"/>
+        <line num="42" type="stmt" count="2"/>
+        <line num="43" type="stmt" count="2"/>
+        <line num="46" type="method" name="withStrictIdTypes" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="48" type="stmt" count="2"/>
+        <line num="49" type="stmt" count="2"/>
+        <line num="50" type="stmt" count="2"/>
+        <line num="53" type="method" name="shouldKeepMongoId" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="55" type="stmt" count="3"/>
+        <line num="58" type="method" name="isRecursive" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="60" type="stmt" count="3"/>
+        <line num="63" type="method" name="isStrictIdTypes" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="65" type="stmt" count="3"/>
+        <metrics loc="68" ncloc="58" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="22" coveredelements="22"/>
+      </file>
+      <file name="/app/src/Generic/Support/OrderField.php">
+        <class name="Maatify\DataRepository\Generic\Support\OrderField" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+        </class>
+        <line num="23" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="51"/>
+        <line num="27" type="stmt" count="51"/>
+        <metrics loc="29" ncloc="16" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+      </file>
+      <file name="/app/src/Generic/Support/OrderParser.php">
+        <class name="Maatify\DataRepository\Generic\Support\OrderParser" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="8" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="17" elements="18" coveredelements="18"/>
+        </class>
+        <line num="30" type="method" name="parse" visibility="public" complexity="8" crap="8" count="58"/>
+        <line num="32" type="stmt" count="58"/>
+        <line num="33" type="stmt" count="6"/>
+        <line num="36" type="stmt" count="55"/>
+        <line num="38" type="stmt" count="55"/>
+        <line num="39" type="stmt" count="55"/>
+        <line num="40" type="stmt" count="55"/>
+        <line num="42" type="stmt" count="55"/>
+        <line num="43" type="stmt" count="2"/>
+        <line num="46" type="stmt" count="53"/>
+        <line num="48" type="stmt" count="53"/>
+        <line num="49" type="stmt" count="6"/>
+        <line num="50" type="stmt" count="2"/>
+        <line num="51" type="stmt" count="2"/>
+        <line num="52" type="stmt" count="2"/>
+        <line num="54" type="stmt" count="4"/>
+        <line num="57" type="stmt" count="51"/>
+        <line num="60" type="stmt" count="53"/>
+        <metrics loc="63" ncloc="48" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="17" elements="18" coveredelements="18"/>
+      </file>
+      <file name="/app/src/Generic/Support/OrderUtils.php">
+        <class name="Maatify\DataRepository\Generic\Support\OrderUtils" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="50" methods="14" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="77" coveredstatements="75" elements="91" coveredelements="87"/>
+        </class>
+        <line num="30" type="method" name="normalize" visibility="public" complexity="2" crap="2" count="52"/>
+        <line num="32" type="stmt" count="52"/>
+        <line num="33" type="stmt" count="52"/>
+        <line num="35" type="stmt" count="51"/>
+        <line num="36" type="stmt" count="51"/>
+        <line num="37" type="stmt" count="48"/>
+        <line num="40" type="stmt" count="51"/>
+        <line num="50" type="method" name="buildSqlOrderBy" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="52" type="stmt" count="4"/>
+        <line num="64" type="method" name="buildJsonOrderBy" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="70" type="stmt" count="2"/>
+        <line num="79" type="method" name="buildMongoSort" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="81" type="stmt" count="3"/>
+        <line num="91" type="method" name="sortArray" visibility="public" complexity="5" crap="5.01" count="12"/>
+        <line num="93" type="stmt" count="12"/>
+        <line num="95" type="stmt" count="12"/>
+        <line num="96" type="stmt" count="0"/>
+        <line num="99" type="stmt" count="12"/>
+        <line num="102" type="stmt" count="12"/>
+        <line num="103" type="stmt" count="12"/>
+        <line num="105" type="stmt" count="12"/>
+        <line num="107" type="stmt" count="12"/>
+        <line num="109" type="stmt" count="12"/>
+        <line num="111" type="stmt" count="12"/>
+        <line num="113" type="stmt" count="12"/>
+        <line num="114" type="stmt" count="11"/>
+        <line num="118" type="stmt" count="2"/>
+        <line num="119" type="stmt" count="12"/>
+        <line num="121" type="stmt" count="12"/>
+        <line num="132" type="method" name="fromString" visibility="public" complexity="6" crap="6.01" count="3"/>
+        <line num="137" type="stmt" count="3"/>
+        <line num="139" type="stmt" count="3"/>
+        <line num="140" type="stmt" count="0"/>
+        <line num="143" type="stmt" count="3"/>
+        <line num="145" type="stmt" count="3"/>
+        <line num="146" type="stmt" count="3"/>
+        <line num="148" type="stmt" count="3"/>
+        <line num="149" type="stmt" count="2"/>
+        <line num="150" type="stmt" count="2"/>
+        <line num="152" type="stmt" count="1"/>
+        <line num="153" type="stmt" count="1"/>
+        <line num="156" type="stmt" count="3"/>
+        <line num="158" type="stmt" count="3"/>
+        <line num="159" type="stmt" count="3"/>
+        <line num="163" type="stmt" count="3"/>
+        <line num="173" type="method" name="compareValues" visibility="private" complexity="11" crap="11" count="18"/>
+        <line num="175" type="stmt" count="18"/>
+        <line num="176" type="stmt" count="6"/>
+        <line num="179" type="stmt" count="18"/>
+        <line num="180" type="stmt" count="11"/>
+        <line num="183" type="stmt" count="14"/>
+        <line num="184" type="stmt" count="4"/>
+        <line num="187" type="stmt" count="14"/>
+        <line num="188" type="stmt" count="5"/>
+        <line num="191" type="stmt" count="12"/>
+        <line num="192" type="stmt" count="7"/>
+        <line num="195" type="stmt" count="7"/>
+        <line num="196" type="stmt" count="3"/>
+        <line num="199" type="stmt" count="6"/>
+        <line num="200" type="stmt" count="5"/>
+        <line num="203" type="stmt" count="2"/>
+        <line num="206" type="method" name="compareNulls" visibility="private" complexity="5" crap="5" count="18"/>
+        <line num="208" type="stmt" count="18"/>
+        <line num="209" type="stmt" count="2"/>
+        <line num="211" type="stmt" count="18"/>
+        <line num="212" type="stmt" count="5"/>
+        <line num="214" type="stmt" count="18"/>
+        <line num="215" type="stmt" count="4"/>
+        <line num="217" type="stmt" count="17"/>
+        <line num="220" type="method" name="compareNumbers" visibility="private" complexity="3" crap="3" count="18"/>
+        <line num="222" type="stmt" count="18"/>
+        <line num="225" type="method" name="compareBooleans" visibility="private" complexity="5" crap="5" count="14"/>
+        <line num="227" type="stmt" count="14"/>
+        <line num="228" type="stmt" count="4"/>
+        <line num="229" type="stmt" count="14"/>
+        <line num="232" type="method" name="compareDates" visibility="private" complexity="3" crap="3" count="14"/>
+        <line num="234" type="stmt" count="14"/>
+        <line num="235" type="stmt" count="5"/>
+        <line num="236" type="stmt" count="14"/>
+        <line num="239" type="method" name="isComparableScalar" visibility="private" complexity="2" crap="2" count="13"/>
+        <line num="241" type="stmt" count="13"/>
+        <line num="250" type="method" name="reverse" visibility="public" complexity="3" crap="3" count="2"/>
+        <line num="252" type="stmt" count="2"/>
+        <line num="254" type="stmt" count="2"/>
+        <line num="255" type="stmt" count="2"/>
+        <line num="258" type="stmt" count="2"/>
+        <line num="267" type="method" name="merge" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="269" type="stmt" count="2"/>
+        <line num="271" type="stmt" count="2"/>
+        <line num="272" type="stmt" count="2"/>
+        <line num="275" type="stmt" count="2"/>
+        <metrics loc="278" ncloc="201" classes="1" methods="14" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="77" coveredstatements="75" elements="91" coveredelements="87"/>
+      </file>
+      <file name="/app/src/Generic/Support/RedisOps.php">
+        <class name="Maatify\DataRepository\Generic\Support\RedisOps" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="29" methods="5" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="67" coveredstatements="64" elements="72" coveredelements="67"/>
+        </class>
+        <line num="43" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="39"/>
+        <line num="45" type="stmt" count="39"/>
+        <line num="57" type="method" name="get" visibility="public" complexity="9" crap="9" count="25"/>
+        <line num="60" type="stmt" count="25"/>
+        <line num="62" type="stmt" count="2"/>
+        <line num="63" type="stmt" count="2"/>
+        <line num="67" type="stmt" count="23"/>
+        <line num="68" type="stmt" count="2"/>
+        <line num="69" type="stmt" count="2"/>
+        <line num="73" type="stmt" count="21"/>
+        <line num="74" type="stmt" count="21"/>
+        <line num="76" type="stmt" count="21"/>
+        <line num="77" type="stmt" count="18"/>
+        <line num="80" type="stmt" count="8"/>
+        <line num="81" type="stmt" count="1"/>
+        <line num="82" type="stmt" count="1"/>
+        <line num="86" type="stmt" count="7"/>
+        <line num="92" type="method" name="set" visibility="public" complexity="5" crap="5" count="26"/>
+        <line num="94" type="stmt" count="26"/>
+        <line num="95" type="stmt" count="2"/>
+        <line num="98" type="stmt" count="24"/>
+        <line num="100" type="stmt" count="1"/>
+        <line num="101" type="stmt" count="1"/>
+        <line num="102" type="stmt" count="1"/>
+        <line num="103" type="stmt" count="1"/>
+        <line num="107" type="stmt" count="23"/>
+        <line num="108" type="stmt" count="22"/>
+        <line num="111" type="stmt" count="1"/>
+        <line num="117" type="method" name="del" visibility="public" complexity="5" crap="5.03" count="11"/>
+        <line num="119" type="stmt" count="11"/>
+        <line num="121" type="stmt" count="2"/>
+        <line num="124" type="stmt" count="9"/>
+        <line num="126" type="stmt" count="2"/>
+        <line num="127" type="stmt" count="2"/>
+        <line num="131" type="stmt" count="7"/>
+        <line num="132" type="stmt" count="7"/>
+        <line num="133" type="stmt" count="7"/>
+        <line num="136" type="stmt" count="0"/>
+        <line num="145" type="method" name="keys" visibility="public" complexity="9" crap="9.02" count="19"/>
+        <line num="147" type="stmt" count="19"/>
+        <line num="149" type="stmt" count="1"/>
+        <line num="151" type="stmt" count="1"/>
+        <line num="154" type="stmt" count="1"/>
+        <line num="157" type="stmt" count="18"/>
+        <line num="159" type="stmt" count="1"/>
+        <line num="161" type="stmt" count="1"/>
+        <line num="164" type="stmt" count="1"/>
+        <line num="169" type="stmt" count="17"/>
+        <line num="171" type="stmt" count="6"/>
+        <line num="173" type="stmt" count="6"/>
+        <line num="176" type="stmt" count="6"/>
+        <line num="185" type="stmt" count="11"/>
+        <line num="186" type="stmt" count="11"/>
+        <line num="187" type="stmt" count="1"/>
+        <line num="190" type="stmt" count="10"/>
+        <line num="191" type="stmt" count="10"/>
+        <line num="193" type="stmt" count="10"/>
+        <line num="195" type="stmt" count="10"/>
+        <line num="196" type="stmt" count="1"/>
+        <line num="199" type="stmt" count="9"/>
+        <line num="203" type="stmt" count="9"/>
+        <line num="204" type="stmt" count="9"/>
+        <line num="205" type="stmt" count="9"/>
+        <line num="206" type="stmt" count="9"/>
+        <line num="209" type="stmt" count="9"/>
+        <line num="210" type="stmt" count="9"/>
+        <line num="211" type="stmt" count="9"/>
+        <line num="212" type="stmt" count="9"/>
+        <line num="214" type="stmt" count="9"/>
+        <line num="217" type="stmt" count="9"/>
+        <line num="218" type="stmt" count="0"/>
+        <line num="221" type="stmt" count="0"/>
+        <metrics loc="225" ncloc="149" classes="1" methods="5" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="67" coveredstatements="64" elements="72" coveredelements="67"/>
+      </file>
+      <file name="/app/src/Generic/Support/RepositoryHydrationTrait.php">
+        <class name="Maatify\DataRepository\Generic\Support\RepositoryHydrationTrait" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="8" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="24" elements="28" coveredelements="28"/>
+        </class>
+        <line num="32" type="method" name="findObject" visibility="public" complexity="3" crap="3" count="5"/>
+        <line num="34" type="stmt" count="5"/>
+        <line num="35" type="stmt" count="5"/>
+        <line num="36" type="stmt" count="1"/>
+        <line num="39" type="stmt" count="4"/>
+        <line num="41" type="stmt" count="2"/>
+        <line num="45" type="stmt" count="2"/>
+        <line num="46" type="stmt" count="2"/>
+        <line num="54" type="method" name="findObjectsBy" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="56" type="stmt" count="3"/>
+        <line num="58" type="stmt" count="3"/>
+        <line num="60" type="stmt" count="2"/>
+        <line num="63" type="stmt" count="1"/>
+        <line num="65" type="stmt" count="1"/>
+        <line num="66" type="stmt" count="1"/>
+        <line num="67" type="stmt" count="1"/>
+        <line num="77" type="method" name="paginateObjects" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="79" type="stmt" count="1"/>
+        <line num="90" type="method" name="paginateObjectsBy" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="94" type="stmt" count="3"/>
+        <line num="97" type="stmt" count="3"/>
+        <line num="99" type="stmt" count="3"/>
+        <line num="100" type="stmt" count="1"/>
+        <line num="102" type="stmt" count="2"/>
+        <line num="104" type="stmt" count="2"/>
+        <line num="105" type="stmt" count="2"/>
+        <line num="106" type="stmt" count="2"/>
+        <line num="109" type="stmt" count="3"/>
+        <metrics loc="112" ncloc="63" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="24" elements="28" coveredelements="28"/>
+      </file>
+      <file name="/app/src/Generic/Support/ResultNormalizer.php">
+        <class name="Maatify\DataRepository\Generic\Support\ResultNormalizer" namespace="Maatify\DataRepository\Generic\Support">
+          <metrics complexity="50" methods="22" coveredmethods="18" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="72" elements="98" coveredelements="90"/>
+        </class>
+        <line num="27" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="13"/>
+        <line num="32" type="stmt" count="13"/>
+        <line num="42" type="method" name="normalize" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="44" type="stmt" count="6"/>
+        <line num="51" type="method" name="normalizeWithConfig" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="57" type="stmt" count="1"/>
+        <line num="64" type="method" name="normalizeWithOptions" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="66" type="stmt" count="1"/>
+        <line num="73" type="method" name="normalizeAll" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="75" type="stmt" count="1"/>
+        <line num="82" type="method" name="normalizeAllWithConfig" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="88" type="stmt" count="0"/>
+        <line num="95" type="method" name="normalizeAllWithOptions" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="97" type="stmt" count="0"/>
+        <line num="104" type="method" name="fromOptions" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="106" type="stmt" count="1"/>
+        <line num="107" type="stmt" count="1"/>
+        <line num="108" type="stmt" count="1"/>
+        <line num="109" type="stmt" count="1"/>
+        <line num="110" type="stmt" count="1"/>
+        <line num="117" type="method" name="normalizeRow" visibility="public" complexity="8" crap="8" count="10"/>
+        <line num="119" type="stmt" count="10"/>
+        <line num="120" type="stmt" count="1"/>
+        <line num="124" type="stmt" count="9"/>
+        <line num="125" type="stmt" count="3"/>
+        <line num="129" type="stmt" count="9"/>
+        <line num="130" type="stmt" count="9"/>
+        <line num="135" type="stmt" count="8"/>
+        <line num="136" type="stmt" count="8"/>
+        <line num="137" type="stmt" count="8"/>
+        <line num="139" type="stmt" count="1"/>
+        <line num="142" type="stmt" count="8"/>
+        <line num="149" type="method" name="normalizeRows" visibility="public" complexity="3" crap="3" count="1"/>
+        <line num="151" type="stmt" count="1"/>
+        <line num="152" type="stmt" count="1"/>
+        <line num="153" type="stmt" count="1"/>
+        <line num="154" type="stmt" count="1"/>
+        <line num="155" type="stmt" count="1"/>
+        <line num="158" type="stmt" count="1"/>
+        <line num="170" type="method" name="normalizeValue" visibility="private" complexity="9" crap="9" count="9"/>
+        <line num="173" type="stmt" count="9"/>
+        <line num="174" type="stmt" count="3"/>
+        <line num="175" type="stmt" count="1"/>
+        <line num="179" type="stmt" count="3"/>
+        <line num="182" type="stmt" count="2"/>
+        <line num="186" type="stmt" count="8"/>
+        <line num="187" type="stmt" count="3"/>
+        <line num="191" type="stmt" count="7"/>
+        <line num="192" type="stmt" count="1"/>
+        <line num="196" type="stmt" count="6"/>
+        <line num="197" type="stmt" count="4"/>
+        <line num="200" type="stmt" count="5"/>
+        <line num="207" type="method" name="assertAssocRow" visibility="private" complexity="3" crap="3" count="3"/>
+        <line num="209" type="stmt" count="3"/>
+        <line num="210" type="stmt" count="3"/>
+        <line num="211" type="stmt" count="1"/>
+        <line num="212" type="stmt" count="1"/>
+        <line num="213" type="stmt" count="1"/>
+        <line num="222" type="method" name="normalizeRowsArray" visibility="private" complexity="2" crap="2" count="1"/>
+        <line num="224" type="stmt" count="1"/>
+        <line num="225" type="stmt" count="1"/>
+        <line num="226" type="stmt" count="1"/>
+        <line num="228" type="stmt" count="1"/>
+        <line num="235" type="method" name="normalizeRowArray" visibility="private" complexity="1" crap="1" count="2"/>
+        <line num="237" type="stmt" count="2"/>
+        <line num="244" type="method" name="isIdValue" visibility="private" complexity="4" crap="4" count="5"/>
+        <line num="246" type="stmt" count="5"/>
+        <line num="247" type="stmt" count="5"/>
+        <line num="248" type="stmt" count="5"/>
+        <line num="251" type="method" name="looksLikeIdString" visibility="private" complexity="2" crap="2" count="5"/>
+        <line num="253" type="stmt" count="5"/>
+        <line num="261" type="method" name="normalizeStrictId" visibility="private" complexity="5" crap="5.01" count="6"/>
+        <line num="263" type="stmt" count="6"/>
+        <line num="264" type="stmt" count="0"/>
+        <line num="267" type="stmt" count="6"/>
+        <line num="268" type="stmt" count="4"/>
+        <line num="271" type="stmt" count="3"/>
+        <line num="272" type="stmt" count="2"/>
+        <line num="273" type="stmt" count="1"/>
+        <line num="274" type="stmt" count="1"/>
+        <line num="275" type="stmt" count="1"/>
+        <line num="277" type="stmt" count="1"/>
+        <line num="280" type="stmt" count="1"/>
+        <line num="281" type="stmt" count="1"/>
+        <line num="282" type="stmt" count="1"/>
+        <line num="289" type="method" name="create" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="291" type="stmt" count="6"/>
+        <line num="294" type="method" name="keepMongoId" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="296" type="stmt" count="2"/>
+        <line num="297" type="stmt" count="2"/>
+        <line num="300" type="method" name="recursive" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="302" type="stmt" count="3"/>
+        <line num="303" type="stmt" count="3"/>
+        <line num="306" type="method" name="strictIdTypes" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="308" type="stmt" count="1"/>
+        <line num="309" type="stmt" count="1"/>
+        <line num="316" type="method" name="normalizeBatch" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="318" type="stmt" count="0"/>
+        <metrics loc="321" ncloc="225" classes="1" methods="22" coveredmethods="18" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="72" elements="98" coveredelements="90"/>
+      </file>
+    </package>
+    <package name="Maatify\DataRepository\Hydration">
+      <file name="/app/src/Hydration/AutoCaster.php">
+        <class name="Maatify\DataRepository\Hydration\AutoCaster" namespace="Maatify\DataRepository\Hydration">
+          <metrics complexity="23" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="36" coveredstatements="0" elements="40" coveredelements="0"/>
+        </class>
+        <line num="36" type="method" name="cast" visibility="public" complexity="3" crap="12" count="0"/>
+        <line num="38" type="stmt" count="0"/>
+        <line num="39" type="stmt" count="0"/>
+        <line num="40" type="stmt" count="0"/>
+        <line num="43" type="stmt" count="0"/>
+        <line num="52" type="method" name="castValue" visibility="private" complexity="10" crap="110" count="0"/>
+        <line num="54" type="stmt" count="0"/>
+        <line num="55" type="stmt" count="0"/>
+        <line num="58" type="stmt" count="0"/>
+        <line num="59" type="stmt" count="0"/>
+        <line num="62" type="stmt" count="0"/>
+        <line num="63" type="stmt" count="0"/>
+        <line num="66" type="stmt" count="0"/>
+        <line num="67" type="stmt" count="0"/>
+        <line num="70" type="stmt" count="0"/>
+        <line num="71" type="stmt" count="0"/>
+        <line num="74" type="stmt" count="0"/>
+        <line num="75" type="stmt" count="0"/>
+        <line num="76" type="stmt" count="0"/>
+        <line num="77" type="stmt" count="0"/>
+        <line num="78" type="stmt" count="0"/>
+        <line num="79" type="stmt" count="0"/>
+        <line num="86" type="method" name="castJson" visibility="private" complexity="5" crap="30" count="0"/>
+        <line num="88" type="stmt" count="0"/>
+        <line num="89" type="stmt" count="0"/>
+        <line num="92" type="stmt" count="0"/>
+        <line num="93" type="stmt" count="0"/>
+        <line num="94" type="stmt" count="0"/>
+        <line num="95" type="stmt" count="0"/>
+        <line num="99" type="stmt" count="0"/>
+        <line num="102" type="method" name="castDateTime" visibility="private" complexity="5" crap="30" count="0"/>
+        <line num="104" type="stmt" count="0"/>
+        <line num="105" type="stmt" count="0"/>
+        <line num="108" type="stmt" count="0"/>
+        <line num="110" type="stmt" count="0"/>
+        <line num="111" type="stmt" count="0"/>
+        <line num="112" type="stmt" count="0"/>
+        <line num="116" type="stmt" count="0"/>
+        <line num="117" type="stmt" count="0"/>
+        <line num="120" type="stmt" count="0"/>
+        <metrics loc="123" ncloc="97" classes="1" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="36" coveredstatements="0" elements="40" coveredelements="0"/>
+      </file>
+      <file name="/app/src/Hydration/BaseHydrator.php">
+        <class name="Maatify\DataRepository\Hydration\BaseHydrator" namespace="Maatify\DataRepository\Hydration">
+          <metrics complexity="26" methods="9" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="56" coveredstatements="43" elements="65" coveredelements="50"/>
+        </class>
+        <line num="33" type="method" name="hydrate" visibility="public" complexity="7" crap="7" count="2"/>
+        <line num="35" type="stmt" count="2"/>
+        <line num="36" type="stmt" count="2"/>
+        <line num="39" type="stmt" count="2"/>
+        <line num="41" type="stmt" count="2"/>
+        <line num="43" type="stmt" count="2"/>
+        <line num="44" type="stmt" count="2"/>
+        <line num="45" type="stmt" count="2"/>
+        <line num="46" type="stmt" count="2"/>
+        <line num="47" type="stmt" count="2"/>
+        <line num="48" type="stmt" count="2"/>
+        <line num="49" type="stmt" count="2"/>
+        <line num="50" type="stmt" count="2"/>
+        <line num="51" type="stmt" count="2"/>
+        <line num="52" type="stmt" count="2"/>
+        <line num="53" type="stmt" count="2"/>
+        <line num="54" type="stmt" count="2"/>
+        <line num="55" type="stmt" count="2"/>
+        <line num="56" type="stmt" count="2"/>
+        <line num="57" type="stmt" count="2"/>
+        <line num="58" type="stmt" count="2"/>
+        <line num="59" type="stmt" count="2"/>
+        <line num="60" type="stmt" count="2"/>
+        <line num="64" type="stmt" count="2"/>
+        <line num="74" type="method" name="hydrateAll" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="76" type="stmt" count="1"/>
+        <line num="77" type="stmt" count="1"/>
+        <line num="78" type="stmt" count="1"/>
+        <line num="80" type="stmt" count="1"/>
+        <line num="95" type="method" name="getCastingDefinitions" visibility="protected" complexity="1" crap="1" count="2"/>
+        <line num="97" type="stmt" count="2"/>
+        <line num="108" type="method" name="onPrepare" visibility="protected" complexity="1" crap="1" count="2"/>
+        <line num="110" type="stmt" count="2"/>
+        <line num="121" type="method" name="onCast" visibility="protected" complexity="2" crap="2.06" count="2"/>
+        <line num="123" type="stmt" count="2"/>
+        <line num="124" type="stmt" count="2"/>
+        <line num="125" type="stmt" count="0"/>
+        <line num="127" type="stmt" count="2"/>
+        <line num="142" type="method" name="onMap" visibility="protected" complexity="9" crap="33.00" count="2"/>
+        <line num="144" type="stmt" count="2"/>
+        <line num="146" type="stmt" count="2"/>
+        <line num="147" type="stmt" count="0"/>
+        <line num="148" type="stmt" count="0"/>
+        <line num="151" type="stmt" count="0"/>
+        <line num="152" type="stmt" count="0"/>
+        <line num="153" type="stmt" count="0"/>
+        <line num="158" type="stmt" count="0"/>
+        <line num="159" type="stmt" count="0"/>
+        <line num="160" type="stmt" count="0"/>
+        <line num="162" type="stmt" count="0"/>
+        <line num="163" type="stmt" count="0"/>
+        <line num="166" type="stmt" count="0"/>
+        <line num="167" type="stmt" count="0"/>
+        <line num="172" type="stmt" count="2"/>
+        <line num="173" type="stmt" count="2"/>
+        <line num="174" type="stmt" count="2"/>
+        <line num="179" type="stmt" count="2"/>
+        <line num="190" type="method" name="onValidate" visibility="protected" complexity="1" crap="1" count="2"/>
+        <line num="193" type="stmt" count="2"/>
+        <line num="201" type="method" name="onComplete" visibility="protected" complexity="1" crap="1" count="2"/>
+        <line num="204" type="stmt" count="2"/>
+        <line num="213" type="method" name="ensureInstance" visibility="private" complexity="2" crap="2" count="2"/>
+        <line num="215" type="stmt" count="2"/>
+        <line num="216" type="stmt" count="2"/>
+        <line num="218" type="stmt" count="2"/>
+        <metrics loc="221" ncloc="128" classes="1" methods="9" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="56" coveredstatements="43" elements="65" coveredelements="50"/>
+      </file>
+      <file name="/app/src/Hydration/HydrationContext.php">
+        <class name="Maatify\DataRepository\Hydration\HydrationContext" namespace="Maatify\DataRepository\Hydration">
+          <metrics complexity="7" methods="7" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="9" elements="23" coveredelements="12"/>
+        </class>
+        <line num="38" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="40" type="stmt" count="2"/>
+        <line num="41" type="stmt" count="2"/>
+        <line num="42" type="stmt" count="2"/>
+        <line num="43" type="stmt" count="2"/>
+        <line num="44" type="stmt" count="2"/>
+        <line num="45" type="stmt" count="2"/>
+        <line num="46" type="stmt" count="2"/>
+        <line num="52" type="method" name="getStages" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="54" type="stmt" count="2"/>
+        <line num="61" type="method" name="setStages" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="63" type="stmt" count="0"/>
+        <line num="64" type="stmt" count="0"/>
+        <line num="67" type="method" name="addMeta" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="69" type="stmt" count="0"/>
+        <line num="70" type="stmt" count="0"/>
+        <line num="73" type="method" name="getMeta" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="75" type="stmt" count="0"/>
+        <line num="78" type="method" name="setProfile" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="80" type="stmt" count="0"/>
+        <line num="81" type="stmt" count="0"/>
+        <line num="84" type="method" name="getProfile" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="86" type="stmt" count="2"/>
+        <metrics loc="89" ncloc="66" classes="1" methods="7" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="9" elements="23" coveredelements="12"/>
+      </file>
+    </package>
+    <file name="/app/src/Hydration/HydratorInterface.php">
+      <metrics loc="43" ncloc="14" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/app/src/Hydration/TransformerInterface.php">
+      <metrics loc="28" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <package name="Maatify\DataRepository\Hydration\Transformers">
+      <file name="/app/src/Hydration/Transformers/DateTimeTransformer.php">
+        <class name="Maatify\DataRepository\Hydration\Transformers\DateTimeTransformer" namespace="Maatify\DataRepository\Hydration\Transformers">
+          <metrics complexity="8" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="0" elements="15" coveredelements="0"/>
+        </class>
+        <line num="26" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="28" type="stmt" count="0"/>
+        <line num="35" type="method" name="transform" visibility="public" complexity="7" crap="56" count="0"/>
+        <line num="37" type="stmt" count="0"/>
+        <line num="38" type="stmt" count="0"/>
+        <line num="41" type="stmt" count="0"/>
+        <line num="43" type="stmt" count="0"/>
+        <line num="44" type="stmt" count="0"/>
+        <line num="45" type="stmt" count="0"/>
+        <line num="47" type="stmt" count="0"/>
+        <line num="48" type="stmt" count="0"/>
+        <line num="49" type="stmt" count="0"/>
+        <line num="53" type="stmt" count="0"/>
+        <line num="54" type="stmt" count="0"/>
+        <line num="57" type="stmt" count="0"/>
+        <metrics loc="60" ncloc="46" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="0" elements="15" coveredelements="0"/>
+      </file>
+      <file name="/app/src/Hydration/Transformers/JsonTransformer.php">
+        <class name="Maatify\DataRepository\Hydration\Transformers\JsonTransformer" namespace="Maatify\DataRepository\Hydration\Transformers">
+          <metrics complexity="5" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="8" coveredelements="0"/>
+        </class>
+        <line num="26" type="method" name="transform" visibility="public" complexity="5" crap="30" count="0"/>
+        <line num="28" type="stmt" count="0"/>
+        <line num="29" type="stmt" count="0"/>
+        <line num="32" type="stmt" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <line num="34" type="stmt" count="0"/>
+        <line num="35" type="stmt" count="0"/>
+        <line num="39" type="stmt" count="0"/>
+        <metrics loc="42" ncloc="28" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="8" coveredelements="0"/>
+      </file>
+    </package>
+    <package name="Maatify\DataRepository\Logging">
+      <file name="/app/src/Logging/RepositoryLogger.php">
+        <class name="Maatify\DataRepository\Logging\RepositoryLogger" namespace="Maatify\DataRepository\Logging">
+          <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
+        </class>
+        <line num="30" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="32" type="stmt" count="2"/>
+        <line num="34" type="method" name="log" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="37" type="stmt" count="2"/>
+        <line num="38" type="stmt" count="2"/>
+        <metrics loc="41" ncloc="26" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
+      </file>
+    </package>
+    <package name="Maatify\DataRepository\Pagination">
+      <file name="/app/src/Pagination/HydratedPaginationCollection.php">
+        <class name="Maatify\DataRepository\Pagination\HydratedPaginationCollection" namespace="Maatify\DataRepository\Pagination">
+          <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+        </class>
+        <line num="29" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="33" type="stmt" count="3"/>
+        <metrics loc="35" ncloc="18" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+      </file>
+      <file name="/app/src/Pagination/PaginationContext.php">
+        <class name="Maatify\DataRepository\Pagination\PaginationContext" namespace="Maatify\DataRepository\Pagination">
+          <metrics complexity="4" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="8" coveredelements="0"/>
+        </class>
+        <line num="25" type="method" name="setEntry" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="27" type="stmt" count="0"/>
+        <line num="30" type="method" name="getEntry" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="32" type="stmt" count="0"/>
+        <line num="35" type="method" name="setMeta" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="37" type="stmt" count="0"/>
+        <line num="40" type="method" name="getMeta" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="42" type="stmt" count="0"/>
+        <metrics loc="45" ncloc="35" classes="1" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="8" coveredelements="0"/>
+      </file>
+      <file name="/app/src/Pagination/PaginationEntry.php">
+        <class name="Maatify\DataRepository\Pagination\PaginationEntry" namespace="Maatify\DataRepository\Pagination">
+          <metrics complexity="4" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="8" coveredelements="0"/>
+        </class>
+        <line num="20" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="24" type="stmt" count="0"/>
+        <line num="26" type="method" name="getPage" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="28" type="stmt" count="0"/>
+        <line num="31" type="method" name="getPerPage" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <line num="36" type="method" name="getOffset" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="38" type="stmt" count="0"/>
+        <metrics loc="41" ncloc="31" classes="1" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="8" coveredelements="0"/>
+      </file>
+    </package>
+    <package name="Maatify\DataRepository\Resolver">
+      <file name="/app/src/Resolver/RepositoryResolver.php">
+        <class name="Maatify\DataRepository\Resolver\RepositoryResolver" namespace="Maatify\DataRepository\Resolver">
+          <metrics complexity="5" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="11" coveredelements="11"/>
+        </class>
+        <line num="31" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="33" type="stmt" count="4"/>
+        <line num="36" type="method" name="registerAdapter" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="38" type="stmt" count="2"/>
+        <line num="39" type="stmt" count="2"/>
+        <line num="45" type="method" name="getAdapter" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="47" type="stmt" count="3"/>
+        <line num="48" type="stmt" count="1"/>
+        <line num="50" type="stmt" count="2"/>
+        <line num="53" type="method" name="hasAdapter" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="55" type="stmt" count="3"/>
+        <metrics loc="58" ncloc="42" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="11" coveredelements="11"/>
+      </file>
+    </package>
+    <metrics files="38" loc="4165" ncloc="2899" classes="36" methods="181" coveredmethods="133" conditionals="0" coveredconditionals="0" statements="1009" coveredstatements="851" elements="1190" coveredelements="984"/>
+  </project>
+</coverage>

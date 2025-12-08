@@ -18,6 +18,18 @@ use PHPUnit\Framework\TestCase;
 
 class RedisOpsTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        try {
+            $redis = new \Redis();
+            $redis->connect('127.0.0.1', 6379);
+            $redis->flushDb();
+        } catch (\RedisException $e) {
+            // Ignore if Redis is not available
+        }
+    }
+
     public function testRedisOpsWithRedisDriver(): void
     {
         try {
