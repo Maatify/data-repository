@@ -69,9 +69,21 @@ class GenericMongoRepositoryExceptionTest extends TestCase
 
         $this->collection = $this->createMock(Collection::class);
 
-        // Mock adapter to return a collection when getCollection() is called
+        // Create a fake driver that has selectCollection method
+        // We use an anonymous class to satisfy the duck-typing in BaseMongoRepository::getCollection
+        $driver = new class($this->collection) {
+            private Collection $collection;
+            public function __construct(Collection $collection) {
+                $this->collection = $collection;
+            }
+            public function selectCollection(string $name): Collection {
+                return $this->collection;
+            }
+        };
+
+        // Mock adapter to return this fake driver
         $this->adapter = $this->createMock(AdapterInterface::class);
-        $this->adapter->method('getCollection')->willReturn($this->collection);
+        $this->adapter->method('getDriver')->willReturn($driver);
 
         $this->repository = new GenericMongoRepositoryExceptionStub($this->adapter);
     }
