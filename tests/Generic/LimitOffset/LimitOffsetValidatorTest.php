@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Generic\LimitOffset;
 
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Generic\Pagination\LimitOffsetConfig;
 use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
@@ -109,5 +110,36 @@ class LimitOffsetValidatorTest extends TestCase
 
         $this->expectException(RepositoryException::class);
         LimitOffsetValidator::validateAndNormalize(-1, 0);
+    }
+
+    public function testValidateWithConfig(): void
+    {
+        $config = LimitOffsetConfig::create()
+            ->withMaxLimit(100)
+            ->withMaxOffset(500);
+
+        // Valid within custom config
+        LimitOffsetValidator::validateWithConfig(100, 500, $config);
+
+        // Exceeds custom limit
+        try {
+            LimitOffsetValidator::validateWithConfig(101, 0, $config);
+            $this->fail('Should have thrown exception for exceeding custom limit');
+        } catch (RepositoryException $e) {
+            $this->assertStringContainsString('exceeds the maximum allowed (100)', $e->getMessage());
+        }
+
+        // Exceeds custom offset
+        try {
+            LimitOffsetValidator::validateWithConfig(10, 501, $config);
+            $this->fail('Should have thrown exception for exceeding custom offset');
+        } catch (RepositoryException $e) {
+            $this->assertStringContainsString('Offset cannot exceed 500', $e->getMessage());
+        }
+
+        // ValidateAndNormalize with config
+        $res = LimitOffsetValidator::validateAndNormalize(200, 600, $config);
+        $this->assertSame(100, $res['limit']); // Capped at custom max
+        $this->assertSame(500, $res['offset']); // Capped at custom max
     }
 }
