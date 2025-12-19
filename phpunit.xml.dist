@@ -20,6 +20,10 @@
             <directory suffix="Test.php">tests/Generic</directory>
         </testsuite>
 
+        <testsuite name="ADR">
+            <directory suffix="Test.php">tests/ADR</directory>
+        </testsuite>
+
         <testsuite name="Support">
             <directory suffix="Test.php">tests/Exceptions</directory>
             <directory suffix="Test.php">tests/Logging</directory>
@@ -40,5 +44,8 @@
         <include>
             <directory suffix=".php">./src</directory>
         </include>
+        <exclude>
+            <directory>./tests/Legacy</directory>
+        </exclude>
     </source>
 </phpunit>

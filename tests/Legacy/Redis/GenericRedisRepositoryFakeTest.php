@@ -13,7 +13,14 @@
 
 declare(strict_types=1);
 
-namespace Maatify\DataRepository\Tests\Generic\Fake;
+namespace Maatify\DataRepository\Tests\Legacy\Redis;
+
+/**
+ * @legacy
+ * @deprecated
+ * @reason Violates ADR-002 (Redis Keys usage) and ADR-006 (Unsafe findBy/findOneBy assertions)
+ * @note Preserved for historical reference only.
+ */
 
 use Maatify\DataFakes\Adapters\Redis\FakeRedisAdapter;
 use Maatify\DataRepository\Exceptions\RepositoryException;
