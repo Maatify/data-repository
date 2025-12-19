@@ -1,55 +1,147 @@
-# Phase 4: Advanced Filtering
-[![Maatify Repository](https://img.shields.io/badge/Maatify-Repository-blue?style=for-the-badge)](../../README.md)
-[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
+# Phase 4: Redis Safety Enforcement
 
-## Status: Completed
-**Version:** 1.0.1
-**Timestamp:** 2025-11-25 04:30:00+02:00
+## Status
+DRAFT — Architectural Definition (Pre-Execution)
 
-## Summary
-Added advanced filtering capabilities including `IN`, `NOT IN`, `LIKE`, `BETWEEN`, `IS NULL`, and range operators (`>`, `<`, `>=`, `<=`) for MySQL and MongoDB repositories.
+This document defines the **official scope and constraints** of Phase 4.
+No implementation is implied until this phase is audited and locked.
 
-## Changes
-- **Added:** `src/Generic/Support/FilterUtils.php` - A centralized utility for parsing filter arrays into SQL WHERE clauses (for PDO) and MongoDB filter arrays.
-- **Updated:** `GenericMySQLRepository` to use `FilterUtils::buildSqlWhere`.
-- **Updated:** `GenericMongoRepository` to use `FilterUtils::buildMongoFilter`.
+---
 
-## Supported Filters
+## Architectural Authority
 
-### SQL & Mongo Common Syntax
+Phase 4 is governed strictly by the following ADRs:
 
-```php
-// Equality
-['status' => 'active']
+- **ADR-002 — Redis Behavior Model**
+- **ADR-006 — Redis Safety Limits & Runtime Guards**
+- **Phase 3 Lock — CRUD Layer (Official)**
 
-// IN Array
-['status' => ['IN' => ['active', 'pending']]]
-['status' => ['NOT IN' => ['banned', 'deleted']]]
+These documents are binding. Any behavior not explicitly permitted here is forbidden.
 
-// Range
-['age' => ['>' => 18]]
-['price' => ['<=' => 100.00]]
-['score' => ['!=' => 0]]
+---
 
-// LIKE (Partial Match)
-// SQL: LIKE %John%
-// Mongo: Regex /.*John.*/i
-['name' => ['LIKE' => '%John%']]
+## Phase Objective
 
-// BETWEEN
-['age' => ['BETWEEN' => [18, 65]]]
+Phase 4 exists to **prevent unsafe Redis operations** that may cause:
 
-// IS NULL / IS NOT NULL
-['deleted_at' => ['IS NULL' => true]]
-['deleted_at' => ['IS NOT NULL' => true]]
-// OR simplified for equality:
-['deleted_at' => null] // IS NULL
-```
+- Blocking behavior
+- Unbounded dataset iteration
+- Excessive in-memory usage
+- Runtime instability (OOM / timeouts)
 
-## Security
-- `FilterUtils` strictly validates column names to prevent SQL injection.
-- Reserved words (e.g., `SELECT`, `DROP`) are forbidden as column names.
-- All values are bound as parameters in PDO to prevent injection.
+This phase introduces **runtime safety enforcement only**.
 
-## Tests
-- Added `tests/Generic/Fake/Filters/AdvancedFilterFakeTest.php` covering 100% of the logic.
+Phase 4 does **not** improve performance, redesign Redis usage, or modify existing APIs.
+
+---
+
+## Redis Behavioral Model (Phase 4)
+
+Within this project, Redis is treated as:
+
+- A **Key–Value store**
+- Accessed via **SCAN-based iteration only**
+- Without relational assumptions
+- Without guarantees of full dataset traversal
+
+Any attempt to treat Redis as a relational or document store is invalid.
+
+---
+
+## In-Scope Responsibilities
+
+Phase 4 is limited to the following responsibilities:
+
+### 1. Command Safety Enforcement
+- Explicitly forbid usage of blocking commands such as `KEYS`
+- Allow iteration **only** via `SCAN`
+- Enforce strict limits on scan operations
+
+### 2. Runtime Safety Guards
+Runtime guards must be applied before executing any operation that involves:
+- Key iteration
+- In-memory filtering
+- Legacy pagination behavior
+
+Guards must enforce hard limits and fail fast when exceeded.
+
+### 3. Fail-Fast Exceptions
+Unsafe operations must result in immediate, explicit exceptions.
+Silent degradation or partial results are not allowed.
+
+---
+
+## Explicit Non-Goals
+
+The following are **explicitly out of scope** for Phase 4:
+
+- Pagination logic or behavior
+- Filtering logic or semantics
+- Sorting logic
+- Hydration lifecycle
+- Redis performance optimization
+- Query planning or indexing
+- SQL or MongoDB behavior changes
+- API or interface changes
+- Refactoring legacy code
+
+Phase 4 introduces **guards only**, not redesign.
+
+---
+
+## Safety Configuration (Conceptual)
+
+Phase 4 introduces configurable safety limits, such as:
+
+- Maximum number of keys scanned
+- Maximum number of scan iterations
+- Maximum number of items processed in memory
+
+Default values must be conservative.
+Configuration must not introduce breaking changes.
+
+---
+
+## Error Handling
+
+Phase 4 introduces Redis-specific safety exceptions, including (conceptually):
+
+- Unsafe command execution
+- Scan limit exceeded
+- In-memory processing limit exceeded
+
+All safety violations must result in deterministic exceptions.
+
+---
+
+## Backward Compatibility
+
+Phase 4 must fully comply with **ADR-014**:
+
+- No breaking changes in v1.x
+- No removal of existing public APIs
+- Legacy behavior may remain but must be guarded
+
+---
+
+## Relationship to Legacy Implementations
+
+Existing Redis behavior that exceeds these constraints is considered **legacy**.
+
+Phase 4 does not remove or refactor legacy behavior.
+It **contains** it through safety enforcement.
+
+---
+
+## Lock Conditions
+
+Phase 4 may be considered complete only when:
+
+- All in-scope responsibilities are implemented
+- All non-goals remain untouched
+- Required tests are present
+- A Phase 4 audit is completed and approved
+
+Until then, this phase is not locked.
+
+---
