@@ -13,7 +13,14 @@
 
 declare(strict_types=1);
 
-namespace Maatify\DataRepository\Tests\Generic\NoSQL;
+namespace Maatify\DataRepository\Tests\Legacy\Redis;
+
+/**
+ * @legacy
+ * @deprecated
+ * @reason Violates ADR-002 (Redis Keys usage) and ADR-006 (Unbounded in-memory filtering)
+ * @note Preserved for historical reference only.
+ */
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Generic\GenericRedisRepository;

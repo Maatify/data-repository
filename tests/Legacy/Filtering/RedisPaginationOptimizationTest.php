@@ -13,7 +13,14 @@
 
 declare(strict_types=1);
 
-namespace Maatify\DataRepository\Tests\Pagination\Optimization;
+namespace Maatify\DataRepository\Tests\Legacy\Filtering;
+
+/**
+ * @legacy
+ * @deprecated
+ * @reason Violates ADR-002 (Relies on KEYS command for pagination logic)
+ * @note Preserved for historical reference only.
+ */
 
 use Maatify\DataRepository\Generic\GenericRedisRepository;
 use PHPUnit\Framework\TestCase;
