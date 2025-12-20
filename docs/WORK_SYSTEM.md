@@ -244,6 +244,77 @@ All subsequent phases MUST respect this lock.
 
 ---
 
+## Phase 5A — Repository Contract Lock (MANDATORY)
+
+### Status
+LOCKED — No Code Changes
+
+### Purpose
+Phase 5A exists to **freeze and protect the repository contract** before any interface refactoring.
+This phase explicitly prevents implicit contract expansion and guards backward compatibility.
+
+### Core Rule
+> **Only methods declared in `RepositoryInterface` are considered CONTRACTUAL.**  
+> Any method implemented in concrete repositories but not declared in the interface is classified as **Convenience / Implementation Detail**.
+
+### Contractual Methods (v1.x)
+The following methods are the ONLY guaranteed API surface in v1.x:
+
+- `find(id)`
+- `findBy(filters)`
+- `findAll()`
+- `insert(data)`
+- `update(id, data)`
+- `delete(id)`
+- `setAdapter(adapter)`
+
+### Non-Contractual (Convenience) Methods
+The following methods MAY exist in concrete repositories but are NOT part of the public contract:
+
+- `findOneBy(...)`
+- `count(...)`
+- `paginate(...)`
+- `paginateBy(...)`
+
+These methods:
+- MUST NOT be relied upon in type-hinted contracts
+- MUST NOT be added to interfaces in v1.x
+- MAY vary by driver capability (especially Redis)
+
+### Redis Capability Baseline
+Redis defines the **lowest common denominator** for repository behavior.
+
+Rules:
+- Redis limitations dictate contract design
+- No repository may throw "Not Supported" for contractual methods
+- Advanced behaviors must be optional and non-contractual
+
+### Static Analysis & Quality Gates
+All phases MUST comply with:
+- PHPStan **Level Max**
+- `declare(strict_types=1)`
+- Deterministic behavior
+- No runtime capability checks leaking into contracts
+
+### Forward Compatibility
+- Interface segregation (Read/Write repositories) is **explicitly deferred to v2.0**
+- Any interface expansion in v1.x is considered a breaking change and forbidden
+
+### Authority
+This phase is governed by:
+- ADR-001 (Scope Lock)
+- ADR-003 (Capability Safety)
+- ADR-014 (Backward Compatibility)
+- ADR-015 (Governance)
+- ADR-016 (Repository Contract Boundary)
+
+---
+
+> Phase 5 (Interface Segregation – Read/Write Repositories)  
+> is explicitly deferred to **v2.0** and MUST NOT be implemented in v1.x.
+
+---
+
 ## 🏁 Final Principle
 
 > Stability over speed.
