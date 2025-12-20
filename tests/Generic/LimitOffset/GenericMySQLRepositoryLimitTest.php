@@ -53,6 +53,15 @@ class GenericMySQLRepositoryLimitTest extends TestCase
     public function testPaginateByValidatesLimit(): void
     {
         $this->expectException(RepositoryException::class);
+
+        // Setup mock for the count query that happens before validation
+        $stmt = $this->createMock(PDOStatement::class);
+        $stmt->method('fetchColumn')->willReturn(0);
+
+        // Expect prepare call for count(*)
+        $this->pdo->method('prepare')
+            ->willReturn($stmt);
+
         // Exceed default max limit (10000)
         $this->repo->paginateBy([], 1, 10001);
     }

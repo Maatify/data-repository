@@ -47,7 +47,8 @@ class MongoCastingRegressionTest extends TestCase
         $this->adapterMock = $this->createMock(AdapterInterface::class);
         $this->adapterMock->method('getDriver')->willReturn(new class ($this->collectionMock) {
             public function __construct(private object $collection) {}
-            public function selectCollection(string $db, string $collection): object
+            // Use variadic args to match any signature requirement for selectCollection
+            public function selectCollection(mixed ...$args): object
             {
                 return $this->collection;
             }
