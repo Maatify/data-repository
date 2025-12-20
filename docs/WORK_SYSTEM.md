@@ -315,6 +315,73 @@ This phase is governed by:
 
 ---
 
+## 🧭 Phase 6 Lock Reference
+
+### Phase 6 — Limit / Offset Safety
+
+**Status:** ARCHITECTURALLY LOCKED
+
+Phase 6 formalizes **limit/offset safety enforcement** for pagination behavior
+without modifying any contractual API.
+
+This phase is classified as a **Capability Formalization Phase**, not a feature
+or guarantee phase.
+
+---
+
+### Scope Guarantees
+
+Phase 6 guarantees that:
+
+- Limit / offset validation is applied **only** in:
+  - `paginate(...)`
+  - `paginateBy(...)`
+- Validation is **fail-fast**
+- Validation occurs **before data access**
+- No method signatures were changed
+- No interfaces were expanded
+- No new guarantees were introduced
+
+---
+
+### Explicit Non-Guarantees
+
+Phase 6 does **NOT** provide:
+
+- Deterministic pagination ordering
+- Stable page boundaries
+- Ordering semantics across adapters
+- Any new contractual API surface
+
+Pagination remains **best-effort only** in v1.x.
+
+---
+
+### Governing Authority
+
+Phase 6 is governed by:
+
+- Phase 5A — Repository Contract Lock
+- ADR-001 — Library Scope & Non-Goals
+- ADR-014 — Backward Compatibility
+- ADR-015 — Release Process & Governance
+
+---
+
+### Audit Reference
+
+Phase 6 is certified and locked by:
+
+- `docs/audit/PHASE6_AUDIT.md`
+
+This lock is **binding** for all future phases.
+
+Any change affecting Phase 6 behavior requires:
+- A new ADR **or**
+- A MAJOR version bump
+
+---
+
 ## 🏁 Final Principle
 
 > Stability over speed.

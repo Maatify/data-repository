@@ -236,9 +236,9 @@
   },
   {
     "phase_id": "phase6",
-    "timestamp": "2025-11-25T05:55:00+02:00",
+    "timestamp": "2025-12-20T04:54:00+00:00",
     "status": "completed",
-    "summary": "Limits & Offsets (LimitOffsetValidator, Generic Integration) implemented.",
+    "summary": "Limit/Offset Safety — Pagination Only",
     "changes": {
       "added": [
         "src/Generic/Support/LimitOffsetValidator.php",
@@ -250,6 +250,7 @@
       "updated": [
         "src/Generic/GenericMySQLRepository.php",
         "src/Generic/GenericMongoRepository.php",
+        "src/Generic/GenericRedisRepository.php",
         "phase-output.json"
       ]
     },

@@ -68,8 +68,6 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
      */
     public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
-        LimitOffsetValidator::validate($limit, $offset);
-
         [$where, $params] = $this->buildWhereClause($filters);
 
         $sql = "SELECT * FROM `{$this->tableName}` {$where}";
@@ -292,6 +290,8 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
         $total = $this->count($filters);
         $offset = ($page - 1) * $perPage;
+
+        LimitOffsetValidator::validate($perPage, $offset);
 
         $data = $this->findBy($filters, $orderBy, $perPage, $offset);
 

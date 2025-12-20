@@ -66,8 +66,6 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
-        LimitOffsetValidator::validate($limit, $offset);
-
         try {
             $normalizedFilters = FilterUtils::buildMongoFilter($filters);
 
@@ -279,6 +277,8 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
         $total = $this->count($filters);
         $offset = ($page - 1) * $perPage;
+
+        LimitOffsetValidator::validate($perPage, $offset);
 
         $data = $this->findBy($filters, $orderBy, $perPage, $offset);
 
