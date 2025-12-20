@@ -148,8 +148,6 @@ This lock is binding for all subsequent phases.
 
 ---
 
----
-
 ## 🧭 Phase 2 Lock Reference
 
 Phase 2 is locked and certified by:
@@ -188,6 +186,57 @@ Any existing implementation providing the above behaviors is classified as **leg
 
 - Phase 3 is **architecturally immutable**
 - Any modification to Phase 3 scope or guarantees requires:
+  - A new ADR
+  - A **MAJOR** version bump
+
+All subsequent phases MUST respect this lock.
+
+---
+
+## 🧭 Phase 4 Lock Reference
+
+Phase 4 is locked and certified by:
+
+* `docs/audit/PHASE4_AUDIT.md`
+
+This lock formally defines **Phase 4 — Redis Safety Enforcement** as a
+**runtime safety and protection phase only**.
+
+### Binding Constraints
+
+Phase 4 is strictly limited to:
+
+- Runtime safety guards for Redis operations
+- SCAN-only iteration enforcement
+- Hard limits on:
+  - Scan iterations
+  - Total scanned keys
+- Fail-fast Redis-specific exceptions
+
+The following are **explicitly forbidden** within Phase 4:
+
+- Pagination logic
+- Filtering or sorting behavior
+- Hydration lifecycle logic
+- Redis performance optimization
+- Query planning or indexing
+- SQL or MongoDB behavior changes
+- Public API or interface changes
+- Legacy behavior refactoring
+
+Any Redis-related behavior outside these constraints is classified as
+**future-phase responsibility**.
+
+### Fake vs Real Driver Rule
+
+- Safety guards apply **only** to real Redis drivers
+- Fake/test drivers are explicitly excluded
+- Test semantics must remain unlimited and deterministic
+
+### Enforcement
+
+- Phase 4 is **architecturally immutable**
+- Any modification to Redis safety behavior requires:
   - A new ADR
   - A **MAJOR** version bump
 

@@ -18,6 +18,7 @@ namespace Maatify\DataRepository\Generic;
 use Maatify\DataRepository\Base\BaseRedisRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\RedisOps;
+use Maatify\DataRepository\Generic\Support\Safety\RedisSafetyConfig;
 use Maatify\DataRepository\Generic\Support\RepositoryHydrationTrait;
 use Maatify\Common\Pagination\DTO\PaginationResultDTO;
 use Maatify\Common\Pagination\Helpers\PaginationHelper;
@@ -250,10 +251,18 @@ abstract class GenericRedisRepository extends BaseRedisRepository
     protected function getRedisOps(): RedisOps
     {
         if ($this->redisOps === null) {
-            $this->redisOps = new RedisOps($this->getRedis());
+            $this->redisOps = new RedisOps($this->getRedis(), $this->getRedisSafetyConfig());
         }
 
         return $this->redisOps;
+    }
+
+    /**
+     * @return RedisSafetyConfig
+     */
+    protected function getRedisSafetyConfig(): RedisSafetyConfig
+    {
+        return new RedisSafetyConfig();
     }
 
     /**
