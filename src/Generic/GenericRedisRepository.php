@@ -17,7 +17,6 @@ namespace Maatify\DataRepository\Generic;
 
 use Maatify\DataRepository\Base\BaseRedisRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
-use Maatify\DataRepository\Generic\Pagination\LimitOffsetConfig;
 use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use Maatify\DataRepository\Generic\Support\RedisOps;
 use Maatify\DataRepository\Generic\Support\Safety\RedisSafetyConfig;
@@ -39,11 +38,6 @@ abstract class GenericRedisRepository extends BaseRedisRepository
     protected string $keyPrefix = '';
 
     private ?RedisOps $redisOps = null;
-
-    protected function getLimitOffsetConfig(): ?LimitOffsetConfig
-    {
-        return null;
-    }
 
     /**
      * @return array<string, mixed>|null
@@ -298,7 +292,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
 
         $offset = ($page - 1) * $perPage;
 
-        LimitOffsetValidator::validateWithConfig($perPage, $offset, $this->getLimitOffsetConfig());
+        LimitOffsetValidator::validate($perPage, $offset);
 
         $pagedKeys = array_slice($keys, $offset, $perPage);
 
@@ -344,7 +338,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
         // Slice for pagination
         $offset = ($page - 1) * $perPage;
 
-        LimitOffsetValidator::validateWithConfig($perPage, $offset, $this->getLimitOffsetConfig());
+        LimitOffsetValidator::validate($perPage, $offset);
 
         $data = array_slice($allFiltered, $offset, $perPage);
 
