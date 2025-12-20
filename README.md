@@ -128,6 +128,29 @@ $user = $repo->findObject(1);
 
 ---
 
+# 🛑 MongoDB ObjectId Casting Rules
+
+> **Important**: To ensure predictability, this library enforces strict rules for MongoDB ID casting.
+
+- **Casting is allowed ONLY in `find(id)`**
+- **24-char hex strings are cast ONLY in `find(id)`**
+- `findBy`, `paginate`, and filters **NEVER** cast automatically
+- Explicit `new ObjectId(...)` is required in filters
+
+**Positive Example (Casting happens):**
+```php
+// Automatically converts string "507f1f77bcf86cd799439011" to ObjectId
+$repo->find("507f1f77bcf86cd799439011");
+```
+
+**Negative Example (No casting happens):**
+```php
+// Remains a literal string "507f1f77bcf86cd799439011"
+$repo->findBy(['custom_id' => "507f1f77bcf86cd799439011"]);
+```
+
+---
+
 # 📄 Documentation
 
 *   [**New Developer Onboarding**](docs/ONBOARDING.md)
