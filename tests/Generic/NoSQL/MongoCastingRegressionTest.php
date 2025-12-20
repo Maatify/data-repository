@@ -18,6 +18,7 @@ namespace Maatify\DataRepository\Tests\Generic\NoSQL;
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Generic\GenericMongoRepository;
 use MongoDB\BSON\ObjectId;
+use MongoDB\Driver\CursorInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -90,7 +91,7 @@ class MongoCastingRegressionTest extends TestCase
                 }),
                 $this->anything() // options
             )
-            ->willReturn(new \ArrayIterator([])); // Return empty cursor
+            ->willReturn(new FakeMongoCursor([]));
 
         $this->repo->findBy(['some_id' => $hexString]);
     }
@@ -118,8 +119,97 @@ class MongoCastingRegressionTest extends TestCase
                 }),
                 $this->anything()
             )
-            ->willReturn(new \ArrayIterator([]));
+            ->willReturn(new FakeMongoCursor([]));
 
         $this->repo->findBy(['some_id' => $objectId]);
+    }
+}
+
+/**
+ * Fake Cursor satisfying MongoDB\Driver\CursorInterface.
+ */
+class FakeMongoCursor implements CursorInterface
+{
+    /**
+     * @var array<int, array<string, mixed>|object|null>
+     */
+    private array $data;
+    private int $position = 0;
+
+    /**
+     * @param   array<int, array<string, mixed>|object|null>  $data
+     */
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
+    // --- Iterator Implementation ---
+
+    /**
+     * @return array<string, mixed>|object|null
+     */
+    public function current(): array|null|object
+    {
+        return $this->data[$this->position] ?? null;
+    }
+
+    public function next(): void
+    {
+        $this->position++;
+    }
+
+    public function key(): int|null
+    {
+        return $this->position;
+    }
+
+    public function valid(): bool
+    {
+        return $this->position < count($this->data);
+    }
+
+    public function rewind(): void
+    {
+        $this->position = 0;
+    }
+
+    // --- CursorInterface Implementation ---
+
+    /**
+     * @param array<string, mixed> $typemap
+     */
+    public function setTypeMap(array $typemap): void
+    {
+    }
+
+    /**
+     * @return array<int, array<string, mixed>|object>
+     */
+    public function toArray(): array
+    {
+        // Ensure return type is: array<int, array<string,mixed>|object>
+        return array_values(
+            array_filter(
+                $this->data,
+                static fn ($item) => $item !== null
+            )
+        );
+    }
+
+    public function getId(): \MongoDB\BSON\Int64
+    {
+        // Emulate a cursor ID
+        return new \MongoDB\BSON\Int64(12345);
+    }
+
+    public function getServer(): \MongoDB\Driver\Server
+    {
+        throw new \RuntimeException('Not implemented in Fake');
+    }
+
+    public function isDead(): bool
+    {
+        return false;
     }
 }

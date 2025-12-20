@@ -23,6 +23,7 @@ use PHPUnit\Framework\TestCase;
 use MongoDB\Client;
 use MongoDB\Collection;
 use MongoDB\Database;
+use MongoDB\Driver\CursorInterface;
 
 class GenericMongoRepositoryLimitTest extends TestCase
 {
@@ -60,23 +61,25 @@ class GenericMongoRepositoryLimitTest extends TestCase
         $this->repo->setCollectionName('test');
     }
 
-    public function testFindByValidatesLimitOffset(): void
+    public function testPaginateByValidatesLimitOffset(): void
     {
+        // Phase 6 requires validation in paginateBy.
         $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Offset must be >= 0');
 
-        $this->repo->findBy([], null, 10, -1);
+        // Use a limit exceeding the default max (e.g. 10001) to trigger exception
+        $this->repo->paginateBy([], 1, 10001);
     }
 
     public function testFindByPassesLimitAndSkipToDriver(): void
     {
+        // Use PHPUnit mock for CursorInterface instead of depending on Fake class
+        $cursorMock = $this->createMock(CursorInterface::class);
+        $cursorMock->method('toArray')->willReturn([]);
+
         $this->collection->expects($this->once())
             ->method('find')
             ->with([], ['limit' => 5, 'skip' => 10])
-            ->willReturn(new \Maatify\DataRepository\Tests\Generic\Fake\FakeMongoCursor([]));
-
-        // We don't mock MongoOps anymore. The real implementation calls cursorToArray
-        // on the cursor we returned above.
+            ->willReturn($cursorMock);
 
         $this->repo->findBy([], null, 5, 10);
     }

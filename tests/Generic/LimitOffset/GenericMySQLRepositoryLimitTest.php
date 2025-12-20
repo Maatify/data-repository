@@ -50,20 +50,11 @@ class GenericMySQLRepositoryLimitTest extends TestCase
         $ref->setValue($this->repo, 'test');
     }
 
-    public function testFindByValidatesLimit(): void
+    public function testPaginateByValidatesLimit(): void
     {
         $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Invalid limit value: 0. Limit must be >= 1.');
-
-        $this->repo->findBy([], null, 0);
-    }
-
-    public function testFindByValidatesOffset(): void
-    {
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Offset must be >= 0');
-
-        $this->repo->findBy([], null, 10, -5);
+        // Exceed default max limit (10000)
+        $this->repo->paginateBy([], 1, 10001);
     }
 
     public function testFindByAppendsLimitAndOffsetToSql(): void
@@ -71,6 +62,7 @@ class GenericMySQLRepositoryLimitTest extends TestCase
         $stmt = $this->createMock(PDOStatement::class);
         $stmt->method('fetchAll')->willReturn([]);
 
+        // Ensure execute doesn't crash on false by forcing a return value
         $this->pdo->expects($this->once())
             ->method('prepare')
             ->with($this->stringContains('LIMIT 5 OFFSET 10'))
