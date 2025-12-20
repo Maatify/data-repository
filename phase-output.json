@@ -250,6 +250,7 @@
       "updated": [
         "src/Generic/GenericMySQLRepository.php",
         "src/Generic/GenericMongoRepository.php",
+        "src/Generic/GenericRedisRepository.php",
         "phase-output.json"
       ]
     },

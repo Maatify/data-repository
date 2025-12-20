@@ -17,6 +17,7 @@ namespace Maatify\DataRepository\Generic;
 
 use Maatify\DataRepository\Base\BaseMongoRepository;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Generic\Pagination\LimitOffsetConfig;
 use Maatify\DataRepository\Generic\Support\FilterUtils;
 use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use Maatify\DataRepository\Generic\Support\MongoOps;
@@ -39,6 +40,11 @@ abstract class GenericMongoRepository extends BaseMongoRepository
     protected string $collectionName = '';
 
     private ?MongoOps $mongoOps = null;
+
+    protected function getLimitOffsetConfig(): ?LimitOffsetConfig
+    {
+        return null;
+    }
 
     /**
      * @return array<string, mixed>|null
@@ -66,7 +72,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
      */
     public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
-        LimitOffsetValidator::validate($limit, $offset);
+        LimitOffsetValidator::validateWithConfig($limit, $offset, $this->getLimitOffsetConfig());
 
         try {
             $normalizedFilters = FilterUtils::buildMongoFilter($filters);
@@ -279,6 +285,8 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
         $total = $this->count($filters);
         $offset = ($page - 1) * $perPage;
+
+        LimitOffsetValidator::validateWithConfig($perPage, $offset, $this->getLimitOffsetConfig());
 
         $data = $this->findBy($filters, $orderBy, $perPage, $offset);
 
