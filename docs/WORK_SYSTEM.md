@@ -382,6 +382,50 @@ Any change affecting Phase 6 behavior requires:
 
 ---
 
+## 🧭 Phase 7 Lock Reference
+
+### Phase 7 — MongoDB Explicit Behavior
+
+**Status:** ARCHITECTURALLY LOCKED
+
+Phase 7 defines and locks MongoDB ObjectId casting behavior with an explicit-only policy to ensure predictability and safety.
+
+### Binding Guarantees
+
+- Casting is allowed **ONLY** in `find(id)`
+- 24-character hexadecimal strings are cast **ONLY** in `find(id)`
+- `findBy`, `paginate`, and filter-based queries **NEVER** perform implicit casting
+- Explicit `new MongoDB\BSON\ObjectId(...)` is required in filters
+- Behavior is identical across **real and fake adapters**
+
+### Explicit Non-Guarantees
+
+- No heuristic or content-based ObjectId detection in filters
+- No implicit casting for `_id` fields passed via filter arrays
+- No adapter-specific behavior divergence
+
+### Governing Authority
+
+This phase is governed by:
+- **ADR-005** — MongoDB ObjectId Casting Rules & Safety
+- **ADR-014** — Backward Compatibility & Deprecation Policy
+- **ADR-015** — Release Process & Governance
+
+### Audit Reference
+
+- `docs/audit/PHASE7_AUDIT.md`  
+  (Initial audit + Post-Remediation Verification)
+
+### Enforcement
+
+Any modification to Phase 7 behavior requires:
+- A **new ADR**, **or**
+- A **MAJOR version bump**
+
+This lock is binding for all subsequent phases.
+
+---
+
 ## 🏁 Final Principle
 
 > Stability over speed.

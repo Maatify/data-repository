@@ -18,13 +18,13 @@ namespace Maatify\DataRepository\Tests\ADR;
 use Maatify\DataFakes\Adapters\Redis\FakeRedisAdapter;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\GenericRedisRepository;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group ADR
- * @group ADR-002
- * @group ADR-006
- */
+#[Group('ADR')]
+#[Group('ADR-002')]
+#[Group('ADR-006')]
 class ADR002_RedisSafetyTest extends TestCase
 {
     /** @var GenericRedisRepository<object> */
@@ -39,9 +39,9 @@ class ADR002_RedisSafetyTest extends TestCase
     }
 
     /**
-     * @test
-     * @description ADR-002 prohibits query-like counting (filtering) on Redis.
+     * ADR-002 prohibits query-like counting (filtering) on Redis.
      */
+    #[Test]
     public function testCountWithFiltersThrowsException(): void
     {
         $this->expectException(RepositoryException::class);
@@ -52,9 +52,9 @@ class ADR002_RedisSafetyTest extends TestCase
     }
 
     /**
-     * @test
-     * @description ADR-002 prohibits "inserting" data without a Key (ID).
+     * ADR-002 prohibits "inserting" data without a Key (ID).
      */
+    #[Test]
     public function testInsertRequiresExplicitId(): void
     {
         $this->expectException(RepositoryException::class);
@@ -65,9 +65,9 @@ class ADR002_RedisSafetyTest extends TestCase
     }
 
     /**
-     * @test
-     * @description ADR-002/006 prohibits undefined or complex ID types.
+     * ADR-002/006 prohibits undefined or complex ID types.
      */
+    #[Test]
     public function testInsertEnforcesIdType(): void
     {
         $this->expectException(RepositoryException::class);
