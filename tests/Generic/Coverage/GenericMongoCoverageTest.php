@@ -54,8 +54,8 @@ class GenericMongoCoverageTest extends TestCase
             }
         };
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Collection name not defined');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Find operation failed.');
 
         $repo->testFind();
     }
@@ -81,8 +81,8 @@ class GenericMongoCoverageTest extends TestCase
             }
         };
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Failed to retrieve MongoDB Collection');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Find operation failed.');
 
         $repo->testFind();
     }

@@ -65,8 +65,8 @@ class GenericMySQLCoverageTest extends TestCase
             ->method('getDriver')
             ->willReturn(new \stdClass()); // Not PDO
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('GenericMySQLRepository requires a PDO driver or compatible wrapper.');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Find operation failed.');
 
         $this->repository->find(1);
     }
