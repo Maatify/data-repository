@@ -138,9 +138,11 @@ class RepositoryInterfaceSignatureTest extends TestCase
         $this->assertSame(['adapter'], $this->paramNames($method));
         $this->assertSame('static', (string) $method->getReturnType());
 
+        $paramType = $method->getParameters()[0]->getType();
+        $this->assertInstanceOf(ReflectionNamedType::class, $paramType);
         $this->assertSame(
             AdapterInterface::class,
-            $method->getParameters()[0]->getType()?->getName()
+            $paramType->getName()
         );
     }
 

@@ -59,12 +59,18 @@ class MongoCastingRegressionTest extends TestCase
         });
 
         // Instantiate Repo
-        /** @var GenericMongoRepository<object> $repo */
-        $repo = new class ($this->adapterMock) extends GenericMongoRepository {
+        $this->repo = $this->createGenericMongoRepository($this->adapterMock);
+    }
+
+    /**
+     * @return GenericMongoRepository<object>
+     */
+    private function createGenericMongoRepository(AdapterInterface $adapter): GenericMongoRepository
+    {
+        return new class ($adapter) extends GenericMongoRepository {
             protected string $collectionName = 'test_col';
             protected function validateAdapter(): void {} // bypass
         };
-        $this->repo = $repo;
     }
 
     /**
