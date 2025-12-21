@@ -15,7 +15,11 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Generic;
 
+use InvalidArgumentException;
 use Maatify\DataRepository\Base\BaseMySQLRepository;
+use Maatify\DataRepository\Exceptions\InvalidFilterException;
+use Maatify\DataRepository\Exceptions\InvalidPaginationException;
+use Maatify\DataRepository\Exceptions\QueryExecutionException;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\FilterUtils;
 use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
@@ -55,7 +59,9 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
             return $result === false ? null : $result;
         } catch (\PDOException $e) {
-            throw new RepositoryException('Find failed: ' . $e->getMessage(), 0, $e);
+            throw new QueryExecutionException('Find failed.', 0, $e);
+        } catch (\Exception $e) {
+            throw new QueryExecutionException('Find operation failed.', 0, $e);
         }
     }
 
@@ -68,30 +74,34 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
      */
     public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
-        [$where, $params] = $this->buildWhereClause($filters);
-
-        $sql = "SELECT * FROM `{$this->tableName}` {$where}";
-
-        if (! empty($orderBy)) {
-            $sql .= ' ' . OrderUtils::buildSqlOrderBy($orderBy);
-        }
-
-        if ($limit !== null) {
-            $sql .= ' LIMIT ' . (int)$limit;
-        }
-
-        if ($offset !== null) {
-            $sql .= ' OFFSET ' . (int)$offset;
-        }
-
         try {
+            [$where, $params] = $this->buildWhereClause($filters);
+
+            $sql = "SELECT * FROM `{$this->tableName}` {$where}";
+
+            if (! empty($orderBy)) {
+                $sql .= ' ' . OrderUtils::buildSqlOrderBy($orderBy);
+            }
+
+            if ($limit !== null) {
+                $sql .= ' LIMIT ' . (int)$limit;
+            }
+
+            if ($offset !== null) {
+                $sql .= ' OFFSET ' . (int)$offset;
+            }
+
             $stmt = $this->getPdo()->prepare($sql);
             $stmt->execute($params);
             /** @var array<int, array<string, mixed>> $result */
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
         } catch (\PDOException $e) {
-            throw new RepositoryException('FindBy failed: ' . $e->getMessage(), 0, $e);
+            throw new QueryExecutionException('FindBy operation failed.', 0, $e);
+        } catch (\Exception $e) {
+            throw new QueryExecutionException('FindBy unexpected error.', 0, $e);
         }
     }
 
@@ -132,8 +142,12 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             $stmt->execute($params);
 
             return (int)$stmt->fetchColumn();
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
         } catch (\PDOException $e) {
-            throw new RepositoryException('Count failed: ' . $e->getMessage(), 0, $e);
+            throw new QueryExecutionException('Count operation failed.', 0, $e);
+        } catch (\Exception $e) {
+            throw new QueryExecutionException('Count unexpected error.', 0, $e);
         }
     }
 
@@ -158,7 +172,9 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
             return $this->getMysqlOps()->lastInsertId();
         } catch (\PDOException $e) {
-            throw new RepositoryException('Insert failed: ' . $e->getMessage(), 0, $e);
+            throw new QueryExecutionException('Insert operation failed.', 0, $e);
+        } catch (\Exception $e) {
+            throw new QueryExecutionException('Insert unexpected error.', 0, $e);
         }
     }
 
@@ -190,7 +206,9 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
             return $stmt->execute($data);
         } catch (\PDOException $e) {
-            throw new RepositoryException('Update failed: ' . $e->getMessage(), 0, $e);
+            throw new QueryExecutionException('Update operation failed.', 0, $e);
+        } catch (\Exception $e) {
+            throw new QueryExecutionException('Update unexpected error.', 0, $e);
         }
     }
 
@@ -206,7 +224,9 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
 
             return $stmt->execute();
         } catch (\PDOException $e) {
-            throw new RepositoryException('Delete failed: ' . $e->getMessage(), 0, $e);
+            throw new QueryExecutionException('Delete operation failed.', 0, $e);
+        } catch (\Exception $e) {
+            throw new QueryExecutionException('Delete unexpected error.', 0, $e);
         }
     }
 
@@ -288,15 +308,21 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             $perPage = 10;
         }
 
-        $total = $this->count($filters);
-        $offset = ($page - 1) * $perPage;
+        try {
+            $total = $this->count($filters);
+            $offset = ($page - 1) * $perPage;
 
-        LimitOffsetValidator::validate($perPage, $offset);
+            LimitOffsetValidator::validate($perPage, $offset);
 
-        $data = $this->findBy($filters, $orderBy, $perPage, $offset);
+            $data = $this->findBy($filters, $orderBy, $perPage, $offset);
 
-        $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
+            $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
 
-        return new PaginationResultDTO($data, $pagination);
+            return new PaginationResultDTO($data, $pagination);
+        } catch (RepositoryException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+             throw new InvalidPaginationException('Pagination failed.', 0, $e);
+        }
     }
 }
