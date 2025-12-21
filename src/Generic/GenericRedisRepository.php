@@ -67,7 +67,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
 
             /** @var array<string, mixed> $decoded */
             return $decoded;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new DriverOperationException('Find operation failed.', 0, $e);
         }
     }
@@ -95,7 +95,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
 
         try {
             $this->getRedisOps()->set($key, $payload);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new DriverOperationException('Insert operation failed.', 0, $e);
         }
 
@@ -122,7 +122,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
 
         try {
             return $this->getRedisOps()->set($this->getKey($id), $payload);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new DriverOperationException('Update operation failed.', 0, $e);
         }
     }
@@ -134,7 +134,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
     {
         try {
             return $this->getRedisOps()->del($this->getKey($id)) > 0;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new DriverOperationException('Delete operation failed.', 0, $e);
         }
     }
@@ -175,7 +175,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             return array_values($filtered); // Re-index array
         } catch (RepositoryException $e) {
             throw $e;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
              // Catch potential OrderUtils exceptions or array manipulation errors
             throw new DriverOperationException('FindBy operation failed.', 0, $e);
         }
@@ -223,7 +223,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             }
 
             return $results;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new DriverOperationException('FindAll operation failed.', 0, $e);
         }
     }
@@ -244,7 +244,7 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
 
             return count($keys);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new DriverOperationException('Count operation failed.', 0, $e);
         }
     }
@@ -336,8 +336,10 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             return new PaginationResultDTO($data, $pagination);
         } catch (RepositoryException $e) {
             throw $e;
-        } catch (\Exception $e) {
-            throw new InvalidPaginationException('Paginate operation failed.', 0, $e);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidPaginationException('Invalid pagination parameters.', 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('Paginate operation failed.', 0, $e);
         }
     }
 
@@ -376,8 +378,10 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             return new PaginationResultDTO($data, $pagination);
         } catch (RepositoryException $e) {
             throw $e;
-        } catch (\Exception $e) {
-            throw new InvalidPaginationException('PaginateBy operation failed.', 0, $e);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidPaginationException('Invalid pagination parameters.', 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('PaginateBy operation failed.', 0, $e);
         }
     }
 

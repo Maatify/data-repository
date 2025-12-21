@@ -58,9 +58,7 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             return $result === false ? null : $result;
-        } catch (\PDOException $e) {
-            throw new QueryExecutionException('Find failed.', 0, $e);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('Find operation failed.', 0, $e);
         }
     }
@@ -98,10 +96,8 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             return $result;
         } catch (InvalidArgumentException $e) {
             throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
-        } catch (\PDOException $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('FindBy operation failed.', 0, $e);
-        } catch (\Exception $e) {
-            throw new QueryExecutionException('FindBy unexpected error.', 0, $e);
         }
     }
 
@@ -144,10 +140,8 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             return (int)$stmt->fetchColumn();
         } catch (InvalidArgumentException $e) {
             throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
-        } catch (\PDOException $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('Count operation failed.', 0, $e);
-        } catch (\Exception $e) {
-            throw new QueryExecutionException('Count unexpected error.', 0, $e);
         }
     }
 
@@ -171,10 +165,8 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             $pdo->prepare($sql)->execute($data);
 
             return $this->getMysqlOps()->lastInsertId();
-        } catch (\PDOException $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('Insert operation failed.', 0, $e);
-        } catch (\Exception $e) {
-            throw new QueryExecutionException('Insert unexpected error.', 0, $e);
         }
     }
 
@@ -205,10 +197,8 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             $stmt = $this->getPdo()->prepare($sql);
 
             return $stmt->execute($data);
-        } catch (\PDOException $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('Update operation failed.', 0, $e);
-        } catch (\Exception $e) {
-            throw new QueryExecutionException('Update unexpected error.', 0, $e);
         }
     }
 
@@ -223,10 +213,8 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             $stmt->bindValue(':id', $id);
 
             return $stmt->execute();
-        } catch (\PDOException $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('Delete operation failed.', 0, $e);
-        } catch (\Exception $e) {
-            throw new QueryExecutionException('Delete unexpected error.', 0, $e);
         }
     }
 
@@ -321,8 +309,10 @@ abstract class GenericMySQLRepository extends BaseMySQLRepository
             return new PaginationResultDTO($data, $pagination);
         } catch (RepositoryException $e) {
             throw $e;
-        } catch (\Exception $e) {
-             throw new InvalidPaginationException('Pagination failed.', 0, $e);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidPaginationException('Invalid pagination parameters.', 0, $e);
+        } catch (\Throwable $e) {
+             throw new QueryExecutionException('Pagination failed.', 0, $e);
         }
     }
 }

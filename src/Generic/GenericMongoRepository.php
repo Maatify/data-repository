@@ -57,7 +57,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $result = $this->getCollectionObj()->findOne($filter);
 
             return $this->getMongoOps()->toArray($result);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('Find operation failed.', 0, $e);
         }
     }
@@ -90,7 +90,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             return $this->getMongoOps()->cursorToArray($cursor);
         } catch (InvalidArgumentException $e) {
             throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('FindBy operation failed.', 0, $e);
         }
     }
@@ -112,7 +112,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             return $this->getMongoOps()->toArray($result);
         } catch (InvalidArgumentException $e) {
             throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('FindOneBy operation failed.', 0, $e);
         }
     }
@@ -139,7 +139,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             return $this->getCollectionObj()->countDocuments($normalizedFilters);
         } catch (InvalidArgumentException $e) {
             throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new QueryExecutionException('Count operation failed.', 0, $e);
         }
     }
@@ -160,7 +160,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             }
 
             return $normalizedId;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if ($e instanceof RepositoryException) {
                 throw $e;
             }
@@ -178,7 +178,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $result = $this->getCollectionObj()->updateOne($filter, ['$set' => $data]);
 
             return $result->getMatchedCount() > 0;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new DriverOperationException('Update operation failed.', 0, $e);
         }
     }
@@ -193,7 +193,7 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $result = $this->getCollectionObj()->deleteOne($filter);
 
             return $result->getDeletedCount() > 0;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new DriverOperationException('Delete operation failed.', 0, $e);
         }
     }
@@ -298,9 +298,14 @@ abstract class GenericMongoRepository extends BaseMongoRepository
 
             return new PaginationResultDTO($data, $pagination);
         } catch (RepositoryException $e) {
+            // Re-throw RepositoryException subclasses (like InvalidPaginationException from Validator) as-is
+            // to avoid misclassification.
             throw $e;
-        } catch (\Exception $e) {
-             throw new InvalidPaginationException('Pagination failed.', 0, $e);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidPaginationException('Invalid pagination parameters.', 0, $e);
+        } catch (\Throwable $e) {
+             // Wrap unexpected errors (Driver/Query) in QueryExecutionException
+             throw new QueryExecutionException('Pagination failed.', 0, $e);
         }
     }
 
