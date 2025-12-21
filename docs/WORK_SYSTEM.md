@@ -426,6 +426,89 @@ This lock is binding for all subsequent phases.
 
 ---
 
+## 🧭 Phase 8 Lock Reference
+
+### Phase 8 — Pagination & Count Semantics
+
+**Status:** ARCHITECTURALLY LOCKED
+
+Phase 8 formalizes and locks the semantic contract for pagination and count behavior
+across all repository backends, with explicit Redis safety constraints.
+
+This phase is classified as a **Contract Clarification Phase**.
+No new features, optimizations, or behavioral changes were introduced.
+
+---
+
+### Binding Guarantees
+
+- All pagination methods return a `PaginationResultDTO`
+- Pagination metadata (`total`, `page`, `perPage`, `pages`) is deterministic and consistent
+- `pages` is always calculated as `ceil(total / perPage)`
+- `LimitOffsetValidator` is enforced for all pagination paths
+- Behavior is identical across **Fake and Real** adapters
+
+---
+
+### Count Semantics
+
+#### MySQL & MongoDB
+- `count()` returns total records
+- `count(array $filters)` returns filtered record count
+
+#### Redis
+- `count()` returns total keys matching repository prefix
+- `count(array $filters)` is **NOT SUPPORTED** and MUST throw `RepositoryException`
+- No standalone filtered counts are allowed in Redis
+
+---
+
+### Redis Pagination Clarification
+
+- `paginateBy(array $filters)` is supported in Redis
+- `PaginationResultDTO.total` is available during pagination
+- This `total` value is a **pagination side-effect**, not a general contract guarantee
+- The presence of `total` does NOT imply support for `count(array $filters)`
+
+---
+
+### Explicit Non-Guarantees
+
+- No implicit or heuristic filtered counts in Redis
+- No partial, approximate, or best-effort counts
+- No Redis query-engine behavior
+- No relaxation of safety limits enforced by `RedisOps`
+
+---
+
+### Governing Authority
+
+This phase is governed by:
+- **ADR-010** — Pagination Result Contract
+- **ADR-011** — Pagination & Count Semantics
+- **ADR-006** — Redis Safety Constraints
+- **ADR-014** — Backward Compatibility Policy
+- **ADR-015** — Release & Lock Governance
+
+---
+
+### Audit Reference
+
+- `docs/audit/PHASE8_AUDIT.md`
+- `docs/phases/README.phase8.md`
+
+---
+
+### Enforcement
+
+Any modification to Phase 8 semantics requires:
+- A **new ADR**, or
+- A **MAJOR version bump**
+
+This lock is binding for all subsequent phases.
+
+---
+
 ## 🏁 Final Principle
 
 > Stability over speed.

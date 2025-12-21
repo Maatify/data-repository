@@ -89,6 +89,42 @@ $repo->findBy(['custom_id' => "507f1f77bcf86cd799439011"]);
 
 ---
 
+---
+
+## 🔒 Phase 8 — Pagination & Count Semantics (Locked Contract)
+
+Phase 8 formalizes and locks the semantic contract for pagination and count behavior
+across all repository backends.
+
+This phase is a **contract clarification phase** and does not introduce new features
+or behavioral changes.
+
+### Key Guarantees
+
+- All pagination methods return `PaginationResultDTO`
+- Pagination metadata (`total`, `page`, `perPage`, `pages`) is deterministic
+- `pages` is always calculated as `ceil(total / perPage)`
+- `LimitOffsetValidator` is enforced on all pagination paths
+
+### Redis-Specific Semantics
+
+Redis repositories operate under strict safety constraints:
+
+- `count()` → returns total keys for the repository prefix
+- `count(array $filters)` → **NOT SUPPORTED** (throws `RepositoryException`)
+- `paginateBy(array $filters)` → supported
+- `PaginationResultDTO.total` in Redis pagination is a **side-effect**, not a standalone guarantee
+
+### Governing ADRs
+
+- ADR-010 — Pagination Result Contract
+- ADR-011 — Pagination & Count Semantics
+- ADR-006 — Redis Safety Constraints
+
+Any change to these rules requires a new ADR or a MAJOR version bump.
+
+---
+
 ## 🧩 Core Concepts
 
 - **Repositories** isolate domain logic from drivers
