@@ -509,6 +509,60 @@ This lock is binding for all subsequent phases.
 
 ---
 
+## 🧭 Phase 9 Lock Reference
+
+### Phase 9 — Generic Ops Integration
+
+**Status:** ARCHITECTURALLY LOCKED
+
+Phase 9 confirms and locks the behavior of low-level Ops helpers used by
+Generic Repositories.
+
+This phase is classified as a **Stabilization & Isolation Phase**.
+No feature additions or behavioral changes are permitted.
+
+---
+
+### Scope Guarantees
+
+Phase 9 guarantees that:
+
+- Ops classes are **execution helpers only**
+- No business logic, pagination, or hydration logic exists in Ops
+- Ops classes remain isolated from:
+  - Repositories
+  - Adapters
+  - DTOs
+- Redis safety rules are enforced via bounded SCAN operations
+- Fail-fast behavior is deterministic and explicit
+- Fake drivers exhibit **identical semantics** to real drivers
+
+---
+
+### Locked Components
+
+- `MysqlOps`
+- `MongoOps`
+- `RedisOps`
+- `RedisGuard`
+- `RedisSafetyConfig`
+
+---
+
+### Explicit Non-Goals
+
+- Performance optimizations
+- Feature expansion
+- Pagination or filtering logic
+- Adapter abstraction changes
+
+Any change to this phase requires:
+- A new ADR
+- A new phase
+- A full audit cycle
+
+---
+
 ## 🏁 Final Principle
 
 > Stability over speed.
