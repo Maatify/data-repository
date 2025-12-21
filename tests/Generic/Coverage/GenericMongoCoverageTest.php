@@ -16,6 +16,8 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Generic\Coverage;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
+use Maatify\DataRepository\Exceptions\DriverOperationException;
+use Maatify\DataRepository\Exceptions\QueryExecutionException;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\GenericMongoRepository;
 use MongoDB\Collection;
@@ -109,8 +111,7 @@ class GenericMongoCoverageTest extends TestCase
             }
         };
 
-        $this->expectException(RepositoryException::class);
-        // It might be "Insert failed" or a specific message from MongoOps
+        $this->expectException(DriverOperationException::class);
         $this->expectExceptionMessage('Insert failed');
 
         $repo->insert(['a' => 1]);
@@ -148,56 +149,56 @@ class GenericMongoCoverageTest extends TestCase
         try {
             $repo->find('123');
             $this->fail('Expected exception');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Find failed', $e->getMessage());
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('Find operation failed.', $e->getMessage());
         }
 
         // FindBy
         try {
             $repo->findBy([]);
             $this->fail('Expected exception');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('FindBy failed', $e->getMessage());
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('FindBy operation failed.', $e->getMessage());
         }
 
         // FindOneBy
         try {
             $repo->findOneBy([]);
             $this->fail('Expected exception');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('FindOneBy failed', $e->getMessage());
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('FindOneBy operation failed.', $e->getMessage());
         }
 
         // Count
         try {
             $repo->count();
             $this->fail('Expected exception');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Count failed', $e->getMessage());
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('Count operation failed.', $e->getMessage());
         }
 
         // Insert
         try {
             $repo->insert(['a' => 1]);
             $this->fail('Expected exception');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Insert failed', $e->getMessage());
+        } catch (DriverOperationException $e) {
+            $this->assertSame('Insert operation failed.', $e->getMessage());
         }
 
         // Update
         try {
             $repo->update('123', ['a' => 1]);
             $this->fail('Expected exception');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Update failed', $e->getMessage());
+        } catch (DriverOperationException $e) {
+            $this->assertSame('Update operation failed.', $e->getMessage());
         }
 
         // Delete
         try {
             $repo->delete('123');
             $this->fail('Expected exception');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Delete failed', $e->getMessage());
+        } catch (DriverOperationException $e) {
+            $this->assertSame('Delete operation failed.', $e->getMessage());
         }
     }
 }

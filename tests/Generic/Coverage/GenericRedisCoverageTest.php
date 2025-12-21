@@ -17,6 +17,7 @@ namespace Maatify\DataRepository\Tests\Generic\Coverage;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Exceptions\UnsafeOperationException;
 use Maatify\DataRepository\Generic\GenericRedisRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -56,21 +57,21 @@ class GenericRedisCoverageTest extends TestCase
         // Phase 19 implementation only touched findBy/paginateBy logic.
         // Let's check the code: GenericRedisRepository::count() still has check:
         // if (! empty($filters)) { throw new RepositoryException... }
-        $this->expectException(RepositoryException::class);
+        $this->expectException(UnsafeOperationException::class);
         $this->expectExceptionMessage('Filtering count is not supported');
         $this->repository->count(['a' => 1]);
     }
 
     public function testInsertThrowsExceptionIfIdMissing(): void
     {
-        $this->expectException(RepositoryException::class);
+        $this->expectException(UnsafeOperationException::class);
         $this->expectExceptionMessage("Generic Redis Insert requires 'id'");
         $this->repository->insert(['name' => 'test']);
     }
 
     public function testInsertThrowsExceptionIfIdInvalidType(): void
     {
-        $this->expectException(RepositoryException::class);
+        $this->expectException(UnsafeOperationException::class);
         $this->expectExceptionMessage("Generic Redis Insert 'id' must be int|string");
         $this->repository->insert(['id' => 1.5]);
     }

@@ -16,7 +16,8 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Generic\Exceptions;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
-use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Exceptions\DriverOperationException;
+use Maatify\DataRepository\Exceptions\QueryExecutionException;
 use Maatify\DataRepository\Generic\GenericMongoRepository;
 use MongoDB\Collection;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -97,8 +98,8 @@ class GenericMongoRepositoryExceptionTest extends TestCase
     {
         $this->collection->method('findOne')->willThrowException(new \Exception('Simulated Mongo Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Find failed: Simulated Mongo Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Find operation failed.');
 
         $this->repository->find('507f1f77bcf86cd799439011');
     }
@@ -107,8 +108,8 @@ class GenericMongoRepositoryExceptionTest extends TestCase
     {
         $this->collection->method('find')->willThrowException(new \Exception('Simulated Mongo Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('FindBy failed: Simulated Mongo Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('FindBy operation failed.');
 
         $this->repository->findBy(['status' => 1]);
     }
@@ -117,8 +118,8 @@ class GenericMongoRepositoryExceptionTest extends TestCase
     {
         $this->collection->method('findOne')->willThrowException(new \Exception('Simulated Mongo Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('FindOneBy failed: Simulated Mongo Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('FindOneBy operation failed.');
 
         $this->repository->findOneBy(['status' => 1]);
     }
@@ -127,8 +128,8 @@ class GenericMongoRepositoryExceptionTest extends TestCase
     {
         $this->collection->method('countDocuments')->willThrowException(new \Exception('Simulated Mongo Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Count failed: Simulated Mongo Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Count operation failed.');
 
         $this->repository->count();
     }
@@ -137,8 +138,8 @@ class GenericMongoRepositoryExceptionTest extends TestCase
     {
         $this->collection->method('insertOne')->willThrowException(new \Exception('Simulated Mongo Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Insert failed: Simulated Mongo Error');
+        $this->expectException(DriverOperationException::class);
+        $this->expectExceptionMessage('Insert operation failed.');
 
         $this->repository->insert(['col' => 'val']);
     }
@@ -147,8 +148,8 @@ class GenericMongoRepositoryExceptionTest extends TestCase
     {
         $this->collection->method('updateOne')->willThrowException(new \Exception('Simulated Mongo Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Update failed: Simulated Mongo Error');
+        $this->expectException(DriverOperationException::class);
+        $this->expectExceptionMessage('Update operation failed.');
 
         $this->repository->update('507f1f77bcf86cd799439011', ['col' => 'val']);
     }
@@ -157,8 +158,8 @@ class GenericMongoRepositoryExceptionTest extends TestCase
     {
         $this->collection->method('deleteOne')->willThrowException(new \Exception('Simulated Mongo Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Delete failed: Simulated Mongo Error');
+        $this->expectException(DriverOperationException::class);
+        $this->expectExceptionMessage('Delete operation failed.');
 
         $this->repository->delete('507f1f77bcf86cd799439011');
     }
