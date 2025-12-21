@@ -257,24 +257,15 @@ class GenericRedisRepositoryFakeTest extends TestCase
             }
         };
 
-        // create a proxy that forces ReflectionException
-        $ops = new class ($driver) extends RedisOps {
-            public function keys(string $pattern): array
-            {
-                throw new \ReflectionException('forced');
-            }
-        };
+        // actual RedisOps implementation returns [] if reflection fails
+        // We cannot force ReflectionException on ReflectionObject constructor easily in a test
+        // without hacking standard library.
+        // Instead we rely on the fact that if a property doesn't exist, it returns empty.
 
-        try {
-            $result = $ops->keys('*');
-            $this->fail('Exception should have been thrown inside overridden keys()');
-        } catch (\ReflectionException) {
-            // actual RedisOps implementation returns [] if reflection fails
-            $driver2 = new class () {};
-            $ops2 = new \Maatify\DataRepository\Generic\Support\RedisOps($driver2);
+        $driver2 = new class () {};
+        $ops2 = new \Maatify\DataRepository\Generic\Support\RedisOps($driver2);
 
-            $this->assertSame([], $ops2->keys('*'));
-        }
+        $this->assertSame([], $ops2->keys('*'));
 
     }
 
