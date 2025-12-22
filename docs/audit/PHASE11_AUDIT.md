@@ -33,12 +33,12 @@ Phase 11 is **fully compliant** after documentation remediation.
 
 ## Contract Responsibilities Matrix
 
-| Component | Responsibility | Status | ADR Compliance |
-|---------|---------------|--------|----------------|
-| HydratorInterface | Defines hydration contract using generics (`@template T`) | ✅ Valid | ADR-007, ADR-001 |
-| HydrationContext | Passive container for pipeline stages, metadata, and profile | ✅ Valid | ADR-007, ADR-016 |
-| Pipeline Constants | Defines 5-stage locked lifecycle | ✅ Valid | ADR-007 |
-| Documentation Artifact | Phase-specific documentation exists and is complete | ✅ Valid | Documentation-as-Code |
+| Component              | Responsibility                                               | Status  | ADR Compliance        |
+|------------------------|--------------------------------------------------------------|---------|-----------------------|
+| HydratorInterface      | Defines hydration contract using generics (`@template T`)    | ✅ Valid | ADR-007, ADR-001      |
+| HydrationContext       | Passive container for pipeline stages, metadata, and profile | ✅ Valid | ADR-007, ADR-016      |
+| Pipeline Constants     | Defines 5-stage locked lifecycle                             | ✅ Valid | ADR-007               |
+| Documentation Artifact | Phase-specific documentation exists and is complete          | ✅ Valid | Documentation-as-Code |
 
 ---
 
