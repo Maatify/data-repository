@@ -79,7 +79,7 @@
     "maatify/data-fakes": "^1.0"
   },
   "scripts": {
-    "analyse": "phpstan analyse src --level=max",
+    "analyse": "phpstan analyse src tests --level=max",
     "test": "phpunit --configuration phpunit.no-coverage.xml.dist",
     "test:smoke": "phpunit --configuration phpunit.no-coverage.xml.dist --testsuite Smoke",
     "test:base": "phpunit --configuration phpunit.no-coverage.xml.dist --testsuite Base",

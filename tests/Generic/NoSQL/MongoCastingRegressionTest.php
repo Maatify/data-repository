@@ -28,8 +28,11 @@ use PHPUnit\Framework\TestCase;
  */
 class MongoCastingRegressionTest extends TestCase
 {
-    private object $collectionMock;
-    private AdapterInterface $adapterMock;
+    /** @var MockObject&\MongoDB\Collection */
+    private $collectionMock;
+    /** @var MockObject&AdapterInterface */
+    private $adapterMock;
+    /** @var GenericMongoRepository<object> */
     private GenericMongoRepository $repo;
 
     protected function setUp(): void
@@ -39,13 +42,14 @@ class MongoCastingRegressionTest extends TestCase
         }
 
         // Mock Collection needed for instanceof check
-        /** @var MockObject&\MongoDB\Collection $collectionMock */
-        $collectionMock = $this->createMock(\MongoDB\Collection::class);
-        $this->collectionMock = $collectionMock;
+        $this->collectionMock = $this->createMock(\MongoDB\Collection::class);
 
         // Mock Adapter
         $this->adapterMock = $this->createMock(AdapterInterface::class);
         $this->adapterMock->method('getDriver')->willReturn(new class ($this->collectionMock) {
+            /**
+             * @param \MongoDB\Collection&MockObject $collection
+             */
             public function __construct(private object $collection) {}
             // Use variadic args to match any signature requirement for selectCollection
             public function selectCollection(mixed ...$args): object
@@ -55,7 +59,15 @@ class MongoCastingRegressionTest extends TestCase
         });
 
         // Instantiate Repo
-        $this->repo = new class ($this->adapterMock) extends GenericMongoRepository {
+        $this->repo = $this->createGenericMongoRepository($this->adapterMock);
+    }
+
+    /**
+     * @return GenericMongoRepository<object>
+     */
+    private function createGenericMongoRepository(AdapterInterface $adapter): GenericMongoRepository
+    {
+        return new class ($adapter) extends GenericMongoRepository {
             protected string $collectionName = 'test_col';
             protected function validateAdapter(): void {} // bypass
         };

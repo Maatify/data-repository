@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace Maatify\DataRepository\Tests\Generic\Exceptions;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
-use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Exceptions\QueryExecutionException;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use PDO;
 use PDOException;
@@ -73,8 +73,8 @@ class GenericMySQLRepositoryExceptionTest extends TestCase
     {
         $this->pdo->method('prepare')->willThrowException(new PDOException('Simulated PDO Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Find failed: Simulated PDO Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Find operation failed.');
 
         $this->repository->find(1);
     }
@@ -83,8 +83,8 @@ class GenericMySQLRepositoryExceptionTest extends TestCase
     {
         $this->pdo->method('prepare')->willThrowException(new PDOException('Simulated PDO Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('FindBy failed: Simulated PDO Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('FindBy operation failed.');
 
         $this->repository->findBy(['id' => 1]);
     }
@@ -93,8 +93,8 @@ class GenericMySQLRepositoryExceptionTest extends TestCase
     {
         $this->pdo->method('prepare')->willThrowException(new PDOException('Simulated PDO Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Count failed: Simulated PDO Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Count operation failed.');
 
         $this->repository->count();
     }
@@ -103,8 +103,8 @@ class GenericMySQLRepositoryExceptionTest extends TestCase
     {
         $this->pdo->method('prepare')->willThrowException(new PDOException('Simulated PDO Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Insert failed: Simulated PDO Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Insert operation failed.');
 
         $this->repository->insert(['col' => 'val']);
     }
@@ -113,8 +113,8 @@ class GenericMySQLRepositoryExceptionTest extends TestCase
     {
         $this->pdo->method('prepare')->willThrowException(new PDOException('Simulated PDO Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Update failed: Simulated PDO Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Update operation failed.');
 
         $this->repository->update(1, ['col' => 'val']);
     }
@@ -123,8 +123,8 @@ class GenericMySQLRepositoryExceptionTest extends TestCase
     {
         $this->pdo->method('prepare')->willThrowException(new PDOException('Simulated PDO Error'));
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('Delete failed: Simulated PDO Error');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Delete operation failed.');
 
         $this->repository->delete(1);
     }

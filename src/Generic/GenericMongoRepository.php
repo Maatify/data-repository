@@ -15,7 +15,12 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Generic;
 
+use InvalidArgumentException;
 use Maatify\DataRepository\Base\BaseMongoRepository;
+use Maatify\DataRepository\Exceptions\DriverOperationException;
+use Maatify\DataRepository\Exceptions\InvalidFilterException;
+use Maatify\DataRepository\Exceptions\InvalidPaginationException;
+use Maatify\DataRepository\Exceptions\QueryExecutionException;
 use Maatify\DataRepository\Exceptions\RepositoryException;
 use Maatify\DataRepository\Generic\Support\FilterUtils;
 use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
@@ -52,8 +57,8 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $result = $this->getCollectionObj()->findOne($filter);
 
             return $this->getMongoOps()->toArray($result);
-        } catch (\Exception $e) {
-            throw new RepositoryException('Find failed: ' . $e->getMessage(), 0, $e);
+        } catch (\Throwable $e) {
+            throw new QueryExecutionException('Find operation failed.', 0, $e);
         }
     }
 
@@ -83,8 +88,10 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $cursor = $this->getCollectionObj()->find($normalizedFilters, $options);
 
             return $this->getMongoOps()->cursorToArray($cursor);
-        } catch (\Exception $e) {
-            throw new RepositoryException('FindBy failed: ' . $e->getMessage(), 0, $e);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
+        } catch (\Throwable $e) {
+            throw new QueryExecutionException('FindBy operation failed.', 0, $e);
         }
     }
 
@@ -103,8 +110,10 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $result = $this->getCollectionObj()->findOne($normalizedFilters);
 
             return $this->getMongoOps()->toArray($result);
-        } catch (\Exception $e) {
-            throw new RepositoryException('FindOneBy failed: ' . $e->getMessage(), 0, $e);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
+        } catch (\Throwable $e) {
+            throw new QueryExecutionException('FindOneBy operation failed.', 0, $e);
         }
     }
 
@@ -128,8 +137,10 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $normalizedFilters = FilterUtils::buildMongoFilter($filters);
 
             return $this->getCollectionObj()->countDocuments($normalizedFilters);
-        } catch (\Exception $e) {
-            throw new RepositoryException('Count failed: ' . $e->getMessage(), 0, $e);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidFilterException('Invalid filter configuration.', 0, $e);
+        } catch (\Throwable $e) {
+            throw new QueryExecutionException('Count operation failed.', 0, $e);
         }
     }
 
@@ -145,15 +156,15 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $normalizedId = $this->getMongoOps()->normalizeInsertedId($id);
 
             if ($normalizedId === '') {
-                throw new RepositoryException('Insert failed: received invalid ID type from driver.');
+                throw new DriverOperationException('Insert failed: received invalid ID type from driver.');
             }
 
             return $normalizedId;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if ($e instanceof RepositoryException) {
                 throw $e;
             }
-            throw new RepositoryException('Insert failed: ' . $e->getMessage(), 0, $e);
+            throw new DriverOperationException('Insert operation failed.', 0, $e);
         }
     }
 
@@ -167,8 +178,8 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $result = $this->getCollectionObj()->updateOne($filter, ['$set' => $data]);
 
             return $result->getMatchedCount() > 0;
-        } catch (\Exception $e) {
-            throw new RepositoryException('Update failed: ' . $e->getMessage(), 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('Update operation failed.', 0, $e);
         }
     }
 
@@ -182,8 +193,8 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $result = $this->getCollectionObj()->deleteOne($filter);
 
             return $result->getDeletedCount() > 0;
-        } catch (\Exception $e) {
-            throw new RepositoryException('Delete failed: ' . $e->getMessage(), 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('Delete operation failed.', 0, $e);
         }
     }
 
@@ -275,16 +286,27 @@ abstract class GenericMongoRepository extends BaseMongoRepository
             $perPage = 10;
         }
 
-        $total = $this->count($filters);
-        $offset = ($page - 1) * $perPage;
+        try {
+            $total = $this->count($filters);
+            $offset = ($page - 1) * $perPage;
 
-        LimitOffsetValidator::validate($perPage, $offset);
+            LimitOffsetValidator::validate($perPage, $offset);
 
-        $data = $this->findBy($filters, $orderBy, $perPage, $offset);
+            $data = $this->findBy($filters, $orderBy, $perPage, $offset);
 
-        $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
+            $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
 
-        return new PaginationResultDTO($data, $pagination);
+            return new PaginationResultDTO($data, $pagination);
+        } catch (RepositoryException $e) {
+            // Re-throw RepositoryException subclasses (like InvalidPaginationException from Validator) as-is
+            // to avoid misclassification.
+            throw $e;
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidPaginationException('Invalid pagination parameters.', 0, $e);
+        } catch (\Throwable $e) {
+             // Wrap unexpected errors (Driver/Query) in QueryExecutionException
+             throw new QueryExecutionException('Pagination failed.', 0, $e);
+        }
     }
 
 }

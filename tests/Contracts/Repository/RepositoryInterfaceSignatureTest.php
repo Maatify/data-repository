@@ -21,10 +21,13 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionType;
+use ReflectionNamedType;
 use ReflectionUnionType;
+use ReflectionIntersectionType;
 
 class RepositoryInterfaceSignatureTest extends TestCase
 {
+    /** @var ReflectionClass<RepositoryInterface> */
     private ReflectionClass $ref;
 
     protected function setUp(): void
@@ -135,9 +138,11 @@ class RepositoryInterfaceSignatureTest extends TestCase
         $this->assertSame(['adapter'], $this->paramNames($method));
         $this->assertSame('static', (string) $method->getReturnType());
 
+        $paramType = $method->getParameters()[0]->getType();
+        $this->assertInstanceOf(ReflectionNamedType::class, $paramType);
         $this->assertSame(
             AdapterInterface::class,
-            $method->getParameters()[0]->getType()?->getName()
+            $paramType->getName()
         );
     }
 
@@ -157,16 +162,19 @@ class RepositoryInterfaceSignatureTest extends TestCase
      */
     private function unionTypeNames(?ReflectionType $type): array
     {
-        if ($type instanceof ReflectionUnionType) {
-            $names = array_map(
-                static fn(ReflectionType $t): string => $t->getName(),
-                $type->getTypes()
-            );
-        } else {
-            $names = [$type?->getName() ?? ''];
+        $names = [];
+
+        if ($type instanceof ReflectionUnionType || $type instanceof ReflectionIntersectionType) {
+            foreach ($type->getTypes() as $t) {
+                if ($t instanceof ReflectionNamedType) {
+                    $names[] = $t->getName();
+                }
+            }
+        } elseif ($type instanceof ReflectionNamedType) {
+            $names[] = $type->getName();
         }
 
-        sort($names); // ← FIX
+        sort($names);
         return $names;
     }
 

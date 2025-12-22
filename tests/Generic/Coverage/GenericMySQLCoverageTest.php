@@ -17,6 +17,7 @@ namespace Maatify\DataRepository\Tests\Generic\Coverage;
 
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Exceptions\QueryExecutionException;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -64,8 +65,8 @@ class GenericMySQLCoverageTest extends TestCase
             ->method('getDriver')
             ->willReturn(new \stdClass()); // Not PDO
 
-        $this->expectException(RepositoryException::class);
-        $this->expectExceptionMessage('GenericMySQLRepository requires a PDO driver or compatible wrapper.');
+        $this->expectException(QueryExecutionException::class);
+        $this->expectExceptionMessage('Find operation failed.');
 
         $this->repository->find(1);
     }
@@ -112,49 +113,49 @@ class GenericMySQLCoverageTest extends TestCase
         // Test Find
         try {
             $this->repository->find(1);
-            $this->fail('Expected RepositoryException not thrown');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Find failed', $e->getMessage());
+            $this->fail('Expected QueryExecutionException not thrown');
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('Find operation failed.', $e->getMessage());
         }
 
         // Test FindBy
         try {
             $this->repository->findBy(['col' => 'val']);
-            $this->fail('Expected RepositoryException not thrown');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('FindBy failed', $e->getMessage());
+            $this->fail('Expected QueryExecutionException not thrown');
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('FindBy operation failed.', $e->getMessage());
         }
 
         // Test Count
         try {
             $this->repository->count();
-            $this->fail('Expected RepositoryException not thrown');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Count failed', $e->getMessage());
+            $this->fail('Expected QueryExecutionException not thrown');
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('Count operation failed.', $e->getMessage());
         }
 
         // Test Insert
         try {
             $this->repository->insert(['col' => 'val']);
-            $this->fail('Expected RepositoryException not thrown');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Insert failed', $e->getMessage());
+            $this->fail('Expected QueryExecutionException not thrown');
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('Insert operation failed.', $e->getMessage());
         }
 
         // Test Update
         try {
             $this->repository->update(1, ['col' => 'val']);
-            $this->fail('Expected RepositoryException not thrown');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Update failed', $e->getMessage());
+            $this->fail('Expected QueryExecutionException not thrown');
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('Update operation failed.', $e->getMessage());
         }
 
         // Test Delete
         try {
             $this->repository->delete(1);
-            $this->fail('Expected RepositoryException not thrown');
-        } catch (RepositoryException $e) {
-            $this->assertStringContainsString('Delete failed', $e->getMessage());
+            $this->fail('Expected QueryExecutionException not thrown');
+        } catch (QueryExecutionException $e) {
+            $this->assertSame('Delete operation failed.', $e->getMessage());
         }
     }
 }

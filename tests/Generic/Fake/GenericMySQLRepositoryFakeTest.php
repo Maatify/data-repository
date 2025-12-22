@@ -18,7 +18,7 @@ namespace Maatify\DataRepository\Tests\Generic\Fake;
 use Maatify\Common\Contracts\Adapter\AdapterInterface;
 use Maatify\DataRepository\Generic\GenericMySQLRepository;
 use PHPUnit\Framework\TestCase;
-use InvalidArgumentException;
+use Maatify\DataRepository\Exceptions\InvalidFilterException;
 
 class GenericMySQLRepositoryFakeTest extends TestCase
 {
@@ -128,7 +128,7 @@ class GenericMySQLRepositoryFakeTest extends TestCase
 
     public function testFindByThrowsOnInvalidColumns(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidFilterException::class);
         $this->repo->findBy(['role' => 'admin', 'invalid column' => 'x']);
     }
 

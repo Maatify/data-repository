@@ -563,6 +563,66 @@ Any change to this phase requires:
 
 ---
 
+## 🔒 Phase 10 Lock Reference
+
+### Phase 10 — Error, Logging & Observability Boundaries
+
+**Status:** ARCHITECTURALLY LOCKED
+
+Phase 10 enforces ADR-012 and ADR-013 across repositories and exceptions.
+
+---
+
+### Locked Guarantees
+
+#### ADR-012 (Error Boundary)
+
+- `RepositoryException` is the mandatory root exception for repository-facing failures.
+- Full exception taxonomy exists and is used consistently.
+- No SPL/vendor/driver exceptions leak outside repositories.
+- All driver interaction paths are guarded via `catch (\Throwable)` and wrapped.
+- Public exception messages are deterministic and do not leak internal driver details.
+- Pagination methods do not misclassify driver failures as validation failures.
+
+#### ADR-013 (Logging Boundary)
+
+- Logging is optional (e.g., `NullLogger` default).
+- Ops layer performs zero logging.
+- Logging cannot introduce side effects that crash repository flow.
+
+---
+
+### Locked Components
+
+- `src/Exceptions/**`
+- `src/Generic/**` (generic repositories)
+- `src/Base/**` (repository base logging boundary)
+- `docs/audit/PHASE10_AUDIT.md`
+
+---
+
+### Forbidden Changes
+
+- Reintroducing leaked exception types (SPL/vendor/driver).
+- Including driver/vendor messages in public exception messages.
+- Wrapping driver failures into validation exceptions (misclassification).
+- Mandatory logging requirements.
+- Any logging inside Ops (`*Ops`).
+
+---
+
+### Allowed Changes (Exception Only)
+
+- ADR changes
+- Driver behavior/API changes
+- Critical security fixes
+
+---
+
+**Phase 10 is FINAL and CLOSED.**
+
+---
+
 ## 🏁 Final Principle
 
 > Stability over speed.

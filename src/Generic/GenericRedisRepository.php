@@ -15,8 +15,13 @@ declare(strict_types=1);
 
 namespace Maatify\DataRepository\Generic;
 
+use InvalidArgumentException;
 use Maatify\DataRepository\Base\BaseRedisRepository;
+use Maatify\DataRepository\Exceptions\DriverOperationException;
+use Maatify\DataRepository\Exceptions\InvalidFilterException;
+use Maatify\DataRepository\Exceptions\InvalidPaginationException;
 use Maatify\DataRepository\Exceptions\RepositoryException;
+use Maatify\DataRepository\Exceptions\UnsafeOperationException;
 use Maatify\DataRepository\Generic\Support\LimitOffsetValidator;
 use Maatify\DataRepository\Generic\Support\RedisOps;
 use Maatify\DataRepository\Generic\Support\Safety\RedisSafetyConfig;
@@ -62,8 +67,8 @@ abstract class GenericRedisRepository extends BaseRedisRepository
 
             /** @var array<string, mixed> $decoded */
             return $decoded;
-        } catch (\Exception $e) {
-            throw new RepositoryException('Find failed: ' . $e->getMessage(), 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('Find operation failed.', 0, $e);
         }
     }
 
@@ -73,25 +78,25 @@ abstract class GenericRedisRepository extends BaseRedisRepository
     public function insert(array $data): int|string
     {
         if (! isset($data['id'])) {
-            throw new RepositoryException("Generic Redis Insert requires 'id' in data payload.");
+            throw new UnsafeOperationException("Generic Redis Insert requires 'id' in data payload.");
         }
 
         $id = $data['id'];
 
         if (! is_int($id) && ! is_string($id)) {
-            throw new RepositoryException("Generic Redis Insert 'id' must be int|string.");
+            throw new UnsafeOperationException("Generic Redis Insert 'id' must be int|string.");
         }
         $key = $this->getKey($id);
 
         $payload = json_encode($data);
         if ($payload === false) {
-            throw new RepositoryException('Failed to JSON-encode data for Redis insert.');
+            throw new UnsafeOperationException('Failed to JSON-encode data for Redis insert.');
         }
 
         try {
             $this->getRedisOps()->set($key, $payload);
-        } catch (\Exception $e) {
-            throw new RepositoryException('Insert failed: ' . $e->getMessage(), 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('Insert operation failed.', 0, $e);
         }
 
         return $id;
@@ -112,13 +117,13 @@ abstract class GenericRedisRepository extends BaseRedisRepository
 
         $payload = json_encode($merged);
         if ($payload === false) {
-            throw new RepositoryException('Failed to JSON-encode data for Redis update.');
+            throw new UnsafeOperationException('Failed to JSON-encode data for Redis update.');
         }
 
         try {
             return $this->getRedisOps()->set($this->getKey($id), $payload);
-        } catch (\Exception $e) {
-            throw new RepositoryException('Update failed: ' . $e->getMessage(), 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('Update operation failed.', 0, $e);
         }
     }
 
@@ -129,8 +134,8 @@ abstract class GenericRedisRepository extends BaseRedisRepository
     {
         try {
             return $this->getRedisOps()->del($this->getKey($id)) > 0;
-        } catch (\Exception $e) {
-            throw new RepositoryException('Delete failed: ' . $e->getMessage(), 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('Delete operation failed.', 0, $e);
         }
     }
 
@@ -143,30 +148,37 @@ abstract class GenericRedisRepository extends BaseRedisRepository
      */
     public function findBy(array $filters, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
-        // 1. Fetch all items (inefficient for large sets, but required for in-memory filtering)
-        $all = $this->findAll();
+        try {
+            // 1. Fetch all items (inefficient for large sets, but required for in-memory filtering)
+            $all = $this->findAll();
 
-        // 2. Filter
-        $filtered = [];
-        foreach ($all as $item) {
-            if ($this->matches($item, $filters)) {
-                $filtered[] = $item;
+            // 2. Filter
+            $filtered = [];
+            foreach ($all as $item) {
+                if ($this->matches($item, $filters)) {
+                    $filtered[] = $item;
+                }
             }
-        }
 
-        // 3. Sort
-        if ($orderBy) {
-            $filtered = Support\OrderUtils::sortArray($filtered, $orderBy);
-        }
+            // 3. Sort
+            if ($orderBy) {
+                $filtered = Support\OrderUtils::sortArray($filtered, $orderBy);
+            }
 
-        // 4. Limit/Offset
-        if ($limit !== null || $offset !== null) {
-            $offset = $offset ?? 0;
-            $limit = $limit ?? count($filtered); // if limit is null, take all
-            $filtered = array_slice($filtered, $offset, $limit);
-        }
+            // 4. Limit/Offset
+            if ($limit !== null || $offset !== null) {
+                $offset = $offset ?? 0;
+                $limit = $limit ?? count($filtered); // if limit is null, take all
+                $filtered = array_slice($filtered, $offset, $limit);
+            }
 
-        return array_values($filtered); // Re-index array
+            return array_values($filtered); // Re-index array
+        } catch (RepositoryException $e) {
+            throw $e;
+        } catch (\Throwable $e) {
+             // Catch potential OrderUtils exceptions or array manipulation errors
+            throw new DriverOperationException('FindBy operation failed.', 0, $e);
+        }
     }
 
     /**
@@ -185,30 +197,35 @@ abstract class GenericRedisRepository extends BaseRedisRepository
 
     /**
      * @return array<int, array<string, mixed>>
+     * @throws RepositoryException
      */
     public function findAll(): array
     {
-        /** @var array<int, string> $keys */
-        $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
+        try {
+            /** @var array<int, string> $keys */
+            $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
 
-        /** @var array<int, array<string, mixed>> $results */
-        $results = [];
-        foreach ($keys as $key) {
-            $data = $this->getRedisOps()->get($key);
-            if ($data === null) {
-                continue;
+            /** @var array<int, array<string, mixed>> $results */
+            $results = [];
+            foreach ($keys as $key) {
+                $data = $this->getRedisOps()->get($key);
+                if ($data === null) {
+                    continue;
+                }
+
+                $decoded = json_decode($data, true);
+                if (! is_array($decoded)) {
+                    continue;
+                }
+
+                /** @var array<string, mixed> $decoded */
+                $results[] = $decoded;
             }
 
-            $decoded = json_decode($data, true);
-            if (! is_array($decoded)) {
-                continue;
-            }
-
-            /** @var array<string, mixed> $decoded */
-            $results[] = $decoded;
+            return $results;
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('FindAll operation failed.', 0, $e);
         }
-
-        return $results;
     }
 
     /**
@@ -219,12 +236,17 @@ abstract class GenericRedisRepository extends BaseRedisRepository
     public function count(array $filters = []): int
     {
         if (! empty($filters)) {
-            throw new RepositoryException('Filtering count is not supported in Redis.');
+            throw new UnsafeOperationException('Filtering count is not supported in Redis.');
         }
-        /** @var array<int, string> $keys */
-        $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
 
-        return count($keys);
+        try {
+            /** @var array<int, string> $keys */
+            $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
+
+            return count($keys);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('Count operation failed.', 0, $e);
+        }
     }
 
     private function getKey(int|string $id): string
@@ -286,31 +308,39 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             $perPage = 10;
         }
 
-        /** @var array<int, string> $keys */
-        $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
-        $total = count($keys);
+        try {
+            /** @var array<int, string> $keys */
+            $keys = $this->getRedisOps()->keys($this->keyPrefix . '*');
+            $total = count($keys);
 
-        $offset = ($page - 1) * $perPage;
+            $offset = ($page - 1) * $perPage;
 
-        LimitOffsetValidator::validate($perPage, $offset);
+            LimitOffsetValidator::validate($perPage, $offset);
 
-        $pagedKeys = array_slice($keys, $offset, $perPage);
+            $pagedKeys = array_slice($keys, $offset, $perPage);
 
-        $data = [];
-        foreach ($pagedKeys as $key) {
-            $content = $this->getRedisOps()->get($key);
-            if ($content !== null) {
-                $decoded = json_decode($content, true);
-                if (is_array($decoded)) {
-                    /** @var array<string, mixed> $decoded */
-                    $data[] = $decoded;
+            $data = [];
+            foreach ($pagedKeys as $key) {
+                $content = $this->getRedisOps()->get($key);
+                if ($content !== null) {
+                    $decoded = json_decode($content, true);
+                    if (is_array($decoded)) {
+                        /** @var array<string, mixed> $decoded */
+                        $data[] = $decoded;
+                    }
                 }
             }
+
+            $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
+
+            return new PaginationResultDTO($data, $pagination);
+        } catch (RepositoryException $e) {
+            throw $e;
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidPaginationException('Invalid pagination parameters.', 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('Paginate operation failed.', 0, $e);
         }
-
-        $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
-
-        return new PaginationResultDTO($data, $pagination);
     }
 
     /**
@@ -331,20 +361,28 @@ abstract class GenericRedisRepository extends BaseRedisRepository
             $perPage = 10;
         }
 
-        // Get all filtered items
-        $allFiltered = $this->findBy($filters, $orderBy);
-        $total = count($allFiltered);
+        try {
+            // Get all filtered items
+            $allFiltered = $this->findBy($filters, $orderBy);
+            $total = count($allFiltered);
 
-        // Slice for pagination
-        $offset = ($page - 1) * $perPage;
+            // Slice for pagination
+            $offset = ($page - 1) * $perPage;
 
-        LimitOffsetValidator::validate($perPage, $offset);
+            LimitOffsetValidator::validate($perPage, $offset);
 
-        $data = array_slice($allFiltered, $offset, $perPage);
+            $data = array_slice($allFiltered, $offset, $perPage);
 
-        $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
+            $pagination = PaginationHelper::buildMeta($total, $page, $perPage);
 
-        return new PaginationResultDTO($data, $pagination);
+            return new PaginationResultDTO($data, $pagination);
+        } catch (RepositoryException $e) {
+            throw $e;
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidPaginationException('Invalid pagination parameters.', 0, $e);
+        } catch (\Throwable $e) {
+            throw new DriverOperationException('PaginateBy operation failed.', 0, $e);
+        }
     }
 
     /**
