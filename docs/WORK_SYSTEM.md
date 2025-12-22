@@ -623,6 +623,27 @@ Phase 10 enforces ADR-012 and ADR-013 across repositories and exceptions.
 
 ---
 
+## 🧭 Phase 11 Lock Reference
+
+### Phase 11 — Hydration Contracts & Pipeline Definition
+
+**Status:** ARCHITECTURALLY LOCKED
+
+This phase locks the hydration **contract layer** including:
+- HydratorInterface
+- HydrationContext
+- Hydration lifecycle pipeline stages
+
+No hydration logic is implemented in this phase.
+
+All future hydration behavior must strictly conform to these contracts.
+
+Breaking changes require:
+- New ADR
+- Major version bump
+
+---
+
 ## 🏁 Final Principle
 
 > Stability over speed.
