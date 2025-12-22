@@ -644,6 +644,81 @@ Breaking changes require:
 
 ---
 
+## 🧭 Phase 12 Lock Reference
+
+**Phase:** Phase 12 — Design Philosophy & Architectural Intent  
+**Classification:** Philosophy Lock Phase (Non-Functional)
+
+---
+
+### Scope Statement
+
+Phase 12 is a **governance-only phase**.  
+It introduces **no code**, **no APIs**, and **no runtime behavior changes**.
+
+This phase exists to explicitly lock the **architectural intent**, **design philosophy**, and **non-goals** of the `maatify/data-repository` library before entering implementation phases.
+
+---
+
+### Explicit Prohibitions
+
+During Phase 12 and all future phases:
+
+- ❌ No APIs may be added or modified
+- ❌ No code may be introduced or altered
+- ❌ No behavior may be changed
+- ❌ No tests are required or allowed (documentation-only phase)
+
+---
+
+### Locked Principles (Binding)
+
+The following principles are **LOCKED** and govern all future phases:
+
+- Explicit over implicit behavior
+- Safety over convenience
+- Deterministic failures only
+- No runtime magic or guessing
+- Infrastructure-only responsibility
+- Strict separation:
+  - Repository vs Adapter vs Driver
+  - Repository vs Hydration
+  - Ops vs Business Logic
+- Fake == Real semantic parity
+
+Any violation of these principles is considered a **breaking change**.
+
+---
+
+### Governance Authority
+
+Phase 12 governs **ALL future phases (Phase 13+)**.
+
+- Any deviation requires:
+  - A formal ADR explicitly overriding this phase
+  - A **major version** increment
+- Pull requests contradicting this phase **must be rejected**
+
+---
+
+### ADR References
+
+This phase is enforced by the following ADRs:
+
+- ADR-001 — Scope Lock & Refinement Strategy
+- ADR-002 — Redis Safety Constraints
+- ADR-006 — Runtime Safety Guards
+- ADR-007 — Hydration Lifecycle Contract
+- ADR-014 — Backward Compatibility Policy
+- ADR-015 — Release & Governance Process
+- ADR-016 — Repository Contract Boundaries
+
+---
+
+🛑 **PHASE 12 — PHILOSOPHY & GOVERNANCE LOCKED** 🛑
+
+---
+
 ## 🏁 Final Principle
 
 > Stability over speed.
@@ -664,15 +739,3 @@ Any modification to this document requires:
 
 **Status:** ACTIVE
 
-## 🧭 Phase 12 Lock Reference
-
-**Phase:** Phase 12 — Philosophy & Governance Lock
-**Classification:** Philosophy Lock Phase
-
-**Explicit Statement:**
-- No APIs added
-- No code changed
-- No behavior modified
-
-**Governance Statement:**
-Phase 12 explicitly locks the design philosophy and architectural intent of the library. This phase governs ALL future phases. Any deviation from the principles documented in Phase 12 is strictly prohibited.
