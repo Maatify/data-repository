@@ -719,6 +719,82 @@ This phase is enforced by the following ADRs:
 
 ---
 
+## 🧭 Phase Governance Reconciliation Lock
+
+**Status:** LOCKED  
+**Effective Date:** 2025-12-22  
+**Applies To:** All phases (Past, Current, Future)
+
+---
+
+### Authority Resolution
+
+The project experienced parallel evolution between:
+
+- A **constitutional phase governance model** defined in `ADR-PHASE-MAP.md`
+- A **granular execution roadmap** used for implementation and delivery
+
+To eliminate ambiguity and architectural drift, the following rule is now **LOCKED**:
+
+> **ADR-PHASE-MAP.md is the SINGLE authoritative source for:**
+> - Phase meaning
+> - Phase intent
+> - Phase ordering
+> - Phase scope boundaries
+
+All other artifacts (including `roadmap.json`, `roadmap-megrated.json`,
+source code layout, and phase documentation files) are considered
+**derivative execution representations** and MUST align with the ADR phase map.
+
+---
+
+### Phase Reclassification Policy
+
+Early or out-of-order implementation is **PERMITTED** under the following strict conditions:
+
+1. The owning phase is explicitly declared
+2. No earlier phase contracts are violated
+3. Documentation reflects the reassignment
+4. Governance authority (ADR-PHASE-MAP.md) is preserved
+
+This policy retroactively applies to:
+- `src/Hydration/BaseHydrator.php`
+  - Reclassified from **Phase 12** to **Phase 13**
+
+---
+
+### Phase 12 Constitutional Clarification
+
+**Phase 12 — Philosophy & Governance Lock** is constitutionally defined as:
+
+- NON-FUNCTIONAL
+- DOCUMENTATION ONLY
+- NO SOURCE CODE OWNERSHIP
+
+Any implementation artifacts previously associated with Phase 12 are
+formally reassigned to their correct execution phase.
+
+Phase 12 is hereby **CERTIFIED AS COMPLETE** with documentation only.
+
+---
+
+### Enforcement
+
+- Any phase definition conflict MUST be resolved in favor of `ADR-PHASE-MAP.md`
+- Any future deviation requires:
+  - Explicit documentation
+  - Formal reconciliation record
+  - Architectural approval
+
+---
+
+🛑 **GOVERNANCE LOCK ACTIVE**
+
+This section is LOCKED.  
+Modification requires a formal ADR and audit update.
+
+---
+
 ## 🏁 Final Principle
 
 > Stability over speed.
