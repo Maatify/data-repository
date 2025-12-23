@@ -1,0 +1,139 @@
+{
+  "roadmap_version": "2.0.0",
+  "project": "maatify/data-repository",
+  "status": "EXECUTION_PHASE",
+  "architecture_state": "LOCKED",
+  "adrs_range": "ADR-001 → ADR-015",
+
+  "note": "Unified execution roadmap aligned with locked ADRs. This roadmap merges the historical 20-phase plan with the ADR-governed execution model. Completed phases are preserved, pending phases are shifted or merged, and out-of-scope phases are removed.",
+
+  "principles": [
+    "Stability over Speed",
+    "Safety over Convenience",
+    "Explicit over Implicit",
+    "Infrastructure-only responsibilities",
+    "Adapter-agnostic behavior",
+    "Identical Fake vs Real semantics"
+  ],
+
+  "phases": [
+
+    {
+      "id": "phase1",
+      "title": "Bootstrap & Governance",
+      "status": "completed",
+      "summary": "Project foundation, resolver, exceptions, CI, base governance.",
+      "derived_from": ["old.phase1"],
+      "adrs": ["ADR-001", "ADR-015"]
+    },
+
+    {
+      "id": "phase2",
+      "title": "Base Repository Layer",
+      "status": "completed",
+      "summary": "BaseRepository and adapter-specific bases with validation and logging.",
+      "derived_from": ["old.phase2"],
+      "adrs": ["ADR-001"]
+    },
+
+    {
+      "id": "phase3",
+      "title": "Generic CRUD (Minimal)",
+      "status": "completed",
+      "summary": "Minimal CRUD across MySQL, Mongo, Redis without advanced querying.",
+      "derived_from": ["old.phase3"],
+      "adrs": ["ADR-001"]
+    },
+
+    {
+      "id": "phase4",
+      "title": "Redis Safety Enforcement",
+      "status": "pending",
+      "summary": "Strict Redis behavior: SCAN-only, safety limits, fail-fast guards.",
+      "derived_from": ["old.phase4", "old.phase6", "old.phase16"],
+      "adrs": ["ADR-002", "ADR-006"]
+    },
+
+    {
+      "id": "phase5",
+      "title": "Interface Segregation (Read / Write)",
+      "status": "pending",
+      "summary": "Split repository contracts into read and write interfaces.",
+      "derived_from": ["old.phase3"],
+      "adrs": ["ADR-003", "ADR-014"]
+    },
+
+    {
+      "id": "phase6",
+      "title": "SQL Identifier Quoting Consistency",
+      "status": "pending",
+      "summary": "Centralize and enforce SQL identifier quoting across all operations.",
+      "derived_from": ["old.phase4"],
+      "adrs": ["ADR-004"]
+    },
+
+    {
+      "id": "phase7",
+      "title": "MongoDB Explicit Behavior",
+      "status": "pending",
+      "summary": "Explicit ObjectId casting and MongoOps alignment.",
+      "derived_from": ["old.phase9"],
+      "adrs": ["ADR-005"]
+    },
+
+    {
+      "id": "phase8",
+      "title": "Pagination & Count Semantics",
+      "status": "pending",
+      "summary": "Unified pagination, count behavior, and DTO guarantees.",
+      "derived_from": ["old.phase10", "old.phase15", "old.phase16"],
+      "adrs": ["ADR-010", "ADR-011"]
+    },
+
+    {
+      "id": "phase9",
+      "title": "Hydration Lifecycle Enforcement",
+      "status": "pending",
+      "summary": "Hydration pipeline, auto-casting, DTO mapping as locked contract.",
+      "derived_from": ["old.phase11", "old.phase12", "old.phase13", "old.phase14"],
+      "adrs": ["ADR-007"]
+    },
+
+    {
+      "id": "phase10",
+      "title": "Error, Logging & Observability Boundaries",
+      "status": "pending",
+      "summary": "Exception taxonomy and safe logging boundaries.",
+      "derived_from": ["old.phase8"],
+      "adrs": ["ADR-012", "ADR-013"]
+    },
+
+    {
+      "id": "phase11",
+      "title": "Fake vs Real Adapter Parity",
+      "status": "pending",
+      "summary": "Guarantee identical behavior across fake and real adapters.",
+      "derived_from": ["old.phase18"],
+      "adrs": ["ADR-008"]
+    },
+
+    {
+      "id": "phase12",
+      "title": "Documentation & Philosophy",
+      "status": "pending",
+      "summary": "Public documentation explaining scope, safety, and philosophy.",
+      "derived_from": ["old.phase19"],
+      "adrs": ["ADR-001", "ADR-002", "ADR-006", "ADR-007"]
+    },
+
+    {
+      "id": "phase13",
+      "title": "Release & Stability Lock",
+      "status": "pending",
+      "summary": "Final tests, changelog, tagging, Packagist publish.",
+      "derived_from": ["old.phase20"],
+      "adrs": ["ADR-014", "ADR-015"]
+    }
+
+  ]
+}
