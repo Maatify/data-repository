@@ -190,6 +190,80 @@ These ADRs define the immutable identity and rules of the project.
 
 ---
 
+## ⚠️ Governance Clarification — Hydration Implementation Drift (Historical)
+
+### Context
+
+During execution, a controlled implementation drift occurred between
+**Phase 11 (Hydration Contracts)** and **Phase 12 (Documentation & Philosophy)**.
+
+Specifically, the following hydration-related source files were introduced
+*before* formal entry into Phase 13 (Release & Stability Lock):
+
+- `src/Hydration/BaseHydrator.php`
+- `src/Hydration/AutoCaster.php`
+- `src/Hydration/MappingProfile.php`
+- `src/Generic/Support/RepositoryHydrationTrait.php`
+
+These files implement the hydration lifecycle defined in **ADR-007** and are
+architecturally valid, but their presence violates the strict interpretation
+of **Phase 12**, which is constitutionally defined as **Documentation & Philosophy only (No Code)**.
+
+This clarification is formally referenced by:
+- docs/audit/PHASE12_AUDIT.md (Audit Amendment section)
+
+---
+
+### Governance Resolution
+
+To restore constitutional integrity **without destroying valid work or rewriting history**,
+the following governance resolution is LOCKED:
+
+1. **Phase Definitions in this document remain unchanged**
+    - Phase 12 remains: *Documentation & Philosophy (No Code)*
+    - Phase 13 remains: *Release & Stability Lock*
+
+2. The hydration implementation code listed above is formally re-classified as:
+   **"Pre-Phase 13 Hydration Implementation (Executed Early)"**
+
+3. This re-classification is:
+    - A **documentation correction**
+    - **NOT** a behavioral or architectural change
+    - **NOT** a retroactive redefinition of Phase 12
+
+4. All hydration-related code **MUST**:
+    - Conform strictly to **ADR-007 (Hydration Lifecycle Contract)**
+    - Be fully audited and verified **before Phase 13 can be entered**
+
+---
+
+### Audit Implications
+
+- Phase 12 audit records **MUST explicitly acknowledge** the presence of early hydration code.
+- Any audit statement claiming “no src/** changes in Phase 12” is invalid and must be amended.
+- This clarification restores alignment between:
+    - `ADR-PHASE-MAP.md` (Constitutional Authority)
+    - `WORK_SYSTEM.md` (Governance Handbook)
+    - Actual repository state
+
+---
+
+### Lock Statement
+
+🛑 **GOVERNANCE CLARIFICATION LOCKED** 🛑
+
+This clarification is final.
+
+- No further hydration implementation may occur outside its formally audited context.
+- Entry into **Phase 13 (Release & Stability Lock)** remains **PROHIBITED**
+  until all hydration code passes final verification.
+- Any future deviation requires:
+    - A new ADR
+    - Explicit override of this clarification
+    - Major version bump (v2.0+)
+
+---
+
 ## Execution Rule
 
 When starting or resuming work:
