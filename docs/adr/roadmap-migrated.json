@@ -57,7 +57,8 @@
     {
       "id": "phase5",
       "title": "Interface Segregation (Read / Write)",
-      "status": "pending",
+      "status": "deferred",
+      "defer_reason": "Explicitly deferred to v2.0 per WORK_SYSTEM.md to avoid breaking changes in v1.x",
       "summary": "Split repository contracts into read and write interfaces.",
       "derived_from": ["old.phase3"],
       "adrs": ["ADR-003", "ADR-014"]
@@ -120,7 +121,7 @@
     {
       "id": "phase12",
       "title": "Documentation & Philosophy",
-      "status": "pending",
+      "status": "completed",
       "summary": "Public documentation explaining scope, safety, and philosophy.",
       "derived_from": ["old.phase19"],
       "adrs": ["ADR-001", "ADR-002", "ADR-006", "ADR-007"]
